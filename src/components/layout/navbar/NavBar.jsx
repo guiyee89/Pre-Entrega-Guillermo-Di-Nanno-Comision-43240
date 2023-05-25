@@ -23,7 +23,7 @@ const NavBar = () => {
               <Link href="#">Contact</Link>
             </NavList>
           </NavWrapper>
-        
+
           <CartWidget sx={{ padding: "10px" }} />
 
         </Nav>
@@ -34,8 +34,8 @@ const NavBar = () => {
 export default NavBar;
 
 const HeaderWrapper = styled.header`
-    background-color: #6b88bb;
-`
+  background-color: #6b88bb;
+`;
 
 const Nav = styled.nav`
   min-height: 100px;
@@ -46,15 +46,15 @@ const Nav = styled.nav`
   align-items: center;
   border-bottom: 1px solid black;
   position: relative;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, .75);
-  &:before { 
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.75);
+  &:before {
     content: "";
     position: absolute;
-    bottom: -7px; 
+    bottom: -7px;
     left: 0;
     right: 0;
     height: 2px;
-    background-color: black; 
+    background-color: black;
   }
 `;
 const Logo = styled.a`
@@ -73,7 +73,7 @@ const NavList = styled.li`
 `;
 const Link = styled.a`
   text-decoration: none;
-  font-size:1.2rem;
+  font-size: 1.2rem;
   color: black;
   font-weight: 500;
 `;
