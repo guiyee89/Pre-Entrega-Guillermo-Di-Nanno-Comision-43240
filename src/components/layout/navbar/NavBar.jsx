@@ -4,10 +4,12 @@ import { CartWidget } from "../../common/cartWidget/CartWidget";
 const NavBar = () => {
   return (
     <>
-      <Wrapper>
-        <Header>
+      <HeaderWrapper>
+        <Nav>
+
           <Logo href="#">WeShop</Logo>
-          <NavLinks>
+          
+          <NavWrapper>
             <NavList>
               <Link href="#">Home</Link>
             </NavList>
@@ -20,19 +22,22 @@ const NavBar = () => {
             <NavList>
               <Link href="#">Contact</Link>
             </NavList>
-          </NavLinks>
+          </NavWrapper>
+        
           <CartWidget sx={{ padding: "10px" }} />
-        </Header>
-      </Wrapper>
+
+        </Nav>
+      </HeaderWrapper>
     </>
   );
 };
 export default NavBar;
-const Wrapper = styled.div`
+
+const HeaderWrapper = styled.header`
     background-color: #6b88bb;
 `
 
-const Header = styled.header`
+const Nav = styled.nav`
   min-height: 100px;
   max-width: 1240px;
   margin: 0 auto;
@@ -59,7 +64,7 @@ const Logo = styled.a`
   font-size: 1.5rem;
   margin-left: 16px;
 `;
-const NavLinks = styled.ul`
+const NavWrapper = styled.ul`
   display: flex;
   list-style: none;
 `;
