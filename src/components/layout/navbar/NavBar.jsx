@@ -1,7 +1,8 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
+import { Link } from "react-router-dom";
 
-const NavBar = () => {
+export const NavBar = () => {
   return (
     <>
       <HeaderWrapper>
@@ -11,16 +12,16 @@ const NavBar = () => {
           
           <NavWrapper>
             <NavList>
-              <Link href="#">Home</Link>
+              <Links to="/">Productos</Links>
             </NavList>
             <NavList>
-              <Link href="#">Products</Link>
+              <Links to="/category/urbanas">Remeras</Links>
             </NavList>
             <NavList>
-              <Link href="#">About Us</Link>
+              <Links to="category/deportivas">Pantalones</Links>
             </NavList>
             <NavList>
-              <Link href="#">Contact</Link>
+              <Links to="/category/calzado">Zapatillas</Links>
             </NavList>
           </NavWrapper>
 
@@ -31,7 +32,6 @@ const NavBar = () => {
     </>
   );
 };
-export default NavBar;
 
 const HeaderWrapper = styled.header`
   background-color: #6b88bb;
@@ -71,7 +71,7 @@ const NavWrapper = styled.ul`
 const NavList = styled.li`
   padding: 15px;
 `;
-const Link = styled.a`
+const Links = styled(Link)`
   text-decoration: none;
   font-size: 1.2rem;
   color: black;
