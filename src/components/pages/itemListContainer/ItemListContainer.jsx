@@ -15,11 +15,15 @@ export const ItemListContainer = () => {
     const productosFiltrados = products.filter(
       (product) => product.category === categoryName
     );
+
+
     //Promesa para que se resuelva que tipo de productos mostrar
-    const productosPromesa = new Promise((resolve) => {
+    const productosPromesa = new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(categoryName ? productosFiltrados : products);
+        reject;
       }, 500);
+
       //Una vez resuelto, mostrar dichos productos
     });
     productosPromesa
@@ -28,6 +32,6 @@ export const ItemListContainer = () => {
     //Cierro con arreglo de dependencia para ejectuar cada vez que cambie "categoryName"
   }, [categoryName]);
 
-  return <ItemList items={items} products={products} />;
+  return <ItemList items={items} products={products}/>;
   
 };

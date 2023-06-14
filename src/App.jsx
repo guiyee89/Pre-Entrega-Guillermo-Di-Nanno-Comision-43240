@@ -1,9 +1,11 @@
 import GlobalStyles from "./GlobalStyles";
 import { ItemListContainer } from "./components/pages/itemListContainer/ItemListContainer";
+import { ItemDetailContainer } from "./components/pages/itemDetail/ItemDetailContainer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ProductDetailContainer } from "./components/pages/productDetail/ProductDetailContainer";
-import { CartWidget } from "./components/common/cartWidget/CartWidget";
 import { Layout } from "./components/layout/Layout";
+import { CartContainer } from "./components/pages/cart/cartContainer";
+
+
 
 function App() {
   return (
@@ -13,13 +15,12 @@ function App() {
           <Route element={<Layout />}>
             <Route path={"/"} element={<ItemListContainer />} />
             <Route path={"/category/:categoryName"} element={<ItemListContainer />} />
-            <Route path="/productDetail/:id" element={<ProductDetailContainer />} />
-            <Route path="/cart" element={<CartWidget />} />
+            <Route path="/item-details/:id" element={<ItemDetailContainer />} />
+            <Route path="/cart" element={<CartContainer/>} />
             <Route path="*" element={<h1>404 not found</h1>} />
           </Route>
         </Routes>
-      </BrowserRouter>
-  
+      </BrowserRouter> 
       <GlobalStyles />
     </>
   );

@@ -7,26 +7,26 @@ export const NavBar = () => {
     <>
       <HeaderWrapper>
         <Nav>
+          <LogoLink to="/">
+            <Logo>WeShop</Logo>
+          </LogoLink>
 
-          <Logo href="#">WeShop</Logo>
-          
           <NavWrapper>
             <NavList>
               <Links to="/">Productos</Links>
             </NavList>
             <NavList>
-              <Links to="/category/urbanas">Remeras</Links>
+              <Links to="/category/camisas">Camisas</Links>
             </NavList>
             <NavList>
-              <Links to="category/deportivas">Pantalones</Links>
+              <Links to="category/pantalones">Pantalones</Links>
             </NavList>
             <NavList>
-              <Links to="/category/calzado">Zapatillas</Links>
+              <Links to="/category/calzado">Calzado</Links>
             </NavList>
           </NavWrapper>
 
           <CartWidget sx={{ padding: "10px" }} />
-
         </Nav>
       </HeaderWrapper>
     </>
@@ -56,6 +56,9 @@ const Nav = styled.nav`
     height: 2px;
     background-color: black;
   }
+`;
+const LogoLink = styled(Link)`
+  text-decoration: none
 `;
 const Logo = styled.a`
   text-decoration: none;
