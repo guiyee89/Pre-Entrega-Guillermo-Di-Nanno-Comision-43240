@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
+import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
+
 
 export const ItemList = ({ items }) => {
   console.log(items);
@@ -10,35 +10,47 @@ export const ItemList = ({ items }) => {
   const [shuffledItems, setShuffledItems] = useState([]);
 
   //Algoritmo de Fisher-Yates para renderizar los productos de manera aleatoria
-  useEffect(() => {
-    const shuffleArray = (array) => {
-      const shuffledArray = [...array];
-      for (let i = shuffledArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledArray[i], shuffledArray[j]] = [
-          shuffledArray[j],
-          shuffledArray[i],
-        ];
-      }
-      return shuffledArray;
-    };
-
-    setShuffledItems(shuffleArray(items));
-  }, [items]);
+   useEffect(() => {
+     const shuffleArray = (array) => {
+       const shuffledArray = [...array];
+       for (let i = shuffledArray.length - 1; i > 0; i--) {
+         const j = Math.floor(Math.random() * (i + 1));
+         [shuffledArray[i], shuffledArray[j]] = [
+           shuffledArray[j],
+           shuffledArray[i],
+         ];
+       }
+       return shuffledArray;
+     };
+     setShuffledItems(shuffleArray(items));
+   }, [items]);
 
   return (
+
     <Wrapper>
+
+      {/* Mapeo de productos */}
       {shuffledItems.map((item) => {
         return (
+
           <ItemCard style={{ width: "18rem" }} key={item.id}>
-            <ItemImg variant="top" src={item.img} />
-            <ItemDetails>
-              <ItemTitle>{item.name}</ItemTitle>
-              <ItemText>{item.description}</ItemText>
-              <Link to={`/item-details/${item.id}`}>
-                <Button variant="primary">Show Details</Button>
-              </Link>
-            </ItemDetails>
+            {/* Imagen */}
+            <ImgWrapper>
+              <ItemImg variant="top" src={item.img} />
+            </ImgWrapper>
+
+            {/* Buttons */}
+            <ButtonsWrapper>
+
+              <BtnAddCart>
+                <AddCart />
+              </BtnAddCart>
+
+              <BtnSeeDetails to={`/item-details/${item.id}`}>
+                <SeeDetails />
+              </BtnSeeDetails>
+
+            </ButtonsWrapper>
           </ItemCard>
         );
       })}
@@ -55,34 +67,103 @@ const Wrapper = styled.div`
   -webkit-box-pack: center;
   justify-content: space-evenly;
 `;
-const ItemCard = styled(Card)`
-  box-shadow: rgba(0, 0, 0, 0.75) 0px -4px 8px;
-  background-color: #e2e1e1;
+const ItemCard = styled.div`
   color: black;
   display: flex;
   flex-direction: column;
-  -webkit-box-align: center;
   height: 350px;
-  justify-content: space-evenly;
+  -webkit-box-align: center;
   align-items: center;
+  margin-bottom: 24px;
+  justify-content: center;
+  position: relative;
+  max-width: 250px;
 `;
-const ItemImg = styled(Card.Img)`
-  height: 140px;
-  max-width: fit-content;
+//Image 
+const ItemImg = styled.img`
+  max-width: 100%;
+  max-height: 59%;
   margin: 0 auto;
+  overflow: hidden;
+  transition: transform 0.19s ease-in-out 0.08s;
+  cursor: pointer;
 `;
-const ItemDetails = styled(Card.Body)`
-  padding: 0px 24px;
-  height: 130px;
+
+
+//Buttons y Image Wrappers
+const ButtonsWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #900707;
+  width: 40px;
+  height: 40px;
+  display: none;
+  /* transform: translateX(40px); */
+  /* transition: opacity 0.2s ease-in-out; */
+`;
+const ImgWrapper = styled.div`
+  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
+  background-color: #eeeeee;
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  margin-bottom: 8px;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover ${ItemImg} {
+    transform: scale(1.11);
+  }
+  &:hover ${ButtonsWrapper}{
+    display: block;
+    /* transform: translateX(-40px); */
+  } 
 `;
-const ItemTitle = styled(Card.Title)`
-  font-weight: bold;
-  font-size: 1.5rem;
+
+//Add Cart Button
+const AddCart = styled(BsBagPlusFill)`
+  color: white;
+  width: 70%;
+  height: 70%;
+  transition: transform 0.19s ease-in-out 0.08s;
 `;
-const ItemText = styled(Card.Text)`
-  padding: 16px 0 16px 0;
+const BtnAddCart = styled.button`
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  height: 100%;
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  cursor: pointer;
+  &:hover ${AddCart}{
+    transform: scale(1.11);
+  }
 `;
+//See Details Button
+const SeeDetails = styled(BsEyeFill)`
+  color: black;
+  width: 60%;
+  height: 50%;
+  cursor: pointer;
+  transition: transform 0.19s ease-in-out 0.03s;
+`;
+const BtnSeeDetails = styled(Link)`
+  background-color: transparent;
+  border: 1px solid black;
+  width: 100%;
+  height: 100%;
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover ${SeeDetails}{
+    transform: scale(1.11);
+  }
+`;
+
