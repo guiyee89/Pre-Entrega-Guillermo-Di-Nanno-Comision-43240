@@ -29,9 +29,9 @@ export const ItemList = ({ items }) => {
       {/* Mapeo de productos */}
       {shuffledItems.map((item) => {
         return (
-          <ItemCard style={{ width: "18rem" }} key={item.id}>
+          <ItemCard style={{ width: "288px" }} key={item.id}>
             {/* Imagen */}
-            <ImgWrapper>
+            <ImgWrapper to={`/item-details/${item.id}`}>
               <ItemImg variant="top" src={item.img} />
             </ImgWrapper>
 
@@ -45,6 +45,8 @@ export const ItemList = ({ items }) => {
                 <SeeDetails />
               </BtnSeeDetails>
             </ButtonsWrapper>
+            <ItemTitle>{item.name}</ItemTitle>
+            <ItemPrice>${item.price}</ItemPrice>
           </ItemCard>
         );
       })}
@@ -78,7 +80,7 @@ const ItemCard = styled.div`
   color: black;
   display: flex;
   flex-direction: column;
-  height: 300px;
+  height: 325px;
   -webkit-box-align: center;
   align-items: center;
   margin-bottom: 24px;
@@ -94,14 +96,14 @@ const ItemCard = styled.div`
 //Image (Se inicializa hover con ImgWrapper)
 const ItemImg = styled.img`
   max-width: 100%;
-  max-height: 59%;
+  max-height: 70%;
   margin: 0 auto;
   overflow: hidden;
   transition: transform 0.19s ease-in-out 0.08s;
   cursor: pointer;
 `;
 //Image Wrappers
-const ImgWrapper = styled.div`
+const ImgWrapper = styled(Link)`
   box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
   background-color: #eeeeee;
   width: 100%;
@@ -158,5 +160,18 @@ const BtnSeeDetails = styled(Link)`
   &:hover ${SeeDetails} {
     transform: scale(1.11);
   }
+`;
+
+const ItemTitle = styled.h1`
+  font-size: 1.1rem;
+  color: black;
+  font-weight: 700;
+  text-transform: uppercase;
+`;
+const ItemPrice = styled.h2`
+  color: #a83737;
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: italic;
 `;
 

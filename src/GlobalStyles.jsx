@@ -26,6 +26,8 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+  font-family: 'Roboto Mono', monospace;
+  
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -72,6 +74,7 @@ html, body {
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  background-color: #eeeeee;
 }
 
 /*6. Improve media defaults*/
@@ -117,7 +120,6 @@ p, h1, h2, h3, h4, h5, h6 {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
 
 `;
 

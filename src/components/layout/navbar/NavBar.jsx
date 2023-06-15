@@ -13,16 +13,16 @@ export const NavBar = () => {
 
           <NavWrapper>
             <NavList>
-              <Links to="/">Productos</Links>
+              <Links to="/">productos</Links>
             </NavList>
             <NavList>
-              <Links to="/category/camisas">Camisas</Links>
+              <Links to="/category/camisas">camisas</Links>
             </NavList>
             <NavList>
-              <Links to="category/pantalones">Pantalones</Links>
+              <Links to="category/pantalones">pantalones</Links>
             </NavList>
             <NavList>
-              <Links to="/category/calzado">Calzado</Links>
+              <Links to="/category/calzado">calzado</Links>
             </NavList>
           </NavWrapper>
 
@@ -34,11 +34,11 @@ export const NavBar = () => {
 };
 
 const HeaderWrapper = styled.header`
-  background-color: #6b88bb;
+  background-color: #f4f4f4;
 `;
 
 const Nav = styled.nav`
-  min-height: 100px;
+  min-height: 80px;
   max-width: 1240px;
   margin: 0 auto;
   display: flex;
@@ -58,7 +58,7 @@ const Nav = styled.nav`
   }
 `;
 const LogoLink = styled(Link)`
-  text-decoration: none
+  text-decoration: none;
 `;
 const Logo = styled.a`
   text-decoration: none;
@@ -76,7 +76,8 @@ const NavList = styled.li`
 `;
 const Links = styled(Link)`
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: black;
-  font-weight: 500;
+  font-weight: 700;
+  text-transform: uppercase;
 `;
