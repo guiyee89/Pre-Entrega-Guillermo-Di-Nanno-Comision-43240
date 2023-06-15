@@ -1,5 +1,6 @@
 
-![Design preview for the Single-page developer portfolio coding challenge](./src/gif/e-commerce-animation.gif)
+![Design preview for the Single-page e-commerce website](./src/gif/e-commerce-animation.gif)
+![Design preview for the Single-page e-commerce new style design](./src/gif/e-commerce%20animation%20nuevo%20estilo.gif)
 
 ## Hola! 👋
 Este es mi proyecto e-commerce para la 2da Pre Entrega del curso de React de CoderHouse
