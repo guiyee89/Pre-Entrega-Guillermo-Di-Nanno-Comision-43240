@@ -7,9 +7,11 @@ export const NavBar = () => {
     <>
       <HeaderWrapper>
         <Nav>
-          <LogoLink to="/">
-            <Logo>WeShop</Logo>
-          </LogoLink>
+          <LogoDiv>
+            <LogoLink to="/">
+              <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1686957140/web%20access/weshop_logo_original_oefa0e.png"></Logo>
+            </LogoLink>
+          </LogoDiv>
 
           <NavWrapper>
             <NavList>
@@ -57,15 +59,14 @@ const Nav = styled.nav`
     background-color: black;
   }
 `;
-const LogoLink = styled(Link)`
-  text-decoration: none;
+const LogoDiv = styled.div`
 `;
-const Logo = styled.a`
-  text-decoration: none;
-  color: black;
-  font-weight: 800;
-  font-size: 1.5rem;
-  margin-left: 16px;
+const LogoLink = styled(Link)`
+ text-decoration: none;
+`;
+const Logo = styled.img`
+  width: 120px;
+  margin-left: 12px;
 `;
 const NavWrapper = styled.ul`
   display: flex;
@@ -80,4 +81,28 @@ const Links = styled(Link)`
   color: black;
   font-weight: 700;
   text-transform: uppercase;
+  position: relative;
+  &:hover {
+    color: #7c819b;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+    /* display: none; */
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.25s ease-in-out, padding-bottom 0.25s ease-in-out;
+  }
+  &:hover::after {
+    background-color: #373a4a;
+    /* display: block; */
+    transform: scaleX(1);
+    padding-bottom: 3px;
+  }
 `;

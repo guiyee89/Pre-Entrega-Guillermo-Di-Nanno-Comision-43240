@@ -12,36 +12,70 @@ export const ItemDetail = ({ selectedItem }) => {
 
   return (
     <Wrapper>
-      <Image src={selectedItem.img} />
+      <ImgWrapper>
+        <Image src={selectedItem.img} id={selectedItem.id} />
+      </ImgWrapper>
+
       <InsideWrapper>
         <Title>{selectedItem.name}</Title>
         <Text>{selectedItem.description}</Text>
+        <Stock>in stock <Num>{selectedItem.stock}</Num></Stock>
         <ItemCount stock={selectedItem.stock} initial={1} onAdd={onAdd} />
       </InsideWrapper>
     </Wrapper>
   );
 };
+
 const Wrapper = styled.div`
   display: flex;
+  -webkit-box-align: center;
   align-items: center;
+  -webkit-box-pack: center;
   justify-content: center;
   height: 700px;
-  /* margin: 0 auto; */
+  gap: 4rem;
 `;
 const InsideWrapper = styled.div`
-  margin: 32px;
+  margin: 0 80px;
   display: flex;
   flex-direction: column;
   height: 50%;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 const Title = styled.h1`
-  font-size: 2rem;
+  font-size: 3rem;
 `;
 const Text = styled.p`
   font-size: 1rem;
-  width: 240px;
+  width: 250px;
+  margin-top: -15px;
+`;
+const Stock = styled.p`
+  font-size: .85rem;
+  font-style: italic;
+`;
+const Num = styled.span`
+  color: #c92b2b;
+  font-weight: bold;
+  font-size: 1rem;
+`
+const ImgWrapper = styled.div`
+  height: 460px;
+  width: 450px;
+  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const Image = styled.img`
-  width: 400px;
+  height: 80%;
+  /* width: 100%; */
+  
+  height: ${({ id }) =>
+    id === 1 ? "365px" :
+    id === 2 ? "340px" :
+    id === 5 ? "388px" :
+    id === 6 ? "311px" :
+    id === 3 ? "365px" : "90%"
+  };
 `;

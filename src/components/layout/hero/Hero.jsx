@@ -11,7 +11,7 @@ export const Hero = () => {
 
   return (
     <Wrapper>
-      <Carousel activeIndex={index} onSelect={handleSelect}>
+      <Carousel activeIndex={index} onSelect={handleSelect}  interval={3200}>
         <CarouselItem>
           <img
             className="d-block w-100"

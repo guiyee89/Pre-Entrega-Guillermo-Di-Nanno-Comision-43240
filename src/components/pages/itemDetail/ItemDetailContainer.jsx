@@ -22,5 +22,5 @@ export const ItemDetailContainer = () => {
 
   console.log(selectedItem);
 
-  return <ItemDetail selectedItem={selectedItem} />;
+  return <ItemDetail selectedItem={selectedItem} id={id}/>;
 };

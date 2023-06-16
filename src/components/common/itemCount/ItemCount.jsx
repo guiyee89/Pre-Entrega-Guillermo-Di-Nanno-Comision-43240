@@ -43,29 +43,36 @@ const CountButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: gray;
-    transition: ease-in-out .2s;
+    transition: ease-in-out 0.2s;
   }
 `;
 const ResetButton = styled.button`
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: bold;
   cursor: pointer;
-  &:hover{
+  width: 50px;
+  margin: 0 auto;
+  display: flex;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  &:hover {
     background-color: gray;
-    transition: ease-in-out .2s;
+    transition: ease-in-out 0.2s;
   }
-
 `;
 const AddCartButton = styled.button`
-  width: 120px;
-  font-size: 1rem;
+  width: 115px;
+  font-size: 0.9rem;
   font-weight: bold;
   cursor: pointer;
-  &:hover{
+  word-break: break-word;
+  cursor: pointer;
+  &:hover {
     background-color: gray;
-    transition: ease-in-out .2s;
+    transition: ease-in-out 0.2s;
   }
 `;
 const CountNumber = styled.span`
