@@ -64,7 +64,7 @@ const Wrapper = styled.div`
   justify-content: space-evenly;
 `;
 
-//Buttons AddCart y SeeDetails (se inicializa con ItemCard)
+//Buttons Container (se inicializa hover de buttons con ItemCard)
 const ButtonsWrapper = styled.div`
   position: absolute;
   top: 5px;
@@ -118,7 +118,7 @@ const ImgWrapper = styled(Link)`
   }
 `;
 
-//Add Cart Button
+//Add Cart Button (se inicializa con BtnAddCart)
 const AddCart = styled(BsBagPlusFill)`
   color: white;
   width: 70%;
@@ -140,7 +140,7 @@ const BtnAddCart = styled.button`
     transform: scale(1.11);
   }
 `;
-//See Details Button
+//See Details Button (se inicializa con BtnSeeDetails)
 const SeeDetails = styled(BsEyeFill)`
   color: black;
   width: 60%;

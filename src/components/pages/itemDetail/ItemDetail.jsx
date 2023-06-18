@@ -69,8 +69,7 @@ const ImgWrapper = styled.div`
 `;
 const Image = styled.img`
   height: 80%;
-  /* width: 100%; */
-  
+  //Cambio height para que no se distorcione la imagen
   height: ${({ id }) =>
     id === 1 ? "365px" :
     id === 2 ? "340px" :
