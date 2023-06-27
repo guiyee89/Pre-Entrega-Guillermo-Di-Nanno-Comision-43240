@@ -8,7 +8,7 @@ export const products = [
         stock: 12,
         description: "Clasicas zapatillas para correr en cualquier superficie",
         category: "calzado",
-        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/zapas1_ywv3ql.png"
+        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/Zapatillas/zapas1_ywv3ql.png"
     },
 
     {
@@ -18,7 +18,7 @@ export const products = [
         stock: 5,
         description: "Ultra livianas y cuentan con camara de aire",
         category: "calzado",
-        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/zapas2_tyqtg3.png"
+        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/Zapatillas/zapas4_w7xyyx.png"
     },
 
     {
@@ -38,7 +38,7 @@ export const products = [
         stock: 8,
         description: "Zapatillas de ultima generacion para el deporte",
         category: "calzado",
-        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/zapas4_w7xyyx.png"
+        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/Zapatillas/zapas2_tyqtg3.png"
     },
     {
         id: 5,

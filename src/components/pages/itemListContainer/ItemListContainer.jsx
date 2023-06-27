@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ItemList } from "./ItemList";
-import { products } from "../../ProductsMock";
+import { products } from "../../../ProductsMock";
 
 export const ItemListContainer = () => {
   //Guardamos los items
@@ -16,7 +16,6 @@ export const ItemListContainer = () => {
       (product) => product.category === categoryName
     );
 
-
     //Promesa para que se resuelva que tipo de productos mostrar
     const productosPromesa = new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -28,10 +27,9 @@ export const ItemListContainer = () => {
     });
     productosPromesa
       .then((response) => setItems(response))
-      .catch((error) => console.log(error))
+      .catch((error) => console.log(error));
     //Cierro con arreglo de dependencia para ejectuar cada vez que cambie "categoryName"
   }, [categoryName]);
 
-  return <ItemList items={items} products={products}/>;
-  
+  return <ItemList items={items} products={products} />;
 };

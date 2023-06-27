@@ -47,7 +47,7 @@ const Title = styled.h1`
 `;
 const Text = styled.p`
   font-size: 1rem;
-  width: 250px;
+  width: 300px;
   margin-top: -15px;
 `;
 const Stock = styled.p`

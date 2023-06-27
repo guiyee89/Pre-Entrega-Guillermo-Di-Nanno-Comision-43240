@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { products } from "../../ProductsMock";
 import { ItemDetail } from "./ItemDetail";
+import { products } from "../../../ProductsMock";
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
@@ -22,5 +22,5 @@ export const ItemDetailContainer = () => {
 
   console.log(selectedItem);
 
-  return <ItemDetail selectedItem={selectedItem} id={id}/>;
+  return <ItemDetail selectedItem={selectedItem} id={id} />;
 };
