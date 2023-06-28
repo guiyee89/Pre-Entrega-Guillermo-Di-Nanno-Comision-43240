@@ -1,34 +1,65 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { CartContext } from "../../context/CartContext";
+import { useContext } from "react";
 
 export const NavBar = () => {
+  //
+
+  //Darle efecto copado al NavBar
+  const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = window.innerHeight * 0.12; // 10% of screen height
+      if (window.scrollY > scrollHeight) {
+        setScroll(true);
+      } else {
+        setScroll(false);
+      }
+    };
+    // Attach the scroll event listener
+    window.addEventListener("scroll", handleScroll);
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const { getTotalItems } = useContext(CartContext)
+
+  const totalItems = getTotalItems()
+
   return (
     <>
       <HeaderWrapper>
-        <Nav>
-          <LogoDiv>
+        <Nav isScrolled={scroll}>
+          <LogoDiv isScrolled={scroll}>
             <LogoLink to="/">
-              <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1686957140/web%20access/weshop_logo_original_oefa0e.png"></Logo>
+              <Logo
+                src="https://res.cloudinary.com/derdim3m6/image/upload/v1686957140/web%20access/weshop_logo_original_oefa0e.png"
+              ></Logo>
             </LogoLink>
           </LogoDiv>
 
           <NavWrapper>
             <NavList>
-              <Links to="/">productos</Links>
+              <NavLink to="/" isScrolled={scroll}>productos</NavLink>
             </NavList>
             <NavList>
-              <Links to="/category/camisas">camisas</Links>
+              <NavLink to="/category/camisas" isScrolled={scroll}>camisas</NavLink>
             </NavList>
             <NavList>
-              <Links to="/category/pantalones">pantalones</Links>
+              <NavLink to="/category/pantalones" isScrolled={scroll}>pantalones</NavLink>
             </NavList>
             <NavList>
-              <Links to="/category/calzado">calzado</Links>
+              <NavLink to="/category/calzado" isScrolled={scroll}>calzado</NavLink>
             </NavList>
           </NavWrapper>
 
-          <CartWidget sx={{ padding: "10px" }} />
+          <CartWidget isScrolled={scroll} sx={{ padding: "10px" }} totalItems={totalItems}/>
         </Nav>
       </HeaderWrapper>
     </>
@@ -37,35 +68,46 @@ export const NavBar = () => {
 
 const HeaderWrapper = styled.header`
   background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
 `;
 
 const Nav = styled.nav`
-  min-height: 80px;
+  height: ${(props) => (props.isScrolled ? "65px" : "120px")};
+  transition: height ${(props) => (props.isScrolled ? "0.24s" : "0.16s")}
+    ease-in-out;
   max-width: 1240px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid black;
-  position: relative;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.75);
+  position: fixed;
+  z-index: 1;
+  background-color: white;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.75);
   &:before {
     content: "";
     position: absolute;
-    bottom: -7px;
+    bottom: -6px;
     left: 0;
     right: 0;
     height: 2px;
     background-color: black;
+    display: ${(props) => (props.isScrolled ? "none" : "block")};
   }
 `;
 const LogoDiv = styled.div`
+  width: ${(props) => (props.isScrolled ? "90px" : "120px")};
+  transition: width ${(props) => (props.isScrolled ? "0.28s" : "0.16s")}
+    ease-in-out;
 `;
 const LogoLink = styled(Link)`
- text-decoration: none;
+  text-decoration: none;
 `;
 const Logo = styled.img`
-  width: 120px;
+  width: 100%;
   margin-left: 12px;
 `;
 const NavWrapper = styled.ul`
@@ -75,17 +117,18 @@ const NavWrapper = styled.ul`
 const NavList = styled.li`
   padding: 15px;
 `;
-const Links = styled(Link)`
+const NavLink = styled(Link)`
   text-decoration: none;
-  font-size: 1rem;
   color: black;
   font-weight: 700;
   text-transform: uppercase;
   position: relative;
+  font-size: ${(props) => (props.isScrolled ? ".85rem" : "1rem")};
+  transition: font-size ${(props) => (props.isScrolled ? "0.28s" : "0.16s")}
+    ease-in-out;
   &:hover {
     color: #7c819b;
   }
-
   &::after {
     content: "";
     position: absolute;
@@ -94,14 +137,12 @@ const Links = styled(Link)`
     width: 100%;
     height: 2px;
     background-color: black;
-    /* display: none; */
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.25s ease-in-out, padding-bottom 0.25s ease-in-out;
   }
   &:hover::after {
     background-color: #373a4a;
-    /* display: block; */
     transform: scaleX(1);
     padding-bottom: 3px;
   }

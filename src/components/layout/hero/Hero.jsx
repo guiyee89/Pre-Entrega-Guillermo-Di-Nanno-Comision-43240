@@ -39,7 +39,7 @@ export const Hero = () => {
   );
 };
 const Wrapper = styled.div`
-    margin: 16px auto;
+    margin: 127px auto 0;
     max-width: 1800px;
 `;
 const CarouselItem = styled(Carousel.Item)`

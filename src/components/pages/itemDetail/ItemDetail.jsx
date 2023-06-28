@@ -1,14 +1,7 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
 
-export const ItemDetail = ({ selectedItem }) => {
-  const onAdd = (quantity) => {
-    let data = {
-      ...selectedItem,
-      count: quantity,
-    };
-    console.log(data);
-  };
+export const ItemDetail = ({ selectedItem, onAdd, quantityId }) => {
 
   return (
     <Wrapper>
@@ -20,7 +13,7 @@ export const ItemDetail = ({ selectedItem }) => {
         <Title>{selectedItem.name}</Title>
         <Text>{selectedItem.description}</Text>
         <Stock>in stock <Num>{selectedItem.stock}</Num></Stock>
-        <ItemCount stock={selectedItem.stock} initial={1} onAdd={onAdd} />
+        <ItemCount stock={selectedItem.stock} initial={quantityId} onAdd={onAdd} />
       </InsideWrapper>
     </Wrapper>
   );

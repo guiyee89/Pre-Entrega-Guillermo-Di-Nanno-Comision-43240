@@ -80,7 +80,7 @@ const ItemCard = styled.div`
   color: black;
   display: flex;
   flex-direction: column;
-  height: 325px;
+  height: 350px;
   -webkit-box-align: center;
   align-items: center;
   margin-bottom: 24px;
