@@ -46,16 +46,16 @@ export const NavBar = () => {
 
           <NavWrapper>
             <NavList>
-              <NavLink to="/">productos</NavLink>
+              <NavLink to="/" isScrolled={scroll}>productos</NavLink>
             </NavList>
             <NavList>
-              <NavLink to="/category/camisas">camisas</NavLink>
+              <NavLink to="/category/camisas" isScrolled={scroll}>camisas</NavLink>
             </NavList>
             <NavList>
-              <NavLink to="/category/pantalones">pantalones</NavLink>
+              <NavLink to="/category/pantalones" isScrolled={scroll}>pantalones</NavLink>
             </NavList>
             <NavList>
-              <NavLink to="/category/calzado">calzado</NavLink>
+              <NavLink to="/category/calzado" isScrolled={scroll}>calzado</NavLink>
             </NavList>
           </NavWrapper>
 
@@ -74,7 +74,7 @@ const HeaderWrapper = styled.header`
 
 const Nav = styled.nav`
   height: ${(props) => (props.isScrolled ? "65px" : "120px")};
-  transition: height ${(props) => (props.isScrolled ? "0.28s" : "0.16s")}
+  transition: height ${(props) => (props.isScrolled ? "0.24s" : "0.16s")}
     ease-in-out;
   max-width: 1240px;
   width: 100%;
@@ -100,6 +100,8 @@ const Nav = styled.nav`
 `;
 const LogoDiv = styled.div`
   width: ${(props) => (props.isScrolled ? "90px" : "120px")};
+  transition: width ${(props) => (props.isScrolled ? "0.28s" : "0.16s")}
+    ease-in-out;
 `;
 const LogoLink = styled(Link)`
   text-decoration: none;
@@ -117,11 +119,13 @@ const NavList = styled.li`
 `;
 const NavLink = styled(Link)`
   text-decoration: none;
-  font-size: 1rem;
   color: black;
   font-weight: 700;
   text-transform: uppercase;
   position: relative;
+  font-size: ${(props) => (props.isScrolled ? ".85rem" : "1rem")};
+  transition: font-size ${(props) => (props.isScrolled ? "0.28s" : "0.16s")}
+    ease-in-out;
   &:hover {
     color: #7c819b;
   }

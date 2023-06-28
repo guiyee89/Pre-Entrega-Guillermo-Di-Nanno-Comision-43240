@@ -2,17 +2,18 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 //Creo el contexto del cart
 import { createContext, useState } from "react";
-
 //exportamos la variable que contiene la funcion createContext()
 export const CartContext = createContext();
 
-//Creo el componente proveedor del "contexto"
+//*********************************************//
+//CREO EL COMPONENTE PROVEEDOR DEL "CONTEXT"
 const CartContextProvider = ({ children }) => {
+
   //Traemos los datos desde "localStorage", los guardamos en "cart", ejecutamos con "setCart". O que traiga "array vacio"
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
-    console.log(cart)
+
   //Funcion para detectar por "id" si ya existe un producto un "cart"
   const isInCart = (id) => {
     let exist = cart.some((product) => product.id === id);
@@ -102,12 +103,8 @@ const CartContextProvider = ({ children }) => {
   //MOSTRAR CANTIDAD DE PRODUCTOS EN "BADGE" DEL "CART"
   const getTotalItems = () => {
     let total = cart.reduce((accumulator, element) => {
-      console.log(cart)
-      console.log(accumulator)
-      console.log(element)
       return accumulator + element.quantity;
     }, 0);
-    console.log(total)
     return total;
   };
 
@@ -116,7 +113,6 @@ const CartContextProvider = ({ children }) => {
     let total = cart.reduce((acc, element) => {
       return acc + (element.quantity * element.price);
     }, 0);
-    console.log(total);
     return total;
   };
 

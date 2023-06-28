@@ -5,6 +5,8 @@ import { products } from "../../../ProductsMock";
 import { CartContext } from "../../context/CartContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToasterContainer } from "../../common/loaders/ToasterContainer";
+import { LoaderContainer } from "../../common/loaders/LoaderContainer";
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
@@ -17,10 +19,10 @@ export const ItemDetailContainer = () => {
 
   const quantityId = getTotalQuantityById(id);
 
-
   //Toastify alert para onAdd function
   const notify = () => {
-    toast.promise(
+    toast
+      .promise(
         // Promise function
         new Promise((resolve) => {
           // Simulate asynchronous operation
@@ -47,7 +49,6 @@ export const ItemDetailContainer = () => {
 
   //AGREGAMOS PRODUCTOS AL CARRITO
   const onAdd = (quantity) => {
-   
     let data = {
       ...selectedItem,
       quantity: quantity,
@@ -65,21 +66,26 @@ export const ItemDetailContainer = () => {
     const productId = new Promise((resolve) => {
       setTimeout(() => {
         resolve(itemId);
-      }, 1200);
+      }, 1600);
     });
     productId
       .then((resolve) => setSelectedItem(resolve))
       .catch((error) => console.log("No se encuentra el detalle: ", error));
   }, [id]);
 
- 
   return (
-    <ItemDetail
-      selectedItem={selectedItem}
-      id={id}
-      onAdd={onAdd}
-      addToCart={addToCart}
-      quantityId={quantityId}
-    />
+    <>
+      <ToasterContainer />
+      {selectedItem.id ? (
+        <ItemDetail
+          selectedItem={selectedItem}
+          onAdd={onAdd}
+          addToCart={addToCart}
+          quantityId={quantityId}
+        />
+      ) : (
+        <LoaderContainer />
+      )}
+    </>
   );
 };
