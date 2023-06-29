@@ -8,11 +8,11 @@ export const CartContext = createContext();
 //*********************************************//
 //CREO EL COMPONENTE PROVEEDOR DEL "CONTEXT"
 const CartContextProvider = ({ children }) => {
-
   //Traemos los datos desde "localStorage", los guardamos en "cart", ejecutamos con "setCart". O que traiga "array vacio"
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
+  console.log(cart);
 
   //Funcion para detectar por "id" si ya existe un producto un "cart"
   const isInCart = (id) => {
@@ -20,29 +20,36 @@ const CartContextProvider = ({ children }) => {
     return exist;
   };
 
-  //AGREGAMOS COSAS AL "CART"
+  //Funcion para agregar productos al carrito en base ID, Quantity y Stock
   const addToCart = (newProduct) => {
+    // Si ya existe un producto en "cart"
     let exist = isInCart(newProduct.id);
-    //Si ya existe un producto en "cart"
     if (exist) {
-      //entonces creo un "nuevo array"
+      // Crear un nuevo array con los elementos actualizados
       let newArray = cart.map((product) => {
+        //Si el ID coincide entonces que sume cantidades
         if (product.id === newProduct.id) {
-          return {
-            ...product,
-            quantity: product.quantity + newProduct.quantity,
-          };
-        } else {
-          return product;
+          const newQuantity = product.quantity + newProduct.quantity;
+          //Si la cantidad es igual que el stock, que deje de sumar cantidades
+          if (newQuantity <= newProduct.stock) {
+            return {
+              ...product,
+              quantity: newQuantity,
+            };
+          } else {
+            console.log("Insufficient stock");
+          }
         }
+        return product;
       });
-      //"seteamos" "cart" con "nuevo arreglo"
+      // Actualizar el estado del carrito y el localStorage con el nuevo array
       setCart(newArray);
       localStorage.setItem("cart", JSON.stringify(newArray));
     } else {
-      //si no se repite un producto, "seteamos" TODO lo del "cart" + "nuevo producto"
-      setCart([...cart, newProduct]);
-      localStorage.setItem("cart", JSON.stringify([...cart, newProduct]));
+      // Reemplazar el array del carrito con un nuevo array que incluye el nuevo producto
+      let newCart = [...cart, newProduct];
+      setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
     }
   };
 
@@ -96,7 +103,7 @@ const CartContextProvider = ({ children }) => {
 
   //IDETIFICO "QUANTITY" PARA QUE SE MANTENGA EN TODAS LAS "RUTAS/PAGES"
   const getTotalQuantityById = (id) => {
-    let productos = cart.find((producto) => producto.id === +id);//Traemos de useParams() 
+    let productos = cart.find((producto) => producto.id === +id); //Traemos de useParams()
     return productos?.quantity;
   };
 
@@ -111,7 +118,7 @@ const CartContextProvider = ({ children }) => {
   //CALCULAR PRECIO TOTAL DE LOS ELEMENTOS EN "CART"
   const getTotalPrice = () => {
     let total = cart.reduce((acc, element) => {
-      return acc + (element.quantity * element.price);
+      return acc + element.quantity * element.price;
     }, 0);
     return total;
   };

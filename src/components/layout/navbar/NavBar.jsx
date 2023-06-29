@@ -6,8 +6,6 @@ import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 
 export const NavBar = () => {
-  //
-
   //Darle efecto copado al NavBar
   const [scroll, setScroll] = useState();
   
@@ -29,7 +27,6 @@ export const NavBar = () => {
   }, []);
 
   const { getTotalItems } = useContext(CartContext)
-
   const totalItems = getTotalItems()
 
   return (
@@ -59,7 +56,7 @@ export const NavBar = () => {
           </NavList>
         </NavWrapper>
 
-        <CartWidget isscrolled={scroll} sx={{ padding: "10px" }} totalItems={totalItems}/>
+        <CartWidget isScrolled={scroll} sx={{ padding: "10px" }} totalItems={totalItems}/>
       </Nav>
     </HeaderWrapper>
   </>

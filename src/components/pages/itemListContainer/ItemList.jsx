@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
 
-export const ItemList = ({ items, onAdd }) => {
+export const ItemList = ({ items, onAddCart }) => {
 
   // const [shuffledItems, setShuffledItems] = useState([]);
 
@@ -37,7 +37,7 @@ export const ItemList = ({ items, onAdd }) => {
             {/* Buttons */}
             <ButtonsWrapper  >
               <BtnAddCart>
-                <AddCart onClick={()=>onAdd(item)}/>
+                <AddCart onClick={()=>onAddCart(item)}/>
               </BtnAddCart>
 
               <BtnSeeDetails to={`/item-details/${item.id}`}>
