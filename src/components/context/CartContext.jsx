@@ -30,7 +30,7 @@ const CartContextProvider = ({ children }) => {
         if (product.id === newProduct.id) {
           return {
             ...product,
-            quantity: newProduct.quantity,
+            quantity: product.quantity + newProduct.quantity,
           };
         } else {
           return product;

@@ -1,33 +1,32 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
 
-export const ItemList = ({ items }) => {
-  console.log(items);
+export const ItemList = ({ items, onAdd }) => {
 
-  const [shuffledItems, setShuffledItems] = useState([]);
+  // const [shuffledItems, setShuffledItems] = useState([]);
 
-  //Algoritmo de Fisher-Yates para renderizar los productos de manera aleatoria
-  useEffect(() => {
-    const shuffleArray = (array) => {
-      const shuffledArray = [...array];
-      for (let i = shuffledArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledArray[i], shuffledArray[j]] = [
-          shuffledArray[j],
-          shuffledArray[i],
-        ];
-      }
-      return shuffledArray;
-    };
-    setShuffledItems(shuffleArray(items));
-  }, [items]);
-
+  // //Algoritmo de Fisher-Yates para renderizar los productos de manera aleatoria
+  // useEffect(() => {
+  //   const shuffleArray = (array) => {
+  //     const shuffledArray = [...array];
+  //     for (let i = shuffledArray.length - 1; i > 0; i--) {
+  //       const j = Math.floor(Math.random() * (i + 1));
+  //       [shuffledArray[i], shuffledArray[j]] = [
+  //         shuffledArray[j],
+  //         shuffledArray[i],
+  //       ];
+  //     }
+  //     return shuffledArray;
+  //   };
+  //   setShuffledItems(shuffleArray(items));
+  // }, [items]);
+ 
   return (
     <Wrapper>
       {/* Mapeo de productos */}
-      {shuffledItems.map((item) => {
+      {items.map((item) => {
         return (
           <ItemCard style={{ width: "288px" }} key={item.id}>
             {/* Imagen */}
@@ -36,9 +35,9 @@ export const ItemList = ({ items }) => {
             </ImgWrapper>
 
             {/* Buttons */}
-            <ButtonsWrapper>
+            <ButtonsWrapper  >
               <BtnAddCart>
-                <AddCart />
+                <AddCart onClick={()=>onAdd(item)}/>
               </BtnAddCart>
 
               <BtnSeeDetails to={`/item-details/${item.id}`}>
