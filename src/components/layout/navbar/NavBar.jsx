@@ -9,8 +9,8 @@ export const NavBar = () => {
   //
 
   //Darle efecto copado al NavBar
-  const [scroll, setScroll] = useState(false);
-
+  const [scroll, setScroll] = useState();
+  
   useEffect(() => {
     const handleScroll = () => {
       const scrollHeight = window.innerHeight * 0.12; // 10% of screen height
@@ -34,35 +34,35 @@ export const NavBar = () => {
 
   return (
     <>
-      <HeaderWrapper>
-        <Nav isScrolled={scroll}>
-          <LogoDiv isScrolled={scroll}>
-            <LogoLink to="/">
-              <Logo
-                src="https://res.cloudinary.com/derdim3m6/image/upload/v1686957140/web%20access/weshop_logo_original_oefa0e.png"
-              ></Logo>
-            </LogoLink>
-          </LogoDiv>
+    <HeaderWrapper>
+      <Nav isscrolled={scroll}> 
+        <LogoDiv isscrolled={scroll}> 
+          <LogoLink to="/">
+            <Logo
+              src="https://res.cloudinary.com/derdim3m6/image/upload/v1686957140/web%20access/weshop_logo_original_oefa0e.png"
+            ></Logo>
+          </LogoLink>
+        </LogoDiv>
 
-          <NavWrapper>
-            <NavList>
-              <NavLink to="/" isScrolled={scroll}>productos</NavLink>
-            </NavList>
-            <NavList>
-              <NavLink to="/category/camisas" isScrolled={scroll}>camisas</NavLink>
-            </NavList>
-            <NavList>
-              <NavLink to="/category/pantalones" isScrolled={scroll}>pantalones</NavLink>
-            </NavList>
-            <NavList>
-              <NavLink to="/category/calzado" isScrolled={scroll}>calzado</NavLink>
-            </NavList>
-          </NavWrapper>
+        <NavWrapper>
+          <NavList>
+            <NavLink to="/" isscrolled={scroll}>productos</NavLink> 
+          </NavList>
+          <NavList>
+            <NavLink to="/category/camisas" isscrolled={scroll}>camisas</NavLink> 
+          </NavList>
+          <NavList>
+            <NavLink to="/category/pantalones" isscrolled={scroll}>pantalones</NavLink> 
+          </NavList>
+          <NavList>
+            <NavLink to="/category/calzado" isscrolled={scroll}>calzado</NavLink> 
+          </NavList>
+        </NavWrapper>
 
-          <CartWidget isScrolled={scroll} sx={{ padding: "10px" }} totalItems={totalItems}/>
-        </Nav>
-      </HeaderWrapper>
-    </>
+        <CartWidget isscrolled={scroll} sx={{ padding: "10px" }} totalItems={totalItems}/>
+      </Nav>
+    </HeaderWrapper>
+  </>
   );
 };
 
@@ -73,8 +73,8 @@ const HeaderWrapper = styled.header`
 `;
 
 const Nav = styled.nav`
-  height: ${(props) => (props.isScrolled ? "65px" : "120px")};
-  transition: height ${(props) => (props.isScrolled ? "0.24s" : "0.16s")}
+  height: ${(props) => (props.isscrolled ? "65px" : "120px")};
+  transition: height ${(props) => (props.isscrolled ? "0.24s" : "0.16s")}
     ease-in-out;
   max-width: 1240px;
   width: 100%;
@@ -95,12 +95,12 @@ const Nav = styled.nav`
     right: 0;
     height: 2px;
     background-color: black;
-    display: ${(props) => (props.isScrolled ? "none" : "block")};
+    display: ${(props) => (props.isscrolled ? "none" : "block")};
   }
 `;
 const LogoDiv = styled.div`
-  width: ${(props) => (props.isScrolled ? "90px" : "120px")};
-  transition: width ${(props) => (props.isScrolled ? "0.28s" : "0.16s")}
+  width: ${(props) => (props.isscrolled ? "90px" : "120px")};
+  transition: width ${(props) => (props.isscrolled ? "0.28s" : "0.16s")}
     ease-in-out;
 `;
 const LogoLink = styled(Link)`
@@ -123,8 +123,8 @@ const NavLink = styled(Link)`
   font-weight: 700;
   text-transform: uppercase;
   position: relative;
-  font-size: ${(props) => (props.isScrolled ? ".85rem" : "1rem")};
-  transition: font-size ${(props) => (props.isScrolled ? "0.28s" : "0.16s")}
+  font-size: ${(props) => (props.isscrolled ? ".85rem" : "1rem")};
+  transition: font-size ${(props) => (props.isscrolled ? "0.28s" : "0.16s")}
     ease-in-out;
   &:hover {
     color: #7c819b;
