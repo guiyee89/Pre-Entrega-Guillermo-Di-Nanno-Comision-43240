@@ -8,11 +8,11 @@ export const CartContext = createContext();
 //*********************************************//
 //CREO EL COMPONENTE PROVEEDOR DEL "CONTEXT"
 const CartContextProvider = ({ children }) => {
+
   //Traemos los datos desde "localStorage", los guardamos en "cart", ejecutamos con "setCart". O que traiga "array vacio"
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
-  console.log(cart);
 
   //Funcion para detectar por "id" si ya existe un producto un "cart"
   const isInCart = (id) => {
@@ -20,6 +20,7 @@ const CartContextProvider = ({ children }) => {
     return exist;
   };
 
+ 
   //Funcion para agregar productos al carrito en base ID, Quantity y Stock
   const addToCart = (newProduct) => {
     // Si ya existe un producto en "cart"
@@ -53,7 +54,7 @@ const CartContextProvider = ({ children }) => {
     }
   };
 
-  //LIMPIAR EL "CART"
+  //Limpiar todo el carrito
   const clearCart = () => {
     Swal.fire({
       title: "Are you sure you want to delete all?",
@@ -72,13 +73,14 @@ const CartContextProvider = ({ children }) => {
     });
   };
 
-  //ELIMINAR PRODUCTO COMPLETO X "ID"
+  //Eliminar producto entero por id
   const removeById = (id) => {
     let newArray = cart.filter((product) => product.id !== id);
     setCart(newArray);
     localStorage.setItem("cart", JSON.stringify(newArray));
   };
 
+  //Restar cantidad de productos por id
   const removeQuantity = (id) => {
     let exist = isInCart(id);
     //Si el producto existe en "cart"
@@ -101,13 +103,13 @@ const CartContextProvider = ({ children }) => {
     }
   };
 
-  //IDETIFICO "QUANTITY" PARA QUE SE MANTENGA EN TODAS LAS "RUTAS/PAGES"
+  //Identifico Quantity para que se mantenga la cantidad en todas las rutas / pages
   const getTotalQuantityById = (id) => {
     let productos = cart.find((producto) => producto.id === +id); //Traemos de useParams()
     return productos?.quantity;
   };
 
-  //MOSTRAR CANTIDAD DE PRODUCTOS EN "BADGE" DEL "CART"
+  //Mostrar cantidad de productos en "badge"
   const getTotalItems = () => {
     let total = cart.reduce((accumulator, element) => {
       return accumulator + element.quantity;
@@ -115,7 +117,7 @@ const CartContextProvider = ({ children }) => {
     return total;
   };
 
-  //CALCULAR PRECIO TOTAL DE LOS ELEMENTOS EN "CART"
+  //Calcular precio total de los elementos en cart
   const getTotalPrice = () => {
     let total = cart.reduce((acc, element) => {
       return acc + element.quantity * element.price;

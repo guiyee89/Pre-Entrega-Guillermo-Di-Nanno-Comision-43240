@@ -6,41 +6,25 @@ import styled from "styled-components/macro";
 // import { CartContext } from "../../context/CartContext";
 // import { useContext } from "react";
 
-export const CartWidget = ( {isScrolled, totalItems} ) => {
-  
-  // function notificationsLabel(count) {
-  //   if (count === 0) {
-  //     return "no notifications";
-  //   }
-  //   if (count > 99) {
-  //     return "more than 99 notifications";
-  //   }
-  //   return `${count} notifications`;
-  // }
-  // const { getTotalItems } = useContext(CartContext)
-
-  // const totalItems = getTotalItems()
-  
+export const CartWidget = ({ scrolled, totalItems }) => {
   return (
     <>
-      {/* <IconButton aria-label={notificationsLabel(100)}> */}
-        <Link to="/cart">
-          <Contador
-            badgeContent={totalItems}
-            showZero
-            color="primary"
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-          >
-            {/* Le pasamos props en base a lo que especifique la libreria */}
-            <CartWrapper isScrolled={isScrolled}>
-              <BsFillCartFill color="black" size={"28px"} />
-            </CartWrapper>
-          </Contador>
-        </Link>
-      {/* </IconButton> */}
+      <Link to="/cart">
+        <Contador
+          badgeContent={totalItems}
+          showZero
+          color="primary"
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        >
+          {/* Le pasamos props en base a lo que especifique la libreria */}
+          <CartWrapper scrolled={scrolled}>
+            <BsFillCartFill color="black" size={"28px"} />
+          </CartWrapper>
+        </Contador>
+      </Link>
     </>
   );
 };
@@ -49,7 +33,7 @@ const Contador = styled(Badge)`
   margin: 0 8px 0 0;
 `;
 const CartWrapper = styled.div`
-  width: ${(props) => (props.isScrolled ? "22px" : "32px")};
-  transition: width ${(props) => (props.isScrolled ? "0.25s" : "0.06s")}
+  width: ${(props) => (props.scrolled === "scrolled" ? "22px" : "32px")};
+  transition: width ${(props) => (props.scrolled ? "0.25s" : "0.06s")}
     ease-in-out;
 `;

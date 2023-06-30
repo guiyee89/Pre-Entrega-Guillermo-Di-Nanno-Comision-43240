@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export const useCount = (initial, stock, minimo = 1) => {
+export const useCount = (initial=1, stock, minimo = 1) => {
 
     const [ count, setCount ] = useState(initial)
 

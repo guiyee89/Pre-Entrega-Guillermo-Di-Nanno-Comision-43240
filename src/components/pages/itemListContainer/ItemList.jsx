@@ -5,6 +5,7 @@ import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
 
 export const ItemList = ({ items, onAddCart }) => {
 
+  //Algoritmo para randomear listado te Items
   // const [shuffledItems, setShuffledItems] = useState([]);
 
   // //Algoritmo de Fisher-Yates para renderizar los productos de manera aleatoria
@@ -22,7 +23,7 @@ export const ItemList = ({ items, onAddCart }) => {
   //   };
   //   setShuffledItems(shuffleArray(items));
   // }, [items]);
- 
+
   return (
     <Wrapper>
       {/* Mapeo de productos */}
@@ -36,8 +37,8 @@ export const ItemList = ({ items, onAddCart }) => {
 
             {/* Buttons */}
             <ButtonsWrapper  >
-              <BtnAddCart>
-                <AddCart onClick={()=>onAddCart(item)}/>
+              <BtnAddCart onClick={()=>onAddCart(item)}>
+                <AddCart />
               </BtnAddCart>
 
               <BtnSeeDetails to={`/item-details/${item.id}`}>
@@ -73,6 +74,9 @@ const ButtonsWrapper = styled.div`
   height: 40px;
   opacity: 0;
   transform: translateX(20px);
+  &:hover{
+    background-color: #d75454;
+  }
 `;
 // CARD DE PRODUCTOS 
 const ItemCard = styled.div`
@@ -90,6 +94,7 @@ const ItemCard = styled.div`
     opacity: 1;
     transform: translateX(-20px);
     transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+    transition: background-color 0.12s ease-in-out;
   }
 `;
 //Image (Se inicializa hover con ImgWrapper)
@@ -123,8 +128,16 @@ const AddCart = styled(BsBagPlusFill)`
   width: 70%;
   height: 70%;
   transition: transform 0.19s ease-in-out 0.08s;
+  &:active {
+    color: #8d5050;
+    transition: transform 0.15s ease-in-out;
+  }
 `;
 const BtnAddCart = styled.button`
+  &:active {
+    background-color: #efc0c0;
+    transition: background-color 0.05s ease-in-out;
+  }
   background-color: transparent;
   border: none;
   width: 100%;
@@ -138,6 +151,7 @@ const BtnAddCart = styled.button`
   &:hover ${AddCart} {
     transform: scale(1.11);
   }
+  
 `;
 //See Details Button (se inicializa con BtnSeeDetails)
 const SeeDetails = styled(BsEyeFill)`

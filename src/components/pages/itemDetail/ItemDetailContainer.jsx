@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { ItemDetail } from "./ItemDetail";
 import { products } from "../../../ProductsMock";
 import { CartContext } from "../../context/CartContext";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { ToasterContainer } from "../../common/loaders/ToasterContainer";
 import { LoaderContainer } from "../../common/loaders/LoaderContainer";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
@@ -49,6 +49,7 @@ export const ItemDetailContainer = () => {
 
   //AGREGAMOS PRODUCTOS AL CARRITO
   const onAdd = (quantity) => {
+   
     let data = {
       ...selectedItem,
       quantity: quantity,
@@ -57,7 +58,7 @@ export const ItemDetailContainer = () => {
     notify();
     //Agregamos la "data" de los productos con la funcion de contexto
     addToCart(data);
-    setSelectedItem({ ...selectedItem, quantity: 1 }); //Reset count inicial a 1
+    setSelectedItem({ ...selectedItem, quantity: 1}); //Reset count inicial a 1
   };
 
   //ENCONTRAMOS PRODUCTOS POR "ID" Y RESOLVEMOS PROMISE PARA RENDERIZAR

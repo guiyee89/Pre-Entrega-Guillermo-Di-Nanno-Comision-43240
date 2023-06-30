@@ -41,6 +41,8 @@ export const Hero = () => {
 const Wrapper = styled.div`
     margin: 127px auto 0;
     max-width: 1800px;
+    z-index: 0;
+    position: relative;
 `;
 const CarouselItem = styled(Carousel.Item)`
     max-height: 520px;
