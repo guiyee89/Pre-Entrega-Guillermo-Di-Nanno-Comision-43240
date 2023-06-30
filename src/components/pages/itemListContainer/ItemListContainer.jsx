@@ -86,32 +86,32 @@ export const ItemListContainer = () => {
       });
   };
 
-  const notify2 = () => {
-    toast
-      .promise(
-        // Promise function
-        new Promise((resolve) => {
-          // Simulate asynchronous operation
-          setTimeout(() => {
-            // Resolve the promise after 1.5 seconds
-            resolve();
-          }, 1200);
-        }),
-        {
-          pending: "Adding to Cart...",
-          success: "Max stock reached",
-          error: "Max stock reached",
-        }
-      )
-      .then(() => {
-        // Promise resolved
-        console.log("Promise resolved");
-      })
-      .catch((error) => {
-        // Promise encountered an error
-        console.log("Promise error:", error);
-      });
-  };
+  // const notify2 = () => {
+  //   toast
+  //     .promise(
+  //       // Promise function
+  //       new Promise((resolve) => {
+  //         // Simulate asynchronous operation
+  //         setTimeout(() => {
+  //           // Resolve the promise after 1.5 seconds
+  //           resolve();
+  //         }, 1200);
+  //       }),
+  //       {
+  //         pending: "Adding to Cart...",
+  //         success: "Max stock reached",
+  //         error: "Max stock reached",
+  //       }
+  //     )
+  //     .then(() => {
+  //       // Promise resolved
+  //       console.log("Promise resolved");
+  //     })
+  //     .catch((error) => {
+  //       // Promise encountered an error
+  //       console.log("Promise error:", error);
+  //     });
+  // };
 
   //Rendering condicional
   return (

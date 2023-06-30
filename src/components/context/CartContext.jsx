@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 //Creo el contexto del cart
 import { createContext, useState } from "react";
+import { toast } from "react-toastify";
 //exportamos la variable que contiene la funcion createContext()
 export const CartContext = createContext();
 
@@ -13,14 +14,13 @@ const CartContextProvider = ({ children }) => {
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
-
+    console.log(cart)
   //Funcion para detectar por "id" si ya existe un producto un "cart"
   const isInCart = (id) => {
     let exist = cart.some((product) => product.id === id);
     return exist;
   };
 
- 
   //Funcion para agregar productos al carrito en base ID, Quantity y Stock
   const addToCart = (newProduct) => {
     // Si ya existe un producto en "cart"
@@ -52,6 +52,48 @@ const CartContextProvider = ({ children }) => {
       setCart(newCart);
       localStorage.setItem("cart", JSON.stringify(newCart));
     }
+  };
+  const notifySuccess = () => {
+    toast
+      .promise(
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 1200);
+        }),
+        {
+          pending: "Adding to Cart...",
+          success: "Added successfully!",
+          error: "Error on adding product!",
+        }
+      )
+      .then(() => {
+        console.log("Promise resolved");
+      })
+      .catch((error) => {
+        console.log("Promise error:", error);
+      });
+  };
+  const notifyMaxStock = () => {
+    toast
+      .promise(
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 1200);
+        }),
+        {
+          pending: "Adding to Cart...",
+          success: "Max stock reached!",
+          error: "Error on adding product!",
+        }
+      )
+      .then(() => {
+        console.log("Promise resolved");
+      })
+      .catch((error) => {
+        console.log("Promise error:", error);
+      });
   };
 
   //Limpiar todo el carrito
@@ -112,8 +154,10 @@ const CartContextProvider = ({ children }) => {
   //Mostrar cantidad de productos en "badge"
   const getTotalItems = () => {
     let total = cart.reduce((accumulator, element) => {
+      console.log(element)
       return accumulator + element.quantity;
     }, 0);
+    console.log(total)
     return total;
   };
 
