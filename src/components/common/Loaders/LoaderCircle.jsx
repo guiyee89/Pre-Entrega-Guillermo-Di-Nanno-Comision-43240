@@ -1,10 +1,10 @@
 import styled from "styled-components/macro";
-import { BarLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
-export const LoaderContainer = () => {
+export const LoaderCircle = () => {
   return (
     <LoaderWrapper>
-      <BarLoader color="#12352e"  width={250}/>
+      <ClipLoader color="#36d7b7" width={200}/>
     </LoaderWrapper>
   );
 };
