@@ -6,10 +6,10 @@ import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 
 export const NavBar = () => {
-
-  //Darle efecto copado al NavBar
+  //Almacenar scroll data
   const [scroll, setScroll] = useState("not-scrolled");
 
+  //funcion para darle efecto al navbar al scrollear 12% de la pantalla
   useEffect(() => {
     const handleScroll = () => {
       const scrollHeight = window.innerHeight * 0.12; // 10% of screen height
@@ -26,52 +26,53 @@ export const NavBar = () => {
     };
   }, []);
 
-  const { getTotalItems } = useContext(CartContext)
-  const totalItems = getTotalItems()
+  const { getTotalItems } = useContext(CartContext);
+  const totalItems = getTotalItems();
 
   return (
     <>
-    <HeaderWrapper>
-      <Nav scrolled={scroll}> 
-        <LogoDiv scrolled={scroll}> 
-          <LogoLink to="/">
-            <Logo
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1686957140/web%20access/weshop_logo_original_oefa0e.png"
-            ></Logo>
-          </LogoLink>
-        </LogoDiv>
+      <HeaderWrapper>
+        <Nav scrolled={scroll}>
+          <LogoDiv scrolled={scroll}>
+              <LogoLink to="/">
+                  <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1686957140/web%20access/weshop_logo_original_oefa0e.png"></Logo>
+              </LogoLink>
+          </LogoDiv>
 
-        <NavWrapper>
-          <NavList>
-            <NavLink to="/" scrolled={scroll}>productos</NavLink> 
-          </NavList>
-          <NavList>
-            <NavLink to="/category/camisas" scrolled={scroll}>camisas</NavLink> 
-          </NavList>
-          <NavList>
-            <NavLink to="/category/pantalones" scrolled={scroll}>pantalones</NavLink> 
-          </NavList>
-          <NavList>
-            <NavLink to="/category/calzado" scrolled={scroll}>calzado</NavLink> 
-          </NavList>
-        </NavWrapper>
+          <NavWrapper>
+              <NavList>
+                  <NavLink to="/" scrolled={scroll}>productos</NavLink>
+              </NavList>
+              <NavList>
+                  <NavLink to="/category/camisas" scrolled={scroll}>camisas</NavLink>
+              </NavList>
+              <NavList>
+                  <NavLink to="/category/pantalones" scrolled={scroll}> pantalones</NavLink>
+              </NavList>
+              <NavList>
+                  <NavLink to="/category/calzado" scrolled={scroll}>calzado</NavLink>
+              </NavList>
+          </NavWrapper>
 
-        <CartWidget scrolled={scroll} sx={{ padding: "10px" }} totalItems={totalItems}/>
-      </Nav>
-    </HeaderWrapper>
-  </>
+          <CartWidget
+            scrolled={scroll}
+            sx={{ padding: "10px" }}
+            totalItems={totalItems}
+          />
+        </Nav>
+      </HeaderWrapper>
+    </>
   );
 };
-
 const HeaderWrapper = styled.header`
   background-color: #f4f4f4;
   display: flex;
   justify-content: center;
 `;
-
 const Nav = styled.nav`
   height: ${(props) => (props.scrolled === "scrolled" ? "65px" : "120px")};
-  transition: height ${(props) => (props.scrolled === "scrolled" ? "0.24s" : "0.16s")}
+  transition: height
+    ${(props) => (props.scrolled === "scrolled" ? "0.24s" : "0.16s")}
     ease-in-out;
   max-width: 1240px;
   width: 100%;
@@ -97,7 +98,8 @@ const Nav = styled.nav`
 `;
 const LogoDiv = styled.div`
   width: ${(props) => (props.scrolled === "scrolled" ? "90px" : "120px")};
-  transition: width ${(props) => (props.scrolled === "scrolled" ? "0.28s" : "0.16s")}
+  transition: width
+    ${(props) => (props.scrolled === "scrolled" ? "0.28s" : "0.16s")}
     ease-in-out;
 `;
 const LogoLink = styled(Link)`
@@ -115,16 +117,24 @@ const NavList = styled.li`
   padding: 15px;
 `;
 const NavLink = styled(Link)`
-  text-decoration: none;
   color: black;
+  text-decoration: none;
   font-weight: 700;
   text-transform: uppercase;
   position: relative;
   font-size: ${(props) => (props.scrolled === "scrolled" ? ".85rem" : "1rem")};
-  transition: font-size ${(props) => (props.scrolled === "scrolled" ? "0.28s" : "0.16s")}
-    ease-in-out;
+  background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: left bottom;
+  transition: background-size 0.2s ease-in-out, font-size 0.2s ease-in-out, color 0.2s ease-in-out;
   &:hover {
-    color: #7c819b;
+    color: #68719d;
+    background-size: 100% 100%;
+  }
+  &:active{
+    color: #fafafa;
+    transition: background-color 0.05s ease-in-out;
   }
   &::after {
     content: "";
@@ -136,11 +146,43 @@ const NavLink = styled(Link)`
     background-color: black;
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform 0.25s ease-in-out, padding-bottom 0.25s ease-in-out;
+    transition: transform 0.21s ease-in-out;
   }
   &:hover::after {
-    background-color: #373a4a;
     transform: scaleX(1);
-    padding-bottom: 3px;
   }
 `;
+//El otro nav
+// const NavLink = styled(Link)`
+//   text-decoration: none;
+//   color: black;
+//   font-weight: 700;
+//   text-transform: uppercase;
+//   position: relative;
+//   font-size: ${(props) => (props.scrolled === "scrolled" ? ".85rem" : "1rem")};
+//   transition: font-size
+//     ${(props) => (props.scrolled === "scrolled" ? "0.28s" : "0.16s")}
+//     ease-in-out;
+//   &:hover {
+//     color: #7c819b ;
+//     transition: ease-in-out 0.2s;
+//     transform: scaleX(1);
+//   }
+//   &::after {
+//     content: "";
+//     position: absolute;
+//     bottom: -4px;
+//     left: 0;
+//     width: 100%;
+//     height: 2px;
+//     background-color: black;
+//     transform: scaleX(0);
+//     transform-origin: left center;
+//     transition: transform 0.25s ease-in-out, padding-bottom 0.25s ease-in-out;
+//   }
+//   &:hover::after {
+//     background-color: #373a4a;
+//     transform: scaleX(1);
+//     padding-bottom: 3px;
+//   }
+// `;
