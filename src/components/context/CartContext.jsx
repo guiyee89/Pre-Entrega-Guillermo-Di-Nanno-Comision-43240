@@ -14,7 +14,6 @@ const CartContextProvider = ({ children }) => {
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
-    console.log(cart)
   //Funcion para detectar por "id" si ya existe un producto un "cart"
   const isInCart = (id) => {
     let exist = cart.some((product) => product.id === id);
@@ -32,13 +31,18 @@ const CartContextProvider = ({ children }) => {
         if (product.id === newProduct.id) {
           const newQuantity = product.quantity + newProduct.quantity;
           //Si la cantidad es igual que el stock, que deje de sumar cantidades
-          if (newQuantity <= newProduct.stock) {
+         if (newQuantity <= newProduct.stock) {
+          //Toastify success
+            notifySuccess();
+            //retornamos productos con nuevas cantidades
             return {
               ...product,
               quantity: newQuantity,
             };
+            //sino notificamos falta de stock
           } else {
-            console.log("Insufficient stock");
+            //Toastify warn
+            notifyMaxStock();
           }
         }
         return product;
@@ -47,19 +51,22 @@ const CartContextProvider = ({ children }) => {
       setCart(newArray);
       localStorage.setItem("cart", JSON.stringify(newArray));
     } else {
+      //Toastify success
+      notifySuccess();
       // Reemplazar el array del carrito con un nuevo array que incluye el nuevo producto
-      let newCart = [...cart, newProduct];
-      setCart(newCart);
-      localStorage.setItem("cart", JSON.stringify(newCart));
+      setCart([...cart, newProduct]);
+      localStorage.setItem("cart", JSON.stringify([...cart, newProduct]));
     }
   };
+
+  //Funcion "toastify" para producto agregado exitosamente
   const notifySuccess = () => {
     toast
       .promise(
         new Promise((resolve) => {
           setTimeout(() => {
             resolve();
-          }, 1200);
+          }, 900);
         }),
         {
           pending: "Adding to Cart...",
@@ -74,24 +81,25 @@ const CartContextProvider = ({ children }) => {
         console.log("Promise error:", error);
       });
   };
+  //Funcion "toastify" para producto con stock maxeado
   const notifyMaxStock = () => {
     toast
       .promise(
         new Promise((resolve) => {
           setTimeout(() => {
             resolve();
-          }, 1200);
+          }, 1000);
         }),
         {
           pending: "Adding to Cart...",
-          success: "Max stock reached!",
-          error: "Error on adding product!",
         }
       )
       .then(() => {
+        toast.warn("Max stock reached!");
         console.log("Promise resolved");
       })
       .catch((error) => {
+        toast.error("Error on adding product!");
         console.log("Promise error:", error);
       });
   };
@@ -145,6 +153,7 @@ const CartContextProvider = ({ children }) => {
     }
   };
 
+  //(No es usada en esta app)
   //Identifico Quantity para que se mantenga la cantidad en todas las rutas / pages
   const getTotalQuantityById = (id) => {
     let productos = cart.find((producto) => producto.id === +id); //Traemos de useParams()
@@ -154,10 +163,8 @@ const CartContextProvider = ({ children }) => {
   //Mostrar cantidad de productos en "badge"
   const getTotalItems = () => {
     let total = cart.reduce((accumulator, element) => {
-      console.log(element)
       return accumulator + element.quantity;
     }, 0);
-    console.log(total)
     return total;
   };
 

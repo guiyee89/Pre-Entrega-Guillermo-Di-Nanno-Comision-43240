@@ -4,10 +4,8 @@ import { ItemList } from "./ItemList";
 import { products } from "../../../ProductsMock";
 import { LoaderContainer } from "../../common/loaders/LoaderContainer";
 import { CartContext } from "../../context/CartContext";
-import { toast } from "react-toastify";
 import { ToasterContainer } from "../../common/loaders/ToasterContainer";
 import "react-toastify/dist/ReactToastify.css";
-
 
 export const ItemListContainer = () => {
   const [loading, setLoading] = useState(true);
@@ -19,8 +17,7 @@ export const ItemListContainer = () => {
   //useParams de react-router-dom para filtrar productos por categoryName
   const { categoryName } = useParams();
 
- 
-  //Funcion con useEffect para filtrar productos
+  //useEffect para renderizar productos FILTRADOS
   useEffect(() => {
     //seteamos loader en true
     setLoading(true);
@@ -54,64 +51,8 @@ export const ItemListContainer = () => {
       ...newItem,
       quantity: quantity,
     };
-      notify()
-      addToCart(productData);
+    addToCart(productData);
   };
-
-   //Funcion Toastify
-   const notify = () => {
-    toast
-      .promise(
-        // Promise function
-        new Promise((resolve) => {
-          // Simulate asynchronous operation
-          setTimeout(() => {
-            // Resolve the promise after 1.5 seconds
-            resolve();
-          }, 1200);
-        }),
-        {
-          pending: "Adding to Cart...",
-          success: "Added successfully!",
-          error: "Error on adding product!",
-        }
-      )
-      .then(() => {
-        // Promise resolved
-        console.log("Promise resolved");
-      })
-      .catch((error) => {
-        // Promise encountered an error
-        console.log("Promise error:", error);
-      });
-  };
-
-  // const notify2 = () => {
-  //   toast
-  //     .promise(
-  //       // Promise function
-  //       new Promise((resolve) => {
-  //         // Simulate asynchronous operation
-  //         setTimeout(() => {
-  //           // Resolve the promise after 1.5 seconds
-  //           resolve();
-  //         }, 1200);
-  //       }),
-  //       {
-  //         pending: "Adding to Cart...",
-  //         success: "Max stock reached",
-  //         error: "Max stock reached",
-  //       }
-  //     )
-  //     .then(() => {
-  //       // Promise resolved
-  //       console.log("Promise resolved");
-  //     })
-  //     .catch((error) => {
-  //       // Promise encountered an error
-  //       console.log("Promise error:", error);
-  //     });
-  // };
 
   //Rendering condicional
   return (
@@ -120,7 +61,7 @@ export const ItemListContainer = () => {
       {loading ? (
         <LoaderContainer />
       ) : (
-        <ItemList items={items} onAddCart={onAddCart} />
+        <ItemList items={items} onAddCart={onAddCart}/>
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
 
-export const ItemDetail = ({ selectedItem, onAdd, quantityId }) => {
+export const ItemDetail = ({ selectedItem, onAdd }) => {
 
   return (
     <Wrapper>
@@ -13,12 +13,11 @@ export const ItemDetail = ({ selectedItem, onAdd, quantityId }) => {
         <Title>{selectedItem.name}</Title>
         <Text>{selectedItem.description}</Text>
         <Stock>in stock <Num>{selectedItem.stock}</Num></Stock>
-        <ItemCount stock={selectedItem.stock} initial={quantityId} onAdd={onAdd} />
+        <ItemCount stock={selectedItem.stock} initial={1} onAdd={onAdd} />
       </InsideWrapper>
     </Wrapper>
   );
 };
-
 const Wrapper = styled.div`
   display: flex;
   -webkit-box-align: center;

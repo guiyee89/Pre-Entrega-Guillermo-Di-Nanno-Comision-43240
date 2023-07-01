@@ -1,10 +1,9 @@
-// import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
 
-export const ItemList = ({ items, onAddCart }) => {
 
+export const ItemList = ({ items, onAddCart }) => {
   //Algoritmo para randomear listado te Items
   // const [shuffledItems, setShuffledItems] = useState([]);
 
@@ -36,14 +35,15 @@ export const ItemList = ({ items, onAddCart }) => {
             </ImgWrapper>
 
             {/* Buttons */}
-            <ButtonsWrapper  >
-              <BtnAddCart onClick={()=>onAddCart(item)}>
+            <ButtonsWrapper>
+              <BtnAddCart onClick={() => onAddCart(item)}>
                 <AddCart />
               </BtnAddCart>
 
               <BtnSeeDetails to={`/item-details/${item.id}`}>
                 <SeeDetails />
               </BtnSeeDetails>
+             
             </ButtonsWrapper>
             <ItemTitle>{item.name}</ItemTitle>
             <ItemPrice>${item.price}</ItemPrice>
@@ -53,6 +53,8 @@ export const ItemList = ({ items, onAddCart }) => {
     </Wrapper>
   );
 };
+
+//Styled-components
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -63,8 +65,6 @@ const Wrapper = styled.div`
   -webkit-box-pack: center;
   justify-content: space-evenly;
 `;
-
-//Buttons Container (se inicializa hover de buttons con ItemCard)
 const ButtonsWrapper = styled.div`
   position: absolute;
   top: 5px;
@@ -74,11 +74,10 @@ const ButtonsWrapper = styled.div`
   height: 40px;
   opacity: 0;
   transform: translateX(20px);
-  &:hover{
+  /* &:hover {
     background-color: #d75454;
-  }
+  } */
 `;
-// CARD DE PRODUCTOS 
 const ItemCard = styled.div`
   color: black;
   display: flex;
@@ -94,10 +93,9 @@ const ItemCard = styled.div`
     opacity: 1;
     transform: translateX(-20px);
     transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
-    transition: background-color 0.12s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
 `;
-//Image (Se inicializa hover con ImgWrapper)
 const ItemImg = styled.img`
   max-width: 100%;
   max-height: 70%;
@@ -106,7 +104,6 @@ const ItemImg = styled.img`
   transition: transform 0.19s ease-in-out 0.08s;
   cursor: pointer;
 `;
-//Image Wrappers
 const ImgWrapper = styled(Link)`
   box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
   background-color: #eeeeee;
@@ -121,8 +118,6 @@ const ImgWrapper = styled(Link)`
     transform: scale(1.11);
   }
 `;
-
-//Add Cart Button (se inicializa con BtnAddCart)
 const AddCart = styled(BsBagPlusFill)`
   color: white;
   width: 70%;
@@ -136,7 +131,7 @@ const AddCart = styled(BsBagPlusFill)`
 const BtnAddCart = styled.button`
   &:active {
     background-color: #efc0c0;
-    transition: background-color 0.05s ease-in-out;
+    transition: background-color 0.1s ease-in-out;
   }
   background-color: transparent;
   border: none;
@@ -146,14 +141,16 @@ const BtnAddCart = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 4px;
+  margin-bottom: 1.5px;
   cursor: pointer;
   &:hover ${AddCart} {
-    transform: scale(1.11);
+    transform: scale(1.3);
   }
-  
+  &:hover {
+    background-color: #d75454;
+    transition: background-color 0.2s ease-in-out;
+  }
 `;
-//See Details Button (se inicializa con BtnSeeDetails)
 const SeeDetails = styled(BsEyeFill)`
   color: black;
   width: 60%;
@@ -162,6 +159,10 @@ const SeeDetails = styled(BsEyeFill)`
   transition: transform 0.19s ease-in-out 0.03s;
 `;
 const BtnSeeDetails = styled(Link)`
+  &:active {
+    background-color: #e3e0e0;
+    transition: background-color 0.1s ease-in-out;
+  }
   background-color: white;
   width: 100%;
   height: 100%;
@@ -170,11 +171,14 @@ const BtnSeeDetails = styled(Link)`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  &:hover {
+    background-color: #e1e1e1;
+    transition: background-color ease-in-out 0.3s;
+  }
   &:hover ${SeeDetails} {
-    transform: scale(1.11);
+    transform: scale(1.3);
   }
 `;
-
 const ItemTitle = styled.h1`
   font-size: 1.1rem;
   color: black;
@@ -187,4 +191,3 @@ const ItemPrice = styled.h2`
   font-size: 1rem;
   font-style: italic;
 `;
-

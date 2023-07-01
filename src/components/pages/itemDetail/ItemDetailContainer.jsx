@@ -5,7 +5,6 @@ import { products } from "../../../ProductsMock";
 import { CartContext } from "../../context/CartContext";
 import { ToasterContainer } from "../../common/loaders/ToasterContainer";
 import { LoaderContainer } from "../../common/loaders/LoaderContainer";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const ItemDetailContainer = () => {
@@ -13,39 +12,12 @@ export const ItemDetailContainer = () => {
   const [selectedItem, setSelectedItem] = useState({});
 
   //PROVEEMOS EL "CONTEXTO"
-  const { addToCart, getTotalQuantityById } = useContext(CartContext);
+  const { addToCart} = useContext(CartContext);
 
   const { id } = useParams();
 
-  const quantityId = getTotalQuantityById(id);
-
-  //Toastify alert para onAdd function
-  const notify = () => {
-    toast
-      .promise(
-        // Promise function
-        new Promise((resolve) => {
-          // Simulate asynchronous operation
-          setTimeout(() => {
-            // Resolve the promise after 1.5 seconds
-            resolve();
-          }, 1200);
-        }),
-        {
-          pending: "Adding to Cart...",
-          success: "Added successfully!",
-          error: "Error on adding product!",
-        }
-      )
-      .then(() => {
-        // Promise resolved
-        console.log("Promise resolved");
-      })
-      .catch((error) => {
-        // Promise encountered an error
-        console.log("Promise error:", error);
-      });
-  };
+  //Obtener cantidades por ID para pasar la data
+  // const quantityId = getTotalQuantityById(id);
 
   //AGREGAMOS PRODUCTOS AL CARRITO
   const onAdd = (quantity) => {
@@ -54,8 +26,6 @@ export const ItemDetailContainer = () => {
       ...selectedItem,
       quantity: quantity,
     };
-    //Toastify
-    notify();
     //Agregamos la "data" de los productos con la funcion de contexto
     addToCart(data);
     setSelectedItem({ ...selectedItem, quantity: 1}); //Reset count inicial a 1
@@ -82,7 +52,7 @@ export const ItemDetailContainer = () => {
           selectedItem={selectedItem}
           onAdd={onAdd}
           addToCart={addToCart}
-          quantityId={quantityId}
+          // quantityId={quantityId}
         />
       ) : (
         <LoaderContainer />
