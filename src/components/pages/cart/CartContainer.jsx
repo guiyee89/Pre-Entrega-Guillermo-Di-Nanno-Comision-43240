@@ -8,16 +8,15 @@ export const CartContainer = () => {
     useContext(CartContext);
 
   const totalPrice = getTotalPrice();
- 
-
-  //Navegar a menu principal luego de "compra realizada"
+  
   const navigate = useNavigate();
+
   const realizarCompra = () => {
     navigate("/");
   };
 
   return (
-    <Wrapper>
+    <Wrapper key="cart-wrapper">
       {/* Boton para limpiar "cart" */}
       {cart.length > 0 && <button onClick={clearCart}>Limpiar Carrito</button>}
       {cart.map((product) => {

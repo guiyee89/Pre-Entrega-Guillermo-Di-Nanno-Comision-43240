@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { ItemList } from "./ItemList";
 import { products } from "../../../ProductsMock";
-import { LoaderContainer } from "../../common/loaders/LoaderContainer";
+import { LoaderBar } from "../../common/Loaders/LoaderBar";
 import { CartContext } from "../../context/CartContext";
 import { ToasterContainer } from "../../common/loaders/ToasterContainer";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +16,9 @@ export const ItemListContainer = () => {
 
   //useParams de react-router-dom para filtrar productos por categoryName
   const { categoryName } = useParams();
+  
+  //Pasamos useHistory como prop
+  const navigate = useNavigate()
 
   //useEffect para renderizar productos FILTRADOS
   useEffect(() => {
@@ -59,9 +62,9 @@ export const ItemListContainer = () => {
     <div>
       <ToasterContainer />
       {loading ? (
-        <LoaderContainer />
+        <LoaderBar />
       ) : (
-        <ItemList items={items} onAddCart={onAddCart}/>
+        <ItemList items={items} onAddCart={onAddCart} navigate={navigate}/>
       )}
     </div>
   );

@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
+import { useState } from "react";
+import { LoaderCircle } from "../../common/Loaders/LoaderCircle";
 
 
-export const ItemList = ({ items, onAddCart }) => {
+export const ItemList = ({ items, onAddCart, navigate }) => {
   //Algoritmo para randomear listado te Items
   // const [shuffledItems, setShuffledItems] = useState([]);
 
@@ -23,12 +25,37 @@ export const ItemList = ({ items, onAddCart }) => {
   //   setShuffledItems(shuffleArray(items));
   // }, [items]);
 
+
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+  const [loadingAdd, setLoadingAdd] = useState(false)
+  //Evento loader para BtnSeeDetail
+  const handleLoadDetail = (itemId) => {
+    setLoadingDetail(itemId);
+
+    setTimeout(() => {
+      setLoadingDetail(true)
+      navigate(`/item-details/${itemId}`);
+    }, 900);
+  };
+  //Evento loader para BtnAddCart
+  const handleLoadAdd = (itemId) => {
+    setLoadingAdd(itemId);
+
+    setTimeout(() => {
+      setLoadingAdd(true);
+    }, 900);
+  };
+
   return (
-    <Wrapper>
+    <Wrapper key="cart-wrapper">
       {/* Mapeo de productos */}
       {items.map((item) => {
+        const isLoadingDetail = loadingDetail === item.id
+        const isLoadingAdd = loadingAdd === item.id;
         return (
           <ItemCard style={{ width: "288px" }} key={item.id}>
+            
             {/* Imagen */}
             <ImgWrapper to={`/item-details/${item.id}`}>
               <ItemImg variant="top" src={item.img} />
@@ -36,14 +63,16 @@ export const ItemList = ({ items, onAddCart }) => {
 
             {/* Buttons */}
             <ButtonsWrapper>
-              <BtnAddCart onClick={() => onAddCart(item)}>
-                <AddCart />
+              <BtnAddCart onClick={() => onAddCart(item)} >
+              {isLoadingAdd && <LoaderCircle />}
+                <AddCart onClick={() => handleLoadAdd(item.id)} />
               </BtnAddCart>
 
-              <BtnSeeDetails to={`/item-details/${item.id}`}>
+              <BtnSeeDetails
+                onClick={() => handleLoadDetail(item.id)}>
+                {isLoadingDetail && <LoaderCircle />}
                 <SeeDetails />
               </BtnSeeDetails>
-             
             </ButtonsWrapper>
             <ItemTitle>{item.name}</ItemTitle>
             <ItemPrice>${item.price}</ItemPrice>
