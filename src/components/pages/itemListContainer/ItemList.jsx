@@ -82,7 +82,11 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
     </Wrapper>
   );
 };
-
+const Loader = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 100px;
+`;
 //Styled-components
 const Wrapper = styled.div`
   display: flex;
