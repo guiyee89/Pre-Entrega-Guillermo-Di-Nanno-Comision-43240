@@ -4,7 +4,7 @@ import { ClipLoader } from "react-spinners";
 export const LoaderCircle = () => {
   return (
     <LoaderWrapper>
-      <ClipLoader color="#36d7b7" width={200}/>
+      <ClipLoader color="#194f44" size={50}/>
     </LoaderWrapper>
   );
 };
@@ -12,5 +12,4 @@ const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 300px;
 `;

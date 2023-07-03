@@ -4,7 +4,6 @@ import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
 import { useState } from "react";
 import { LoaderCircle } from "../../common/Loaders/LoaderCircle";
 
-
 export const ItemList = ({ items, onAddCart, navigate }) => {
   //Algoritmo para randomear listado te Items
   // const [shuffledItems, setShuffledItems] = useState([]);
@@ -25,18 +24,18 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
   //   setShuffledItems(shuffleArray(items));
   // }, [items]);
 
-
   const [loadingDetail, setLoadingDetail] = useState(false);
 
-  const [loadingAdd, setLoadingAdd] = useState(false)
+  const [loadingAdd, setLoadingAdd] = useState(false);
+
   //Evento loader para BtnSeeDetail
   const handleLoadDetail = (itemId) => {
     setLoadingDetail(itemId);
 
     setTimeout(() => {
-      setLoadingDetail(true)
+      setLoadingDetail(true);
       navigate(`/item-details/${itemId}`);
-    }, 900);
+    }, 800);
   };
   //Evento loader para BtnAddCart
   const handleLoadAdd = (itemId) => {
@@ -44,33 +43,33 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
 
     setTimeout(() => {
       setLoadingAdd(true);
-    }, 900);
+    }, 1100);
   };
 
   return (
     <Wrapper key="cart-wrapper">
       {/* Mapeo de productos */}
       {items.map((item) => {
-        const isLoadingDetail = loadingDetail === item.id
+        const isLoadingDetail = loadingDetail === item.id;
         const isLoadingAdd = loadingAdd === item.id;
         return (
           <ItemCard style={{ width: "288px" }} key={item.id}>
-            
             {/* Imagen */}
             <ImgWrapper to={`/item-details/${item.id}`}>
+              <Loader>
+                {isLoadingAdd && <LoaderCircle />}
+                {isLoadingDetail && <LoaderCircle />}
+              </Loader>
               <ItemImg variant="top" src={item.img} />
             </ImgWrapper>
 
             {/* Buttons */}
             <ButtonsWrapper>
-              <BtnAddCart onClick={() => onAddCart(item)} >
-              {isLoadingAdd && <LoaderCircle />}
+              <BtnAddCart onClick={() => onAddCart(item)}>
                 <AddCart onClick={() => handleLoadAdd(item.id)} />
               </BtnAddCart>
 
-              <BtnSeeDetails
-                onClick={() => handleLoadDetail(item.id)}>
-                {isLoadingDetail && <LoaderCircle />}
+              <BtnSeeDetails onClick={() => handleLoadDetail(item.id)}>
                 <SeeDetails />
               </BtnSeeDetails>
             </ButtonsWrapper>
@@ -82,11 +81,6 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
     </Wrapper>
   );
 };
-const Loader = styled.div`
-  position: absolute;
-  top: 20px;
-  right: 100px;
-`;
 //Styled-components
 const Wrapper = styled.div`
   display: flex;
@@ -122,6 +116,7 @@ const ItemCard = styled.div`
   justify-content: center;
   position: relative;
   max-width: 250px;
+  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
   &:hover ${ButtonsWrapper} {
     opacity: 1;
     transform: translateX(-20px);
@@ -138,18 +133,24 @@ const ItemImg = styled.img`
   cursor: pointer;
 `;
 const ImgWrapper = styled(Link)`
-  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
+  position: relative;
+  /* box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px; */
   background-color: #eeeeee;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   overflow: hidden;
   cursor: pointer;
   &:hover ${ItemImg} {
     transform: scale(1.11);
   }
+`;
+const Loader = styled.div`
+  position: absolute;
+  top: 5px;
+  right: 100px;
 `;
 const AddCart = styled(BsBagPlusFill)`
   color: white;
