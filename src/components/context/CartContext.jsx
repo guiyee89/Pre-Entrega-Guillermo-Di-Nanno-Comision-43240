@@ -168,6 +168,23 @@ const CartContextProvider = ({ children }) => {
     return total;
   };
 
+  // //Mostrar precio total por Item
+  // const getItemPrice = (addProduct) => {
+  //   console.log(addProduct)
+  //   let exist = isInCart(addProduct.id)
+  //   console.log(exist)
+  //   if(exist){
+  //     let newArray = cart.map((product) => {
+  //       if(product.id === newArray.id){
+  //         let itemPrice = cart.reduce((acc, element) => {
+  //           return acc + element.quantity * element.price
+  //         })
+  //         return itemPrice
+  //       }
+  //     })
+  //   }
+  // };
+
   //Calcular precio total de los elementos en cart
   const getTotalPrice = () => {
     let total = cart.reduce((acc, element) => {
@@ -185,6 +202,7 @@ const CartContextProvider = ({ children }) => {
     getTotalQuantityById,
     removeQuantity,
     getTotalItems,
+    // getItemPrice,
     getTotalPrice,
   };
 
