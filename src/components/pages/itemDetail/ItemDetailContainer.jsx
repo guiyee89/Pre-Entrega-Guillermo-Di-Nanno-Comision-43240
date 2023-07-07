@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { ItemDetail } from "./ItemDetail";
 import { CartContext } from "../../context/CartContext";
-import { ToasterContainer } from "../../common/loaders/ToasterContainer";
 import { LoaderBar } from "../../common/Loaders/LoaderBar";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../../firebaseConfig";
@@ -50,13 +49,11 @@ export const ItemDetailContainer = () => {
 
   return (
     <>
-      <ToasterContainer />
       {selectedItem.id ? (
         <ItemDetail
           selectedItem={selectedItem}
           onAdd={onAdd}
           addToCart={addToCart}
-          // quantityId={quantityId}
         />
       ) : (
         <LoaderBar />
