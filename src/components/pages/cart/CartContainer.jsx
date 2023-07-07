@@ -4,41 +4,52 @@ import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 
 export const CartContainer = () => {
-  const { cart, clearCart, removeQuantity, removeById, getTotalPrice, getItemPrice } =
-    useContext(CartContext);
+
+  const { cart, clearCart, removeQuantity, removeById, getTotalPrice, getItemPrice, addQuantity} = useContext(CartContext);
 
   const totalPrice = getTotalPrice();
-  // const ItemPrice = getItemPrice()
+
   const navigate = useNavigate();
 
   const realizarCompra = () => {
-    navigate("/");
+    navigate("/Checkout");
   };
 
   return (
     <Wrapper key="cart-wrapper">
+
       {/* Boton para limpiar "cart" */}
       {cart.map((product) => {
+        //Buscar item x id en la funcion getItemPrice
+        const itemPrice = getItemPrice(product.id);
+
         return (
           <ItemWrapper key={product.id}>
+
             <ImgWrapper>
               <ItemImg src={product.img} alt="" />
             </ImgWrapper>
+
             <ItemTitle>{product.name}</ItemTitle>
-            <h3>{}</h3>
-            <h4>{product.quantity}</h4>
-            <BtnQuantity onClick={() => removeQuantity(product.id)}>
-              -
-            </BtnQuantity>
+
+            <ItemPrice>${itemPrice}</ItemPrice>
+
+            <QuantityWrapper>
+              <BtnQuantity onClick={() => removeQuantity(product.id)}> - </BtnQuantity>
+              <ItemQuantity>{product.quantity}</ItemQuantity>
+              <BtnQuantity onClick={() => addQuantity(product.id)} disabled={product.stock === product.quantity}> + </BtnQuantity>
+            </QuantityWrapper>
+
             <BtnDelete onClick={() => removeById(product.id)}>
               Eliminar
             </BtnDelete>
+
           </ItemWrapper>
         );
       })}
       <CartInfo>
-        <button onClick={realizarCompra}>Comprar</button>
-        <h4>{totalPrice}</h4>
+        <button onClick={realizarCompra}>Checkout</button>
+        <h4>${totalPrice}</h4>
         {cart.length > 0 && (
           <button onClick={clearCart}>Limpiar Carrito</button>
         )}
@@ -68,11 +79,19 @@ const ImgWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
+const QuantityWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
 const ItemImg = styled.img`
   width: 100%;
   height: 70%;
   object-fit: contain;
 `;
+const ItemQuantity = styled.h4`
+`
+const ItemPrice = styled.h3`
+`
 const ItemTitle = styled.h2`
   width: 100px;
 `;

@@ -115,7 +115,7 @@ const ItemCard = styled.div`
   margin-bottom: 24px;
   justify-content: center;
   position: relative;
-  max-width: 250px;
+  max-width: 300px;
   box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
   &:hover ${ButtonsWrapper} {
     opacity: 1;
@@ -125,8 +125,8 @@ const ItemCard = styled.div`
   }
 `;
 const ItemImg = styled.img`
-  max-width: 100%;
-  max-height: 70%;
+  /* max-width: 100%; */
+  max-height: 90%;
   margin: 0 auto;
   overflow: hidden;
   transition: transform 0.19s ease-in-out 0.08s;
@@ -214,9 +214,11 @@ const BtnSeeDetails = styled(Link)`
   }
 `;
 const ItemTitle = styled.h1`
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   color: black;
   font-weight: 700;
+  word-spacing: -3px;
+  height: 35px;
   text-transform: uppercase;
 `;
 const ItemPrice = styled.h2`
