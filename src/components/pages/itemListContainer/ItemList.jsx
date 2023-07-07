@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
 import { useState } from "react";
-import { LoaderCircle } from "../../common/Loaders/LoaderCircle";
+import { LoaderCircle } from "../../common/loaders/LoaderCircle";
 
 export const ItemList = ({ items, onAddCart, navigate }) => {
   //Algoritmo para randomear listado te Items
