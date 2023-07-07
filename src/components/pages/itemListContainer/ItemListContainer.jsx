@@ -68,12 +68,12 @@ export const ItemListContainer = () => {
   //Rendering condicional
   return (
     <div>
+      <ToasterContainer />
       {loading ? (
         <LoaderBar />
       ) : (
         <ItemList items={items} onAddCart={onAddCart} navigate={navigate} />
       )}
-      <ToasterContainer />
     </div>
   );
 };

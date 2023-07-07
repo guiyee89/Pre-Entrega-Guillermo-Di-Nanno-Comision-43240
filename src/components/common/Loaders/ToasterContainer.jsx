@@ -1,7 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const ToasterContainer = () => {
+const ToasterContainer = () => {
   return (
     <ToastContainer
       position="bottom-right"

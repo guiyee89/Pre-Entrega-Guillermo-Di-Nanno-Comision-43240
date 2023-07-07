@@ -5,11 +5,8 @@ import { CartContext } from "../../context/CartContext";
 import { LoaderBar } from "../../common/Loaders/LoaderBar";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../../firebaseConfig";
-import { collection, getDoc, doc } from "firebase/firestore"
+import { collection, getDoc, doc } from "firebase/firestore";
 import ToasterContainer from "../../common/loaders/ToasterContainer";
-
-
-
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
@@ -36,21 +33,22 @@ export const ItemDetailContainer = () => {
 
   //ENCONTRAMOS PRODUCTOS POR "ID" Y RESOLVEMOS PROMISE PARA RENDERIZAR
   useEffect(() => {
-    let itemCollection = collection( db , "products" )
-    let refDoc = doc( itemCollection, id )
+    let itemCollection = collection(db, "products");
+    let refDoc = doc(itemCollection, id);
 
     setTimeout(() => {
-      getDoc(refDoc).then( (response)  => {
-         setSelectedItem({
-           ...response.data(),
-           id: response.id
-         })
-     })
-    }, 950)
+      getDoc(refDoc).then((response) => {
+        setSelectedItem({
+          ...response.data(),
+          id: response.id,
+        });
+      });
+    }, 950);
   }, [id]);
 
   return (
     <>
+      <ToasterContainer />
       {selectedItem.id ? (
         <ItemDetail
           selectedItem={selectedItem}
@@ -60,7 +58,6 @@ export const ItemDetailContainer = () => {
       ) : (
         <LoaderBar />
       )}
-      <ToasterContainer />
     </>
   );
 };
