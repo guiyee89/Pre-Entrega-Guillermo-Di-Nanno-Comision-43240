@@ -2,7 +2,6 @@ import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
 
 export const ItemDetail = ({ selectedItem, onAdd }) => {
-
   return (
     <Wrapper>
       <ImgWrapper>
@@ -12,7 +11,9 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
       <InsideWrapper>
         <Title>{selectedItem.name}</Title>
         <Text>{selectedItem.description}</Text>
-        <Stock>in stock <Num>{selectedItem.stock}</Num></Stock>
+        <Stock>
+          in stock <Num>{selectedItem.stock}</Num>
+        </Stock>
         <ItemCount stock={selectedItem.stock} initial={1} onAdd={onAdd} />
       </InsideWrapper>
     </Wrapper>
@@ -23,50 +24,61 @@ const Wrapper = styled.div`
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: center;
-  justify-content: center;
+  justify-content: space-evenly;
   height: 700px;
-  gap: 4rem;
+  max-width: 1300px;
+  margin: 0 auto;
 `;
 const InsideWrapper = styled.div`
-  margin: 0 80px;
   display: flex;
   flex-direction: column;
-  height: 50%;
+  height: 60%;
+  width: 470px;
+  -webkit-box-pack: justify;
   justify-content: space-between;
+  line-height: 1.3;
 `;
 const Title = styled.h1`
-  font-size: 3rem;
+  font-size: 2.4rem;
+  letter-spacing: -2px;
 `;
 const Text = styled.p`
   font-size: 1rem;
-  width: 300px;
-  margin-top: -15px;
+  margin-top: -24px;
+  line-height: 1.5;
 `;
 const Stock = styled.p`
-  font-size: .85rem;
+  font-size: 0.85rem;
   font-style: italic;
 `;
 const Num = styled.span`
   color: #c92b2b;
   font-weight: bold;
   font-size: 1rem;
-`
+`;
 const ImgWrapper = styled.div`
-  height: 460px;
-  width: 450px;
-  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 2px;
+  height: 500px;
+  width: 38%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 const Image = styled.img`
-  height: 80%;
+  height: 95%;
+  width: 100%;
+  object-fit: contain;
+
   //Cambio height para que no se distorcione la imagen
-  height: ${({ id }) =>
-    id === 1 ? "365px" :
-    id === 2 ? "340px" :
-    id === 5 ? "388px" :
-    id === 6 ? "311px" :
-    id === 3 ? "365px" : "90%"
-  };
+  /* height: ${({ id }) =>
+    id === 1
+      ? "365px"
+      : id === 2
+      ? "340px"
+      : id === 5
+      ? "388px"
+      : id === 6
+      ? "311px"
+      : id === 3
+      ? "365px"
+      : "90%"}; */
 `;

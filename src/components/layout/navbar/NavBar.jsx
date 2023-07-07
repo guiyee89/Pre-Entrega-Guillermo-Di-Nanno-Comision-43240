@@ -27,6 +27,7 @@ export const NavBar = () => {
   }, []);
 
   const { getTotalItems } = useContext(CartContext);
+  
   const totalItems = getTotalItems();
 
   return (

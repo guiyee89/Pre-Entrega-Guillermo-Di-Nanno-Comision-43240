@@ -12,7 +12,7 @@ export const products = [
     },
 
     {
-        id: 2,
+       
         name: "Wilson Advance",
         price: 14500,
         stock: 5,
@@ -20,7 +20,7 @@ export const products = [
         category: "calzado",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/Zapatillas/zapas4_w7xyyx.png"
     },
-
+    
     {
         id: 3,
         name: "Puma",
@@ -51,10 +51,10 @@ export const products = [
     },
     {
         id: 6,
-        name: "Under Armor",
+        name: "UNDER ARMOR - men's shoes - black",
         price: 15900,
         stock: 11,
-        description: "Zapatillas de ultima tecnologia, comodas y livianas",
+        description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "calzado",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686940793/samples/ecommerce/Zapatillas/zapas66_kseevr.png"
     },
