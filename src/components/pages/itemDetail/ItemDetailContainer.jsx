@@ -6,9 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../../firebaseConfig";
 import { collection, getDoc, doc } from "firebase/firestore";
 import LoaderBar from "../../common/loaders/LoaderBar";
-// import ToasterContainer from "../../common/loaders/ToasterContainer";
-import ToasterContainer from "@/common/loaders/ToasterContainer";
-
+import ToasterContainer from "../../common/loaders/ToasterContainer";
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
