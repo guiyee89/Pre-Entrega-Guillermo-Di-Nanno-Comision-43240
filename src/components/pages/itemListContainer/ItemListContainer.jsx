@@ -7,7 +7,9 @@ import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 import LoaderBar from "../../common/loaders/LoaderBar";
-import ToasterContainer from "../../common/loaders/ToasterContainer";
+// import ToasterContainer from "../../common/loaders/ToasterContainer";
+import ToasterContainer from "@/common/loaders/ToasterContainer";
+
 
 // import { AgregarDocs } from "../../../AgregarDocs";
 
