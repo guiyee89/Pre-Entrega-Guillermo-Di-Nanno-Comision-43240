@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ItemList } from "./ItemList";
 import { LoaderBar } from "../../common/Loaders/LoaderBar";
 import { CartContext } from "../../context/CartContext";
-
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
