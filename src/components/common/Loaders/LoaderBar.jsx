@@ -1,7 +1,7 @@
 import styled from "styled-components/macro";
 import { BarLoader } from "react-spinners";
 
-export const LoaderBar = () => {
+const LoaderBar = () => {
   return (
     <LoaderWrapper>
       <BarLoader color="#12352e"  width={250}/>
@@ -14,3 +14,4 @@ const LoaderWrapper = styled.div`
   align-items: center;
   height: 300px;
 `;
+export default LoaderBar
