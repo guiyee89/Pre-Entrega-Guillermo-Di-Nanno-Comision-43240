@@ -20,13 +20,13 @@ export const ItemListContainer = () => {
   //Pasamos useHistory como prop
   const navigate = useNavigate()
 
-  //useEffect para renderizar productos FILTRADOS
-  useEffect(() => {
-    //seteamos loader en true
-    setLoading(true);
-    const productosFiltrados = products.filter(
-      (product) => product.category === categoryName
-    );
+  //SIN FIREBASE useEffect
+    // useEffect(() => {
+    // //seteamos loader en true
+    // setLoading(true);
+    // const productosFiltrados = products.filter(
+    //   (product) => product.category === categoryName
+    // );
 
     //Promesa para que se resuelva que tipo de productos mostrar
     const productosPromesa = new Promise((resolve, reject) => {
