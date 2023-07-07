@@ -1,10 +1,8 @@
-// import { IconButton } from "@mui/material";
+
 import { Badge } from "@mui/material";
 import { BsFillCartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
-// import { CartContext } from "../../context/CartContext";
-// import { useContext } from "react";
 
 export const CartWidget = ({ scrolled, totalItems }) => {
   return (

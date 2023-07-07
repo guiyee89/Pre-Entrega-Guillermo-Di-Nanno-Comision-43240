@@ -25,7 +25,6 @@ export const LoginContainer = () => {
       })
     })
 
-    //Login con Google
     const handleSubmitGoogle = async() => {
         let res = await loginWithGoogle()
         navigate("/")

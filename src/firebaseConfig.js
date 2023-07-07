@@ -4,7 +4,7 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, si
 
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_API_KEY, //objetos
+  apiKey: import.meta.env.VITE_API_KEY, 
   authDomain:import.meta.env.VITE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
@@ -12,20 +12,17 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID
 };
 
-//inicializamos app
+
 const app = initializeApp(firebaseConfig);
 
-///////////////////////////////////////////////////////////////////////////////
-//traemos el metodo getFirestore y lo exportamos a la app con "db" (database)
+
 export const db = getFirestore(app)
 
-///////////////////////////////////////////////////////////////////////////////
-//Sign up - Login --> Autenticador
-//traemos el metodo getAuth 
+
 const auth = getAuth(app)
-//y lo exportamos junto con la funcion "login"
+
 export const login = async ( {email , password} )=> {
-  try{ //con try - catch podemos manipular el mensaje de error a nuestro antojo
+  try{ 
     return await signInWithEmailAndPassword( auth, email, password )
   }catch (error){
     return error
@@ -39,7 +36,7 @@ export const register = async( {email , password} ) => {
   }
 }
 
-//Google Authenticator
+
 const googleAuth = new GoogleAuthProvider()
 export const loginWithGoogle = async () => {
   try{

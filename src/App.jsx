@@ -12,7 +12,6 @@ function App() {
           <Routes>
             <Route element={<Layout />}>
               {
-                //Mapeamos la rutas desde menuRoutes.js
                 menuRoutes.map(({ id, path, Element }) => (
                   <Route key={id} path={path} element={<Element />} />
                 ))
