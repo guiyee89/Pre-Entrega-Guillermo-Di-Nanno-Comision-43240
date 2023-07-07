@@ -50,7 +50,6 @@ export const ItemDetailContainer = () => {
 
   return (
     <>
-      <ToasterContainer />
       {selectedItem.id ? (
         <ItemDetail
           selectedItem={selectedItem}
@@ -60,6 +59,7 @@ export const ItemDetailContainer = () => {
       ) : (
         <LoaderBar />
       )}
+      <ToasterContainer />
     </>
   );
 };
