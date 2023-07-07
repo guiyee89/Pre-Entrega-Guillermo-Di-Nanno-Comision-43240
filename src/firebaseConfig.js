@@ -4,12 +4,12 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, si
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCPW0sp7IhDW5LE-MKoV6OBH3UT8UhyMbw",
-  authDomain: "primer-e-commerce.firebaseapp.com",
-  projectId: "primer-e-commerce",
-  storageBucket: "primer-e-commerce.appspot.com",
-  messagingSenderId: "397335227516",
-  appId: "1:397335227516:web:445fc3886b6fa70da5adf9"
+  apiKey: import.meta.env.VITE_API_KEY, //objetos
+  authDomain:import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING,
+  appId: import.meta.env.VITE_APP_ID
 };
 
 //inicializamos app
@@ -28,14 +28,14 @@ export const login = async ( {email , password} )=> {
   try{ //con try - catch podemos manipular el mensaje de error a nuestro antojo
     return await signInWithEmailAndPassword( auth, email, password )
   }catch (error){
-    console.error(error)
+    return error
   }
 }
 export const register = async( {email , password} ) => {
   try{
     return await createUserWithEmailAndPassword(auth, email, password)
   }catch (error){
-    console.error(error)
+    return error
   }
 }
 
@@ -45,6 +45,6 @@ export const loginWithGoogle = async () => {
   try{
     return await signInWithPopup(auth, googleAuth)
   }catch (error) {
-    console.error(error)
+    return error
   }
 }

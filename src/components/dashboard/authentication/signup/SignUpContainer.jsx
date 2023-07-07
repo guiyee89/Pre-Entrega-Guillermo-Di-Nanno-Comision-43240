@@ -15,8 +15,8 @@ export const SignUpContainer = () => {
 
     onSubmit: async (values) => {
       let res = await register(values);
-      console.log(res);
       navigate("/login");
+      return res 
     },
 
     validateOnChange: false,
@@ -35,7 +35,6 @@ export const SignUpContainer = () => {
   const handleSubmitGoogle = async () => {
     let res = await loginWithGoogle();
     navigate("/");
-    console.log(res);
     return res;
   };
 

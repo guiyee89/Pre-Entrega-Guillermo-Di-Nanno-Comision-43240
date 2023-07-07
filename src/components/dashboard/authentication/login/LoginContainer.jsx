@@ -15,8 +15,8 @@ export const LoginContainer = () => {
       },
       onSubmit : async (values) => {
         let res = await login(values);
-        console.log(res);
         navigate("/");
+        return res
       },
       validateOnChange: false,
       validationSchema : Yup.object({
@@ -29,7 +29,6 @@ export const LoginContainer = () => {
     const handleSubmitGoogle = async() => {
         let res = await loginWithGoogle()
         navigate("/")
-        console.log(res)
         return res
     }
 

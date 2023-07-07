@@ -75,15 +75,15 @@ const CartContextProvider = ({ children }) => {
         }
       )
       .then(() => {
-        console.log("Promise resolved");
+        
       })
       .catch((error) => {
-        console.log("Promise error:", error);
+        return error
       });
   };
 
   //Funcion "toastify" para producto con stock maxeado
-  const notifyMaxStock = () => {
+  const notifyMaxStock = () => {  
     toast
       .promise(
         new Promise((resolve) => {
@@ -97,11 +97,11 @@ const CartContextProvider = ({ children }) => {
       )
       .then(() => {
         toast.warn("Max stock reached!");
-        console.log("Promise resolved");
+        
       })
       .catch((error) => {
         toast.error("Error on adding product!");
-        console.log("Promise error:", error);
+        return error
       });
   };
 
