@@ -5,11 +5,12 @@ import { CartContext } from "../../context/CartContext";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 // import { Toaster } from "../../common/loaders/Toaster";
-import { Loader } from "../../common/loaders/Loader";
+// import { Loader } from "../../common/loaders/Loader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BarLoader } from "react-spinners";
+import styled from "styled-components/macro";
 // import { AgregarDocs } from "../../dashboard/AgregarDocs";
-
 
 export const ItemListContainer = () => {
   const [loading, setLoading] = useState(true);
@@ -70,19 +71,21 @@ export const ItemListContainer = () => {
   return (
     <div>
       <ToastContainer
-      position="bottom-right"
-      autoClose={1000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
-    />
+        position="bottom-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {loading ? (
-        <Loader />
+        <LoaderWrapper>
+          <BarLoader />
+        </LoaderWrapper>
       ) : (
         <ItemList items={items} onAddCart={onAddCart} navigate={navigate} />
       )}
@@ -90,3 +93,9 @@ export const ItemListContainer = () => {
     </div>
   );
 };
+const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+`;

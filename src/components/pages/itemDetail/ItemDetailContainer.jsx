@@ -5,10 +5,11 @@ import { CartContext } from "../../context/CartContext";
 import { db } from "../../../firebaseConfig";
 import { collection, getDoc, doc } from "firebase/firestore";
 // import { Toaster } from "../../common/loaders/Toaster";
-import { Loader } from "../../common/loaders/Loader";
+// import { Loader } from "../../common/loaders/Loader";
+import styled from "styled-components/macro";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { BarLoader } from "react-spinners";
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
@@ -51,17 +52,17 @@ export const ItemDetailContainer = () => {
   return (
     <>
       <ToastContainer
-      position="bottom-right"
-      autoClose={1000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
-    />
+        position="bottom-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {selectedItem.id ? (
         <ItemDetail
           selectedItem={selectedItem}
@@ -69,8 +70,16 @@ export const ItemDetailContainer = () => {
           addToCart={addToCart}
         />
       ) : (
-        <Loader />
+        <LoaderWrapper>
+          <BarLoader />
+        </LoaderWrapper>
       )}
     </>
   );
 };
+const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+`;
