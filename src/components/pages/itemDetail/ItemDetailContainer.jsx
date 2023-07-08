@@ -8,6 +8,7 @@ import { collection, getDoc, doc } from "firebase/firestore";
 import { Toaster } from "../../common/loaders/Toaster";
 import { Loader } from "../../common/loaders/Loader";
 
+
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
   const [selectedItem, setSelectedItem] = useState({});

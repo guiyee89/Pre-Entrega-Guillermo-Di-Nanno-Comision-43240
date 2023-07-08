@@ -3,6 +3,7 @@ import "sweetalert2/dist/sweetalert2.css";
 //Creo el contexto del cart
 import { createContext, useState } from "react";
 import { toast } from "react-toastify";
+
 //exportamos la variable que contiene la funcion createContext()
 export const CartContext = createContext();
 
