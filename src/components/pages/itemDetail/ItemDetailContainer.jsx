@@ -2,11 +2,12 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { ItemDetail } from "./ItemDetail";
 import { CartContext } from "../../context/CartContext";
-import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../../firebaseConfig";
 import { collection, getDoc, doc } from "firebase/firestore";
-import { Toaster } from "../../common/loaders/Toaster";
+// import { Toaster } from "../../common/loaders/Toaster";
 import { Loader } from "../../common/loaders/Loader";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 export const ItemDetailContainer = () => {
@@ -49,7 +50,18 @@ export const ItemDetailContainer = () => {
 
   return (
     <>
-      <Toaster />
+      <ToastContainer
+      position="bottom-right"
+      autoClose={1000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+    />
       {selectedItem.id ? (
         <ItemDetail
           selectedItem={selectedItem}

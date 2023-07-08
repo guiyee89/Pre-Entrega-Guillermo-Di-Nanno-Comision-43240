@@ -12,7 +12,7 @@ export const products = [
     },
 
     {
-       
+        id: 2,
         name: "Wilson Advance",
         price: 14500,
         stock: 5,

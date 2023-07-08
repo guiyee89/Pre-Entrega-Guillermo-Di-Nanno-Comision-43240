@@ -2,12 +2,14 @@ import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ItemList } from "./ItemList";
 import { CartContext } from "../../context/CartContext";
-import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { Toaster } from "../../common/loaders/Toaster";
+// import { Toaster } from "../../common/loaders/Toaster";
 import { Loader } from "../../common/loaders/Loader";
-// import { AgregarDocs } from "../../../AgregarDocs";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// import { AgregarDocs } from "../../dashboard/AgregarDocs";
+
 
 export const ItemListContainer = () => {
   const [loading, setLoading] = useState(true);
@@ -67,12 +69,24 @@ export const ItemListContainer = () => {
   //Rendering condicional
   return (
     <div>
-      <Toaster />
+      <ToastContainer
+      position="bottom-right"
+      autoClose={1000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+    />
       {loading ? (
         <Loader />
       ) : (
         <ItemList items={items} onAddCart={onAddCart} navigate={navigate} />
       )}
+      {/* <AgregarDocs /> */}
     </div>
   );
 };
