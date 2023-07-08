@@ -84,7 +84,7 @@ export const ItemListContainer = () => {
       />
       {loading ? (
         <LoaderWrapper>
-          <BarLoader />
+          <BarLoader color="#12352e" width={250} />
         </LoaderWrapper>
       ) : (
         <ItemList items={items} onAddCart={onAddCart} navigate={navigate} />

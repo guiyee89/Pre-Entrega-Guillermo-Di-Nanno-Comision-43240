@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
 import { useState } from "react";
-import { LoaderCircle } from "../../common/loaders/LoaderCircle";
+// import { LoaderCircle } from "../../common/loaders/LoaderCircle";
+import { ClipLoader } from "react-spinners";
 
 export const ItemList = ({ items, onAddCart, navigate }) => {
   //Algoritmo para randomear listado te Items
@@ -57,8 +58,8 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
             {/* Imagen */}
             <ImgWrapper to={`/item-details/${item.id}`}>
               <Loader>
-                {isLoadingAdd && <LoaderCircle />}
-                {isLoadingDetail && <LoaderCircle />}
+                {isLoadingAdd && <ClipLoader color="#194f44" size={50} />}
+                {isLoadingDetail && <ClipLoader color="#194f44" size={50} />}
               </Loader>
               <ItemImg variant="top" src={item.img} />
             </ImgWrapper>

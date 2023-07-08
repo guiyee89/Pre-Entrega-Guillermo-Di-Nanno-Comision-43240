@@ -71,7 +71,7 @@ export const ItemDetailContainer = () => {
         />
       ) : (
         <LoaderWrapper>
-          <BarLoader />
+          <BarLoader color="#12352e"  width={250}/>
         </LoaderWrapper>
       )}
     </>
