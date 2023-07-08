@@ -5,8 +5,8 @@ import { CartContext } from "../../context/CartContext";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../../firebaseConfig";
 import { collection, getDoc, doc } from "firebase/firestore";
-import LoaderBar from "../../common/loaders/LoaderBar";
-import ToasterContainer from "../../common/loaders/ToasterContainer";
+import { Toaster } from "../../common/loaders/Toaster";
+import { Loader } from "../../common/loaders/Loader";
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
@@ -48,7 +48,7 @@ export const ItemDetailContainer = () => {
 
   return (
     <>
-      <ToasterContainer />
+      <Toaster />
       {selectedItem.id ? (
         <ItemDetail
           selectedItem={selectedItem}
@@ -56,7 +56,7 @@ export const ItemDetailContainer = () => {
           addToCart={addToCart}
         />
       ) : (
-        <LoaderBar />
+        <Loader />
       )}
     </>
   );
