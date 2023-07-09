@@ -54,7 +54,7 @@ export const ItemListContainer = () => {
           setLoading(false);
         })
         .catch((err) => console.log(err));
-    }, 2000);
+    }, 1500);
   }, [categoryName]);
 
   //Funcion para agregar items y cantidad desde ItemList
