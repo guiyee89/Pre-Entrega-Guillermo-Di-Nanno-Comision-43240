@@ -7,18 +7,28 @@ import styled from "styled-components/macro";
 
 export const Layout = () => {
   const location = useLocation();
-  const currentRoute = menuRoutes.find((route) => route.path === location.pathname);
+  const currentRoute = menuRoutes.find(
+    (route) => route.path === location.pathname
+  );
 
   const isHome = currentRoute?.id === "home";
 
   return (
     <Wrapper>
+
       <NavBar />
-      {isHome && <Hero />}
+
+      <HeroWrapper>
+        {isHome && <Hero />}
+      </HeroWrapper>
+
       <OutletWrapper isHome={isHome}>
-           <Outlet />
+        <ItemListTitle>All Our Products</ItemListTitle>
+        <Outlet />
       </OutletWrapper>
+
       <Footer />
+
     </Wrapper>
   );
 };
@@ -30,3 +40,14 @@ const OutletWrapper = styled.div`
   min-height: 100%;
   margin-top: ${({ isHome }) => (isHome ? "0" : "200px")};
 `;
+const HeroWrapper = styled.div`
+  margin-bottom: 115px;
+`
+const ItemListTitle = styled.h1`
+  width: 100%;
+  color: #2b2929;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+`

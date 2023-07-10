@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
+import { InfoIcons } from "../../common/infoIcons/InfoIcons";
 
 export const Hero = () => {
   const [index, setIndex] = useState(0);
@@ -38,6 +39,10 @@ export const Hero = () => {
           />
         </CarouselItem>
       </StyledCarousel>
+
+      <IconsWrapper>
+        <InfoIcons />
+      </IconsWrapper>
     </Wrapper>
   );
 };
@@ -74,11 +79,18 @@ const CarouselImg = styled.img`
   height: 100%;
   object-fit: cover;
   @media (min-width: 68.75rem) {
-      height: 520px;
-      min-height: 200px;
-    }
-    @media (max-width: 68.75rem) {
-      min-height: 200px;
-      object-fit: cover;
-    }
+    height: 520px;
+    min-height: 200px;
+  }
+  @media (max-width: 68.75rem) {
+    min-height: 200px;
+    object-fit: cover;
+  }
+`;
+const IconsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 125px;
+  
 `;

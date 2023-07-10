@@ -1,3 +1,4 @@
+//  NO FUNCIONAN EN DEPLOY DE VERCEL
 // import styled from "styled-components/macro";
 // import { ClipLoader } from "react-spinners";
 
