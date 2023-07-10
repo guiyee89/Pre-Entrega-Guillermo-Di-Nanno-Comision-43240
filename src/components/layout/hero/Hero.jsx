@@ -88,9 +88,12 @@ const CarouselImg = styled.img`
   }
 `;
 const IconsWrapper = styled.div`
-  width: 100%;
+  max-width: 1100px;
   display: flex;
+  -webkit-box-pack: center;
   justify-content: center;
-  height: 125px;
-  
+  height: 85px;
+  margin: 0 auto;
+  border-bottom: 1px solid #a4a0a0;
+  padding-top: 20px;
 `;

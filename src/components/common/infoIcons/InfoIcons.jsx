@@ -32,7 +32,7 @@ export const InfoIcons = () => {
 };
 const InfoWrapper = styled.div`
   display: flex;
-  padding:20px 60px 40px 60px;
+  padding:20px 85px 40px 60px;
   align-items: center;
 `;
 const Info = styled.div`
@@ -43,6 +43,7 @@ const Title = styled.h1`
   font-weight: bold;
   font-size: 1rem;
   letter-spacing: 2px;
+  line-height: 12px;
 `;
 const Description = styled.h2`
   letter-spacing: 1.5px;
