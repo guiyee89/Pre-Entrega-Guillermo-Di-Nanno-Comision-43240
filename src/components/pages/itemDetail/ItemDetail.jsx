@@ -9,8 +9,13 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
       </ImgWrapper>
 
       <InsideWrapper>
-        <Title>{selectedItem.name}</Title>
-        <Text>{selectedItem.description}</Text>
+        <Title>{selectedItem.title}</Title>
+        <SubTitle>{selectedItem.subtitle}</SubTitle>
+        <Description>{selectedItem.description}</Description>
+        <Price>
+          <Span>$</Span>
+          {selectedItem.price}
+        </Price>
         <Stock>
           in stock <Num>{selectedItem.stock}</Num>
         </Stock>
@@ -35,17 +40,34 @@ const InsideWrapper = styled.div`
   height: 60%;
   width: 470px;
   -webkit-box-pack: justify;
-  justify-content: space-between;
+  justify-content: space-around;
   line-height: 1.3;
 `;
 const Title = styled.h1`
   font-size: 2.4rem;
+  font-weight: bold;
   letter-spacing: -2px;
+  margin-bottom: -14px;
 `;
-const Text = styled.p`
-  font-size: 1rem;
+const SubTitle = styled.h2`
+  font-size: 1.3rem;
+  padding: 0px 0 24px 0;
+`;
+const Description = styled.p`
+  font-size: 0.9rem;
   margin-top: -24px;
   line-height: 1.5;
+`;
+const Price = styled.h3`
+  color: #c92b2b;
+  font-weight: bold;
+  font-size: 1.1rem;
+`;
+const Span = styled.span`
+  color: black;
+  padding-right: 4px;
+  font-weight: bold;
+  font-size: 1.1rem;
 `;
 const Stock = styled.p`
   font-size: 0.85rem;
@@ -54,7 +76,7 @@ const Stock = styled.p`
 const Num = styled.span`
   color: #c92b2b;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.1rem;
 `;
 const ImgWrapper = styled.div`
   height: 500px;

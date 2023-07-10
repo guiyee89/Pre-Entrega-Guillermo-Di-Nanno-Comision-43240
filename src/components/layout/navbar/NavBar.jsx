@@ -34,32 +34,36 @@ export const NavBar = () => {
     <>
       <HeaderWrapper>
         <Nav scrolled={scroll}>
+          <InsideNav>
+
           <LogoDiv scrolled={scroll}>
               <LogoLink to="/">
                   <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1686957140/web%20access/weshop_logo_original_oefa0e.png"></Logo>
               </LogoLink>
           </LogoDiv>
 
-          <NavWrapper>
+          <NavListWrapper>
               <NavList>
-                  <NavLink to="/" scrolled={scroll}>productos</NavLink>
+                  <NavLink to="/" scrolled={scroll}>products</NavLink>
               </NavList>
               <NavList>
-                  <NavLink to="/category/camisas" scrolled={scroll}>camisas</NavLink>
+                  <NavLink to="/category/calzado" scrolled={scroll}>shoes</NavLink>
               </NavList>
               <NavList>
-                  <NavLink to="/category/pantalones" scrolled={scroll}> pantalones</NavLink>
+                  <NavLink to="/category/pantalones" scrolled={scroll}>pants</NavLink>
               </NavList>
               <NavList>
-                  <NavLink to="/category/calzado" scrolled={scroll}>calzado</NavLink>
+                  <NavLink to="/category/camisas" scrolled={scroll}>shirts</NavLink>
               </NavList>
-          </NavWrapper>
+          </NavListWrapper>
 
           <CartWidget
             scrolled={scroll}
             sx={{ padding: "10px" }}
             totalItems={totalItems}
           />
+
+          </InsideNav>
         </Nav>
       </HeaderWrapper>
     </>
@@ -75,7 +79,6 @@ const Nav = styled.nav`
   transition: height
     ${(props) => (props.scrolled === "scrolled" ? "0.24s" : "0.16s")}
     ease-in-out;
-  max-width: 1240px;
   width: 100%;
   margin: 0 auto;
   display: flex;
@@ -89,13 +92,21 @@ const Nav = styled.nav`
   &:before {
     content: "";
     position: absolute;
-    bottom: -6px;
+    bottom: -5px;
     left: 0;
     right: 0;
     height: 2px;
     background-color: black;
     display: ${(props) => (props.scrolled === "scrolled" ? "none" : "block")};
   }
+`;
+const InsideNav = styled.div`
+    width: 100vw;
+    max-width: 1300px;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
 `;
 const LogoDiv = styled.div`
   width: ${(props) => (props.scrolled === "scrolled" ? "90px" : "120px")};
@@ -110,7 +121,7 @@ const Logo = styled.img`
   width: 100%;
   margin-left: 12px;
 `;
-const NavWrapper = styled.ul`
+const NavListWrapper = styled.ul`
   display: flex;
   list-style: none;
 `;

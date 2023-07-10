@@ -8,16 +8,16 @@ export const menuNavigate = [
     {
         id: "camisas",
         path: "/category/camisas",
-        title: "camisas"
+        title: "shirts"
     },
     {
         id: "pantalones",
         path: "/category/pantalones",
-        title: "pantalones"
+        title: "pants"
     },
     {
         id: "calzado",
         path: "/category/calzado",
-        title: "calzado"
+        title: "shoes"
     }
 ]

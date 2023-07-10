@@ -4,19 +4,22 @@ import { ItemList } from "./ItemList";
 import { CartContext } from "../../context/CartContext";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-// import { Toaster } from "../../common/loaders/Toaster";
-// import { Loader } from "../../common/loaders/Loader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
 // import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
+
 export const ItemListContainer = () => {
+
+  //Loader
   const [loading, setLoading] = useState(true);
+
   //Guardamos los items
   const [items, setItems] = useState([]);
 
+  //Utilizamos contexto para agregar al Cart
   const { addToCart } = useContext(CartContext);
 
   //useParams de react-router-dom para filtrar productos por categoryName
@@ -25,6 +28,7 @@ export const ItemListContainer = () => {
   //Pasamos useNavigate() como prop
   const navigate = useNavigate();
 
+  //Creamos filtro de productos en NavBar por categoria
   useEffect(() => {
     setLoading(true);
     let itemsCollection = collection(db, "products");
@@ -69,7 +73,7 @@ export const ItemListContainer = () => {
 
   //Rendering condicional
   return (
-    <div>
+    <>
       <ToastContainer
         position="bottom-right"
         autoClose={1000}
@@ -90,7 +94,7 @@ export const ItemListContainer = () => {
         <ItemList items={items} onAddCart={onAddCart} navigate={navigate} />
       )}
       {/* <AgregarDocs /> */}
-    </div>
+    </>
   );
 };
 const LoaderWrapper = styled.div`
