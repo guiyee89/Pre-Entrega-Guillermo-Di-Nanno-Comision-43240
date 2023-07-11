@@ -79,7 +79,7 @@ const CarouselImg = styled.img`
   height: 100%;
   object-fit: cover;
   @media (min-width: 68.75rem) {
-    height: 520px;
+    height: 580px;
     min-height: 200px;
   }
   @media (max-width: 68.75rem) {

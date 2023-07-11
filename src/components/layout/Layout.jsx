@@ -43,5 +43,5 @@ const OutletWrapper = styled.div`
   margin-top: ${({ isHome }) => (isHome ? "0" : "200px")};
 `;
 const HeroWrapper = styled.div`
-  margin-bottom: 160px;
+  margin-bottom: 200px;
 `
