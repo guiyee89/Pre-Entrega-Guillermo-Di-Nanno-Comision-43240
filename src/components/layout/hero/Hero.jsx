@@ -48,7 +48,7 @@ export const Hero = () => {
 };
 
 const Wrapper = styled.div`
-  margin: 127px auto 0;
+  margin: 110px auto 0;
   max-width: 1800px;
   z-index: 0;
   position: relative;

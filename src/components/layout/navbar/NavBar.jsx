@@ -75,7 +75,7 @@ const HeaderWrapper = styled.header`
   justify-content: center;
 `;
 const Nav = styled.nav`
-  height: ${(props) => (props.scrolled === "scrolled" ? "65px" : "120px")};
+  height: ${(props) => (props.scrolled === "scrolled" ? "65px" : "90px")};
   transition: height
     ${(props) => (props.scrolled === "scrolled" ? "0.24s" : "0.16s")}
     ease-in-out;
@@ -126,7 +126,7 @@ const NavListWrapper = styled.ul`
   list-style: none;
 `;
 const NavList = styled.li`
-  padding: 15px;
+  padding: 0 30px;
 `;
 const NavLink = styled(Link)`
   color: black;
@@ -134,7 +134,7 @@ const NavLink = styled(Link)`
   font-weight: 700;
   text-transform: uppercase;
   position: relative;
-  font-size: ${(props) => (props.scrolled === "scrolled" ? ".85rem" : "1rem")};
+  font-size: ${(props) => (props.scrolled === "scrolled" ? ".75rem" : "0.8rem")};
   background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
   background-repeat: no-repeat;
   background-size: 0% 100%;
