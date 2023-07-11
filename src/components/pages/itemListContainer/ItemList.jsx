@@ -138,32 +138,32 @@ const InfoWrapper = styled.div`
 
 const ItemCard = styled.div`
   color: black;
-  background-color: #e5e2e2;;
+  background-color: #e5e2e2;
   display: flex;
   flex-direction: column;
   height: 365px;
-  -webkit-box-align: center;
   align-items: center;
   margin-bottom: 24px;
   justify-content: center;
   position: relative;
   max-width: 300px;
   box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
-  &:hover ${ButtonsWrapper} {
-    opacity: 1;
-    transform: translateX(-20px);
-    transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
-    transition: 0.3s ease-in-out;
-  }
-  &:hover ${InfoWrapper} {
-    background-color: white;
-    transition: background-color ease-in-out 0.4s;
-  }
-  &:hover ${ImgWrapper} {
-    background-color: white;
-    transition: background-color ease-in-out 0.4s;
+  &:hover {
+    ${ButtonsWrapper} {
+      opacity: 1;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+    }
+    ${InfoWrapper}, ${ImgWrapper} {
+      background-color: white;
+      transition: background-color ease-in-out 0.4s;
+    }
+    ${ItemImg} {
+      transform: scale(1.11);
+    }
   }
 `;
+
 
 const Loader = styled.div`
   position: absolute;
