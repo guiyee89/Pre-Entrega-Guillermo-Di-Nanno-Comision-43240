@@ -46,7 +46,7 @@ export const ItemDetailContainer = () => {
           id: response.id,
         });
       });
-    }, 950);
+    }, 800);
   }, [id]);
 
   return (

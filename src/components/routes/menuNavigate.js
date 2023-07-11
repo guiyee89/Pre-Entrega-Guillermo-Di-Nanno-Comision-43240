@@ -3,21 +3,21 @@ export const menuNavigate = [
     {
         id: "home",
         path: "/",
-        title: "productos"
+        title: "products"
     },
     {
-        id: "camisas",
-        path: "/category/camisas",
+        id: "shirts",
+        path: "/category/shirts",
         title: "shirts"
     },
     {
-        id: "pantalones",
-        path: "/category/pantalones",
+        id: "pants",
+        path: "/category/pants",
         title: "pants"
     },
     {
-        id: "calzado",
-        path: "/category/calzado",
+        id: "shoes",
+        path: "/category/shoes",
         title: "shoes"
     }
 ]

@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
 import { useState } from "react";
-// import { LoaderCircle } from "../../common/loaders/LoaderCircle";
 import { ClipLoader } from "react-spinners";
+
 
 export const ItemList = ({ items, onAddCart, navigate }) => {
   //Algoritmo para randomear listado te Items
@@ -49,7 +49,6 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
 
   return (
     <Wrapper key="cart-wrapper">
-       <ItemListTitle>All Our Products</ItemListTitle>
       {/* Mapeo de productos */}
       {items.map((item) => {
         const isLoadingDetail = loadingDetail === item.id;
@@ -87,14 +86,6 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
     </Wrapper>
   );
 };
-const ItemListTitle = styled.h1`
-  width: 100%;
-  color: #2b2929;
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-transform: uppercase;
-`
 //Styled-components
 const Wrapper = styled.div`
   display: flex;
