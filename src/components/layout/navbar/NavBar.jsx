@@ -134,7 +134,7 @@ const NavLink = styled(Link)`
   font-weight: 700;
   text-transform: uppercase;
   position: relative;
-  font-size: ${(props) => (props.scrolled === "scrolled" ? ".75rem" : "0.8rem")};
+  font-size: ${(props) => (props.scrolled === "scrolled" ? ".75rem" : "0.82rem")};
   background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
   background-repeat: no-repeat;
   background-size: 0% 100%;

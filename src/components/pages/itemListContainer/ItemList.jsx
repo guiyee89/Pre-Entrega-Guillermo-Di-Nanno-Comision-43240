@@ -49,6 +49,7 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
 
   return (
     <Wrapper key="cart-wrapper">
+       <ItemListTitle>All Our Products</ItemListTitle>
       {/* Mapeo de productos */}
       {items.map((item) => {
         const isLoadingDetail = loadingDetail === item.id;
@@ -86,6 +87,14 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
     </Wrapper>
   );
 };
+const ItemListTitle = styled.h1`
+  width: 100%;
+  color: #2b2929;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+`
 //Styled-components
 const Wrapper = styled.div`
   display: flex;
@@ -108,8 +117,37 @@ const ButtonsWrapper = styled.div`
   transform: translateX(20px);
   display: ${({ disabled }) => (disabled ? "none" : "block")};
 `;
+const ItemImg = styled.img`
+  max-height: 90%;
+  margin: 0 auto;
+  overflow: hidden;
+  transition: transform 0.19s ease-in-out 0.08s;
+  cursor: pointer;
+`;
+const ImgWrapper = styled(Link)`
+  position: relative;
+  background-color: #e5e2e2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover ${ItemImg} {
+    transform: scale(1.11);
+  }
+`;
+const InfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0 8px 0 8px;
+`;
+
 const ItemCard = styled.div`
   color: black;
+  background-color: #e5e2e2;;
   display: flex;
   flex-direction: column;
   height: 365px;
@@ -126,27 +164,16 @@ const ItemCard = styled.div`
     transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
     transition: 0.3s ease-in-out;
   }
-`;
-const ItemImg = styled.img`
-  max-height: 90%;
-  margin: 0 auto;
-  overflow: hidden;
-  transition: transform 0.19s ease-in-out 0.08s;
-  cursor: pointer;
-`;
-const ImgWrapper = styled(Link)`
-  position: relative;
-  background-color: #eeeeee;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  cursor: pointer;
-  &:hover ${ItemImg} {
-    transform: scale(1.11);
+  &:hover ${InfoWrapper} {
+    background-color: white;
+    transition: background-color ease-in-out 0.4s;
+  }
+  &:hover ${ImgWrapper} {
+    background-color: white;
+    transition: background-color ease-in-out 0.4s;
   }
 `;
+
 const Loader = styled.div`
   position: absolute;
   top: 5px;
@@ -227,13 +254,7 @@ const NoStock = styled.p`
   display: ${({ disabled }) => (disabled ? "none" : "block")};
   text-transform: uppercase;
 `;
-const InfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 0 8px 0 8px;
-`;
+
 const ItemTitle = styled.h2`
   font-size: 0.9rem;
   color: black;

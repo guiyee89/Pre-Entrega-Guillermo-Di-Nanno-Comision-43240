@@ -74,7 +74,7 @@ html, body {
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  background-color: #eeeeee;
+  background-color: rgb(243 239 239);
 }
 
 /*6. Improve media defaults*/
