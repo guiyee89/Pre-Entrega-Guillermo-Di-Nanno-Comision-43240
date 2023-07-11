@@ -28,6 +28,9 @@ export const ItemListContainer = () => {
   //Pasamos useNavigate() como prop
   const navigate = useNavigate();
 
+  // Rendering conditional title
+  const categoryTitle = categoryName ? categoryName : "All Products";
+
   //Creamos filtro de productos en NavBar por categoria
   useEffect(() => {
     setLoading(true);
@@ -58,7 +61,7 @@ export const ItemListContainer = () => {
           setLoading(false);
         })
         .catch((err) => console.log(err));
-    }, 1500);
+    }, 1000);
   }, [categoryName]);
 
   //Funcion para agregar items y cantidad desde ItemList
@@ -91,7 +94,10 @@ export const ItemListContainer = () => {
           <BarLoader color="#12352e" width={250} />
         </LoaderWrapper>
       ) : (
+        <>
+        <ItemListTitle>{categoryTitle}</ItemListTitle>
         <ItemList items={items} onAddCart={onAddCart} navigate={navigate} />
+        </>
       )}
       {/* <AgregarDocs /> */}
     </>
@@ -103,3 +109,11 @@ const LoaderWrapper = styled.div`
   align-items: center;
   height: 300px;
 `;
+const ItemListTitle = styled.h1`
+  width: 100%;
+  color: #2b2929;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+`

@@ -47,13 +47,13 @@ export const NavBar = () => {
                   <NavLink to="/" scrolled={scroll}>products</NavLink>
               </NavList>
               <NavList>
-                  <NavLink to="/category/calzado" scrolled={scroll}>shoes</NavLink>
+                  <NavLink to="/category/shoes" scrolled={scroll}>shoes</NavLink>
               </NavList>
               <NavList>
-                  <NavLink to="/category/pantalones" scrolled={scroll}>pants</NavLink>
+                  <NavLink to="/category/pants" scrolled={scroll}>pants</NavLink>
               </NavList>
               <NavList>
-                  <NavLink to="/category/camisas" scrolled={scroll}>shirts</NavLink>
+                  <NavLink to="/category/shirts" scrolled={scroll}>shirts</NavLink>
               </NavList>
           </NavListWrapper>
 

@@ -8,7 +8,7 @@ export const products = [
         price: 15000,
         stock: 12,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
-        category: "calzado",
+        category: "shoes",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/Zapatillas/zapas1_ywv3ql.png"
     },
 
@@ -19,7 +19,7 @@ export const products = [
         price: 14500,
         stock: 5,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
-        category: "calzado",
+        category: "shoes",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/Zapatillas/zapas4_w7xyyx.png"
     },
     
@@ -30,7 +30,7 @@ export const products = [
         price: 19000,
         stock: 4,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
-        category: "calzado",
+        category: "shoes",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686939819/samples/ecommerce/Zapatillas/zapas33_jfyxes.png"
     },
 
@@ -41,7 +41,7 @@ export const products = [
         price: 17800,
         stock: 8,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
-        category: "calzado",
+        category: "shoes",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/Zapatillas/zapas2_tyqtg3.png"
     },
     {
@@ -51,7 +51,7 @@ export const products = [
         price: 12300,
         stock: 16,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
-        category: "calzado",
+        category: "shoes",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1685736166/samples/ecommerce/shoes.png"
     },
     {
@@ -61,7 +61,7 @@ export const products = [
         price: 15900,
         stock: 11,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
-        category: "calzado",
+        category: "shoes",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686940793/samples/ecommerce/Zapatillas/zapas66_kseevr.png"
     },
     {
@@ -71,7 +71,7 @@ export const products = [
         price: 11000,
         stock: 3,
         description: "Pantalon largo elastizados para mayor comodidad ",
-        category: "pantalones",
+        category: "pants",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757052/samples/ecommerce/Pantalones/pantalon1-removebg-preview_ncltas.png"
     },
     {
@@ -81,7 +81,7 @@ export const products = [
         price: 18000,
         stock: 12,
         description: "Experience unrivaled comfort and style with our 'FlexFit' pants. Designed for ultimate flexibility, these modern slim-fit pants redefine your wardrobe with effortless versatility and superior craftsmanship.",
-        category: "pantalones",
+        category: "pants",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757053/samples/ecommerce/Pantalones/pantalon5-removebg-preview_sgxsk6.png"
     },
     {
@@ -91,7 +91,7 @@ export const products = [
         price: 17300,
         stock: 3,
         description: "Experience unrivaled comfort and style with our 'FlexFit' pants. Designed for ultimate flexibility, these modern slim-fit pants redefine your wardrobe with effortless versatility and superior craftsmanship.",
-        category: "pantalones",
+        category: "pants",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757052/samples/ecommerce/Pantalones/pantalon2-removebg-preview_qasuzd.png"
     },
     {
@@ -101,7 +101,7 @@ export const products = [
         price: 13200,
         stock: 2,
         description: "Experience unrivaled comfort and style with our 'FlexFit' pants. Designed for ultimate flexibility, these modern slim-fit pants redefine your wardrobe with effortless versatility and superior craftsmanship.",
-        category: "pantalones",
+        category: "pants",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757052/samples/ecommerce/Pantalones/pantalon3-removebg-preview_bsucmh.png"
     },
     {
@@ -111,7 +111,7 @@ export const products = [
         price: 14800,
         stock: 12,
         description: "Experience unrivaled comfort and style with our 'FlexFit' pants. Designed for ultimate flexibility, these modern slim-fit pants redefine your wardrobe with effortless versatility and superior craftsmanship.",
-        category: "pantalones",
+        category: "pants",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757052/samples/ecommerce/Pantalones/pantalon4-removebg-preview_gpphsl.png"
     },
     {
@@ -121,7 +121,7 @@ export const products = [
         price: 14900,
         stock: 18,
         description: "Experience unrivaled comfort and style with our 'FlexFit' pants. Designed for ultimate flexibility, these modern slim-fit pants redefine your wardrobe with effortless versatility and superior craftsmanship.",
-        category: "pantalones",
+        category: "pants",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757052/samples/ecommerce/Pantalones/pantalon6-removebg-preview_g8zqdf.png"
     },
     {
@@ -131,7 +131,7 @@ export const products = [
         price: 11900,
         stock: 10,
         description: "Introducing our 'Signature Series' shirt. Crafted with premium fabric, meticulous attention to detail, and a tailored fit, it exudes confidence and elevates your personal style with timeless sophistication.",
-        category: "camisas",
+        category: "shirts",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757086/samples/ecommerce/Camisas/camisa2-removebg-preview_ga3u34.png"
     },
     {
@@ -141,7 +141,7 @@ export const products = [
         price: 18100,
         stock: 3,
         description: "Introducing our 'Signature Series' shirt. Crafted with premium fabric, meticulous attention to detail, and a tailored fit, it exudes confidence and elevates your personal style with timeless sophistication.",
-        category: "camisas",
+        category: "shirts",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757086/samples/ecommerce/Camisas/camisa4-removebg-preview_sjqcl2.png"
     },
     {
@@ -151,7 +151,7 @@ export const products = [
         price: 13000,
         stock: 2,
         description: "Introducing our 'Signature Series' shirt. Crafted with premium fabric, meticulous attention to detail, and a tailored fit, it exudes confidence and elevates your personal style with timeless sophistication.",
-        category: "camisas",
+        category: "shirts",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757085/samples/ecommerce/Camisas/camisa6-removebg-preview_1_aavphg.png"
     },
     {
@@ -161,7 +161,7 @@ export const products = [
         price: 15100,
         stock: 6,
         description: "Introducing our 'Signature Series' shirt. Crafted with premium fabric, meticulous attention to detail, and a tailored fit, it exudes confidence and elevates your personal style with timeless sophistication.",
-        category: "camisas",
+        category: "shirts",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757085/samples/ecommerce/Camisas/camisa1-removebg-preview_unk7t9.png"
     },
     {
@@ -171,7 +171,7 @@ export const products = [
         price: 9800,
         stock: 9,
         description: "Introducing our 'Signature Series' shirt. Crafted with premium fabric, meticulous attention to detail, and a tailored fit, it exudes confidence and elevates your personal style with timeless sophistication.",
-        category: "camisas",
+        category: "shirts",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757085/samples/ecommerce/Camisas/camisa5-removebg-preview_df3gxq.png"
     },
     {
@@ -181,7 +181,7 @@ export const products = [
         price: 16600,
         stock: 4,
         description: "Introducing our 'Signature Series' shirt. Crafted with premium fabric, meticulous attention to detail, and a tailored fit, it exudes confidence and elevates your personal style with timeless sophistication.",
-        category: "camisas",
+        category: "shirts",
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686757085/samples/ecommerce/Camisas/camisa3-removebg-preview_tex1rh.png"
     },
 
