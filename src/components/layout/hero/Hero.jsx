@@ -69,6 +69,19 @@ const StyledCarousel = styled(Carousel)`
       min-height: 200px;
     }
   }
+  .carousel-control-next-icon,
+  .carousel-control-prev-icon {
+    width: 2rem;
+    height: 3rem;
+
+    background-color: rgba(0, 0, 0, 0.55);
+  }
+  .carousel-indicators [data-bs-target] {
+    margin-right: 15px;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+  }
 `;
 
 const CarouselItem = styled(Carousel.Item)`
@@ -93,7 +106,7 @@ const IconsWrapper = styled.div`
   -webkit-box-pack: center;
   justify-content: center;
   height: 85px;
-  margin: 0 auto;
-  border-bottom: 1px solid #a4a0a0;
+  margin: 12px auto;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 10px;
   padding-top: 20px;
 `;

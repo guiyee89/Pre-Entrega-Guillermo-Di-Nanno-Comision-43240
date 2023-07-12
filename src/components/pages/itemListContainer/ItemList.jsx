@@ -4,7 +4,6 @@ import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 
-
 export const ItemList = ({ items, onAddCart, navigate }) => {
   //Algoritmo para randomear listado te Items
   // const [shuffledItems, setShuffledItems] = useState([]);
@@ -163,7 +162,6 @@ const ItemCard = styled.div`
     }
   }
 `;
-
 
 const Loader = styled.div`
   position: absolute;
