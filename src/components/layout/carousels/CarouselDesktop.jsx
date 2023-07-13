@@ -83,7 +83,6 @@ const Wrapper = styled.div`
   }
 `;
 const StyledCarousel = styled(Carousel)`
-  overflow: hidden;
   .carousel-slide {
     min-height: 300px;
     max-height: 520px;

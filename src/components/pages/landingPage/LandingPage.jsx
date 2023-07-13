@@ -21,6 +21,7 @@ export const LandingPage = () => {
   return (
     <>
       <Wrapper>
+        <Title>on sale</Title>
         <CarouselWrapper>
           {windowWidth >= 900 && <CarouselDesktop />}
           {windowWidth < 900 && windowWidth >= 580 && <CarouselTablet />}
@@ -67,6 +68,13 @@ const Wrapper = styled.section`
   flex-direction: column;
   margin: 0 auto;
 `;
+const Title = styled.h1`
+  font-size: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: rgb(99 86 86);
+`;
 const CarouselWrapper = styled.div`
   width: 100%;
   margin: 0 auto;
@@ -78,7 +86,7 @@ const CarouselWrapper = styled.div`
 const ItemsArticle = styled.article`
   display: flex;
   justify-content: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
 `;
 const ItemsImg = styled.img`
   box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px;
@@ -89,7 +97,7 @@ const StrechedArticle = styled.article`
   align-items: center;
   justify-content: center;
   background-color: #ddd8d8;
-  margin: 40px;
+  margin: 40px 20px;
 `;
 const ShoesImg = styled.img`
   object-fit: contain;

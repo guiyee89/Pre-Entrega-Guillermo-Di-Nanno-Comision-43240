@@ -4,8 +4,15 @@ import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 
 export const CartContainer = () => {
-
-  const { cart, clearCart, removeQuantity, removeById, getTotalPrice, getItemPrice, addQuantity} = useContext(CartContext);
+  const {
+    cart,
+    clearCart,
+    removeQuantity,
+    removeById,
+    getTotalPrice,
+    getItemPrice,
+    addQuantity,
+  } = useContext(CartContext);
 
   const totalPrice = getTotalPrice();
 
@@ -17,7 +24,6 @@ export const CartContainer = () => {
 
   return (
     <Wrapper key="cart-wrapper">
-
       {/* Boton para limpiar "cart" */}
       {cart.map((product) => {
         //Buscar item x id en la funcion getItemPrice
@@ -25,33 +31,44 @@ export const CartContainer = () => {
 
         return (
           <ItemWrapper key={product.id}>
-
             <ImgWrapper>
               <ItemImg src={product.img} alt="" />
             </ImgWrapper>
 
-            <ItemTitle>{product.name}</ItemTitle>
+            <ItemTitle>{product.title}</ItemTitle>
 
             <ItemPrice>${itemPrice}</ItemPrice>
 
             <QuantityWrapper>
-              <BtnQuantity onClick={() => removeQuantity(product.id)}> - </BtnQuantity>
+              <BtnQuantity onClick={() => removeQuantity(product.id)}>
+                {" "}
+                -{" "}
+              </BtnQuantity>
               <ItemQuantity>{product.quantity}</ItemQuantity>
-              <BtnQuantity onClick={() => addQuantity(product.id)} disabled={product.stock === product.quantity}> + </BtnQuantity>
+              <BtnQuantity
+                onClick={() => addQuantity(product.id)}
+                disabled={product.stock === product.quantity}
+              >
+                {" "}
+                +{" "}
+              </BtnQuantity>
             </QuantityWrapper>
 
             <BtnDelete onClick={() => removeById(product.id)}>
               Eliminar
             </BtnDelete>
-
           </ItemWrapper>
         );
       })}
       <CartInfo>
-        <button onClick={realizarCompra}>Checkout</button>
-        <h4>${totalPrice}</h4>
         {cart.length > 0 && (
           <button onClick={clearCart}>Limpiar Carrito</button>
+        )}
+        {cart.length > 0 && (
+          <>
+            <h4>Total a Pagar: $ {totalPrice}</h4>
+            <button onClick={realizarCompra}>Checkout</button>
+          </>
         )}
       </CartInfo>
     </Wrapper>
@@ -70,7 +87,7 @@ const ItemWrapper = styled.div`
   height: 150px;
   width: 100%;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
 `;
 const ImgWrapper = styled.div`
@@ -88,10 +105,8 @@ const ItemImg = styled.img`
   height: 70%;
   object-fit: contain;
 `;
-const ItemQuantity = styled.h4`
-`
-const ItemPrice = styled.h3`
-`
+const ItemQuantity = styled.h4``;
+const ItemPrice = styled.h3``;
 const ItemTitle = styled.h2`
   width: 100px;
 `;

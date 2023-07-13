@@ -108,10 +108,10 @@ const CarouselImg = styled.img`
   }
 `;
 const IconsWrapper = styled.div`
-  max-width: 1100px;
+  max-width: 1250px;
   display: flex;
   -webkit-box-pack: center;
-  justify-content: center;
+  justify-content: space-around;
   height: 85px;
   margin: 12px auto;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 3px;

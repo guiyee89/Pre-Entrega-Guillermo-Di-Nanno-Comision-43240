@@ -114,7 +114,6 @@ const Wrapper = styled.div`
   }
 `;
 const StyledCarousel = styled(Carousel)`
-  overflow: hidden;
   .carousel-slide {
     min-height: 300px;
     max-height: 520px;
@@ -138,8 +137,11 @@ const StyledCarousel = styled(Carousel)`
     border-radius: 50%;
     width: 12px;
     height: 12px;
+    background-color: rgba(0, 0, 0, 0.55);
   }
-
+  .carousel-indicators {
+    bottom: -50px;
+  }
 `;
 const CarouselItem = styled(Carousel.Item)`
   height: 100%;
