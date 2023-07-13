@@ -3,7 +3,7 @@ import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
 import { InfoIcons } from "../../common/infoIcons/InfoIcons";
 
-export const Hero = () => {
+export const HeroCarousel = () => {
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
@@ -15,7 +15,7 @@ export const Hero = () => {
       <StyledCarousel
         activeIndex={index}
         onSelect={handleSelect}
-        interval={3200}
+        interval={4200}
       >
         <CarouselItem>
           <CarouselImg
@@ -59,7 +59,6 @@ const Wrapper = styled.div`
     min-height: 200px;
   }
 `;
-
 const StyledCarousel = styled(Carousel)`
   .carousel-slide {
     min-height: 300px;
@@ -81,13 +80,21 @@ const StyledCarousel = styled(Carousel)`
     border-radius: 50%;
     width: 12px;
     height: 12px;
+    @media (max-width:68rem) {
+      background-color: #000000;
+    }
+  }
+  .carousel-indicators{
+    @media (max-width:68rem) {
+        bottom: -50px;
+    }
   }
 `;
-
 const CarouselItem = styled(Carousel.Item)`
   height: 100%;
+  transition: transform 0.2s ease-in-out;
+  
 `;
-
 const CarouselImg = styled.img`
   height: 100%;
   object-fit: cover;
@@ -107,6 +114,9 @@ const IconsWrapper = styled.div`
   justify-content: center;
   height: 85px;
   margin: 12px auto;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 3px;
   padding-top: 20px;
+  @media (max-width:68rem){
+    display: none;
+  }
 `;

@@ -30,4 +30,5 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     height: 100%;
+    margin-left: 85px;
 `

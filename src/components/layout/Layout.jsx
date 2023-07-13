@@ -1,9 +1,9 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { NavBar } from "./navbar/NavBar";
-import { Hero } from "./hero/Hero";
 import { menuRoutes } from "../routes/menuRoutes";
 import { Footer } from "./footer/Footer";
 import styled from "styled-components/macro";
+import { HeroCarousel } from "./carousels/HeroCarousel";
 
 
 export const Layout = () => {
@@ -22,7 +22,7 @@ export const Layout = () => {
       <NavBar />
 
       <HeroWrapper>
-        {isHome && <Hero />}
+        {isHome && <HeroCarousel />}
       </HeroWrapper>
 
       <OutletWrapper isHome={isHome}>
@@ -44,4 +44,7 @@ const OutletWrapper = styled.div`
 `;
 const HeroWrapper = styled.div`
   margin-bottom: 200px;
+  @media (max-width:68rem) {
+    margin-bottom: 100px;
+  }
 `
