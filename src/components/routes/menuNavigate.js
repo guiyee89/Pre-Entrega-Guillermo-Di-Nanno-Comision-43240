@@ -1,8 +1,8 @@
 //Accedemos a las rutas filtradas de los "Links"
 export const menuNavigate = [
     {
-        id: "home",
-        path: "/",
+        id: "all-products",
+        path: "/all-products",
         title: "products"
     },
     {

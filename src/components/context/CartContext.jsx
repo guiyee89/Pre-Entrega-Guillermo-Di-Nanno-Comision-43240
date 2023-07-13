@@ -205,6 +205,8 @@ const CartContextProvider = ({ children }) => {
   //Calcular precio total de los elementos en cart
   const getTotalPrice = () => {
     let total = cart.reduce((acc, element) => {
+      console.log(element)
+      console.log(acc)
       return acc + element.quantity * element.price;
     }, 0);
     return total;

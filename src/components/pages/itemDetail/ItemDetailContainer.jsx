@@ -81,5 +81,6 @@ const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 300px;
+  height: 535px;
+  margin-left: 100px;
 `;

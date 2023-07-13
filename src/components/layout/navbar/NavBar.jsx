@@ -44,7 +44,10 @@ export const NavBar = () => {
 
           <NavListWrapper>
               <NavList>
-                  <NavLink to="/" scrolled={scroll}>products</NavLink>
+                  <NavLink to="/" scrolled={scroll}>home</NavLink>
+              </NavList>
+              <NavList>
+                  <NavLink to="/all-products" scrolled={scroll}>products</NavLink>
               </NavList>
               <NavList>
                   <NavLink to="/category/shoes" scrolled={scroll}>shoes</NavLink>
@@ -126,7 +129,7 @@ const NavListWrapper = styled.ul`
   list-style: none;
 `;
 const NavList = styled.li`
-  padding: 0 30px;
+  padding: 0 20px;
 `;
 const NavLink = styled(Link)`
   color: black;

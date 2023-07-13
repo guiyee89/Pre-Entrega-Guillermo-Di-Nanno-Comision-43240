@@ -17,7 +17,7 @@ export const CartWidget = ({ scrolled, totalItems }) => {
             horizontal: "left",
           }}
         >
-          {/* Le pasamos props en base a lo que especifique la libreria */}
+          
           <CartWrapper scrolled={scrolled}>
             <BsFillCartFill color="black" size={"28px"} />
           </CartWrapper>

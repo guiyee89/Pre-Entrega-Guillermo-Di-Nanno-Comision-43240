@@ -4,12 +4,18 @@ import { CartContainer } from "../pages/cart/CartContainer";
 import { CheckoutContainer } from "../pages/checkout/CheckoutContainer";
 import { ItemDetailContainer } from "../pages/itemDetail/ItemDetailContainer";
 import { ItemListContainer } from "../pages/itemListContainer/ItemListContainer";
+import { LandingPage } from "../pages/landingPage/LandingPage";
 
 export const menuRoutes = [
     {
         id: "home",
         path: "/",
-        Element: ItemListContainer
+        Element: LandingPage
+    },
+    {
+        id: "all-products",
+        path: "/all-products",
+        Element: ItemListContainer,
     },
     {
         id: "category",
@@ -17,7 +23,7 @@ export const menuRoutes = [
         Element: ItemListContainer
     },
     {
-        id: "category",
+        id: "detail",
         path: "/item-details/:id",
         Element: ItemDetailContainer
     },
