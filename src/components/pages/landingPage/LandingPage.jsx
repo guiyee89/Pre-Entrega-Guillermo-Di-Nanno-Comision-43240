@@ -68,9 +68,12 @@ const Wrapper = styled.section`
   margin: 0 auto;
 `;
 const CarouselWrapper = styled.div`
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
   max-width: 1440px;
+  @media (max-width:68rem) {
+    width: 95%;
+  }
 `;
 const ItemsArticle = styled.article`
   display: flex;
