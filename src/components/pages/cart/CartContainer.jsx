@@ -65,12 +65,12 @@ export const CartContainer = () => {
         {cart.length > 0 && (
           <button onClick={clearCart}>Clear all</button>
         )}
-        {cart.length > 0 && (
-          <>
+        {/* {cart.length > 0 && (
+          <> */}
             <TotalPago>Total a Pagar: $ {totalPrice}</TotalPago>
             <button onClick={realizarCompra}>Checkout</button>
-          </>
-        )}
+          {/* </>
+        )} */}
       </CartInfo>
     </Wrapper>
   );

@@ -3,8 +3,13 @@ import { useContext } from "react";
 import styled from "styled-components/macro";
 import { CartContext } from "../../context/CartContext";
 
-export const Checkout = ({ handleSubmit, handleChange, errors }) => {
+
+
+export const Checkout = ({ handleSubmit, handleChange, errors, confirmPurchase  }) => {
+
   const { cart, getTotalPrice, getItemPrice } = useContext(CartContext);
+ 
+
   let total = getTotalPrice();
 
   return (
@@ -48,7 +53,7 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
               error={errors.phone ? true : false}
               sx={{ marginTop: "24px" }}
             />
-            <SubmitBtn type="submit" onClick={handleSubmit}>Confirm Purchase</SubmitBtn>
+            <SubmitBtn type="submit" onClick={confirmPurchase}>Confirm Purchase</SubmitBtn>
           </Form>
         </FormWrapper>
 
