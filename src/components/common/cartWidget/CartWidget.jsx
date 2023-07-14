@@ -28,7 +28,7 @@ export const CartWidget = ({ scrolled, totalItems }) => {
 };
 const Contador = styled(Badge)`
   padding-left: 8px;
-  margin: 0 8px 0 0;
+  margin: 0 24px 0 0;
 `;
 const CartWrapper = styled.div`
   width: ${(props) => (props.scrolled === "scrolled" ? "22px" : "32px")};

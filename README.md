@@ -20,7 +20,8 @@ En esta App, se puede filtrar y simular la compra de productos desde la pagina d
 
 ### Objetivos a futuro:
 - Mejorar el Markup Html - SEO
-- Terminar detalles del carrito de compra y checkout.
+- Terminar Landing Page
+- Terminar detalles del carrito de compra y checkout
 - Proximamente implementaré una pasarela de pagos con Stripe, dado que Firebase me da la posibilidad de lograrlo sin Backend.
 - Tambien quisiera agregar el elemento "descuento" a los productos y crear un filter y map para que se puedan ver en la "Lading Page".
 - Implementar un carousel de items de sugerencia en la page ItemDetail.

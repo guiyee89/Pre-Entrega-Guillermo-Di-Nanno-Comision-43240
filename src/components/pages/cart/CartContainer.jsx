@@ -4,9 +4,10 @@ import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 import { db } from "../../../firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
+import Swal from "sweetalert2";
 
 export const CartContainer = () => {
-  
+
   const {
     cart,
     clearCart,
@@ -23,6 +24,7 @@ export const CartContainer = () => {
 
   const realizarCompra = async () => {
     let isValid = true;
+    const missingItems = [];
 
     for (const product of cart) {
       const productRef = doc(db, "products", product.id);
@@ -31,14 +33,14 @@ export const CartContainer = () => {
       if (!productSnapshot.exists()) {
         // Producto no existe en Firebase
         isValid = false;
-        break;
+        missingItems.push(product);
       }
 
       const productData = productSnapshot.data();
       if (product.quantity > productData.stock) {
         // Cantidad de producto en localStorage excede el stock en Firebase
         isValid = false;
-        break;
+        missingItems.push(product);
       }
     }
 
@@ -46,8 +48,12 @@ export const CartContainer = () => {
       navigate("/Checkout");
     } else {
       // Ya no hay stock de productos
-      alert("Some items in your cart are no longer available.");
-      clearCart();
+      Swal.fire({
+        title: "<span style='font-size: 1rem; color: black'>Some items in your cart are no longer available :</span>",
+        html: missingItemMessage(missingItems),
+        // icon: "warning",
+      });
+      // clearCart();
     }
   };
 
@@ -101,6 +107,22 @@ export const CartContainer = () => {
     </Wrapper>
   );
 };
+//Swal Sweet Alert Message
+const missingItemMessage = (missingItems) => {
+  let message = "<ul style='list-style-type: none; padding: 0;'>";
+
+  missingItems.forEach((item) => {
+    message += `<li style='display: flex; align-items: center; margin-bottom: 10px;'>
+                  <img src="${item.img}" alt="${item.title}" style='width: 100px; height: 100px; object-fit:contain; padding-right: 20px' />
+                  <span style='font-weight: bold; color: black; padding-right: 20px'>${item.title}</span style ='color: black'> - <span> No stock </span>
+                </li>`;
+  });
+
+  message += "</ul>";
+
+  return message;
+};
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -132,8 +154,12 @@ const ItemImg = styled.img`
   height: 70%;
   object-fit: contain;
 `;
-const ItemQuantity = styled.h4``;
-const ItemPrice = styled.h3``;
+const ItemQuantity = styled.h4`
+  font-weight: bold;
+`;
+const ItemPrice = styled.h3`
+  font-weight: bold;
+`;
 const ItemTitle = styled.h2`
   width: 100px;
 `;
@@ -153,3 +179,4 @@ const TotalPago = styled.h2`
   font-size: 1.2rem;
   font-weight: bold;
 `;
+

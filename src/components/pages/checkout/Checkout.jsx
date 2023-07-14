@@ -3,9 +3,7 @@ import { useContext } from "react";
 import styled from "styled-components/macro";
 import { CartContext } from "../../context/CartContext";
 
-
 export const Checkout = ({ handleSubmit, handleChange, errors }) => {
-
   const { cart, getTotalPrice, getItemPrice } = useContext(CartContext);
 
   let total = getTotalPrice();
@@ -51,7 +49,9 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
               error={errors.phone ? true : false}
               sx={{ marginTop: "24px" }}
             />
-            <SubmitBtn type="submit" onClick={handleSubmit}>Confirm Purchase</SubmitBtn>
+            <SubmitBtn type="submit" onClick={handleSubmit}>
+              Confirm Purchase
+            </SubmitBtn>
           </Form>
         </FormWrapper>
 
@@ -108,18 +108,24 @@ const ProductsWrapper = styled.div`
 `;
 const ProductTable = styled.table`
   text-align: center;
+  margin-bottom: 40px;
 `;
 const ItemWrapper = styled.td`
   display: flex;
   align-items: center;
   padding-top: 8px;
+  height: 70px;
 `;
 const ItemTitle = styled.h2`
   margin: 0 auto;
 `;
-const ImgWrapper = styled.div``;
+const ImgWrapper = styled.div`
+  height: 100%;
+`;
 const ItemImg = styled.img`
   width: 50px;
+  height: 100%;
+  object-fit: contain;
 `;
 const ItemPrice = styled.td`
   vertical-align: middle;
@@ -127,7 +133,7 @@ const ItemPrice = styled.td`
 const TotalInfo = styled.tr`
   position: absolute;
   bottom: 0;
-  right: 23%;
+  right: 19%;
 `;
 const TotalText = styled.td`
   text-align: end;
