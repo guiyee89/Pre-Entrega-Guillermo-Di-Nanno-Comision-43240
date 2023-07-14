@@ -95,6 +95,7 @@ const Wrapper = styled.section`
   position: relative;
   max-width: 1300px;
   margin: 0 auto;
+  width: 100%;
 `;
 const ProductsWrapper = styled.div`
   display: flex;
