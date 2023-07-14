@@ -10,11 +10,12 @@ export const CartContext = createContext();
 //*********************************************//
 //CREO EL COMPONENTE PROVEEDOR DEL "CONTEXT"
 const CartContextProvider = ({ children }) => {
+  
   //Traemos los datos desde "localStorage", los guardamos en "cart", ejecutamos con "setCart". O que traiga "array vacio"
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
-
+  
   //Funcion para detectar por "id" si ya existe un producto un "cart"
   const isInCart = (id) => {
     let exist = cart.some((product) => product.id === id);

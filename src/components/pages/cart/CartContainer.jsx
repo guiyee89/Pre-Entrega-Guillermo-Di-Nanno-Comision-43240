@@ -2,9 +2,11 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components/macro";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
+import { db } from "../../../firebaseConfig";
+import { getDoc, doc } from "firebase/firestore";
 
 export const CartContainer = () => {
-
+  
   const {
     cart,
     clearCart,
@@ -15,13 +17,38 @@ export const CartContainer = () => {
     addQuantity,
   } = useContext(CartContext);
 
-
   const totalPrice = getTotalPrice();
 
   const navigate = useNavigate();
 
-  const realizarCompra = () => {
-    navigate("/Checkout");
+  const realizarCompra = async () => {
+    let isValid = true;
+
+    for (const product of cart) {
+      const productRef = doc(db, "products", product.id);
+      const productSnapshot = await getDoc(productRef);
+
+      if (!productSnapshot.exists()) {
+        // Product does not exist in Firebase
+        isValid = false;
+        break;
+      }
+
+      const productData = productSnapshot.data();
+      if (product.quantity > productData.stock) {
+        // Quantity exceeds the available stock
+        isValid = false;
+        break;
+      }
+    }
+
+    if (isValid) {
+      navigate("/Checkout");
+    } else {
+      // Invalid cart items
+      alert("Some items in your cart are no longer available.");
+      clearCart();
+    }
   };
 
   return (
@@ -56,21 +83,19 @@ export const CartContainer = () => {
               </BtnQuantity>
             </QuantityWrapper>
 
-            <BtnDelete onClick={() => removeById(product.id)}>
-              Delete
-            </BtnDelete>
+            <BtnDelete onClick={() => removeById(product.id)}>Delete</BtnDelete>
           </ItemWrapper>
         );
       })}
       <CartInfo>
-        {cart.length > 0 && (
-          <button onClick={clearCart}>Clear all</button>
-        )}
-        {cart.length > 0 && (
+        {cart.length > 0 ? (
           <>
+            <button onClick={clearCart}>Clear all</button>
             <TotalPago>Total a Pagar: $ {totalPrice}</TotalPago>
             <button onClick={realizarCompra}>Checkout</button>
           </>
+        ) : (
+          <h1>The cart is empty</h1>
         )}
       </CartInfo>
     </Wrapper>
@@ -107,10 +132,8 @@ const ItemImg = styled.img`
   height: 70%;
   object-fit: contain;
 `;
-const ItemQuantity = styled.h4`
-`;
-const ItemPrice = styled.h3`
-`;
+const ItemQuantity = styled.h4``;
+const ItemPrice = styled.h3``;
 const ItemTitle = styled.h2`
   width: 100px;
 `;
@@ -129,4 +152,4 @@ const CartInfo = styled.div`
 const TotalPago = styled.h2`
   font-size: 1.2rem;
   font-weight: bold;
-`
+`;
