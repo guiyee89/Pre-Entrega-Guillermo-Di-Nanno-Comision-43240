@@ -5,15 +5,14 @@ import { db } from "../../../firebaseConfig";
 import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
+import styled from "styled-components/macro";
 
 export const CheckoutContainer = () => {
-
   const { cart, getTotalPrice, clearCart } = useContext(CartContext);
 
   const [orderId, setOrderId] = useState(null);
 
   let total = getTotalPrice();
-
 
   const { handleSubmit, handleChange, errors } = useFormik({
     initialValues: {
@@ -34,11 +33,13 @@ export const CheckoutContainer = () => {
         .then((res) => setOrderId(res.id)); //guardamos el ID de la orden en el setOrderID
 
       //actualizar informacion del producto despues de la compra
-      cart.forEach( (product) => {
-        updateDoc( doc(db, "products", product.id) , {stock: product.stock - product.quantity} )
-      })
+      cart.forEach((product) => {
+        updateDoc(doc(db, "products", product.id), {
+          stock: product.stock - product.quantity,
+        });
+      });
 
-      clearCart()
+      clearCart();
     },
 
     //que no se valide mientras escribo, sino al hacer submit
@@ -59,16 +60,25 @@ export const CheckoutContainer = () => {
   });
 
   return (
-    <div>
-      {orderId ? (
-        <h1>Su compra fue exitosa. El numero de comprobante es: {orderId} </h1>
-      ) : (
-        <Checkout
-          handleSubmit={handleSubmit}
-          handleChange={handleChange}
-          errors={errors}
-        />
-      )}
-    </div>
+    <>
+      <Wrapper>
+        {orderId ? (
+          <h1>
+            Su compra fue exitosa. <br />El numero de comprobante es: {orderId}{" "}
+          </h1>
+        ) : (
+          <Checkout
+            handleSubmit={handleSubmit}
+            handleChange={handleChange}
+            errors={errors}
+            cart={cart}
+          />
+        )}
+      </Wrapper>
+    </>
   );
 };
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
