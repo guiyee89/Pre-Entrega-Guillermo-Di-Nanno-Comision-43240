@@ -3,8 +3,11 @@ import { useContext } from "react";
 import styled from "styled-components/macro";
 import { CartContext } from "../../context/CartContext";
 
+
 export const Checkout = ({ handleSubmit, handleChange, errors }) => {
+
   const { cart, getTotalPrice, getItemPrice } = useContext(CartContext);
+
   let total = getTotalPrice();
 
   return (
