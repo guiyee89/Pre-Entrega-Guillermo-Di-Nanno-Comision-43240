@@ -8,6 +8,7 @@ import { CartContext } from "../../context/CartContext";
 import styled from "styled-components/macro";
 
 export const CheckoutContainer = () => {
+  
   const { cart, getTotalPrice, clearCart } = useContext(CartContext);
 
   const [orderId, setOrderId] = useState(null);

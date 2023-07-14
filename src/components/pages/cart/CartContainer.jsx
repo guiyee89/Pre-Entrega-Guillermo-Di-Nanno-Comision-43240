@@ -15,6 +15,7 @@ export const CartContainer = () => {
     addQuantity,
   } = useContext(CartContext);
 
+
   const totalPrice = getTotalPrice();
 
   const navigate = useNavigate();
