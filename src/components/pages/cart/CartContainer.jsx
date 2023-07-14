@@ -29,14 +29,14 @@ export const CartContainer = () => {
       const productSnapshot = await getDoc(productRef);
 
       if (!productSnapshot.exists()) {
-        // Product does not exist in Firebase
+        // Producto no existe en Firebase
         isValid = false;
         break;
       }
 
       const productData = productSnapshot.data();
       if (product.quantity > productData.stock) {
-        // Quantity exceeds the available stock
+        // Cantidad de producto en localStorage excede el stock en Firebase
         isValid = false;
         break;
       }
@@ -45,7 +45,7 @@ export const CartContainer = () => {
     if (isValid) {
       navigate("/Checkout");
     } else {
-      // Invalid cart items
+      // Ya no hay stock de productos
       alert("Some items in your cart are no longer available.");
       clearCart();
     }
