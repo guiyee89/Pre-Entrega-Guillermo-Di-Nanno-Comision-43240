@@ -4,6 +4,7 @@ import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 
 export const CartContainer = () => {
+
   const {
     cart,
     clearCart,
@@ -55,18 +56,18 @@ export const CartContainer = () => {
             </QuantityWrapper>
 
             <BtnDelete onClick={() => removeById(product.id)}>
-              Eliminar
+              Delete
             </BtnDelete>
           </ItemWrapper>
         );
       })}
       <CartInfo>
         {cart.length > 0 && (
-          <button onClick={clearCart}>Limpiar Carrito</button>
+          <button onClick={clearCart}>Clear all</button>
         )}
         {cart.length > 0 && (
           <>
-            <h4>Total a Pagar: $ {totalPrice}</h4>
+            <TotalPago>Total a Pagar: $ {totalPrice}</TotalPago>
             <button onClick={realizarCompra}>Checkout</button>
           </>
         )}
@@ -105,8 +106,10 @@ const ItemImg = styled.img`
   height: 70%;
   object-fit: contain;
 `;
-const ItemQuantity = styled.h4``;
-const ItemPrice = styled.h3``;
+const ItemQuantity = styled.h4`
+`;
+const ItemPrice = styled.h3`
+`;
 const ItemTitle = styled.h2`
   width: 100px;
 `;
@@ -119,6 +122,10 @@ const BtnDelete = styled.button`
 const CartInfo = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-evenly;
   gap: 1.5rem;
 `;
+const TotalPago = styled.h2`
+  font-size: 1.2rem;
+  font-weight: bold;
+`

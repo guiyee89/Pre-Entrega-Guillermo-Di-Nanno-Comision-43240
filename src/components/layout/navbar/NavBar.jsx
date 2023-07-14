@@ -38,7 +38,7 @@ export const NavBar = () => {
 
           <LogoDiv scrolled={scroll}>
               <LogoLink to="/">
-                  <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1686957140/web%20access/weshop_logo_original_oefa0e.png"></Logo>
+                  <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689339728/samples/ecommerce/Logos/2023-07-14_09h48_23-removebg-preview_kvbtdx.png"></Logo>
               </LogoLink>
           </LogoDiv>
 
@@ -121,7 +121,7 @@ const LogoLink = styled(Link)`
   text-decoration: none;
 `;
 const Logo = styled.img`
-  width: 100%;
+  width: 65%;
   margin-left: 12px;
 `;
 const NavListWrapper = styled.ul`
