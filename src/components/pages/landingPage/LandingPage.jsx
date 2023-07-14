@@ -97,7 +97,7 @@ const StrechedArticle = styled.article`
   align-items: center;
   justify-content: center;
   background-color: #ddd8d8;
-  margin: 40px 20px;
+  margin: 70px 20px;
 `;
 const ShoesImg = styled.img`
   object-fit: contain;
