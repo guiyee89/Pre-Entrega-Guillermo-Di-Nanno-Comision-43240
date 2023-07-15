@@ -12,7 +12,7 @@ export const GlobalLoader = ({ children }) => {
 
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 800);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [location]);
@@ -30,5 +30,5 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     height: 100%;
-    margin-left: 85px;
+    margin-left: 20px;
 `

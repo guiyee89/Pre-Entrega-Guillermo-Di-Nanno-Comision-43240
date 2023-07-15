@@ -107,8 +107,8 @@ const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 535px;
-  margin-left: 100px;
+  height: 538px;
+  margin-left: 35px;
 `;
 const ItemListTitle = styled.h1`
   width: 100%;

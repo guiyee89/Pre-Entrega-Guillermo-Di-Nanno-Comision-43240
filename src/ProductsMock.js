@@ -1,19 +1,16 @@
 
 export const products = [
 
-    // {
-    //     id: 1,
-    //     title: "Nike 360",
-    //     subtitle: "Running Shoes Absorbing Air",
-    //     price: 15000,
-    //     stock: 12,
-    //     description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
-    //     category: {
-    //         shoes: "shoes",
-    //         all: "all"
-    //     },
-    //     img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/Zapatillas/zapas1_ywv3ql.png"
-    // },
+    {
+        id: 1,
+        title: "Nike 360",
+        subtitle: "Running Shoes Absorbing Air",
+        price: 15000,
+        stock: 12,
+        description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
+        category: "shoes",
+        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1686681924/samples/ecommerce/Zapatillas/zapas1_ywv3ql.png"
+    },
 
     {
         id: 2,

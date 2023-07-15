@@ -4,8 +4,6 @@ import { ItemDetail } from "./ItemDetail";
 import { CartContext } from "../../context/CartContext";
 import { db } from "../../../firebaseConfig";
 import { collection, getDoc, doc } from "firebase/firestore";
-// import { Toaster } from "../../common/loaders/Toaster";
-// import { Loader } from "../../common/loaders/Loader";
 import styled from "styled-components/macro";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,7 +27,7 @@ export const ItemDetailContainer = () => {
       ...selectedItem,
       quantity: quantity,
     };
-    //Agregamos la "data" de los productos con la funcion de contexto
+     //Agregamos la "data" de los productos con la funcion de contexto
     addToCart(data);
     setSelectedItem({ ...selectedItem, quantity: 1 }); //Reset count inicial a 1
   };
@@ -81,6 +79,6 @@ const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 535px;
-  margin-left: 100px;
+  height: 538px;
+  margin-left: 35px;
 `;

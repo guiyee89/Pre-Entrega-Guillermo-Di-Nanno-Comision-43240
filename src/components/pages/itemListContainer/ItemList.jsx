@@ -249,7 +249,7 @@ const ItemTitle = styled.h2`
   font-size: 0.9rem;
   color: black;
   font-weight: 700;
-  word-spacing: -3px;
+  word-spacing: 3px;
   text-transform: uppercase;
 `;
 const ItemSubTitle = styled.h3`
