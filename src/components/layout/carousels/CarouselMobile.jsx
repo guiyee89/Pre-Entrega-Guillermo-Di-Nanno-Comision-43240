@@ -103,7 +103,7 @@ export const CarouselMobile = () => {
 
 const Wrapper = styled.div`
   margin: 24px auto 110px;
-
+  box-shadow:rgba(0, 0, 0, 0.35) 0px 0px 3px;
   z-index: 0;
   position: relative;
   max-height: 520px;

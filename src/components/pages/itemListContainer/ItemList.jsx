@@ -53,7 +53,7 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
         const isLoadingDetail = loadingDetail === item.id;
         const isLoadingAdd = loadingAdd === item.id;
         return (
-          <ItemCard style={{ width: "288px" }} key={item.id}>
+          <ItemCard  key={item.id}>
             <ImgWrapper to={`/item-details/${item.id}`}>
               <Loader>
                 {isLoadingAdd && <ClipLoader color="#194f44" size={50} />}
@@ -87,14 +87,15 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
 };
 //Styled-components
 const Wrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 1350px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1300px;
   padding: 12px 0px;
   margin: 0px auto;
   gap: 16px;
   -webkit-box-pack: center;
-  justify-content: space-evenly;
+  justify-items: center;
+    align-items: center;
 `;
 const ButtonsWrapper = styled.div`
   position: absolute;
@@ -140,13 +141,13 @@ const ItemCard = styled.div`
   background-color: #e5e2e2;
   display: flex;
   flex-direction: column;
-  height: 365px;
+  height: 450px;
+  width: 350px;
   align-items: center;
   margin-bottom: 24px;
   justify-content: center;
   position: relative;
-  max-width: 300px;
-  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 5px;
   &:hover {
     ${ButtonsWrapper} {
       opacity: 1;
