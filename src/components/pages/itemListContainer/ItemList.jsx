@@ -52,8 +52,11 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
       {items.map((item) => {
         const isLoadingDetail = loadingDetail === item.id;
         const isLoadingAdd = loadingAdd === item.id;
+        const hasDiscount = "discount" in item; // Check if the item has the 'discount' property
+        // const hasDiscount = Object.prototype.hasOwnProperty.call(item, 'discount');
+
         return (
-          <ItemCard  key={item.id}>
+          <ItemCard key={item.id}>
             <ImgWrapper to={`/item-details/${item.id}`}>
               <Loader>
                 {isLoadingAdd && <ClipLoader color="#194f44" size={50} />}
@@ -61,7 +64,7 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
               </Loader>
               <ItemImg variant="top" src={item.img} />
             </ImgWrapper>
-
+            {hasDiscount && <Discount>-{item.discount}%</Discount>}
             <ButtonsWrapper disabled={item.stock === 0}>
               <BtnAddCart onClick={() => onAddCart(item)}>
                 <AddCart onClick={() => handleLoadAdd(item.id)} />
@@ -75,7 +78,11 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
             <InfoWrapper>
               <ItemTitle>{item.title}</ItemTitle>
               <ItemSubTitle>{item.subtitle}</ItemSubTitle>
-              <ItemPrice>${item.price}</ItemPrice>
+              {hasDiscount ? (
+                <ItemPrice hasDiscount={hasDiscount}><DiscountPrice>$ {item.discountPrice} </DiscountPrice> $ {item.price}</ItemPrice>
+              ) : (
+                <ItemPrice>${item.price}</ItemPrice>
+              )}
             </InfoWrapper>
 
             <NoStock disabled={item.stock > 0}>Out of stock</NoStock>
@@ -95,7 +102,7 @@ const Wrapper = styled.div`
   gap: 16px;
   -webkit-box-pack: center;
   justify-items: center;
-    align-items: center;
+  align-items: center;
 `;
 const ButtonsWrapper = styled.div`
   position: absolute;
@@ -255,10 +262,40 @@ const ItemTitle = styled.h2`
 const ItemSubTitle = styled.h3`
   font-size: 0.8rem;
 `;
-const ItemPrice = styled.h4`
+const DiscountPrice = styled.span`
   color: #a83737;
   font-weight: 600;
   font-size: 1rem;
   font-style: italic;
   padding: 6px 0 8px 0;
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 19px;
+    width: 18%;
+    left: 184px;
+    border-top: 0.1rem solid rgb(75, 73, 73);
+  }
+`
+const ItemPrice = styled.h4`
+  color: ${(props) => (props.hasDiscount ? 'rgb(149 146 146)' : '#a83737')};
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: italic;
+  padding: 6px 0 8px 0;
+`;
+const Discount = styled.h4`
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #b34646;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  line-height: 2.8;
+  cursor: pointer;
 `;

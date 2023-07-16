@@ -7,9 +7,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 
 export const AgregarDocs = () => {
-  
   const [addProduct, setAddProduct] = useState(false);
-  const [addDiscount, setAddDiscount] = useState(0)
 
   const rellenar = () => {
     let itemsCollections = collection(db, "products");
@@ -24,30 +22,52 @@ export const AgregarDocs = () => {
       title: "",
       subtitle: "",
       price: "",
-      discount:"",
+      discountPrice:"",
       stock: "",
       description: "",
       category: "",
       img: "",
+      secondUnit:"",
     },
-    
+
     //Aca creamos la logica del submit
     onSubmit: async (values) => {
-      const newItem = {
-        ...values,
-        id: parseInt(values.id),
-        discount: parseInt(setAddDiscount(values.discount * values.price /100)),
-        price: parseFloat(values.price - addDiscount),
-        stock: parseInt(values.stock),
-      };
+
+      //Calculamos el descuento (si es que hay)
+      const price = parseFloat(values.price);
+      const discount = parseFloat(values.discount);
+      let totalPrice = price;
+
+      //Agregamos propiedad "discount" (si lo hay) al objecto newItem
+      if (discount) {
+        const discountAmount = (price * discount) / 100;
+        totalPrice -= discountAmount;
+      }
+      let newItem;
+      if (discount) {
+        newItem = {
+          ...values,
+          id: parseInt(values.id),
+          price: parseFloat(values.price),
+          discountPrice: totalPrice,
+          stock: parseInt(values.stock),
+          discount: discount, //Agregamos discount
+        };
+      } else {
+        newItem = {
+          ...values,
+          id: parseInt(values.id),
+          price: totalPrice,
+          stock: parseInt(values.stock),
+          //quitamos discount
+        };
+      }
       const ordersCollection = collection(db, "products");
       await addDoc(ordersCollection, newItem);
       setAddProduct(true);
-      
-      const getDiscount = () => {
-
-      }
     },
+    
+
     //que no se valide mientras escribo, sino al hacer submit
     // validateOnChange: false,
     // //validar los datos
@@ -64,7 +84,6 @@ export const AgregarDocs = () => {
     //     .max(15, "Debe contener 10 numeros"),
     // }),
   });
- 
 
   return (
     <div>
