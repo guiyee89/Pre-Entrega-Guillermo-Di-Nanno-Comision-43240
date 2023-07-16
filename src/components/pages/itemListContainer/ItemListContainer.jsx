@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
-// import { AgregarDocs } from "../../dashboard/AgregarDocs";
+import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
 
 export const ItemListContainer = () => {
@@ -74,6 +74,7 @@ export const ItemListContainer = () => {
     addToCart(productData);
   };
 
+
   //Rendering condicional
   return (
     <>
@@ -96,10 +97,10 @@ export const ItemListContainer = () => {
       ) : (
         <>
         <ItemListTitle>{categoryTitle}</ItemListTitle>
-        <ItemList items={items} onAddCart={onAddCart} navigate={navigate} />
+        <ItemList items={items} onAddCart={onAddCart} navigate={navigate}/>
         </>
       )}
-      {/* <AgregarDocs /> */}
+      <AgregarDocs />
     </>
   );
 };
