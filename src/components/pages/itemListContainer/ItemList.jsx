@@ -116,7 +116,6 @@ const ItemImg = styled.img`
   cursor: pointer;
   mix-blend-mode: darken;
 `;
-
 const ImgWrapper = styled(Link)`
   position: relative;
   background-color: #e5e2e2;
@@ -138,7 +137,6 @@ const InfoWrapper = styled.div`
   padding: 0 8px 0 8px;
   background-color: rgb(239 237 237);
 `;
-
 const ItemCard = styled.div`
   color: black;
   background-color: rgb(239 237 237);
@@ -167,7 +165,6 @@ const ItemCard = styled.div`
     }
   }
 `;
-
 const Loader = styled.div`
   position: absolute;
   top: 5px;
@@ -248,7 +245,6 @@ const NoStock = styled.p`
   display: ${({ disabled }) => (disabled ? "none" : "block")};
   text-transform: uppercase;
 `;
-
 const ItemTitle = styled.h2`
   font-size: 0.9rem;
   color: black;
