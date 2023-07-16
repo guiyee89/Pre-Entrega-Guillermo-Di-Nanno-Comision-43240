@@ -114,7 +114,9 @@ const ItemImg = styled.img`
   overflow: hidden;
   transition: transform 0.19s ease-in-out 0.08s;
   cursor: pointer;
+  mix-blend-mode: darken;
 `;
+
 const ImgWrapper = styled(Link)`
   position: relative;
   background-color: #e5e2e2;
@@ -134,11 +136,12 @@ const InfoWrapper = styled.div`
   align-items: center;
   width: 100%;
   padding: 0 8px 0 8px;
+  background-color: rgb(239 237 237);
 `;
 
 const ItemCard = styled.div`
   color: black;
-  background-color: #e5e2e2;
+  background-color: rgb(239 237 237);
   display: flex;
   flex-direction: column;
   height: 450px;
@@ -160,6 +163,7 @@ const ItemCard = styled.div`
     }
     ${ItemImg} {
       transform: scale(1.11);
+      mix-blend-mode: darken;
     }
   }
 `;
