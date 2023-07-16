@@ -7,7 +7,9 @@ import { useFormik } from "formik";
 import { useState } from "react";
 
 export const AgregarDocs = () => {
+  
   const [addProduct, setAddProduct] = useState(false);
+  const [addDiscount, setAddDiscount] = useState(0)
 
   const rellenar = () => {
     let itemsCollections = collection(db, "products");
@@ -22,24 +24,30 @@ export const AgregarDocs = () => {
       title: "",
       subtitle: "",
       price: "",
+      discount:"",
       stock: "",
       description: "",
       category: "",
       img: "",
     },
+    
     //Aca creamos la logica del submit
     onSubmit: async (values) => {
       const newItem = {
         ...values,
         id: parseInt(values.id),
-        price: parseFloat(values.price),
+        discount: parseInt(setAddDiscount(values.discount * values.price /100)),
+        price: parseFloat(values.price - addDiscount),
         stock: parseInt(values.stock),
       };
       const ordersCollection = collection(db, "products");
       await addDoc(ordersCollection, newItem);
       setAddProduct(true);
-    },
+      
+      const getDiscount = () => {
 
+      }
+    },
     //que no se valide mientras escribo, sino al hacer submit
     // validateOnChange: false,
     // //validar los datos
@@ -56,6 +64,7 @@ export const AgregarDocs = () => {
     //     .max(15, "Debe contener 10 numeros"),
     // }),
   });
+ 
 
   return (
     <div>
@@ -70,8 +79,8 @@ export const AgregarDocs = () => {
               variant="outlined"
               name="id"
               onChange={handleChange}
-              helperText={errors.name}
-              error={errors.name ? true : false}
+              helperText={errors.id}
+              error={errors.id ? true : false}
               sx={{ marginTop: "24px" }}
             />
             <Input
@@ -79,8 +88,8 @@ export const AgregarDocs = () => {
               variant="outlined"
               name="title"
               onChange={handleChange}
-              helperText={errors.email}
-              error={errors.email ? true : false}
+              helperText={errors.title}
+              error={errors.title ? true : false}
               sx={{ marginTop: "24px" }}
             />
             <Input
@@ -88,8 +97,8 @@ export const AgregarDocs = () => {
               variant="outlined"
               name="subtitle"
               onChange={handleChange}
-              helperText={errors.email}
-              error={errors.email ? true : false}
+              helperText={errors.subtitle}
+              error={errors.subtitle ? true : false}
               sx={{ marginTop: "24px" }}
             />
             <Input
@@ -97,8 +106,17 @@ export const AgregarDocs = () => {
               variant="outlined"
               name="price"
               onChange={handleChange}
-              helperText={errors.email}
-              error={errors.email ? true : false}
+              helperText={errors.price}
+              error={errors.price ? true : false}
+              sx={{ marginTop: "24px" }}
+            />
+            <Input
+              label="Discount"
+              variant="outlined"
+              name="discount"
+              onChange={handleChange}
+              helperText={errors.discount}
+              error={errors.discount ? true : false}
               sx={{ marginTop: "24px" }}
             />
             <Input
@@ -106,8 +124,8 @@ export const AgregarDocs = () => {
               variant="outlined"
               name="stock"
               onChange={handleChange}
-              helperText={errors.phone}
-              error={errors.phone ? true : false}
+              helperText={errors.stock}
+              error={errors.stock ? true : false}
               sx={{ marginTop: "24px" }}
             />
             <Input
@@ -115,8 +133,8 @@ export const AgregarDocs = () => {
               variant="outlined"
               name="description"
               onChange={handleChange}
-              helperText={errors.phone}
-              error={errors.phone ? true : false}
+              helperText={errors.description}
+              error={errors.description ? true : false}
               sx={{ marginTop: "24px" }}
             />
             <Input
@@ -124,8 +142,8 @@ export const AgregarDocs = () => {
               variant="outlined"
               name="category"
               onChange={handleChange}
-              helperText={errors.phone}
-              error={errors.phone ? true : false}
+              helperText={errors.category}
+              error={errors.category ? true : false}
               sx={{ marginTop: "24px" }}
             />
             <Input
@@ -133,8 +151,8 @@ export const AgregarDocs = () => {
               variant="outlined"
               name="img"
               onChange={handleChange}
-              helperText={errors.phone}
-              error={errors.phone ? true : false}
+              helperText={errors.img}
+              error={errors.img ? true : false}
               sx={{ marginTop: "24px" }}
             />
             <SubmitBtn type="submit">Agregar 1 Doc a Coleccion</SubmitBtn>

@@ -118,7 +118,7 @@ const ItemImg = styled.img`
 `;
 const ImgWrapper = styled(Link)`
   position: relative;
-  background-color: #e5e2e2;
+  background-color: rgb(239, 237, 237);
   width: 100%;
   height: 100%;
   display: flex;
@@ -143,7 +143,7 @@ const ItemCard = styled.div`
   display: flex;
   flex-direction: column;
   height: 450px;
-  width: 350px;
+  width: 370px;
   align-items: center;
   margin-bottom: 24px;
   justify-content: center;
