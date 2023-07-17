@@ -7,7 +7,6 @@ import { getDoc, doc } from "firebase/firestore";
 import Swal from "sweetalert2";
 
 export const CartContainer = () => {
-
   const {
     cart,
     clearCart,
@@ -16,9 +15,13 @@ export const CartContainer = () => {
     getTotalPrice,
     getItemPrice,
     addQuantity,
+    getTotalDiscount,
+    getSubTotal,
   } = useContext(CartContext);
 
   const totalPrice = getTotalPrice();
+  const subTotal = getSubTotal();
+  const totalDiscount = getTotalDiscount();
 
   const navigate = useNavigate();
 
@@ -49,7 +52,8 @@ export const CartContainer = () => {
     } else {
       // Ya no hay stock de productos
       Swal.fire({
-        title: "<span style='font-size: 1rem; color: black'>Some items in your cart are no longer available :</span>",
+        title:
+          "<span style='font-size: 1rem; color: black'>Some items in your cart are no longer available :</span>",
         html: missingItemMessage(missingItems),
         // icon: "warning",
       });
@@ -61,9 +65,8 @@ export const CartContainer = () => {
     <Wrapper key="cart-wrapper">
       {/* Boton para limpiar "cart" */}
       {cart.map((product) => {
-        //Buscar item x id en la funcion getItemPrice
-        const itemPrice = getItemPrice(product.id);
-
+        const itemPrice = getItemPrice(product.id); //Buscar item x id en la funcion getItemPrice
+        const hasDiscount = product.discountPrice; //Variable de Item con descuento
         return (
           <ItemWrapper key={product.id}>
             <ImgWrapper>
@@ -72,8 +75,17 @@ export const CartContainer = () => {
 
             <ItemTitle>{product.title}</ItemTitle>
 
-            <ItemPrice>${itemPrice}</ItemPrice>
-
+            {hasDiscount ? (
+              <ItemPrice hasDiscount={hasDiscount}>
+                <DiscountPrice>
+                  $ {product.discountPrice * product.quantity}{" "}
+                  {/* Precio con descuento */}
+                </DiscountPrice>{" "}
+                $ {itemPrice}
+              </ItemPrice>
+            ) : (
+              <ItemPrice>${itemPrice}</ItemPrice>
+            )}
             <QuantityWrapper>
               <BtnQuantity onClick={() => removeQuantity(product.id)}>
                 {" "}
@@ -96,9 +108,22 @@ export const CartContainer = () => {
       <CartInfo>
         {cart.length > 0 ? (
           <>
-            <button onClick={clearCart}>Clear all</button>
-            <TotalPago>Total a Pagar: $ {totalPrice}</TotalPago>
-            <button onClick={realizarCompra}>Checkout</button>
+            <ClearButton onClick={clearCart}>Clear all</ClearButton>
+            <TotalPriceInfo>
+              <SubTotalWrapper>
+                <TotalText colSpan="1">Subtotal:</TotalText>
+                <SubTotal>$ {subTotal}</SubTotal>
+              </SubTotalWrapper>
+              <DiscountWrapper>
+                <TotalText colSpan="1">Discount:</TotalText>
+                <TotalDiscount>- $ {totalDiscount}</TotalDiscount>
+              </DiscountWrapper>
+              <TotalWrapper>
+                <TotalText colSpan="1">Total:</TotalText>
+                <TotalPrice>${totalPrice}</TotalPrice>
+              </TotalWrapper>
+            </TotalPriceInfo>
+            <CheckoutButton onClick={realizarCompra}>Checkout</CheckoutButton>
           </>
         ) : (
           <h1>The cart is empty</h1>
@@ -122,7 +147,6 @@ const missingItemMessage = (missingItems) => {
 
   return message;
 };
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -157,9 +181,6 @@ const ItemImg = styled.img`
 const ItemQuantity = styled.h4`
   font-weight: bold;
 `;
-const ItemPrice = styled.h3`
-  font-weight: bold;
-`;
 const ItemTitle = styled.h2`
   width: 100px;
 `;
@@ -175,8 +196,63 @@ const CartInfo = styled.div`
   justify-content: space-evenly;
   gap: 1.5rem;
 `;
-const TotalPago = styled.h2`
-  font-size: 1.2rem;
-  font-weight: bold;
+const ClearButton = styled.button`
+  height: max-content;
 `;
-
+const CheckoutButton = styled.button`
+  height: max-content;
+`;
+const ItemPrice = styled.td`
+  vertical-align: middle;
+`;
+const DiscountPrice = styled.span`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: #a83737;
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: italic;
+  padding: 10px 0px 0px;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 45px;
+    width: 55%;
+    left: 23%;
+    border-top: 0.1rem solid rgb(75, 73, 73);
+  }
+`;
+const TotalPriceInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+const TotalWrapper = styled.div`
+  font-weight: 500;
+  font-size: 1.4rem;
+  display: inherit;
+`;
+const SubTotalWrapper = styled.div`
+  display: inherit;
+`;
+const DiscountWrapper = styled.div`
+  display: inherit;
+`;
+const TotalText = styled.h3`
+  text-align: end;
+  font-weight: 500;
+`;
+const TotalDiscount = styled.h3`
+  font-weight: 500;
+  padding-left: 24px;
+`;
+const SubTotal = styled.h3`
+  font-weight: 500;
+  padding-left: 35px;
+`;
+const TotalPrice = styled.h3`
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding-left: 46px;
+`;

@@ -14,7 +14,7 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
         <Description>{selectedItem.description}</Description>
         <Price>
           <Span>$</Span>
-          {selectedItem.price}
+           {selectedItem.price}
         </Price>
         <Stock>
           in stock <Num>{selectedItem.stock}</Num>
@@ -79,28 +79,14 @@ const Num = styled.span`
   font-size: 1.1rem;
 `;
 const ImgWrapper = styled.div`
-  height: 500px;
-  width: 38%;
+  /* height: 500px; */
+  width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 const Image = styled.img`
-  height: 95%;
+  /* height: 95%; */
   width: 100%;
   object-fit: contain;
-
-  //Cambio height para que no se distorcione la imagen
-  /* height: ${({ id }) =>
-    id === 1
-      ? "365px"
-      : id === 2
-      ? "340px"
-      : id === 5
-      ? "388px"
-      : id === 6
-      ? "311px"
-      : id === 3
-      ? "365px"
-      : "90%"}; */
 `;

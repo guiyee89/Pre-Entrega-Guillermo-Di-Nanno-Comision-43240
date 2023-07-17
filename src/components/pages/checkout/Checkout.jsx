@@ -4,9 +4,12 @@ import styled from "styled-components/macro";
 import { CartContext } from "../../context/CartContext";
 
 export const Checkout = ({ handleSubmit, handleChange, errors }) => {
-  const { cart, getTotalPrice, getItemPrice } = useContext(CartContext);
+  const { cart, getTotalPrice, getItemPrice, getTotalDiscount, getSubTotal } =
+    useContext(CartContext);
 
-  let total = getTotalPrice();
+  const total = getTotalPrice();
+  const subTotal = getSubTotal();
+  const totalDiscount = getTotalDiscount();
 
   return (
     <>
@@ -68,7 +71,9 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
             </thead>
             <tbody>
               {cart.map((product) => {
-                const itemPrice = getItemPrice(product.id);
+                const itemPrice = getItemPrice(product.id); //Buscar item x id en la funcion getItemPrice
+                const hasDiscount = product.discountPrice; //Variable de Item con descuento
+                // const totalDiscount = itemPrice - hasDiscount * product.quantity
                 return (
                   <tr key={product.id}>
                     <ItemWrapper>
@@ -77,18 +82,40 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
                       </ImgWrapper>
                       <ItemTitle>{product.title}</ItemTitle>
                     </ItemWrapper>
-                    <ItemPrice>${itemPrice}</ItemPrice>
+                    {hasDiscount ? (
+                      <ItemPrice hasDiscount={hasDiscount}>
+                        <DiscountPrice>
+                          $ {product.discountPrice * product.quantity}{" "}
+                          {/* Precio con descuento */}
+                        </DiscountPrice>{" "}
+                        $ {itemPrice}
+                      </ItemPrice>
+                    ) : (
+                      <ItemPrice>${itemPrice}</ItemPrice>
+                    )}
                     <ItemQuantity>{product.quantity}</ItemQuantity>
                   </tr>
                 );
               })}
-              <TotalInfo>
-                <TotalText colSpan="1">Total:</TotalText>
-                <TotalPrice>${total}</TotalPrice>
-              </TotalInfo>
             </tbody>
           </ProductTable>
         </ProductsWrapper>
+
+        <TotalPriceInfo>
+          <SubTotalWrapper>
+            <TotalText colSpan="1">Subtotal:</TotalText>
+            <SubTotal>$ {subTotal}</SubTotal>
+          </SubTotalWrapper>
+          <DiscountWrapper>
+            <TotalText colSpan="1">Discount:</TotalText>
+            <TotalDiscount>- $ {totalDiscount}</TotalDiscount>
+          </DiscountWrapper>
+          <TotalWrapper>
+            <TotalText colSpan="1">Total:</TotalText>
+            <TotalPrice>${total}</TotalPrice>
+          </TotalWrapper>
+        </TotalPriceInfo>
+        
       </Wrapper>
     </>
   );
@@ -99,48 +126,6 @@ const Wrapper = styled.section`
   max-width: 1300px;
   margin: 0 auto;
   width: 100%;
-`;
-const ProductsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  padding: 0 115px 0 20px;
-`;
-const ProductTable = styled.table`
-  text-align: center;
-  margin-bottom: 40px;
-`;
-const ItemWrapper = styled.td`
-  display: flex;
-  align-items: center;
-  padding-top: 8px;
-  height: 70px;
-`;
-const ItemTitle = styled.h2`
-  margin: 0 auto;
-`;
-const ImgWrapper = styled.div`
-  height: 100%;
-`;
-const ItemImg = styled.img`
-  width: 50px;
-  height: 100%;
-  object-fit: contain;
-`;
-const ItemPrice = styled.td`
-  vertical-align: middle;
-`;
-const TotalInfo = styled.tr`
-  position: absolute;
-  bottom: 0;
-  right: 19%;
-`;
-const TotalText = styled.td`
-  text-align: end;
-`;
-const TotalPrice = styled.td`
-  font-weight: bold;
-  padding-left: 35px;
 `;
 const ItemQuantity = styled.td`
   vertical-align: middle;
@@ -172,4 +157,90 @@ const SubmitBtn = styled.button`
   position: absolute;
   bottom: -90px;
   left: 85%;
+`;
+const ProductsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding: 0 115px 0 20px;
+`;
+const ProductTable = styled.table`
+  text-align: center;
+  margin-bottom: 40px;
+`;
+const ItemWrapper = styled.td`
+  display: flex;
+  align-items: center;
+  padding-top: 8px;
+  height: 70px;
+`;
+const ItemTitle = styled.h2`
+  margin: 0 auto;
+`;
+const ImgWrapper = styled.div`
+  height: 100%;
+`;
+const ItemImg = styled.img`
+  width: 50px;
+  height: 100%;
+  object-fit: contain;
+`;
+const ItemPrice = styled.td`
+  vertical-align: middle;
+`;
+const DiscountPrice = styled.span`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: #a83737;
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: italic;
+  padding: 10px 0px 0px;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 45px;
+    width: 55%;
+    left: 23%;
+    border-top: 0.1rem solid rgb(75, 73, 73);
+  }
+`;
+const TotalPriceInfo = styled.div`
+  position: absolute;
+    width: 24%;
+    display: flex;
+    flex-direction: column;
+    bottom: -110px;
+    right: 14%;
+    gap: .5rem
+`;
+
+const TotalWrapper = styled.div`
+  font-weight: 500;
+  font-size: 1.4rem;
+  display: inherit;
+`;
+const SubTotalWrapper = styled.div`
+  display: inherit;
+`;
+const DiscountWrapper = styled.div`
+  display: inherit;
+`;
+const TotalText = styled.h3`
+  text-align: end;
+  font-weight: 500;
+`;
+const TotalDiscount = styled.h3`
+  font-weight: 500;
+  padding-left: 24px;
+`;
+const SubTotal = styled.h3`
+  font-weight: 500;
+  padding-left: 35px;
+`;
+const TotalPrice = styled.h3`
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding-left: 46px;
 `;

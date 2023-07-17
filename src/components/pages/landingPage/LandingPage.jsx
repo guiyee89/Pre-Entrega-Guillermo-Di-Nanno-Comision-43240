@@ -29,11 +29,11 @@ export const LandingPage = () => {
         </CarouselWrapper>
         <ItemsArticle>
           <ItemsImg
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689193257/samples/ecommerce/Landing%20Page/2023-07-12_17h20_30_emnhec.png"
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689617879/web%20access/samples%20for%20e-commerce/Shirts/2023-07-17_15h11_03_tsm1yc.png"
             alt=""
           />
           <ItemsImg
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689193256/samples/ecommerce/Landing%20Page/2023-07-12_15h52_02_net48t.png"
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689617952/web%20access/samples%20for%20e-commerce/Pants/2023-07-17_14h54_34_gke8nv.png"
             alt=""
           />
         </ItemsArticle>
@@ -86,11 +86,11 @@ const CarouselWrapper = styled.div`
 const ItemsArticle = styled.article`
   display: flex;
   justify-content: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 const ItemsImg = styled.img`
   box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px;
-  width: 35%;
+  width: 48%;
 `;
 const StrechedArticle = styled.article`
   display: flex;

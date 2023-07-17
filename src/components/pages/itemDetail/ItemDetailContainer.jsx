@@ -28,6 +28,7 @@ export const ItemDetailContainer = () => {
       quantity: quantity,
     };
      //Agregamos la "data" de los productos con la funcion de contexto
+     console.log(data)
     addToCart(data);
     setSelectedItem({ ...selectedItem, quantity: 1 }); //Reset count inicial a 1
   };

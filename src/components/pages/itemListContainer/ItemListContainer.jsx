@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
-import { AgregarDocs } from "../../dashboard/AgregarDocs";
+// import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
 
 export const ItemListContainer = () => {
@@ -67,11 +67,11 @@ export const ItemListContainer = () => {
   //Funcion para agregar items y cantidad desde ItemList
   const onAddCart = (newItem) => {
     let quantity = 1;
-    const productData = {
-      ...newItem,
-      quantity: quantity,
-    };
-    addToCart(productData);
+      const productData = {
+        ...newItem,
+        quantity: quantity,
+      };
+      addToCart(productData);
   };
 
 
@@ -100,7 +100,7 @@ export const ItemListContainer = () => {
         <ItemList items={items} onAddCart={onAddCart} navigate={navigate}/>
         </>
       )}
-      <AgregarDocs />
+      {/* <AgregarDocs /> */}
     </>
   );
 };
