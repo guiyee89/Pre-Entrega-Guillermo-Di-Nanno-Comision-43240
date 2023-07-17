@@ -56,37 +56,41 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
         // const hasDiscount = Object.prototype.hasOwnProperty.call(item, 'discount');
 
         return (
-          <ItemCard key={item.id}>
-            <ImgWrapper to={`/item-details/${item.id}`}>
-              <Loader>
-                {isLoadingAdd && <ClipLoader color="#194f44" size={50} />}
-                {isLoadingDetail && <ClipLoader color="#194f44" size={50} />}
-              </Loader>
-              <ItemImg variant="top" src={item.img} />
-            </ImgWrapper>
-            {hasDiscount && <Discount>-{item.discount}%</Discount>}
-            <ButtonsWrapper disabled={item.stock === 0}>
-              <BtnAddCart onClick={() => onAddCart(item)}>
-                <AddCart onClick={() => handleLoadAdd(item.id)} />
-              </BtnAddCart>
+          <ItemWrapper key={item.id}>
+            <ItemCard>
+              <ImgWrapper to={`/item-details/${item.id}`}>
+                <Loader>
+                  {isLoadingAdd && <ClipLoader color="#194f44" size={50} />}
+                  {isLoadingDetail && <ClipLoader color="#194f44" size={50} />}
+                </Loader>
+                <ItemImg variant="top" src={item.img} />
+              </ImgWrapper>
+              {hasDiscount && <Discount>-{item.discount}%</Discount>}
+              <ButtonsWrapper disabled={item.stock === 0}>
+                <BtnAddCart onClick={() => onAddCart(item)}>
+                  <AddCart onClick={() => handleLoadAdd(item.id)} />
+                </BtnAddCart>
 
-              <BtnSeeDetails onClick={() => handleLoadDetail(item.id)}>
-                <SeeDetails />
-              </BtnSeeDetails>
-            </ButtonsWrapper>
+                <BtnSeeDetails onClick={() => handleLoadDetail(item.id)}>
+                  <SeeDetails />
+                </BtnSeeDetails>
+              </ButtonsWrapper>
 
+              <NoStock disabled={item.stock > 0}>Out of stock</NoStock>
+            </ItemCard>
             <InfoWrapper>
               <ItemTitle>{item.title}</ItemTitle>
               <ItemSubTitle>{item.subtitle}</ItemSubTitle>
               {hasDiscount ? (
-                <ItemPrice hasDiscount={hasDiscount}><DiscountPrice>$ {item.discountPrice} </DiscountPrice> $ {item.price}</ItemPrice>
+                <ItemPrice hasDiscount={hasDiscount}>
+                  <DiscountPrice>$ {item.discountPrice} </DiscountPrice> ${" "}
+                  {item.price}
+                </ItemPrice>
               ) : (
-                <ItemPrice>${item.price}</ItemPrice>
+                <ItemPrice>$ {item.price}</ItemPrice>
               )}
             </InfoWrapper>
-
-            <NoStock disabled={item.stock > 0}>Out of stock</NoStock>
-          </ItemCard>
+          </ItemWrapper>
         );
       })}
     </Wrapper>
@@ -104,6 +108,7 @@ const Wrapper = styled.div`
   justify-items: center;
   align-items: center;
 `;
+const ItemWrapper = styled.div``;
 const ButtonsWrapper = styled.div`
   position: absolute;
   top: 5px;
@@ -116,7 +121,7 @@ const ButtonsWrapper = styled.div`
   display: ${({ disabled }) => (disabled ? "none" : "block")};
 `;
 const ItemImg = styled.img`
-  max-height: 90%;
+  /* max-height: 94%; */
   margin: 0 auto;
   overflow: hidden;
   transition: transform 0.19s ease-in-out 0.08s;
@@ -141,7 +146,7 @@ const InfoWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 0 8px 0 8px;
+  padding: 0px 8px 22px;
   background-color: rgb(239 237 237);
 `;
 const ItemCard = styled.div`
@@ -149,10 +154,10 @@ const ItemCard = styled.div`
   background-color: rgb(239 237 237);
   display: flex;
   flex-direction: column;
-  height: 450px;
-  width: 370px;
+  height: 415px;
+  width: 410px;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
   justify-content: center;
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 5px;
@@ -162,10 +167,10 @@ const ItemCard = styled.div`
       transform: translateX(-20px);
       transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
     }
-    ${InfoWrapper}, ${ImgWrapper} {
+    /* ${InfoWrapper}, ${ImgWrapper} {
       background-color: white;
       transition: background-color ease-in-out 0.4s;
-    }
+    } */
     ${ItemImg} {
       transform: scale(1.11);
       mix-blend-mode: darken;
@@ -268,17 +273,18 @@ const DiscountPrice = styled.span`
   font-size: 1rem;
   font-style: italic;
   padding: 6px 0 8px 0;
+  position: relative;
   &::before {
     content: "";
     position: absolute;
-    bottom: 19px;
-    width: 18%;
-    left: 184px;
+    bottom: 16px;
+    width: 109%;
+    left: 64px;
     border-top: 0.1rem solid rgb(75, 73, 73);
   }
-`
+`;
 const ItemPrice = styled.h4`
-  color: ${(props) => (props.hasDiscount ? 'rgb(149 146 146)' : '#a83737')};
+  color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
   font-weight: 600;
   font-size: 1rem;
   font-style: italic;

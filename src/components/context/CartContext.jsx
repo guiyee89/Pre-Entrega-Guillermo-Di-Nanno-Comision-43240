@@ -204,15 +204,44 @@ const CartContextProvider = ({ children }) => {
     return 0;
   };
 
-  //Calcular precio total de los elementos en cart
+  //Calcular SubTotal del carrito
+  const getSubTotal = () => {
+    const total = cart.reduce((acc, item) => {
+      return acc + item.quantity * item.price
+    }, 0)
+    return total
+  }
+
+  //Calcular precio total de los elementos en cart con y sin descuento
   const getTotalPrice = () => {
-    let total = cart.reduce((acc, element) => {
-      console.log(element)
-      console.log(acc)
-      return acc + element.quantity * element.price;
-    }, 0);
-    return total;
+    const hasDiscountItem = cart.some(item => item.discountPrice); // Check if any item has a discount
+    if (hasDiscountItem) {
+      const total = cart.reduce((acc, item) => {
+        const itemPrice = item.discountPrice ? item.discountPrice : item.price;
+        return acc + item.quantity * itemPrice;
+      }, 0);
+      return total;
+    } else {
+      const total = cart.reduce((acc, item) => {
+        return acc + item.quantity * item.price;
+      }, 0);
+      return total;
+    }
   };
+
+  //Calcular Total de descuentos de productos
+  const getTotalDiscount = () => {
+    const hasDiscount = cart.some((item) => item.discountPrice);
+    if (hasDiscount) {
+      const totalDiscount = cart.reduce((acc, item) => {
+        const itemDiscount = item.discountPrice ? item.discountPrice : item.price;
+        return acc + item.quantity * (itemDiscount - item.price); // Calculate the discount amount for each item
+      }, 0);
+  
+      return Math.abs(totalDiscount);
+    }
+  };
+  
 
   //(No es usada en esta app)
   //Identifico Quantity para que se mantenga la cantidad en todas las rutas / pages
@@ -232,7 +261,9 @@ const CartContextProvider = ({ children }) => {
     addQuantity,
     getTotalItems,
     getItemPrice,
+    getSubTotal,
     getTotalPrice,
+    getTotalDiscount,
   };
 
   //PROVEEMOS A LOS "CHILDREN" CON LA "DATA" DEL "CARTCONTEXT"
