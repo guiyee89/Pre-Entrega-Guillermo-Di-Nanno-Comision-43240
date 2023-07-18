@@ -93,11 +93,12 @@ const ItemsImg = styled.img`
   width: 48%;
 `;
 const StrechedArticle = styled.article`
+  width: 1442px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #ddd8d8;
-  margin: 70px 20px;
+  margin: 70px 0;
 `;
 const ShoesImg = styled.img`
   object-fit: contain;

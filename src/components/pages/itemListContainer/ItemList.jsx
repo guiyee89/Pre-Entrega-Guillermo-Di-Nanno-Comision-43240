@@ -278,8 +278,8 @@ const DiscountPrice = styled.span`
     content: "";
     position: absolute;
     bottom: 16px;
-    width: 109%;
-    left: 64px;
+    width: 100%;
+    left: 67px;
     border-top: 0.1rem solid rgb(75, 73, 73);
   }
 `;
