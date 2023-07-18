@@ -1,8 +1,39 @@
 import { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
+import { db } from "../../../firebaseConfig";
+import {
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+import { useEffect } from "react";
 
 export const CarouselDesktop = () => {
+  const [discountedProducts, setDiscountedProducts] = useState([]);
+  console.log(discountedProducts);
+
+  useEffect(() => {
+    const fetchDiscountedProducts = async () => {
+      const q = query(
+        collection(db, "products"),
+        where("discount", "!=", null),
+        orderBy("discount"),
+        limit(8)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      const products = querySnapshot.docs.map((doc) => doc.data());
+      setDiscountedProducts(products);
+    };
+
+    fetchDiscountedProducts();
+  }, []);
+
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
@@ -18,51 +49,48 @@ export const CarouselDesktop = () => {
       >
         <CarouselItem>
           <CarouselInner>
-            <CarouselImg
-              className="d-block w-100"
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689193257/samples/ecommerce/Landing%20Page/2023-07-12_17h20_30_emnhec.png"
-              alt="First slide"
-            />
-            <CarouselImg
-              className="d-block w-100"
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689193256/samples/ecommerce/Landing%20Page/2023-07-12_15h52_02_net48t.png"
-              alt="Second slide"
-            />
-            <CarouselImg
-              className="d-block w-100"
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689193256/samples/ecommerce/Landing%20Page/2023-07-12_16h02_38_dm3ivo.png"
-              alt="Third slide"
-            />
-            <CarouselImg
-              className="d-block w-100"
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689193256/samples/ecommerce/Landing%20Page/2023-07-12_16h02_38_dm3ivo.png"
-              alt="Third slide"
-            />
+            {discountedProducts.slice(0, 4).map((product) => (
+              <ItemCard key={product.id}>
+                <CarouselImg
+                  className="d-block w-100"
+                  src={product.img}
+                  alt={product.title}
+                />
+                <Discount>-{product.discount}%</Discount>
+                <InfoWrapper>
+                  <ItemTitle>{product.title}</ItemTitle>
+                  <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                  {/* {hasDiscount && ( */}
+                  <ItemPrice hasDiscount={"discount" in product}>
+                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice> $
+                    {product.price}
+                  </ItemPrice>
+                </InfoWrapper>
+              </ItemCard>
+            ))}
           </CarouselInner>
         </CarouselItem>
 
         <CarouselItem>
           <CarouselInner>
-            <CarouselImg
-              className="d-block w-100"
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689193256/samples/ecommerce/Landing%20Page/2023-07-12_16h02_38_dm3ivo.png"
-              alt="First slide"
-            />
-            <CarouselImg
-              className="d-block w-100"
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689193256/samples/ecommerce/Landing%20Page/2023-07-12_16h02_55_ufklk9.png"
-              alt="Second slide"
-            />
-            <CarouselImg
-              className="d-block w-100"
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689193257/samples/ecommerce/Landing%20Page/2023-07-12_17h20_30_emnhec.png"
-              alt="Third slide"
-            />
-            <CarouselImg
-              className="d-block w-100"
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689193257/samples/ecommerce/Landing%20Page/2023-07-12_17h20_30_emnhec.png"
-              alt="Third slide"
-            />
+            {discountedProducts.slice(4, 8).map((product) => (
+              <ItemCard key={product.id}>
+                <CarouselImg
+                  className="d-block w-100"
+                  src={product.img}
+                  alt={product.title}
+                />
+                <Discount>-{product.discount}%</Discount>
+                <InfoWrapper>
+                  <ItemTitle>{product.title}</ItemTitle>
+                  <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                  <ItemPrice hasDiscount={"discount" in product}>
+                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice> ${" "}
+                    {product.price}
+                  </ItemPrice>
+                </InfoWrapper>
+              </ItemCard>
+            ))}
           </CarouselInner>
         </CarouselItem>
       </StyledCarousel>
@@ -72,7 +100,6 @@ export const CarouselDesktop = () => {
 
 const Wrapper = styled.div`
   margin: 24px auto 110px;
-  box-shadow:rgba(0, 0, 0, 0.35) 0px 0px 3px;
   z-index: 0;
   position: relative;
   max-height: 520px;
@@ -83,6 +110,7 @@ const Wrapper = styled.div`
   }
 `;
 const StyledCarousel = styled(Carousel)`
+  max-width: 1328px;
   .carousel-slide {
     min-height: 300px;
     max-height: 520px;
@@ -93,13 +121,18 @@ const StyledCarousel = styled(Carousel)`
   }
   .carousel-control-next-icon,
   .carousel-control-prev-icon {
-    width: 2rem;
-    height: 3rem;
-    background-color: rgba(0, 0, 0, 0.55);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.85);
   }
-  .carousel-control-next,
+  .carousel-control-next{
+    width: 6%;
+    right: -30px;
+  }
   .carousel-control-prev {
-    width: 9%;
+    width: 6%;
+    left: -30px;
   }
   .carousel-indicators [data-bs-target] {
     margin-right: 15px;
@@ -111,7 +144,12 @@ const StyledCarousel = styled(Carousel)`
   .carousel-indicators {
     bottom: -50px;
   }
+  .carousel-inner {
+    overflow: inherit;
+    transition: transform 0.8s cubic-bezier(0.55, 0.09, 0.68, 0.53);
+  }
 `;
+
 const CarouselItem = styled(Carousel.Item)`
   height: 100%;
   .carousel-item {
@@ -126,7 +164,11 @@ const CarouselItem = styled(Carousel.Item)`
   }
 `;
 const CarouselImg = styled.img`
-  object-fit: contain;
+  margin: 0 auto;
+  overflow: hidden;
+  object-fit: cover;
+  cursor: pointer;
+  mix-blend-mode: darken;
 
   @media (min-width: 68.75rem) {
     height: 355px;
@@ -141,4 +183,74 @@ const CarouselImg = styled.img`
 const CarouselInner = styled.div`
   max-width: 100%;
   display: flex;
+  gap: 1rem;
+`;
+const ItemCard = styled.div`
+  color: black;
+  background-color: rgb(239 237 237);
+  display: flex;
+  flex-direction: column;
+  height: 440px;
+  width: 320px;
+  align-items: center;
+  margin-bottom: 8px;
+  justify-content: center;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 5px;
+`;
+const InfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0px 8px 22px;
+  background-color: rgb(239 237 237);
+`;
+const DiscountPrice = styled.span`
+  color: #a83737;
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: italic;
+  padding: 6px 0 8px 0;
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 16px;
+    width: 100%;
+    left: 67px;
+    border-top: 0.1rem solid rgb(75, 73, 73);
+  }
+`;
+const ItemPrice = styled.h4`
+  color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: italic;
+  padding: 6px 0 8px 0;
+`;
+const Discount = styled.h4`
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #b34646;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  line-height: 2.8;
+  cursor: pointer;
+`;
+const ItemTitle = styled.h2`
+  font-size: 0.9rem;
+  color: black;
+  font-weight: 700;
+  word-spacing: 3px;
+  text-transform: uppercase;
+`;
+const ItemSubTitle = styled.h3`
+  font-size: 0.8rem;
 `;

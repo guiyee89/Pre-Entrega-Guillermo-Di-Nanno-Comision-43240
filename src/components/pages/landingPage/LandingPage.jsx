@@ -77,7 +77,7 @@ const Title = styled.h1`
 `;
 const CarouselWrapper = styled.div`
   width: 100%;
-  margin: 0 auto;
+  display: flex;
   max-width: 1440px;
   @media (max-width:68rem) {
     width: 95%;
