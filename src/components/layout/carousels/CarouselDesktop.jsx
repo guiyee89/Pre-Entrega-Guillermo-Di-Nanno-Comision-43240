@@ -24,13 +24,10 @@ export const CarouselDesktop = () => {
         orderBy("discount"),
         limit(8)
       );
-
       const querySnapshot = await getDocs(q);
-
       const products = querySnapshot.docs.map((doc) => doc.data());
       setDiscountedProducts(products);
     };
-
     fetchDiscountedProducts();
   }, []);
 
@@ -46,27 +43,29 @@ export const CarouselDesktop = () => {
         activeIndex={index}
         onSelect={handleSelect}
         interval={5200}
+        //wrap={false}
       >
         <CarouselItem>
           <CarouselInner>
             {discountedProducts.slice(0, 4).map((product) => (
-              <ItemCard key={product.id}>
-                <CarouselImg
-                  className="d-block w-100"
-                  src={product.img}
-                  alt={product.title}
-                />
-                <Discount>-{product.discount}%</Discount>
+              <ItemWrapper key={product.id}>
+                <ItemCard>
+                  <CarouselImg
+                    className="d-block w-100"
+                    src={product.img}
+                    alt={product.title}
+                  />
+                  <Discount>-{product.discount}%</Discount>
+                </ItemCard>
                 <InfoWrapper>
                   <ItemTitle>{product.title}</ItemTitle>
                   <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                  {/* {hasDiscount && ( */}
                   <ItemPrice hasDiscount={"discount" in product}>
                     <DiscountPrice>$ {product.discountPrice}</DiscountPrice> $
                     {product.price}
                   </ItemPrice>
                 </InfoWrapper>
-              </ItemCard>
+              </ItemWrapper>
             ))}
           </CarouselInner>
         </CarouselItem>
@@ -74,13 +73,15 @@ export const CarouselDesktop = () => {
         <CarouselItem>
           <CarouselInner>
             {discountedProducts.slice(4, 8).map((product) => (
-              <ItemCard key={product.id}>
-                <CarouselImg
-                  className="d-block w-100"
-                  src={product.img}
-                  alt={product.title}
-                />
-                <Discount>-{product.discount}%</Discount>
+              <ItemWrapper key={product.id}>
+                <ItemCard>
+                  <CarouselImg
+                    className="d-block w-100"
+                    src={product.img}
+                    alt={product.title}
+                  />
+                  <Discount>-{product.discount}%</Discount>
+                </ItemCard>
                 <InfoWrapper>
                   <ItemTitle>{product.title}</ItemTitle>
                   <ItemSubTitle>{product.subtitle}</ItemSubTitle>
@@ -89,7 +90,7 @@ export const CarouselDesktop = () => {
                     {product.price}
                   </ItemPrice>
                 </InfoWrapper>
-              </ItemCard>
+              </ItemWrapper>
             ))}
           </CarouselInner>
         </CarouselItem>
@@ -110,7 +111,7 @@ const Wrapper = styled.div`
   }
 `;
 const StyledCarousel = styled(Carousel)`
-  max-width: 1328px;
+  max-width: 1312px;
   .carousel-slide {
     min-height: 300px;
     max-height: 520px;
@@ -126,13 +127,15 @@ const StyledCarousel = styled(Carousel)`
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.85);
   }
-  .carousel-control-next{
+  .carousel-control-next {
     width: 6%;
-    right: -30px;
+    right: -35px;
+    bottom: 100px;
   }
   .carousel-control-prev {
     width: 6%;
-    left: -30px;
+    left: -35px;
+    bottom: 100px;
   }
   .carousel-indicators [data-bs-target] {
     margin-right: 15px;
@@ -145,22 +148,22 @@ const StyledCarousel = styled(Carousel)`
     bottom: -50px;
   }
   .carousel-inner {
-    overflow: inherit;
+    overflow: hidden;
     transition: transform 0.8s cubic-bezier(0.55, 0.09, 0.68, 0.53);
-  }
+  } 
 `;
 
 const CarouselItem = styled(Carousel.Item)`
   height: 100%;
   .carousel-item {
-    display: flex;
     position: relative;
+    display: none;
     float: left;
     width: 100%;
     margin-right: -100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    transition: transform 0.8s ease-in-out;
+    transition: .6s ease-in-out;
   }
 `;
 const CarouselImg = styled.img`
@@ -171,13 +174,12 @@ const CarouselImg = styled.img`
   mix-blend-mode: darken;
 
   @media (min-width: 68.75rem) {
-    height: 355px;
+    height: 100%;
     min-height: 200px;
-    width: 100%;
   }
   @media (max-width: 68.75rem) {
     min-width: 200px;
-    height: 300px;
+    height: 100%;
   }
 `;
 const CarouselInner = styled.div`
@@ -185,13 +187,16 @@ const CarouselInner = styled.div`
   display: flex;
   gap: 1rem;
 `;
+const ItemWrapper = styled.div`
+ //Wrapper para ItemCard
+`;
 const ItemCard = styled.div`
   color: black;
   background-color: rgb(239 237 237);
   display: flex;
   flex-direction: column;
-  height: 440px;
-  width: 320px;
+  height: 350px;
+  width: 315px;
   align-items: center;
   margin-bottom: 8px;
   justify-content: center;

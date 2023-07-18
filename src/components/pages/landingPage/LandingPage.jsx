@@ -63,9 +63,10 @@ export const LandingPage = () => {
   );
 };
 const Wrapper = styled.section`
-  max-width: 1440px;
+  max-width: 1320px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 0 auto;
 `;
 const Title = styled.h1`
@@ -76,9 +77,7 @@ const Title = styled.h1`
   color: rgb(99 86 86);
 `;
 const CarouselWrapper = styled.div`
-  width: 100%;
   display: flex;
-  max-width: 1440px;
   @media (max-width:68rem) {
     width: 95%;
   }
