@@ -49,45 +49,45 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
   return (
     <Wrapper key="cart-wrapper">
       {/* Mapeo de productos */}
-      {items.map((item) => {
-        const isLoadingDetail = loadingDetail === item.id;
-        const isLoadingAdd = loadingAdd === item.id;
-        const hasDiscount = "discount" in item; // Check if the item has the 'discount' property
+      {items.map((product) => {
+        const isLoadingDetail = loadingDetail === product.id;
+        const isLoadingAdd = loadingAdd === product.id;
+        const hasDiscount = "discount" in product; // Check if the item has the 'discount' property
         // const hasDiscount = Object.prototype.hasOwnProperty.call(item, 'discount');
 
         return (
-          <ItemWrapper key={item.id}>
+          <ItemWrapper key={product.id}>
             <ItemCard>
-              <ImgWrapper to={`/item-details/${item.id}`}>
+              <ImgWrapper to={`/item-details/${product.id}`}>
                 <Loader>
                   {isLoadingAdd && <ClipLoader color="#194f44" size={50} />}
                   {isLoadingDetail && <ClipLoader color="#194f44" size={50} />}
                 </Loader>
-                <ItemImg variant="top" src={item.img} />
+                <ItemImg variant="top" src={product.img} />
               </ImgWrapper>
-              {hasDiscount && <Discount>-{item.discount}%</Discount>}
-              <ButtonsWrapper disabled={item.stock === 0}>
-                <BtnAddCart onClick={() => onAddCart(item)}>
-                  <AddCart onClick={() => handleLoadAdd(item.id)} />
+              {hasDiscount && <Discount>-{product.discount}%</Discount>}
+              <ButtonsWrapper disabled={product.stock === 0}>
+                <BtnAddCart onClick={() => onAddCart(product)}>
+                  <AddCart onClick={() => handleLoadAdd(product.id)} />
                 </BtnAddCart>
 
-                <BtnSeeDetails onClick={() => handleLoadDetail(item.id)}>
+                <BtnSeeDetails onClick={() => handleLoadDetail(product.id)}>
                   <SeeDetails />
                 </BtnSeeDetails>
               </ButtonsWrapper>
 
-              <NoStock disabled={item.stock > 0}>Out of stock</NoStock>
+              <NoStock disabled={product.stock > 0}>Out of stock</NoStock>
             </ItemCard>
             <InfoWrapper>
-              <ItemTitle>{item.title}</ItemTitle>
-              <ItemSubTitle>{item.subtitle}</ItemSubTitle>
+              <ItemTitle>{product.title}</ItemTitle>
+              <ItemSubTitle>{product.subtitle}</ItemSubTitle>
               {hasDiscount ? (
                 <ItemPrice hasDiscount={hasDiscount}>
-                  <DiscountPrice>$ {item.discountPrice} </DiscountPrice> ${" "}
-                  {item.price}
+                  <DiscountPrice>$ {product.discountPrice} </DiscountPrice> ${" "}
+                  {product.price}
                 </ItemPrice>
               ) : (
-                <ItemPrice>$ {item.price}</ItemPrice>
+                <ItemPrice>$ {product.price}</ItemPrice>
               )}
             </InfoWrapper>
           </ItemWrapper>

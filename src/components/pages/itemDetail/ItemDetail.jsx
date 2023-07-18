@@ -2,6 +2,8 @@ import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
 
 export const ItemDetail = ({ selectedItem, onAdd }) => {
+  const hasDiscount = "discount" in selectedItem;
+
   return (
     <Wrapper>
       <ImgWrapper>
@@ -12,10 +14,14 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
         <Title>{selectedItem.title}</Title>
         <SubTitle>{selectedItem.subtitle}</SubTitle>
         <Description>{selectedItem.description}</Description>
-        <Price>
-          <Span>$</Span>
-           {selectedItem.price}
-        </Price>
+        {hasDiscount ? (
+          <ItemPrice hasDiscount={hasDiscount}>
+            <DiscountPrice>$ {selectedItem.discountPrice} </DiscountPrice> ${" "}
+            {selectedItem.price}
+          </ItemPrice>
+        ) : (
+          <ItemPrice>$ {selectedItem.price}</ItemPrice>
+        )}
         <Stock>
           in stock <Num>{selectedItem.stock}</Num>
         </Stock>
@@ -58,17 +64,30 @@ const Description = styled.p`
   margin-top: -24px;
   line-height: 1.5;
 `;
-const Price = styled.h3`
-  color: #c92b2b;
-  font-weight: bold;
-  font-size: 1.1rem;
+const DiscountPrice = styled.span`
+  color: #a83737;
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: italic;
+  padding: 6px 0 8px 0;
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 16px;
+    width: 100%;
+    left: 67px;
+    border-top: 0.1rem solid rgb(75, 73, 73);
+  }
 `;
-const Span = styled.span`
-  color: black;
-  padding-right: 4px;
-  font-weight: bold;
-  font-size: 1.1rem;
+const ItemPrice = styled.h4`
+  color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: italic;
+  padding: 6px 0 8px 0;
 `;
+
 const Stock = styled.p`
   font-size: 0.85rem;
   font-style: italic;
