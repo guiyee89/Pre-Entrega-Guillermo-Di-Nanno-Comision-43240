@@ -1,10 +1,14 @@
 import styled from "styled-components/macro";
-import { CarouselDesktop } from "../../layout/carousels/CarouselDesktop";
-import { CarouselTablet } from "../../layout/carousels/CarouselTablet";
-import { CarouselMobile } from "../../layout/carousels/CarouselMobile";
 import { useEffect, useState } from "react";
+import { CarouselDesktop } from "./carousels/CarouselDesktop";
+import { CarouselTablet } from "./carousels/CarouselTablet";
+import { CarouselMobile } from "./carousels/CarouselMobile";
+import { BarLoader } from "react-spinners";
 
 export const LandingPage = () => {
+
+  const [loading, setLoading] = useState(true);
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -18,9 +22,26 @@ export const LandingPage = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000); // Delay of 1 second (1000 milliseconds)
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
     <>
       <Wrapper>
+      {loading ? (
+        <LoaderWrapper>
+          <BarLoader color="#12352e" width={250} />
+        </LoaderWrapper>
+      ) : ( 
+        <>
         <Title>on sale</Title>
         <CarouselWrapper>
           {windowWidth >= 900 && <CarouselDesktop />}
@@ -58,6 +79,8 @@ export const LandingPage = () => {
             </TextSub2>
           </TextDiv>
         </StrechedArticle>
+        </>
+      )}
       </Wrapper>
     </>
   );
@@ -68,6 +91,13 @@ const Wrapper = styled.section`
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
+`;
+const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 538px;
+  margin-left: 35px;
 `;
 const Title = styled.h1`
   font-size: 2rem;

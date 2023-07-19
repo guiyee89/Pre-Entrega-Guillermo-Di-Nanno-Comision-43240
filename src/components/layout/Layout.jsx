@@ -3,7 +3,8 @@ import { NavBar } from "./navbar/NavBar";
 import { menuRoutes } from "../routes/menuRoutes";
 import { Footer } from "./footer/Footer";
 import styled from "styled-components/macro";
-import { HeroCarousel } from "./carousels/HeroCarousel";
+import { HeroCarousel } from "../pages/landingPage/carousels/HeroCarousel";
+
 
 
 export const Layout = () => {

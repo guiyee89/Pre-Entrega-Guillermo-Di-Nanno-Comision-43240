@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
-import { InfoIcons } from "../../common/infoIcons/InfoIcons";
+import { InfoIcons } from "../../../common/infoIcons/InfoIcons";
+
 
 export const HeroCarousel = () => {
   const [index, setIndex] = useState(0);
