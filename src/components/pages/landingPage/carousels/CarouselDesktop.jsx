@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
-import { db } from "../../../firebaseConfig";
 import {
   collection,
   getDocs,
@@ -11,10 +10,12 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect } from "react";
+import { db } from "../../../../firebaseConfig";
 
 export const CarouselDesktop = () => {
+  // const [loading, setLoading] = useState(true);
+
   const [discountedProducts, setDiscountedProducts] = useState([]);
-  console.log(discountedProducts);
 
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
@@ -24,12 +25,32 @@ export const CarouselDesktop = () => {
         orderBy("discount"),
         limit(8)
       );
+
       const querySnapshot = await getDocs(q);
       const products = querySnapshot.docs.map((doc) => doc.data());
       setDiscountedProducts(products);
     };
     fetchDiscountedProducts();
   }, []);
+  // useEffect(() => {
+  //   const fetchDiscountedProducts = async () => {
+  //     const q = query(
+  //       collection(db, "products"),
+  //       where("discount", "!=", null),
+  //       orderBy("discount"),
+  //       limit(8)
+  //     );
+  //   }
+  //     setTimeout(async () => {
+  //       const querySnapshot = await getDocs(q);
+  //       const products = querySnapshot.docs.map((doc) => doc.data());
+  //       setDiscountedProducts(products);
+  //       setLoading(false);
+  //     }, 1000);
+  //   };
+
+  //   fetchDiscountedProducts();
+  // }, []);
 
   const [index, setIndex] = useState(0);
 
@@ -56,8 +77,7 @@ export const CarouselDesktop = () => {
                     alt={product.title}
                   />
                   <Discount>-{product.discount}%</Discount>
-                </ItemCard>
-                <InfoWrapper>
+                  <InfoWrapper>
                   <ItemTitle>{product.title}</ItemTitle>
                   <ItemSubTitle>{product.subtitle}</ItemSubTitle>
                   <ItemPrice hasDiscount={"discount" in product}>
@@ -65,6 +85,8 @@ export const CarouselDesktop = () => {
                     {product.price}
                   </ItemPrice>
                 </InfoWrapper>
+                </ItemCard>
+               
               </ItemWrapper>
             ))}
           </CarouselInner>
@@ -81,8 +103,7 @@ export const CarouselDesktop = () => {
                     alt={product.title}
                   />
                   <Discount>-{product.discount}%</Discount>
-                </ItemCard>
-                <InfoWrapper>
+                  <InfoWrapper>
                   <ItemTitle>{product.title}</ItemTitle>
                   <ItemSubTitle>{product.subtitle}</ItemSubTitle>
                   <ItemPrice hasDiscount={"discount" in product}>
@@ -90,6 +111,8 @@ export const CarouselDesktop = () => {
                     {product.price}
                   </ItemPrice>
                 </InfoWrapper>
+                </ItemCard>
+                
               </ItemWrapper>
             ))}
           </CarouselInner>
@@ -111,7 +134,7 @@ const Wrapper = styled.div`
   }
 `;
 const StyledCarousel = styled(Carousel)`
-  max-width: 1312px;
+  max-width: 1308px;
   .carousel-slide {
     min-height: 300px;
     max-height: 520px;
@@ -150,7 +173,7 @@ const StyledCarousel = styled(Carousel)`
   .carousel-inner {
     overflow: hidden;
     transition: transform 0.8s cubic-bezier(0.55, 0.09, 0.68, 0.53);
-  } 
+  }
 `;
 
 const CarouselItem = styled(Carousel.Item)`
@@ -163,7 +186,7 @@ const CarouselItem = styled(Carousel.Item)`
     margin-right: -100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    transition: .6s ease-in-out;
+    transition: 0.6s ease-in-out;
   }
 `;
 const CarouselImg = styled.img`
@@ -188,14 +211,14 @@ const CarouselInner = styled.div`
   gap: 1rem;
 `;
 const ItemWrapper = styled.div`
- //Wrapper para ItemCard
+  //Wrapper para ItemCard
 `;
 const ItemCard = styled.div`
   color: black;
   background-color: rgb(239 237 237);
   display: flex;
   flex-direction: column;
-  height: 350px;
+  height: 440px;
   width: 315px;
   align-items: center;
   margin-bottom: 8px;
