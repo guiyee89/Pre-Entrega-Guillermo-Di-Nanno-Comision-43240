@@ -60,11 +60,11 @@ export const LandingPage = () => {
         </ItemsArticle>
         <StrechedArticle>
           <ShoesImg
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689217689/samples/ecommerce/Landing%20Page/2023-07-12_16h01_37-removebg-preview_pwulvx.png"
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_37-removebg-preview_g6ithw.png"
             alt=""
           />
           <ShoesImg
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689217689/samples/ecommerce/Landing%20Page/2023-07-12_16h01_45-removebg-preview_vh37p9.png"
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_45-removebg-preview_s2bmvf.png"
             alt=""
           />
 
