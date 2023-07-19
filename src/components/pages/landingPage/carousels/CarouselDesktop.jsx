@@ -135,6 +135,7 @@ const Wrapper = styled.div`
 `;
 const StyledCarousel = styled(Carousel)`
   max-width: 1308px;
+  height: 435px;
   .carousel-slide {
     min-height: 300px;
     max-height: 520px;
@@ -172,6 +173,7 @@ const StyledCarousel = styled(Carousel)`
   }
   .carousel-inner {
     overflow: hidden;
+    height: 100%;
     transition: transform 0.8s cubic-bezier(0.55, 0.09, 0.68, 0.53);
   }
 `;
@@ -211,15 +213,17 @@ const CarouselInner = styled.div`
   gap: 1rem;
 `;
 const ItemWrapper = styled.div`
-  //Wrapper para ItemCard
+  //esto ajusta el responsivnes junto con 100% del itemCard
+  max-height: 440px;
+  max-width: 315px;
 `;
 const ItemCard = styled.div`
   color: black;
   background-color: rgb(239 237 237);
   display: flex;
   flex-direction: column;
-  height: 440px;
-  width: 315px;
+  height: 100%;
+  width: 100%;
   align-items: center;
   margin-bottom: 8px;
   justify-content: center;
@@ -259,8 +263,8 @@ const ItemPrice = styled.h4`
 `;
 const Discount = styled.h4`
   position: absolute;
-  top: 20px;
-  left: 40px;
+  top: 10px;
+  left: 30px;
   width: 50px;
   height: 50px;
   border-radius: 50%;

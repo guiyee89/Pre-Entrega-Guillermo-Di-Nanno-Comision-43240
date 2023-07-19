@@ -27,6 +27,7 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
         </Stock>
         <ItemCount stock={selectedItem.stock} initial={1} onAdd={onAdd} />
       </InsideWrapper>
+      
     </Wrapper>
   );
 };

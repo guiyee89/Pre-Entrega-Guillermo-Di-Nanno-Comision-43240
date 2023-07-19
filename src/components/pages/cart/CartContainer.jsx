@@ -19,6 +19,8 @@ export const CartContainer = () => {
     getSubTotal,
   } = useContext(CartContext);
 
+  console.log(cart)
+
   const totalPrice = getTotalPrice();
   const subTotal = getSubTotal();
   const totalDiscount = getTotalDiscount();
@@ -65,6 +67,7 @@ export const CartContainer = () => {
     <Wrapper key="cart-wrapper">
       {/* Boton para limpiar "cart" */}
       {cart.map((product) => {
+        console.log(cart)
         const itemPrice = getItemPrice(product.id); //Buscar item x id en la funcion getItemPrice
         const hasDiscount = product.discountPrice; //Variable de Item con descuento
         return (
@@ -149,6 +152,7 @@ const missingItemMessage = (missingItems) => {
 };
 const Wrapper = styled.div`
   display: flex;
+  width: 1100px;
   flex-direction: column;
   align-items: baseline;
   justify-content: center;
@@ -202,7 +206,7 @@ const ClearButton = styled.button`
 const CheckoutButton = styled.button`
   height: max-content;
 `;
-const ItemPrice = styled.td`
+const ItemPrice = styled.h3`
   vertical-align: middle;
 `;
 const DiscountPrice = styled.span`
