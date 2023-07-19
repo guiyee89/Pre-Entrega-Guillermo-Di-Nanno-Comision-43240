@@ -1,19 +1,21 @@
 import { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
-import {collection,getDocs,limit,orderBy,query,where} from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { useEffect } from "react";
 import { db } from "../../../../firebaseConfig";
-import { Link } from "react-router-dom";
 
 export const CarouselDesktop = () => {
   // const [loading, setLoading] = useState(true);
-  const [index, setIndex] = useState(0);
-  const [discountedProducts, setDiscountedProducts] = useState([]);
 
-  const handleSelect = (selectedIndex) => {
-    setIndex(selectedIndex);
-  };
+  const [discountedProducts, setDiscountedProducts] = useState([]);
 
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
@@ -30,7 +32,6 @@ export const CarouselDesktop = () => {
     };
     fetchDiscountedProducts();
   }, []);
-
   // useEffect(() => {
   //   const fetchDiscountedProducts = async () => {
   //     const q = query(
@@ -51,14 +52,11 @@ export const CarouselDesktop = () => {
   //   fetchDiscountedProducts();
   // }, []);
 
-  // const navigate = useNavigate();
+  const [index, setIndex] = useState(0);
 
-  // const handleItemClick = (product) => {
-  //   console.log("Item clicked:", product.id);
-  //   navigate(`/item-details/${product.id}`, {
-  //     state: { selectedItem: product },
-  //   });
-  // };
+  const handleSelect = (selectedIndex) => {
+    setIndex(selectedIndex);
+  };
 
   return (
     <Wrapper>
@@ -72,7 +70,6 @@ export const CarouselDesktop = () => {
           <CarouselInner>
             {discountedProducts.slice(0, 4).map((product) => (
               <ItemWrapper key={product.id}>
-                <Link to={`/item-details/${product.id}`}>
                 <ItemCard>
                   <CarouselImg
                     className="d-block w-100"
@@ -81,15 +78,15 @@ export const CarouselDesktop = () => {
                   />
                   <Discount>-{product.discount}%</Discount>
                   <InfoWrapper>
-                    <ItemTitle>{product.title}</ItemTitle>
-                    <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                    <ItemPrice hasDiscount={"discount" in product}>
-                      <DiscountPrice>$ {product.discountPrice}</DiscountPrice> ${" "}
-                      {product.price}
-                    </ItemPrice>
-                  </InfoWrapper>
+                  <ItemTitle>{product.title}</ItemTitle>
+                  <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                  <ItemPrice hasDiscount={"discount" in product}>
+                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice> $
+                    {product.price}
+                  </ItemPrice>
+                </InfoWrapper>
                 </ItemCard>
-               </Link>
+               
               </ItemWrapper>
             ))}
           </CarouselInner>
@@ -99,7 +96,6 @@ export const CarouselDesktop = () => {
           <CarouselInner>
             {discountedProducts.slice(4, 8).map((product) => (
               <ItemWrapper key={product.id}>
-                <Link to={`/item-details/${product.id}`}>
                 <ItemCard>
                   <CarouselImg
                     className="d-block w-100"
@@ -108,20 +104,19 @@ export const CarouselDesktop = () => {
                   />
                   <Discount>-{product.discount}%</Discount>
                   <InfoWrapper>
-                    <ItemTitle>{product.title}</ItemTitle>
-                    <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                    <ItemPrice hasDiscount={"discount" in product}>
-                      <DiscountPrice>$ {product.discountPrice}</DiscountPrice> ${" "}
-                      {product.price}
-                    </ItemPrice>
-                  </InfoWrapper>
+                  <ItemTitle>{product.title}</ItemTitle>
+                  <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                  <ItemPrice hasDiscount={"discount" in product}>
+                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice> ${" "}
+                    {product.price}
+                  </ItemPrice>
+                </InfoWrapper>
                 </ItemCard>
-               </Link>
+                
               </ItemWrapper>
             ))}
           </CarouselInner>
         </CarouselItem>
-
       </StyledCarousel>
     </Wrapper>
   );
