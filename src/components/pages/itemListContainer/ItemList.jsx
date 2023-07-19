@@ -99,8 +99,8 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
 //Styled-components
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  max-width: 1300px;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1350px;
   padding: 12px 0px;
   margin: 0px auto;
   gap: 16px;
@@ -108,7 +108,6 @@ const Wrapper = styled.div`
   justify-items: center;
   align-items: center;
 `;
-const ItemWrapper = styled.div``;
 const ButtonsWrapper = styled.div`
   position: absolute;
   top: 5px;
@@ -149,13 +148,18 @@ const InfoWrapper = styled.div`
   padding: 0px 8px 22px;
   background-color: rgb(239 237 237);
 `;
+const ItemWrapper = styled.div`
+  height: 326px;
+  width: 325px;
+  margin-bottom: 100px;
+`;
 const ItemCard = styled.div`
   color: black;
   background-color: rgb(239 237 237);
   display: flex;
   flex-direction: column;
-  height: 415px;
-  width: 410px;
+  height: 100%;
+  width: 100%;
   align-items: center;
   margin-bottom: 8px;
   justify-content: center;

@@ -1,21 +1,19 @@
 import { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
-import {
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
+import {collection,getDocs,limit,orderBy,query,where} from "firebase/firestore";
 import { useEffect } from "react";
 import { db } from "../../../../firebaseConfig";
+import { Link } from "react-router-dom";
 
 export const CarouselDesktop = () => {
   // const [loading, setLoading] = useState(true);
-
+  const [index, setIndex] = useState(0);
   const [discountedProducts, setDiscountedProducts] = useState([]);
+
+  const handleSelect = (selectedIndex) => {
+    setIndex(selectedIndex);
+  };
 
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
@@ -32,6 +30,7 @@ export const CarouselDesktop = () => {
     };
     fetchDiscountedProducts();
   }, []);
+
   // useEffect(() => {
   //   const fetchDiscountedProducts = async () => {
   //     const q = query(
@@ -52,11 +51,14 @@ export const CarouselDesktop = () => {
   //   fetchDiscountedProducts();
   // }, []);
 
-  const [index, setIndex] = useState(0);
+  // const navigate = useNavigate();
 
-  const handleSelect = (selectedIndex) => {
-    setIndex(selectedIndex);
-  };
+  // const handleItemClick = (product) => {
+  //   console.log("Item clicked:", product.id);
+  //   navigate(`/item-details/${product.id}`, {
+  //     state: { selectedItem: product },
+  //   });
+  // };
 
   return (
     <Wrapper>
@@ -70,6 +72,7 @@ export const CarouselDesktop = () => {
           <CarouselInner>
             {discountedProducts.slice(0, 4).map((product) => (
               <ItemWrapper key={product.id}>
+                <Link to={`/item-details/${product.id}`}>
                 <ItemCard>
                   <CarouselImg
                     className="d-block w-100"
@@ -78,15 +81,15 @@ export const CarouselDesktop = () => {
                   />
                   <Discount>-{product.discount}%</Discount>
                   <InfoWrapper>
-                  <ItemTitle>{product.title}</ItemTitle>
-                  <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                  <ItemPrice hasDiscount={"discount" in product}>
-                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice> $
-                    {product.price}
-                  </ItemPrice>
-                </InfoWrapper>
+                    <ItemTitle>{product.title}</ItemTitle>
+                    <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                    <ItemPrice hasDiscount={"discount" in product}>
+                      <DiscountPrice>$ {product.discountPrice}</DiscountPrice> ${" "}
+                      {product.price}
+                    </ItemPrice>
+                  </InfoWrapper>
                 </ItemCard>
-               
+               </Link>
               </ItemWrapper>
             ))}
           </CarouselInner>
@@ -96,6 +99,7 @@ export const CarouselDesktop = () => {
           <CarouselInner>
             {discountedProducts.slice(4, 8).map((product) => (
               <ItemWrapper key={product.id}>
+                <Link to={`/item-details/${product.id}`}>
                 <ItemCard>
                   <CarouselImg
                     className="d-block w-100"
@@ -104,19 +108,20 @@ export const CarouselDesktop = () => {
                   />
                   <Discount>-{product.discount}%</Discount>
                   <InfoWrapper>
-                  <ItemTitle>{product.title}</ItemTitle>
-                  <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                  <ItemPrice hasDiscount={"discount" in product}>
-                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice> ${" "}
-                    {product.price}
-                  </ItemPrice>
-                </InfoWrapper>
+                    <ItemTitle>{product.title}</ItemTitle>
+                    <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                    <ItemPrice hasDiscount={"discount" in product}>
+                      <DiscountPrice>$ {product.discountPrice}</DiscountPrice> ${" "}
+                      {product.price}
+                    </ItemPrice>
+                  </InfoWrapper>
                 </ItemCard>
-                
+               </Link>
               </ItemWrapper>
             ))}
           </CarouselInner>
         </CarouselItem>
+
       </StyledCarousel>
     </Wrapper>
   );
@@ -135,6 +140,7 @@ const Wrapper = styled.div`
 `;
 const StyledCarousel = styled(Carousel)`
   max-width: 1308px;
+  height: 435px;
   .carousel-slide {
     min-height: 300px;
     max-height: 520px;
@@ -172,6 +178,7 @@ const StyledCarousel = styled(Carousel)`
   }
   .carousel-inner {
     overflow: hidden;
+    height: 100%;
     transition: transform 0.8s cubic-bezier(0.55, 0.09, 0.68, 0.53);
   }
 `;
@@ -211,15 +218,17 @@ const CarouselInner = styled.div`
   gap: 1rem;
 `;
 const ItemWrapper = styled.div`
-  //Wrapper para ItemCard
+  //esto ajusta el responsivnes junto con 100% del itemCard
+  max-height: 440px;
+  max-width: 315px;
 `;
 const ItemCard = styled.div`
   color: black;
   background-color: rgb(239 237 237);
   display: flex;
   flex-direction: column;
-  height: 440px;
-  width: 315px;
+  height: 100%;
+  width: 100%;
   align-items: center;
   margin-bottom: 8px;
   justify-content: center;
@@ -259,8 +268,8 @@ const ItemPrice = styled.h4`
 `;
 const Discount = styled.h4`
   position: absolute;
-  top: 20px;
-  left: 40px;
+  top: 10px;
+  left: 30px;
   width: 50px;
   height: 50px;
   border-radius: 50%;

@@ -90,7 +90,7 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
+  margin: 0 20px;
 `;
 const LoaderWrapper = styled.div`
   display: flex;
@@ -109,7 +109,7 @@ const Title = styled.h1`
 const CarouselWrapper = styled.div`
   display: flex;
   @media (max-width:68rem) {
-    width: 95%;
+    max-width: 95%;
   }
 `;
 const ItemsArticle = styled.article`
@@ -122,7 +122,7 @@ const ItemsImg = styled.img`
   width: 48%;
 `;
 const StrechedArticle = styled.article`
-  width: 1442px;
+  max-width: 1442px;
   display: flex;
   align-items: center;
   justify-content: center;

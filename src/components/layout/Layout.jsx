@@ -5,33 +5,25 @@ import { Footer } from "./footer/Footer";
 import styled from "styled-components/macro";
 import { HeroCarousel } from "../pages/landingPage/carousels/HeroCarousel";
 
-
-
 export const Layout = () => {
-
   //Render de Hero en Home
   const location = useLocation();
   const currentRoute = menuRoutes.find(
     (route) => route.path === location.pathname
   );
-  const isHome = currentRoute?.id === "home"; 
-
+  const isHome = currentRoute?.id === "home";
 
   return (
     <Wrapper>
-      
       <NavBar />
 
-      <HeroWrapper>
-        {isHome && <HeroCarousel />}
-      </HeroWrapper>
+      <HeroWrapper>{isHome && <HeroCarousel />}</HeroWrapper>
 
       <OutletWrapper isHome={isHome}>
         <Outlet />
       </OutletWrapper>
 
       <Footer />
-
     </Wrapper>
   );
 };
@@ -41,11 +33,14 @@ const Wrapper = styled.div`
 `;
 const OutletWrapper = styled.div`
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: ${({ isHome }) => (isHome ? "0" : "200px")};
 `;
 const HeroWrapper = styled.div`
   margin-bottom: 200px;
-  @media (max-width:68rem) {
+  @media (max-width: 68rem) {
     margin-bottom: 100px;
   }
-`
+`;

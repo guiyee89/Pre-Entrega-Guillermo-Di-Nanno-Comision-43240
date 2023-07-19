@@ -146,10 +146,9 @@ const CarouselImg = styled.img`
   }
 `;
 const CarouselInner = styled.div`
-  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
   gap: 3rem;
-  width: 300px;
   display: flex;
   justify-content: center;
 `;
