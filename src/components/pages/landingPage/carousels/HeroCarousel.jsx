@@ -21,21 +21,21 @@ export const HeroCarousel = () => {
         <CarouselItem>
           <CarouselImg
             className="d-block w-100"
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1688223003/samples/ecommerce/Hero/2023-06-15_18h30_07_ojrorw600_voa2iv.png"
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771372/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h29_53_qtqorc600_gt3fsj.png"
             alt="First slide"
           />
         </CarouselItem>
         <CarouselItem>
           <CarouselImg
             className="d-block w-100"
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1688223008/samples/ecommerce/Hero/2023-06-15_18h29_53_qtqorc600_o94nla.png"
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771373/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h29_30_wnx8lf600_nkjhmm.png"
             alt="Second slide"
           />
         </CarouselItem>
         <CarouselItem>
           <CarouselImg
             className="d-block w-100"
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1688223014/samples/ecommerce/Hero/2023-06-15_18h29_30_wnx8lf600_fwnrjj.png"
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771371/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h30_07_ojrorw600_old1wz.png"
             alt="Third slide"
           />
         </CarouselItem>

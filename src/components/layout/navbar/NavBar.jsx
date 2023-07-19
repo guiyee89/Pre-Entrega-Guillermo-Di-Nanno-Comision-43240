@@ -38,7 +38,7 @@ export const NavBar = () => {
 
           <LogoDiv scrolled={scroll}>
               <LogoLink to="/">
-                  <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689339728/samples/ecommerce/Logos/2023-07-14_09h48_23-removebg-preview_kvbtdx.png"></Logo>
+                  <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
               </LogoLink>
           </LogoDiv>
 
