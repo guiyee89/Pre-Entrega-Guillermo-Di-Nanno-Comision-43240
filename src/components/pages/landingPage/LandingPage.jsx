@@ -6,7 +6,6 @@ import { CarouselMobile } from "./carousels/CarouselMobile";
 import { BarLoader } from "react-spinners";
 
 export const LandingPage = () => {
-
   const [loading, setLoading] = useState(true);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -36,51 +35,76 @@ export const LandingPage = () => {
   return (
     <>
       <Wrapper>
-      {loading ? (
-        <LoaderWrapper>
-          <BarLoader color="#12352e" width={0} />
-        </LoaderWrapper>
-      ) : ( 
-        <>
-        <Title>on sale</Title>
-        <CarouselWrapper>
-          {windowWidth >= 900 && <CarouselDesktop />}
-          {windowWidth < 900 && windowWidth >= 580 && <CarouselTablet />}
-          {windowWidth < 580 && <CarouselMobile />}
-        </CarouselWrapper>
-        <ItemsArticle>
-          <ItemsImg
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689617879/web%20access/samples%20for%20e-commerce/Shirts/2023-07-17_15h11_03_tsm1yc.png"
-            alt=""
-          />
-          <ItemsImg
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689617952/web%20access/samples%20for%20e-commerce/Pants/2023-07-17_14h54_34_gke8nv.png"
-            alt=""
-          />
-        </ItemsArticle>
-        <StrechedArticle>
-          <ShoesImg
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_37-removebg-preview_g6ithw.png"
-            alt=""
-          />
-          <ShoesImg
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_45-removebg-preview_s2bmvf.png"
-            alt=""
-          />
+        {loading ? (
+          <LoaderWrapper>
+            <BarLoader color="#12352e" width={0} />
+          </LoaderWrapper>
+        ) : (
+          <>
+            <Title>on sale</Title>
+            <CarouselWrapper>
+              {windowWidth >= 900 && <CarouselDesktop />}
+              {windowWidth < 900 && windowWidth >= 580 && <CarouselTablet />}
+              {windowWidth < 580 && <CarouselMobile />}
+            </CarouselWrapper>
+            <MiddleArticle>
+              <ImgWrapper>
+                <MiddleItemsImg
+                  src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881568/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_15h11_03-removebg-preview_px49rf.png"
+                  alt=""
+                />
+                <TextWrapper>
+                  <MidImgText>
+                    <Arrows>&#8594;</Arrows>
+                    Shirts
+                    <br />
+                    <MidSpan>from</MidSpan>
+                    <br />
+                    $9.000
+                  </MidImgText>
+                </TextWrapper>
+              </ImgWrapper>
+              <ImgWrapper>
+                <MiddleItemsImg
+                  src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881569/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_14h54_34-removebg-preview_p51ljr.png"
+                  alt=""
+                />
+                <TextWrapper>
+                  <MidImgText>
+                    <Arrows>&#8594;</Arrows>
+                    Pants
+                    <br />
+                    <MidSpan>from</MidSpan>
+                    <br />
+                    $12.000
+                  </MidImgText>
+                  ;
+                </TextWrapper>
+              </ImgWrapper>
+            </MiddleArticle>
+            <StrechedArticle>
+              <ShoesImg
+                src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_37-removebg-preview_g6ithw.png"
+                alt=""
+              />
+              <ShoesImg
+                src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_45-removebg-preview_s2bmvf.png"
+                alt=""
+              />
 
-          <TextDiv>
-            <TextTitle>All our Shoes</TextTitle>
-            <TextPromo>30%off</TextPromo>
-            <TextSub>On second unit </TextSub>
-            <TextSub2 style={{ whiteSpace: "pre-line" }}>
-              The best for your feet
-              {"\n"}
-              And your pocket
-            </TextSub2>
-          </TextDiv>
-        </StrechedArticle>
-        </>
-      )}
+              <TextDiv>
+                <TextTitle>All our Shoes</TextTitle>
+                <TextPromo>30%off</TextPromo>
+                <TextSub>On second unit </TextSub>
+                <TextSub2 style={{ whiteSpace: "pre-line" }}>
+                  The best for your feet
+                  {"\n"}
+                  And your pocket
+                </TextSub2>
+              </TextDiv>
+            </StrechedArticle>
+          </>
+        )}
       </Wrapper>
     </>
   );
@@ -108,40 +132,101 @@ const Title = styled.h1`
 `;
 const CarouselWrapper = styled.div`
   display: flex;
-  @media (max-width:68rem) {
+  @media (max-width: 68rem) {
     max-width: 95%;
   }
 `;
-const ItemsArticle = styled.article`
+const MiddleArticle = styled.article`
   display: flex;
   justify-content: center;
   justify-content: space-between;
+  gap: 1rem;
 `;
-const ItemsImg = styled.img`
+const MiddleItemsImg = styled.img`
+  transition: transform 0.29s ease-in-out 0.1s;
+  width: 645px;
+`;
+const ImgWrapper = styled.div`
+  cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px;
-  width: 48%;
+  overflow: hidden;
+  background-color: #e7e3e3;
+  transition: background-color 0.4s ease-in-out;
+  max-width: 100%;
+  position: relative;
+  &:hover ${MiddleItemsImg} {
+    transform: scale(1.11);
+  }
+  &:hover {
+    background-color: #fbfbfb;
+  }
 `;
-const StrechedArticle = styled.article`
-  max-width: 1442px;
+const TextWrapper = styled.div`
+  position: absolute;
+  width: 80%;
+  height: 155px;
+  bottom: 200px;
   display: flex;
-  align-items: center;
+  right: 10%;
+  background-color: rgba(190, 14.3, 40, 0.67);
+  -webkit-box-pack: center;
   justify-content: center;
-  background-color: #ddd8d8;
-  margin: 70px 0;
+  -webkit-box-align: center;
+  align-items: center;
+  line-height: 1.15;
+`;
+const Arrows = styled.span`
+  font-size: 2.8rem;
+  margin-left: -60px;
+  margin-right: 10px;
+`;
+const MidImgText = styled.h2`
+  color: white;
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+`;
+const MidSpan = styled.span`
+  text-transform: lowercase;
+  font-size: 1.5rem;
 `;
 const ShoesImg = styled.img`
   object-fit: contain;
   overflow: hidden;
-  max-width: 35%;
+  max-width: 33%;
+  transition: transform 0.29s ease-in-out 0.1s;
 `;
 const TextDiv = styled.div`
   padding-left: 16px;
+  transition: transform 0.29s ease-in-out 0.1s;
 `;
-const TextTitle = styled.h1`
+const StrechedArticle = styled.article`
+  cursor: pointer;
+  overflow: hidden;
+  max-width: 1330px;
+  height: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ddd8d8;
+  transition: background-color 0.4s ease-in-out;
+  margin: 95px 0;
+  &:hover ${ShoesImg} {
+    transform: scale(1.08);
+  }
+  &:hover ${TextDiv} {
+    transform: scale(1.08);
+  }
+  &:hover {
+    background-color: #f7f7f7;
+  }
+`;
+const TextTitle = styled.h3`
   font-size: 2rem;
 `;
-const TextPromo = styled.h2`
-  font-size: 6rem;
+const TextPromo = styled.h3`
+  font-size: 5.6rem;
   text-transform: uppercase;
   letter-spacing: 5px;
   color: #b60404;

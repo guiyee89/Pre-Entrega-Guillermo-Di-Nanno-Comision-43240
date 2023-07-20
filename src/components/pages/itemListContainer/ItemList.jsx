@@ -100,7 +100,7 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  max-width: 1350px;
+  max-width: 1400px;
   padding: 12px 0px;
   margin: 0px auto;
   gap: 16px;
@@ -120,7 +120,6 @@ const ButtonsWrapper = styled.div`
   display: ${({ disabled }) => (disabled ? "none" : "block")};
 `;
 const ItemImg = styled.img`
-  /* max-height: 94%; */
   margin: 0 auto;
   overflow: hidden;
   transition: transform 0.19s ease-in-out 0.08s;
@@ -130,7 +129,6 @@ const ItemImg = styled.img`
 const ImgWrapper = styled(Link)`
   position: relative;
   background-color: rgb(239, 237, 237);
-  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -149,17 +147,14 @@ const InfoWrapper = styled.div`
   background-color: rgb(239 237 237);
 `;
 const ItemWrapper = styled.div`
-  height: 326px;
-  width: 325px;
-  margin-bottom: 100px;
+  margin-bottom: 10px;
 `;
 const ItemCard = styled.div`
   color: black;
   background-color: rgb(239 237 237);
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
+  aspect-ratio: 1/1;
   align-items: center;
   margin-bottom: 8px;
   justify-content: center;
@@ -297,7 +292,7 @@ const ItemPrice = styled.h4`
 const Discount = styled.h4`
   position: absolute;
   top: 20px;
-  left: 40px;
+  left: 8%;
   width: 50px;
   height: 50px;
   border-radius: 50%;
