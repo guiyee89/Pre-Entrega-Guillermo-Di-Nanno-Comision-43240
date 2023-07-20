@@ -123,7 +123,7 @@ export const CartContainer = () => {
               </DiscountWrapper>
               <TotalWrapper>
                 <TotalText colSpan="1">Total:</TotalText>
-                <TotalPrice>${totalPrice}</TotalPrice>
+                <TotalPrice>$ {totalPrice}</TotalPrice>
               </TotalWrapper>
             </TotalPriceInfo>
             <CheckoutButton onClick={realizarCompra}>Checkout</CheckoutButton>

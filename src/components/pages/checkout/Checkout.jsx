@@ -112,7 +112,7 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
           </DiscountWrapper>
           <TotalWrapper>
             <TotalText colSpan="1">Total:</TotalText>
-            <TotalPrice>${total}</TotalPrice>
+            <TotalPrice>$ {total}</TotalPrice>
           </TotalWrapper>
         </TotalPriceInfo>
         
