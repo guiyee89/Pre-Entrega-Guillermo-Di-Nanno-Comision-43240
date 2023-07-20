@@ -17,10 +17,8 @@ import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
 export const CarouselDesktop = () => {
-  // const [loading, setLoading] = useState(true);
 
   const [discountedProducts, setDiscountedProducts] = useState([]);
-  // Use the useNavigate hook
 
   const [loading, setLoading] = useState(true);
 
@@ -42,10 +40,8 @@ export const CarouselDesktop = () => {
       );
 
       const querySnapshot = await getDocs(q);
-      const productIds = querySnapshot.docs.map((doc) => doc.id); // Get the document IDs
-      const products = await Promise.all(
-        productIds.map((productId) => fetchDiscountedItemById(productId))
-      ); // Fetch each discounted item by ID
+      const productIds = querySnapshot.docs.map((doc) => doc.id); // Obtener docs by ID
+      const products = await Promise.all(productIds.map((productId) => fetchDiscountedItemById(productId))); // Fetch cada discounted Item x ID
       setDiscountedProducts(products);
     };
     fetchDiscountedProducts();
