@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs} from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
@@ -21,8 +21,8 @@ export const CarouselDesktop = () => {
 
   useEffect(() => {
     const fetchAllProducts = async () => {
-      const fetchQuery = query(collection(db, "products"));
-      const querySnapshot = await getDocs(fetchQuery);
+      const queryAllProducts = collection(db, "products"); //Usar "query" para usar metodos de filtrado: "discount" "orderBy" "limit", etc
+      const querySnapshot = await getDocs(queryAllProducts);
       const allProducts = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
