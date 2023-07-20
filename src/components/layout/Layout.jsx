@@ -4,13 +4,13 @@ import { menuRoutes } from "../routes/menuRoutes";
 import { Footer } from "./footer/Footer";
 import styled from "styled-components/macro";
 import { HeroCarousel } from "../pages/landingPage/carousels/HeroCarousel";
-import { BarLoader } from "react-spinners";
-import { useEffect, useState } from "react";
+// import { BarLoader } from "react-spinners";
+// import { useEffect, useState } from "react";
 
 export const Layout = () => {
 
   //Loader
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   //Render de Hero en Home
   const location = useLocation();
@@ -19,25 +19,25 @@ export const Layout = () => {
   );
   const isHome = currentRoute?.id === "home";
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 700);
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 700);
 
-    return () => clearTimeout(timeout);
-  }, []);
+  //   return () => clearTimeout(timeout);
+  // }, []);
 
 
   return (
     <Wrapper>
       <NavBar />
-      {loading ? (
+      {/* {loading ? (
         <LoaderWrapper>
           <BarLoader color="#12352e" width={250} />
         </LoaderWrapper>
-      ) : (
+      ) : ( */}
         <HeroWrapper>{isHome && <HeroCarousel />}</HeroWrapper>
-      )}
+      {/* )} */}
       <OutletWrapper isHome={isHome}>
         <Outlet />
       </OutletWrapper>
@@ -63,10 +63,10 @@ const HeroWrapper = styled.div`
     margin-bottom: 100px;
   }
 `;
-const LoaderWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  height: 470px;
-  margin-left: 35px;
-`;
+// const LoaderWrapper = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: flex-end;
+//   height: 470px;
+//   margin-left: 35px;
+// `;
