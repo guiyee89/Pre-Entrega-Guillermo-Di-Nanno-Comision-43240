@@ -9,7 +9,6 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
       <ImgWrapper>
         <Image src={selectedItem.img} id={selectedItem.id} />
       </ImgWrapper>
-
       <InsideWrapper>
         <Title>{selectedItem.title}</Title>
         <SubTitle>{selectedItem.subtitle}</SubTitle>

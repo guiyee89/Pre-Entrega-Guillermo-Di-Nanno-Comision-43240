@@ -3,6 +3,8 @@ import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
 import {
   collection,
+  doc,
+  getDoc,
   getDocs,
   limit,
   orderBy,
@@ -11,11 +13,13 @@ import {
 } from "firebase/firestore";
 import { useEffect } from "react";
 import { db } from "../../../../firebaseConfig";
+import {  Link  } from "react-router-dom";
 
 export const CarouselDesktop = () => {
   // const [loading, setLoading] = useState(true);
 
   const [discountedProducts, setDiscountedProducts] = useState([]);
+ // Use the useNavigate hook
 
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
@@ -27,37 +31,32 @@ export const CarouselDesktop = () => {
       );
 
       const querySnapshot = await getDocs(q);
-      const products = querySnapshot.docs.map((doc) => doc.data());
+      const productIds = querySnapshot.docs.map((doc) => doc.id); // Get the document IDs
+      const products = await Promise.all(productIds.map((productId) => fetchDiscountedItemById(productId))); // Fetch each discounted item by ID
       setDiscountedProducts(products);
     };
     fetchDiscountedProducts();
   }, []);
-  // useEffect(() => {
-  //   const fetchDiscountedProducts = async () => {
-  //     const q = query(
-  //       collection(db, "products"),
-  //       where("discount", "!=", null),
-  //       orderBy("discount"),
-  //       limit(8)
-  //     );
-  //   }
-  //     setTimeout(async () => {
-  //       const querySnapshot = await getDocs(q);
-  //       const products = querySnapshot.docs.map((doc) => doc.data());
-  //       setDiscountedProducts(products);
-  //       setLoading(false);
-  //     }, 1000);
-  //   };
 
-  //   fetchDiscountedProducts();
-  // }, []);
+  // Function to fetch the discounted item by ID from Firestore
+  const fetchDiscountedItemById = async (itemId) => {
+    const itemDocRef = doc(db, "products", itemId);
+    const itemDocSnapshot = await getDoc(itemDocRef);
+
+    if (itemDocSnapshot.exists()) {
+      return { ...itemDocSnapshot.data(), id: itemDocSnapshot.id }; // Include the document ID in the data
+    } else {
+      return null;
+    }
+  };
+  
+  
 
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
-
   return (
     <Wrapper>
       <StyledCarousel
@@ -70,7 +69,9 @@ export const CarouselDesktop = () => {
           <CarouselInner>
             {discountedProducts.slice(0, 4).map((product) => (
               <ItemWrapper key={product.id}>
-                <ItemCard>
+                {/* Pass the product.id as an argument to handleItemCardClick */}
+                <LinkWrapper to={`/item-details/${product.id}`}>
+                <ItemCard >
                   <CarouselImg
                     className="d-block w-100"
                     src={product.img}
@@ -78,15 +79,15 @@ export const CarouselDesktop = () => {
                   />
                   <Discount>-{product.discount}%</Discount>
                   <InfoWrapper>
-                  <ItemTitle>{product.title}</ItemTitle>
-                  <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                  <ItemPrice hasDiscount={"discount" in product}>
-                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice> $
-                    {product.price}
-                  </ItemPrice>
-                </InfoWrapper>
+                    <ItemTitle>{product.title}</ItemTitle>
+                    <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                    <ItemPrice hasDiscount={"discount" in product}>
+                      <DiscountPrice>$ {product.discountPrice}</DiscountPrice> $
+                      {product.price}
+                    </ItemPrice>
+                  </InfoWrapper>
                 </ItemCard>
-               
+                </LinkWrapper>
               </ItemWrapper>
             ))}
           </CarouselInner>
@@ -96,7 +97,9 @@ export const CarouselDesktop = () => {
           <CarouselInner>
             {discountedProducts.slice(4, 8).map((product) => (
               <ItemWrapper key={product.id}>
-                <ItemCard>
+                {/* Pass the product.id as an argument to handleItemCardClick */}
+                <LinkWrapper to={`/item-details/${product.id}`}>
+                <ItemCard >
                   <CarouselImg
                     className="d-block w-100"
                     src={product.img}
@@ -104,15 +107,15 @@ export const CarouselDesktop = () => {
                   />
                   <Discount>-{product.discount}%</Discount>
                   <InfoWrapper>
-                  <ItemTitle>{product.title}</ItemTitle>
-                  <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                  <ItemPrice hasDiscount={"discount" in product}>
-                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice> ${" "}
-                    {product.price}
-                  </ItemPrice>
-                </InfoWrapper>
+                    <ItemTitle>{product.title}</ItemTitle>
+                    <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                    <ItemPrice hasDiscount={"discount" in product}>
+                      <DiscountPrice>$ {product.discountPrice}</DiscountPrice> $
+                      {product.price}
+                    </ItemPrice>
+                  </InfoWrapper>
                 </ItemCard>
-                
+                </LinkWrapper>
               </ItemWrapper>
             ))}
           </CarouselInner>
@@ -121,7 +124,6 @@ export const CarouselDesktop = () => {
     </Wrapper>
   );
 };
-
 const Wrapper = styled.div`
   margin: 24px auto 110px;
   z-index: 0;
@@ -217,6 +219,9 @@ const ItemWrapper = styled.div`
   max-height: 440px;
   max-width: 315px;
 `;
+const LinkWrapper = styled(Link)`
+  text-decoration: none;
+`
 const ItemCard = styled.div`
   color: black;
   background-color: rgb(239 237 237);

@@ -32,6 +32,7 @@ export const ItemDetailContainer = () => {
     setSelectedItem({ ...selectedItem, quantity: 1 }); //Reset count inicial a 1
   };
 
+ 
   //ENCONTRAMOS PRODUCTOS POR "ID" Y RESOLVEMOS PROMISE PARA RENDERIZAR
   useEffect(() => {
     let itemCollection = collection(db, "products");
@@ -47,6 +48,7 @@ export const ItemDetailContainer = () => {
     }, 800);
   }, [id]);
 
+  
   return (
     <>
       <ToastContainer
@@ -82,3 +84,4 @@ const LoaderWrapper = styled.div`
   height: 538px;
   margin-left: 35px;
 `;
+
