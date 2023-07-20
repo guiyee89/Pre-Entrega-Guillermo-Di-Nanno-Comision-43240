@@ -32,25 +32,23 @@ export const ItemDetailContainer = () => {
     setSelectedItem({ ...selectedItem, quantity: 1 }); //Reset count inicial a 1
   };
 
+ 
   //ENCONTRAMOS PRODUCTOS POR "ID" Y RESOLVEMOS PROMISE PARA RENDERIZAR
   useEffect(() => {
-    const fetchSelectedItem = async () => {
-      // setLoading(true);
-      const itemCollection = collection(db, "products");
-      const refDoc = doc(itemCollection, id); // Use the ID from the URL parameter
-      const docSnapshot = await getDoc(refDoc);
+    let itemCollection = collection(db, "products");
+    let refDoc = doc(itemCollection, id);
 
-      if (docSnapshot.exists()) {
+    setTimeout(() => {
+      getDoc(refDoc).then((response) => {
         setSelectedItem({
-          ...docSnapshot.data(),
-          id: docSnapshot.id,
+          ...response.data(),
+          id: response.id,
         });
-      }
-      // setLoading(false);
-    };
-
-    fetchSelectedItem();
+      });
+    }, 800);
   }, [id]);
+
+  
   return (
     <>
       <ToastContainer

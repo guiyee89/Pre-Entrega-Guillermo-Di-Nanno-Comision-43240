@@ -100,7 +100,7 @@ export const ItemListContainer = () => {
         <ItemList items={items} onAddCart={onAddCart} navigate={navigate}/>
         </>
       )}
-      <AgregarDocs />
+       <AgregarDocs /> 
     </>
   );
 };
