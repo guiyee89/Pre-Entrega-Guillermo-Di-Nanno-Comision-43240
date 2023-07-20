@@ -101,7 +101,7 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   max-width: 1400px;
-  padding: 12px 0px;
+  padding: 12px 16px;
   margin: 0px auto;
   gap: 16px;
   -webkit-box-pack: center;
