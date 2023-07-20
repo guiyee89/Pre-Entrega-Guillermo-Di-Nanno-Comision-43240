@@ -1,72 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
-import { useEffect } from "react";
+import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
 export const CarouselDesktop = () => {
-
-  const [discountedProducts, setDiscountedProducts] = useState([]);
-
+  const [discountProducts, setDiscountedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 1300);
+    }, 1700);
 
     return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {
-    const fetchDiscountedProducts = async () => {
-      const q = query(
-        collection(db, "products"),
-        where("discount", "!=", null),
-        orderBy("discount"),
-        limit(8)
-      );
+    const fetchAllProducts = async () => {
+      const fetchQuery = query(collection(db, "products"));
+      const querySnapshot = await getDocs(fetchQuery);
+      const allProducts = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
 
-      const querySnapshot = await getDocs(q);
-      const productIds = querySnapshot.docs.map((doc) => doc.id); // Obtener docs by ID
-      const products = await Promise.all(productIds.map((productId) => fetchDiscountedItemById(productId))); // Fetch cada discounted Item x ID
-      setDiscountedProducts(products);
+      const filterDiscountProducts = allProducts.filter((product) => product.discount);
+      setDiscountedProducts(filterDiscountProducts);
     };
-    fetchDiscountedProducts();
+    fetchAllProducts();
   }, []);
-
-  // Function to fetch the discounted item by ID from Firestore
-  const fetchDiscountedItemById = async (itemId) => {
-    const itemDocRef = doc(db, "products", itemId);
-    const itemDocSnapshot = await getDoc(itemDocRef);
-
-    if (itemDocSnapshot.exists()) {
-      return { ...itemDocSnapshot.data(), id: itemDocSnapshot.id }; // Include the document ID in the data
-    } else {
-      return null;
-    }
-  };
-
-  const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
   return (
     <Wrapper>
-       {loading ? (
+      {loading ? (
         <LoaderWrapper>
           <ClipLoader color="#194f44" size={80} />
         </LoaderWrapper>
@@ -75,13 +48,11 @@ export const CarouselDesktop = () => {
           activeIndex={index}
           onSelect={handleSelect}
           interval={5200}
-          //wrap={false}
         >
           <CarouselItem>
             <CarouselInner>
-              {discountedProducts.slice(0, 4).map((product) => (
+              {discountProducts.slice(0, 4).map((product) => (
                 <ItemWrapper key={product.id}>
-                  {/* Pass the product.id as an argument to handleItemCardClick */}
                   <LinkWrapper to={`/item-details/${product.id}`}>
                     <ItemCard>
                       <CarouselImg
@@ -109,9 +80,8 @@ export const CarouselDesktop = () => {
 
           <CarouselItem>
             <CarouselInner>
-              {discountedProducts.slice(4, 8).map((product) => (
+              {discountProducts.slice(4, 8).map((product) => (
                 <ItemWrapper key={product.id}>
-                  {/* Pass the product.id as an argument to handleItemCardClick */}
                   <LinkWrapper to={`/item-details/${product.id}`}>
                     <ItemCard>
                       <CarouselImg
@@ -141,6 +111,7 @@ export const CarouselDesktop = () => {
     </Wrapper>
   );
 };
+
 const Wrapper = styled.div`
   margin: 24px auto 110px;
   z-index: 0;
@@ -157,7 +128,6 @@ const LoaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 230px;
- 
 `;
 const StyledCarousel = styled(Carousel)`
   max-width: 1308px;
@@ -293,7 +263,7 @@ const ItemPrice = styled.h4`
 const Discount = styled.h4`
   position: absolute;
   top: 10px;
-  left: 30px;
+  left: 8%;
   width: 50px;
   height: 50px;
   border-radius: 50%;

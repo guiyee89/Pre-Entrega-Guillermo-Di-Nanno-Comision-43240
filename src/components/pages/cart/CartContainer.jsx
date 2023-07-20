@@ -19,8 +19,6 @@ export const CartContainer = () => {
     getSubTotal,
   } = useContext(CartContext);
 
-  console.log(cart)
-
   const totalPrice = getTotalPrice();
   const subTotal = getSubTotal();
   const totalDiscount = getTotalDiscount();
@@ -67,7 +65,6 @@ export const CartContainer = () => {
     <Wrapper key="cart-wrapper">
       {/* Boton para limpiar "cart" */}
       {cart.map((product) => {
-        console.log(cart)
         const itemPrice = getItemPrice(product.id); //Buscar item x id en la funcion getItemPrice
         const hasDiscount = product.discountPrice; //Variable de Item con descuento
         return (

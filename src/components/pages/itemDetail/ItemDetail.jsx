@@ -26,7 +26,6 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
         </Stock>
         <ItemCount stock={selectedItem.stock} initial={1} onAdd={onAdd} />
       </InsideWrapper>
-      
     </Wrapper>
   );
 };
@@ -43,11 +42,10 @@ const Wrapper = styled.div`
 const InsideWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 60%;
+  height: 80%;
   width: 470px;
   -webkit-box-pack: justify;
-  justify-content: space-around;
-  line-height: 1.3;
+  justify-content: space-evenly;
 `;
 const Title = styled.h1`
   font-size: 2.4rem;
