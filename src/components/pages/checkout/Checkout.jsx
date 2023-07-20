@@ -125,14 +125,13 @@ const Wrapper = styled.section`
   position: relative;
   max-width: 1300px;
   margin: 0 auto;
-  width: 100%;
 `;
 const ItemQuantity = styled.td`
   vertical-align: middle;
 `;
 const FormWrapper = styled.div`
   position: relative;
-  width: 50%;
+  width: 600px;
   border-right: 2px solid lightgray;
 `;
 const Form = styled.form`
@@ -161,7 +160,7 @@ const SubmitBtn = styled.button`
 const ProductsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 600px;
   padding: 0 115px 0 20px;
 `;
 const ProductTable = styled.table`
