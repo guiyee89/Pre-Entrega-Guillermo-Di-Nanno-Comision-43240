@@ -1,9 +1,9 @@
 import styled from "styled-components/macro";
 import { useEffect, useState } from "react";
-import { CarouselDesktop } from "./carousels/CarouselDesktop";
 import { CarouselTablet } from "./carousels/CarouselTablet";
 import { CarouselMobile } from "./carousels/CarouselMobile";
 import { BarLoader } from "react-spinners";
+import { CarouselContainer } from "./carousels/CarouselContainer";
 
 export const LandingPage = () => {
   const [loading, setLoading] = useState(true);
@@ -32,6 +32,7 @@ export const LandingPage = () => {
     };
   }, []);
 
+
   return (
     <>
       <Wrapper>
@@ -43,7 +44,7 @@ export const LandingPage = () => {
           <>
             <Title>on sale</Title>
             <CarouselWrapper>
-              {windowWidth >= 900 && <CarouselDesktop />}
+              {windowWidth >= 900 && <CarouselContainer />}
               {windowWidth < 900 && windowWidth >= 580 && <CarouselTablet />}
               {windowWidth < 580 && <CarouselMobile />}
             </CarouselWrapper>
@@ -115,6 +116,7 @@ const Wrapper = styled.section`
   flex-direction: column;
   align-items: center;
   margin: 0 20px;
+  overflow: hidden;
 `;
 const LoaderWrapper = styled.div`
   display: flex;
@@ -212,6 +214,7 @@ const StrechedArticle = styled.article`
   background-color: #ddd8d8;
   transition: background-color 0.4s ease-in-out;
   margin: 95px 0;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px;
   &:hover ${ShoesImg} {
     transform: scale(1.08);
   }

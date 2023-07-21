@@ -27,7 +27,7 @@ export const NavBar = () => {
   }, []);
 
   const { getTotalItems } = useContext(CartContext);
-  
+
   const totalItems = getTotalItems();
 
   return (
@@ -35,37 +35,45 @@ export const NavBar = () => {
       <HeaderWrapper>
         <Nav scrolled={scroll}>
           <InsideNav>
-
-          <LogoDiv scrolled={scroll}>
+            <LogoDiv scrolled={scroll}>
               <LogoLink to="/">
-                  <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
+                <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
               </LogoLink>
-          </LogoDiv>
+            </LogoDiv>
 
-          <NavListWrapper>
+            <NavListWrapper>
               <NavList>
-                  <NavLink to="/" scrolled={scroll}>home</NavLink>
+                <NavLink to="/" scrolled={scroll}>
+                  home
+                </NavLink>
               </NavList>
               <NavList>
-                  <NavLink to="/all-products" scrolled={scroll}>products</NavLink>
+                <NavLink to="/all-products" scrolled={scroll}>
+                  products
+                </NavLink>
               </NavList>
               <NavList>
-                  <NavLink to="/category/shoes" scrolled={scroll}>shoes</NavLink>
+                <NavLink to="/category/shoes" scrolled={scroll}>
+                  shoes
+                </NavLink>
               </NavList>
               <NavList>
-                  <NavLink to="/category/pants" scrolled={scroll}>pants</NavLink>
+                <NavLink to="/category/pants" scrolled={scroll}>
+                  pants
+                </NavLink>
               </NavList>
               <NavList>
-                  <NavLink to="/category/shirts" scrolled={scroll}>shirts</NavLink>
+                <NavLink to="/category/shirts" scrolled={scroll}>
+                  shirts
+                </NavLink>
               </NavList>
-          </NavListWrapper>
+            </NavListWrapper>
 
-          <CartWidget
-            scrolled={scroll}
-            sx={{ padding: "10px" }}
-            totalItems={totalItems}
-          />
-
+            <CartWidget
+              scrolled={scroll}
+              sx={{ padding: "10px" }}
+              totalItems={totalItems}
+            />
           </InsideNav>
         </Nav>
       </HeaderWrapper>
@@ -87,29 +95,29 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
   position: fixed;
   z-index: 1;
   background-color: white;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.75);
+  box-shadow: rgba(0, 0, 0, 0.55) 0px 0px 10px;
   &:before {
     content: "";
     position: absolute;
-    bottom: -5px;
+    bottom: -3.5px;
     left: 0;
     right: 0;
-    height: 2px;
+    height: 1px;
     background-color: black;
     display: ${(props) => (props.scrolled === "scrolled" ? "none" : "block")};
   }
 `;
 const InsideNav = styled.div`
-    width: 100vw;
-    max-width: 1300px;
-    display: flex;
-    margin: 0 auto;
-    align-items: center;
-    justify-content: space-between;
+  width: 100vw;
+  max-width: 1300px;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
 `;
 const LogoDiv = styled.div`
   width: ${(props) => (props.scrolled === "scrolled" ? "90px" : "120px")};
@@ -137,17 +145,19 @@ const NavLink = styled(Link)`
   font-weight: 700;
   text-transform: uppercase;
   position: relative;
-  font-size: ${(props) => (props.scrolled === "scrolled" ? ".75rem" : "0.82rem")};
+  font-size: ${(props) =>
+    props.scrolled === "scrolled" ? ".75rem" : "0.82rem"};
   background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
   background-repeat: no-repeat;
   background-size: 0% 100%;
   background-position: left bottom;
-  transition: background-size 0.2s ease-in-out, font-size 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: background-size 0.2s ease-in-out, font-size 0.2s ease-in-out,
+    color 0.2s ease-in-out;
   &:hover {
     color: #68719d;
     background-size: 100% 100%;
   }
-  &:active{
+  &:active {
     color: #fafafa;
     transition: background-color 0.05s ease-in-out;
   }

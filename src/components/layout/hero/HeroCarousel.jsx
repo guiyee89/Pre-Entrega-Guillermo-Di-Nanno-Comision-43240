@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
-import { InfoIcons } from "../../../common/infoIcons/InfoIcons";
-
+import { InfoIcons } from "../../common/infoIcons/InfoIcons";
 
 export const HeroCarousel = () => {
   const [index, setIndex] = useState(0);
@@ -21,14 +20,14 @@ export const HeroCarousel = () => {
         <CarouselItem>
           <CarouselImg
             className="d-block w-100"
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771372/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h29_53_qtqorc600_gt3fsj.png"
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689955895/web%20access/samples%20for%20e-commerce/Hero/2023-07-21_12h32_14_uran3s.png"
             alt="First slide"
           />
         </CarouselItem>
         <CarouselItem>
           <CarouselImg
             className="d-block w-100"
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771373/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h29_30_wnx8lf600_nkjhmm.png"
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771372/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h29_53_qtqorc600_gt3fsj.png"
             alt="Second slide"
           />
         </CarouselItem>
@@ -53,7 +52,7 @@ const Wrapper = styled.div`
   max-width: 1800px;
   z-index: 0;
   position: relative;
-  max-height: 520px;
+  max-height: 100%;
 
   @media (max-width: 48rem) {
     max-height: 320px;
@@ -81,32 +80,29 @@ const StyledCarousel = styled(Carousel)`
     border-radius: 50%;
     width: 12px;
     height: 12px;
-    @media (max-width:68rem) {
+    @media (max-width: 68rem) {
       background-color: #000000;
     }
   }
-  .carousel-indicators{
-    @media (max-width:68rem) {
-        bottom: -50px;
+  .carousel-indicators {
+    @media (max-width: 68rem) {
+      bottom: -50px;
     }
   }
 `;
 const CarouselItem = styled(Carousel.Item)`
-  height: 100%;
-  transition: transform 0.2s ease-in-out;
-  
+  height: 0; /* Set initial height to 0 to allow images to determine the height */
+  padding-top: 37.43%; /* Set a fixed aspect ratio (height / width) for the carousel items (You can adjust this value as needed) */
+  position: relative; /* The value 52.43% represents an aspect ratio of approximately 1920px (width) and 1000px (height) */
 `;
+
 const CarouselImg = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
   object-fit: cover;
-  @media (min-width: 68.75rem) {
-    height: 580px;
-    min-height: 200px;
-  }
-  @media (max-width: 68.75rem) {
-    min-height: 200px;
-    object-fit: cover;
-  }
 `;
 const IconsWrapper = styled.div`
   max-width: 1250px;
@@ -117,7 +113,7 @@ const IconsWrapper = styled.div`
   margin: 12px auto;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 3px;
   padding-top: 20px;
-  @media (max-width:68rem){
+  @media (max-width: 68rem) {
     display: none;
   }
 `;
