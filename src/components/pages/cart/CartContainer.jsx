@@ -158,14 +158,14 @@ const Wrapper = styled.div`
 `;
 const ItemWrapper = styled.div`
   display: flex;
-  height: 150px;
+  height: 100px;
   width: 100%;
   align-items: center;
   justify-content: space-evenly;
   box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
 `;
 const ImgWrapper = styled.div`
-  height: 200px;
+  height: 100%;
   width: 200px;
   display: flex;
   align-items: center;
@@ -176,7 +176,7 @@ const QuantityWrapper = styled.div`
 `;
 const ItemImg = styled.img`
   width: 100%;
-  height: 70%;
+  height: 90%;
   object-fit: contain;
 `;
 const ItemQuantity = styled.h4`

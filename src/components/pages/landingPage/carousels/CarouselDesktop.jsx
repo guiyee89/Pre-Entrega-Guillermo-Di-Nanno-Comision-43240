@@ -1,42 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
-import { collection, getDocs} from "firebase/firestore";
-import { db } from "../../../../firebaseConfig";
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
-export const CarouselDesktop = () => {
-  const [discountProducts, setDiscountedProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+export const CarouselDesktop = ({ discountProducts, loading }) => {
+
   const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 1700);
-
-    return () => clearTimeout(timeout);
-  }, []);
-
-  useEffect(() => {
-    const fetchAllProducts = async () => {
-      const queryAllProducts = collection(db, "products"); //Usar "query" para usar metodos de filtrado: "discount" "orderBy" "limit", etc
-      const querySnapshot = await getDocs(queryAllProducts);
-      const allProducts = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-
-      const filterDiscountProducts = allProducts.filter((product) => product.discount);
-      setDiscountedProducts(filterDiscountProducts);
-    };
-    fetchAllProducts();
-  }, []);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
+
+
   return (
     <Wrapper>
       {loading ? (
@@ -51,59 +27,63 @@ export const CarouselDesktop = () => {
         >
           <CarouselItem>
             <CarouselInner>
-              {discountProducts.slice(0, 4).map((product) => (
-                <ItemWrapper key={product.id}>
-                  <LinkWrapper to={`/item-details/${product.id}`}>
-                    <ItemCard>
-                      <CarouselImg
-                        className="d-block w-100"
-                        src={product.img}
-                        alt={product.title}
-                      />
-                      <Discount>-{product.discount}%</Discount>
-                      <InfoWrapper>
-                        <ItemTitle>{product.title}</ItemTitle>
-                        <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                        <ItemPrice hasDiscount={"discount" in product}>
-                          <DiscountPrice>
-                            $ {product.discountPrice}
-                          </DiscountPrice>{" "}
-                          ${product.price}
-                        </ItemPrice>
-                      </InfoWrapper>
-                    </ItemCard>
-                  </LinkWrapper>
-                </ItemWrapper>
-              ))}
+              {discountProducts.slice(0, 4).map((product) => {
+                return (
+                  <ItemWrapper key={product.id}>
+                    <LinkWrapper to={`/item-details/${product.id}`}>
+                      <ItemCard>
+                        <CarouselImg
+                          className="d-block w-100"
+                          src={product.img}
+                          alt={product.title}
+                        />
+                        <Discount>-{product.discount}%</Discount>
+                        <InfoWrapper>
+                          <ItemTitle>{product.title}</ItemTitle>
+                          <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                          <ItemPrice hasDiscount={"discount" in product}>
+                            <DiscountPrice>
+                              $ {product.discountPrice}
+                            </DiscountPrice>{" "}
+                            ${product.price}
+                          </ItemPrice>
+                        </InfoWrapper>
+                      </ItemCard>
+                    </LinkWrapper>
+                  </ItemWrapper>
+                );
+              })}
             </CarouselInner>
           </CarouselItem>
 
           <CarouselItem>
             <CarouselInner>
-              {discountProducts.slice(4, 8).map((product) => (
-                <ItemWrapper key={product.id}>
-                  <LinkWrapper to={`/item-details/${product.id}`}>
-                    <ItemCard>
-                      <CarouselImg
-                        className="d-block w-100"
-                        src={product.img}
-                        alt={product.title}
-                      />
-                      <Discount>-{product.discount}%</Discount>
-                      <InfoWrapper>
-                        <ItemTitle>{product.title}</ItemTitle>
-                        <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                        <ItemPrice hasDiscount={"discount" in product}>
-                          <DiscountPrice>
-                            $ {product.discountPrice}
-                          </DiscountPrice>{" "}
-                          ${product.price}
-                        </ItemPrice>
-                      </InfoWrapper>
-                    </ItemCard>
-                  </LinkWrapper>
-                </ItemWrapper>
-              ))}
+              {discountProducts.slice(4, 8).map((product) => {
+                return (
+                  <ItemWrapper key={product.id}>
+                    <LinkWrapper to={`/item-details/${product.id}`}>
+                      <ItemCard>
+                        <CarouselImg
+                          className="d-block w-100"
+                          src={product.img}
+                          alt={product.title}
+                        />
+                        <Discount>-{product.discount}%</Discount>
+                        <InfoWrapper>
+                          <ItemTitle>{product.title}</ItemTitle>
+                          <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                          <ItemPrice hasDiscount={"discount" in product}>
+                            <DiscountPrice>
+                              $ {product.discountPrice}
+                            </DiscountPrice>{" "}
+                            ${product.price}
+                          </ItemPrice>
+                        </InfoWrapper>
+                      </ItemCard>
+                    </LinkWrapper>
+                  </ItemWrapper>
+                );
+              })}
             </CarouselInner>
           </CarouselItem>
         </StyledCarousel>
@@ -148,24 +128,24 @@ const StyledCarousel = styled(Carousel)`
     background-color: rgba(0, 0, 0, 0.85);
   }
   .carousel-control-next {
-    width: 6%;
-    right: -35px;
-    bottom: 100px;
+    width: 4.5%;
+    left: 96.2%;
+    bottom: 20%;
   }
   .carousel-control-prev {
-    width: 6%;
-    left: -35px;
-    bottom: 100px;
+    width: 4.5%;
+    left: -0.7%;
+    bottom: 20%;
   }
   .carousel-indicators [data-bs-target] {
-    margin-right: 15px;
+    margin: 10px;
     border-radius: 50%;
     width: 12px;
     height: 12px;
     background-color: #000000;
   }
   .carousel-indicators {
-    bottom: -50px;
+    bottom: -60px;
   }
   .carousel-inner {
     overflow: hidden;
@@ -212,6 +192,7 @@ const ItemWrapper = styled.div`
   //esto ajusta el responsivnes junto con 100% del itemCard
   max-height: 440px;
   max-width: 315px;
+  padding-top: 1.5px;
 `;
 const LinkWrapper = styled(Link)`
   text-decoration: none;
@@ -227,7 +208,7 @@ const ItemCard = styled.div`
   margin-bottom: 8px;
   justify-content: center;
   position: relative;
-  box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 5px;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 6px;
 `;
 const InfoWrapper = styled.div`
   display: flex;
