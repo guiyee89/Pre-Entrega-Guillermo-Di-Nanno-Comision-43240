@@ -27,9 +27,6 @@ export const ItemListContainer = () => {
   //Pasamos useNavigate() como prop
   const navigate = useNavigate();
 
-  // Rendering conditional title
-  const categoryTitle = categoryName ? categoryName : "All Products";
-
   //Creamos filtro de productos en NavBar por categoria
   useEffect(() => {
     setLoading(true);
@@ -44,7 +41,6 @@ export const ItemListContainer = () => {
         itemsCollection,
         where("category", "==", categoryName)
       );
-      
     }
 
     setTimeout(() => {
@@ -74,13 +70,23 @@ export const ItemListContainer = () => {
     addToCart(productData);
   };
 
-  const [filteredItems, setFilteredItems] = useState([])
-  // Callback function para recibir items filtrados from MultiFilter
-  const handleFilterChange = (filteredItems) => {
-    if (filteredItems.length > 0) { //Condicional para que no vacie el state/array en caso que no haya un filtro
+  //States de filtrados para pasar como evento a ItemListContainer
+  const [detailsFilters, setDetailsFilters] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
+
+  const handleFilterChange = (filteredItems, detailsFilters) => {
+    if (filteredItems.length > 0) {
       setFilteredItems(filteredItems);
+      setDetailsFilters(detailsFilters); // Setea detailsFilters a los filtros recibidos de MultiFilter
+    } else {
+      setFilteredItems([]); // Setea filteredItems como array vacio
+      setDetailsFilters([]); // Setea detailsFilters como array vacio
     }
   };
+
+  // Rendering conditional title
+  const categoryTitle = categoryName ? categoryName : "All Products";
+
 
   return (
     <>
@@ -96,30 +102,45 @@ export const ItemListContainer = () => {
         pauseOnHover
         theme="dark"
       />
+
       {loading ? (
         <LoaderWrapper>
           <BarLoader color="#12352e" width={250} />
         </LoaderWrapper>
+
       ) : (
         <>
           <ItemListTitle>{categoryTitle}</ItemListTitle>
           <MultiFilter items={items} onFilterChange={handleFilterChange} />
-          {filteredItems.length > 0 ? (
-        <ItemList
-          items={filteredItems} // Render filteredItems instead of items
-          onAddCart={onAddCart}
-          navigate={navigate}
-        />
-      ) : (
-        <ItemList
-          items={items} // Render original items
-          onAddCart={onAddCart}
-          navigate={navigate}
-        />
-      )}
+
+          {filteredItems.length > 0 && (
+            <ItemList
+              items={filteredItems}
+              onAddCart={onAddCart}
+              navigate={navigate}
+            />
+          )}
+
+          {filteredItems.length < 0 && (
+            <ItemList items={items} onAddCart={onAddCart} navigate={navigate} />
+          )}
+
+          {detailsFilters.length === 0 && (
+            <>
+              <ItemList
+                items={detailsFilters}
+                onAddCart={onAddCart}
+                navigate={navigate}
+              />
+              <NoProductMessage>
+                There are no products with this filter criteria.
+              </NoProductMessage>
+            </>
+          )}
+
         </>
       )}
-      {/* <AgregarDocs />  */}
+      {/* <AgregarDocs /> */}
     </>
   );
 };
@@ -137,4 +158,8 @@ const ItemListTitle = styled.h1`
   font-size: 1.5rem;
   font-weight: bold;
   text-transform: uppercase;
+`;
+const NoProductMessage = styled.h2`
+  height: 500px;
+  color: black;
 `;
