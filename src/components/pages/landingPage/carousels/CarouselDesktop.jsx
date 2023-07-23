@@ -219,7 +219,8 @@ const InfoWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 0px 8px 22px;
+  height: 110px;
+  padding-top: 8px;
   background-color: rgb(239 237 237);
 `;
 const DiscountPrice = styled.span`

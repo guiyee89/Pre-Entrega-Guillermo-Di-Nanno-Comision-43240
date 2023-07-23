@@ -1,7 +1,4 @@
 import styled from "styled-components/macro";
-// import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
-// import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
-// import { BsPiggyBank, BsTruck } from "react-icons/bs";
 
 export const InfoIcons = () => {
   return (
@@ -37,7 +34,6 @@ export const InfoIcons = () => {
 };
 const InfoWrapper = styled.div`
   display: flex;
-  padding: 20px 65px 60px;
   align-items: center;
 `;
 const Info = styled.div`
@@ -54,12 +50,6 @@ const Description = styled.h2`
   letter-spacing: 1.5px;
   font-size: 0.9rem;
 `;
-// const Icon = styled(BsTruck)`
-//   font-size: 40px;
-// `
-// const Icon2 = styled(BsPiggyBank)`
-// font-size: 40px;
-// `
 const Icon = styled.img`
   width: 55px;
   margin-top: -7px;
