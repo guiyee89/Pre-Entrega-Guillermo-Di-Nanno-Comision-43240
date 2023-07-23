@@ -5,11 +5,11 @@ import { Footer } from "./footer/Footer";
 import styled from "styled-components/macro";
 import { HeroCarousel } from "./hero/HeroCarousel";
 import { NewsLetter } from "./newsletter/NewsLetter";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 export const Layout = () => {
   //Loader
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   //Render de Hero en Home
   const location = useLocation();
@@ -18,25 +18,27 @@ export const Layout = () => {
   );
   const isHome = currentRoute?.id === "home";
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 1400);
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 1400);
 
-    return () => clearTimeout(timeout);
-  }, []);
+  //   return () => clearTimeout(timeout);
+  // }, []);
 
   return (
     <Wrapper>
       <NavBar />
-      {loading ? (
+
+      {/* {loading ? (
         isHome
-      ) : (
-        <HeroWrapper>{isHome && <HeroCarousel />}</HeroWrapper>
-      )}
+      ) : ( */}
+      <HeroWrapper>{isHome && <HeroCarousel />}</HeroWrapper>
+
       <OutletWrapper isHome={isHome}>
         <Outlet />
       </OutletWrapper>
+
       <NewsLetter />
       <Footer />
     </Wrapper>
@@ -44,15 +46,16 @@ export const Layout = () => {
 };
 
 const Wrapper = styled.div`
-  min-height: 100vh;
+  min-height: 100%;
 `;
 const OutletWrapper = styled.div`
-  min-height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  -webkit-box-align: center;
   align-items: center;
+  margin: 0 16px;
   margin-top: ${({ isHome }) => (isHome ? "0" : "200px")};
-  
 `;
 const HeroWrapper = styled.div`
   margin-bottom: 30px;
@@ -61,6 +64,7 @@ const HeroWrapper = styled.div`
     margin-bottom: 100px;
   }
 `;
+
 // const LoaderWrapper = styled.div`
 //   display: flex;
 //   justify-content: center;

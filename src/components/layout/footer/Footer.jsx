@@ -49,14 +49,14 @@ export const Footer = () => {
 }
 
 const Section = styled.section`
-  background-color: black;
+  background-color: rgb(243, 239, 239);
 `;
 
 const FooterWrapper = styled.footer`
   height: auto;
   font-family: open sans-serif;
   padding-top: 40px;
-  color: #fff;
+  color: black;
 `;
 
 const FooterContent = styled.div`
@@ -96,7 +96,7 @@ const SocialsItem = styled.li`
 
 const SocialsLink = styled.a`
   text-decoration: none;
-  color: #fff;
+  color: black;
   transition: color 0.5s ease;
   &:hover i {
     color: violet;
@@ -104,7 +104,7 @@ const SocialsLink = styled.a`
 `;
 
 const FooterBottom = styled.div`
-  background-color: #000;
+  background-color: rgb(243, 239, 239);
   padding: 20px 0;
   text-align: center;
 `;
