@@ -34,7 +34,7 @@ export const HeroCarousel = () => {
         <CarouselItem>
           <CarouselImg
             className="d-block w-100"
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771371/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h30_07_ojrorw600_old1wz.png"
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1690152844/web%20access/samples%20for%20e-commerce/Hero/2023-07-23_19h52_40_qfvfmd.png"
             alt="Third slide"
           />
         </CarouselItem>
