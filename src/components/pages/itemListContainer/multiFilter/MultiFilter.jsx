@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import styled from "styled-components/macro";
+
 
 export const MultiFilter = ({ items, onFilterChange }) => {
 
@@ -55,7 +57,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
   return (
     <>
       {/* Size filter */}
-      <select
+      <SelectBtn
         value={detailsFilters.size}
         onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
       >
@@ -63,10 +65,10 @@ export const MultiFilter = ({ items, onFilterChange }) => {
         <option value="s">Small</option>
         <option value="m">Medium</option>
         <option value="l">Large</option>
-      </select>
+      </SelectBtn>
 
       {/* Color filter */}
-      <select
+      <SelectBtn
         value={detailsFilters.color}
         onChange={(e) => handleDetailsFilterChange("color", e.target.value)}
       >
@@ -74,21 +76,20 @@ export const MultiFilter = ({ items, onFilterChange }) => {
         <option value="red">Red</option>
         <option value="blue">Blue</option>
         <option value="green">Green</option>
-      </select>
+      </SelectBtn>
 
        {/* Dsicount filter */}
-       <select
+       <SelectBtn
         value={detailsFilters.discount}
         onChange={(e) => handleDetailsFilterChange("discount", e.target.value)}
       >
         <option value="">All</option>
         <option value="discount">discount</option>
-      </select>
+      </SelectBtn>
     </>
   );
 };
 
-
-// const Wrapper = styled.div``;
-// const BtnsContainer = styled.div``
-// const Button = styled.button``
+const SelectBtn = styled.select`
+  margin: 0 10px;
+`

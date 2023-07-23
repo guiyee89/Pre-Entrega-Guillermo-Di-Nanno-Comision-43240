@@ -87,7 +87,6 @@ export const ItemListContainer = () => {
   // Rendering conditional title
   const categoryTitle = categoryName ? categoryName : "All Products";
 
-
   return (
     <>
       <ToastContainer
@@ -107,11 +106,13 @@ export const ItemListContainer = () => {
         <LoaderWrapper>
           <BarLoader color="#12352e" width={250} />
         </LoaderWrapper>
-
       ) : (
         <>
           <ItemListTitle>{categoryTitle}</ItemListTitle>
-          <MultiFilter items={items} onFilterChange={handleFilterChange} />
+
+          <FilterWrapper>
+            <MultiFilter items={items} onFilterChange={handleFilterChange} />
+          </FilterWrapper>
 
           {filteredItems.length > 0 && (
             <ItemList
@@ -137,7 +138,6 @@ export const ItemListContainer = () => {
               </NoProductMessage>
             </>
           )}
-
         </>
       )}
       {/* <AgregarDocs /> */}
@@ -162,4 +162,10 @@ const ItemListTitle = styled.h1`
 const NoProductMessage = styled.h2`
   height: 500px;
   color: black;
+`;
+const FilterWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 20px;
+  justify-content: center;
 `;
