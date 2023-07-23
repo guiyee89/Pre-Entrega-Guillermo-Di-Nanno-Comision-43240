@@ -40,9 +40,11 @@ export const HeroCarousel = () => {
         </CarouselItem>
       </StyledCarousel>
 
-      <IconsWrapper>
-        <InfoIcons />
-      </IconsWrapper>
+      <MarginWrapper>
+        <IconsWrapper>
+          <InfoIcons />
+        </IconsWrapper>
+      </MarginWrapper>
     </Wrapper>
   );
 };
@@ -104,15 +106,20 @@ const CarouselImg = styled.img`
   height: 100%;
   object-fit: cover;
 `;
+const MarginWrapper = styled.div`
+  margin: 0 36px;
+`;
 const IconsWrapper = styled.div`
-  max-width: 1250px;
+  max-width: 1308px;
   display: flex;
   -webkit-box-pack: center;
   justify-content: space-around;
   height: 85px;
   margin: 12px auto;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 3px;
-  padding-top: 20px;
+  padding: 12px 0 0 16px;
+  background-color: rgb(235 231 231);
+  box-shadow: rgba(0, 10, 10, 0.1) 0px 5px 50px,
+    rgba(0, 0, 0, 0.1) 0px 1.3px 1px; /* Box shadow at top and bottom */
   @media (max-width: 68rem) {
     display: none;
   }
