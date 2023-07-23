@@ -95,9 +95,9 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
 const Wrapper = styled.div`
   margin: 24px auto 110px;
   z-index: 0;
-  position: relative;
+  /* position: relative; */
   max-height: 520px;
-
+  
   @media (max-width: 48rem) {
     max-height: 320px;
     min-height: 200px;
@@ -107,11 +107,13 @@ const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 230px;
+  height: 435px;
+  max-height: 450px;
 `;
 const StyledCarousel = styled(Carousel)`
   max-width: 1308px;
-  height: 435px;
+  /* height: 435px; */
+  position: relative;
   .carousel-slide {
     min-height: 300px;
     max-height: 520px;
@@ -145,7 +147,8 @@ const StyledCarousel = styled(Carousel)`
     background-color: #000000;
   }
   .carousel-indicators {
-    bottom: -60px;
+    bottom: -75px;
+    
   }
   .carousel-inner {
     overflow: hidden;
@@ -193,6 +196,7 @@ const ItemWrapper = styled.div`
   max-height: 440px;
   max-width: 315px;
   padding-top: 1.5px;
+  padding-bottom: 5px;
 `;
 const LinkWrapper = styled(Link)`
   text-decoration: none;

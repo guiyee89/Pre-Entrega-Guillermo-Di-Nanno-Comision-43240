@@ -8,11 +8,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
+import { MultiFilter } from "./multiFilter/MultiFilter";
 // import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
-
 export const ItemListContainer = () => {
-
   //Loader
   const [loading, setLoading] = useState(true);
 
@@ -45,6 +44,7 @@ export const ItemListContainer = () => {
         itemsCollection,
         where("category", "==", categoryName)
       );
+      
     }
 
     setTimeout(() => {
@@ -61,21 +61,27 @@ export const ItemListContainer = () => {
           setLoading(false);
         })
         .catch((err) => console.log(err));
-    }, 1000);
+    }, 500);
   }, [categoryName]);
 
   //Funcion para agregar items y cantidad desde ItemList
   const onAddCart = (newItem) => {
     let quantity = 1;
-      const productData = {
-        ...newItem,
-        quantity: quantity,
-      };
-      addToCart(productData);
+    const productData = {
+      ...newItem,
+      quantity: quantity,
+    };
+    addToCart(productData);
   };
 
+  const [filteredItems, setFilteredItems] = useState([])
+  // Callback function para recibir items filtrados from MultiFilter
+  const handleFilterChange = (filteredItems) => {
+    if (filteredItems.length > 0) { //Condicional para que no vacie el state/array en caso que no haya un filtro
+      setFilteredItems(filteredItems);
+    }
+  };
 
-  //Rendering condicional
   return (
     <>
       <ToastContainer
@@ -96,11 +102,24 @@ export const ItemListContainer = () => {
         </LoaderWrapper>
       ) : (
         <>
-        <ItemListTitle>{categoryTitle}</ItemListTitle>
-        <ItemList items={items} onAddCart={onAddCart} navigate={navigate}/>
+          <ItemListTitle>{categoryTitle}</ItemListTitle>
+          <MultiFilter items={items} onFilterChange={handleFilterChange} />
+          {filteredItems.length > 0 ? (
+        <ItemList
+          items={filteredItems} // Render filteredItems instead of items
+          onAddCart={onAddCart}
+          navigate={navigate}
+        />
+      ) : (
+        <ItemList
+          items={items} // Render original items
+          onAddCart={onAddCart}
+          navigate={navigate}
+        />
+      )}
         </>
       )}
-       {/* <AgregarDocs />  */}
+      {/* <AgregarDocs />  */}
     </>
   );
 };
@@ -118,4 +137,4 @@ const ItemListTitle = styled.h1`
   font-size: 1.5rem;
   font-weight: bold;
   text-transform: uppercase;
-`
+`;

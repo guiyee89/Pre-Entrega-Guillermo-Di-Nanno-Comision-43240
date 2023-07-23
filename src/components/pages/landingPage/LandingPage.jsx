@@ -2,8 +2,8 @@ import styled from "styled-components/macro";
 import { useEffect, useState } from "react";
 import { CarouselTablet } from "./carousels/CarouselTablet";
 import { CarouselMobile } from "./carousels/CarouselMobile";
-import { BarLoader } from "react-spinners";
 import { CarouselContainer } from "./carousels/CarouselContainer";
+import { ClipLoader } from "react-spinners";
 
 export const LandingPage = () => {
   const [loading, setLoading] = useState(true);
@@ -25,87 +25,85 @@ export const LandingPage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000); // Delay of 1 second (1000 milliseconds)
+    }, 500); // Delay of 1 second (1000 milliseconds)
 
     return () => {
       clearTimeout(timer);
     };
   }, []);
 
-
   return (
     <>
       <Wrapper>
         {loading ? (
           <LoaderWrapper>
-            <BarLoader color="#12352e" width={0} />
+            <ClipLoader color="#194f44" size={30} />
           </LoaderWrapper>
         ) : (
-          <>
-            <Title>on sale</Title>
-            <CarouselWrapper>
-              {windowWidth >= 900 && <CarouselContainer />}
-              {windowWidth < 900 && windowWidth >= 580 && <CarouselTablet />}
-              {windowWidth < 580 && <CarouselMobile />}
-            </CarouselWrapper>
-            <MiddleArticle>
-              <ImgWrapper>
-                <MiddleItemsImg
-                  src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881568/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_15h11_03-removebg-preview_px49rf.png"
-                  alt=""
-                />
-                <TextWrapper>
-                  <MidImgText>
-                    <Arrows>&#8594;</Arrows>
-                    Shirts
-                    <br />
-                    <MidSpan>from</MidSpan>
-                    <br />
-                    $9.000
-                  </MidImgText>
-                </TextWrapper>
-              </ImgWrapper>
-              <ImgWrapper>
-                <MiddleItemsImg
-                  src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881569/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_14h54_34-removebg-preview_p51ljr.png"
-                  alt=""
-                />
-                <TextWrapper>
-                  <MidImgText>
-                    <Arrows>&#8594;</Arrows>
-                    Pants
-                    <br />
-                    <MidSpan>from</MidSpan>
-                    <br />
-                    $12.000
-                  </MidImgText>
-                  ;
-                </TextWrapper>
-              </ImgWrapper>
-            </MiddleArticle>
-            <StrechedArticle>
-              <ShoesImg
-                src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_37-removebg-preview_g6ithw.png"
-                alt=""
-              />
-              <ShoesImg
-                src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_45-removebg-preview_s2bmvf.png"
-                alt=""
-              />
-
-              <TextDiv>
-                <TextTitle>All our Shoes</TextTitle>
-                <TextPromo>30%off</TextPromo>
-                <TextSub>On second unit </TextSub>
-                <TextSub2 style={{ whiteSpace: "pre-line" }}>
-                  The best for your feet
-                  {"\n"}
-                  And your pocket
-                </TextSub2>
-              </TextDiv>
-            </StrechedArticle>
-          </>
+          <Title>¡on sale!</Title>
         )}
+
+        <CarouselWrapper>
+          {windowWidth >= 900 && <CarouselContainer />}
+          {windowWidth < 900 && windowWidth >= 580 && <CarouselTablet />}
+          {windowWidth < 580 && <CarouselMobile />}
+        </CarouselWrapper>
+        <MiddleArticle>
+          <ImgWrapper>
+            <MiddleItemsImg
+              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881568/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_15h11_03-removebg-preview_px49rf.png"
+              alt=""
+            />
+            <TextWrapper>
+              <MidImgText>
+                <Arrows>&#8594;</Arrows>
+                Shirts
+                <br />
+                <MidSpan>from</MidSpan>
+                <br />
+                $9.000
+              </MidImgText>
+            </TextWrapper>
+          </ImgWrapper>
+          <ImgWrapper>
+            <MiddleItemsImg
+              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881569/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_14h54_34-removebg-preview_p51ljr.png"
+              alt=""
+            />
+            <TextWrapper>
+              <MidImgText>
+                <Arrows>&#8594;</Arrows>
+                Pants
+                <br />
+                <MidSpan>from</MidSpan>
+                <br />
+                $12.000
+              </MidImgText>
+              ;
+            </TextWrapper>
+          </ImgWrapper>
+        </MiddleArticle>
+        <StrechedArticle>
+          <ShoesImg
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_37-removebg-preview_g6ithw.png"
+            alt=""
+          />
+          <ShoesImg
+            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_45-removebg-preview_s2bmvf.png"
+            alt=""
+          />
+
+          <TextDiv>
+            <TextTitle>All our Shoes</TextTitle>
+            <TextPromo>30%off</TextPromo>
+            <TextSub>On second unit </TextSub>
+            <TextSub2 style={{ whiteSpace: "pre-line" }}>
+              The best for your feet
+              {"\n"}
+              And your pocket
+            </TextSub2>
+          </TextDiv>
+        </StrechedArticle>
       </Wrapper>
     </>
   );
@@ -115,14 +113,14 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 20px;
+  margin: 8px 20px 0;
   overflow: hidden;
 `;
 const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 538px;
+  height: 180px;
   margin-left: 35px;
 `;
 const Title = styled.h1`
@@ -134,6 +132,8 @@ const Title = styled.h1`
 `;
 const CarouselWrapper = styled.div`
   display: flex;
+  margin: -16px auto 0;
+  min-height: 570px;
   @media (max-width: 68rem) {
     max-width: 95%;
   }

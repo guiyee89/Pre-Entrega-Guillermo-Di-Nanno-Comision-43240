@@ -10,10 +10,11 @@ export const products = [
         stock: 12,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
-        details: {
-            size: "",
+        detail: {
+            size: ["s", "m", "l"],
+            color: ["red", "blue", "green"],
         },
-        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h07_59_jt0ger.png"
+        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h07_59_jt0ger.png",
     },
 
     {
@@ -25,7 +26,8 @@ export const products = [
         stock: 5,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
-        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h08_59_t8f2sr.png"
+        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h08_59_t8f2sr.png",
+        discount:"",
     },
 
     {
@@ -78,7 +80,7 @@ export const products = [
         title: "Nike Velvet",
         subtitle: "Urban Sportsy Style",
         price: 22000,
-        discount:"8",
+        discount: "8",
         secondUnit: "",
         stock: 7,
         category: "shoes",
@@ -90,7 +92,7 @@ export const products = [
         title: "Air Jordan 120",
         subtitle: "Jordan Shoes to Fly Higher",
         price: 24000,
-        discount:"12",
+        discount: "12",
         secondUnit: "",
         stock: 8,
         category: "shoes",
@@ -168,7 +170,7 @@ export const products = [
         title: "Pano Sport Nike",
         subtitle: "Elegant Sports Pants for Men",
         price: 14900,
-        discount:"9",
+        discount: "9",
         secondUnit: "",
         stock: 18,
         description: "Experience unrivaled comfort and style with our 'FlexFit' pants. Designed for ultimate flexibility, these modern slim-fit pants redefine your wardrobe with effortless versatility and superior craftsmanship.",
@@ -180,7 +182,7 @@ export const products = [
         title: "Pano Short",
         subtitle: "Red Elegant Shorts",
         price: 14900,
-        discount:"15",
+        discount: "15",
         secondUnit: "",
         stock: 18,
         description: "Experience unrivaled comfort and style with our 'FlexFit' pants. Designed for ultimate flexibility, these modern slim-fit pants redefine your wardrobe with effortless versatility and superior craftsmanship.",
@@ -258,7 +260,7 @@ export const products = [
         title: "Nike Shirt",
         subtitle: "Brown Cotton Short Sleeves",
         price: 16600,
-        discount:"5",
+        discount: "5",
         secondUnit: "",
         stock: 4,
         description: "Introducing our 'Signature Series' shirt. Crafted with premium fabric, meticulous attention to detail, and a tailored fit, it exudes confidence and elevates your personal style with timeless sophistication.",
@@ -270,7 +272,7 @@ export const products = [
         title: "Nike Jordan",
         subtitle: "White Cotton Short Sleeves",
         price: 16600,
-        discount:"10",
+        discount: "10",
         secondUnit: "",
         stock: 4,
         description: "Introducing our 'Signature Series' shirt. Crafted with premium fabric, meticulous attention to detail, and a tailored fit, it exudes confidence and elevates your personal style with timeless sophistication.",
