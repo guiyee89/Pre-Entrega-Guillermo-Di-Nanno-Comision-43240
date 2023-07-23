@@ -26,6 +26,16 @@ export const products = [
         stock: 5,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
+        size: {
+            small: "s",
+            medium: "m",
+            large: "l",
+        },
+        color: {
+            red:"red",
+            blue:"blue",
+            green:"green"
+        },
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h08_59_t8f2sr.png",
         discount:"",
     },

@@ -1,14 +1,16 @@
 import styled from "styled-components/macro";
 // import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
-import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
-import { BsPiggyBank, BsTruck } from "react-icons/bs";
+// import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
+// import { BsPiggyBank, BsTruck } from "react-icons/bs";
 
 export const InfoIcons = () => {
   return (
     <>
       <InfoWrapper>
-       
-        <Icon value={{size:"200px"}}/>
+        <Icon
+          value={{ size: "200px" }}
+          src="https://res.cloudinary.com/derdim3m6/image/upload/v1690083929/web%20access/samples%20for%20e-commerce/Icons/2023-07-23_00h33_31-removebg-preview_mds0it.png"
+        />
         <Info>
           <Title>free shipping</Title>
           <Description>On orders $50+ </Description>
@@ -16,14 +18,15 @@ export const InfoIcons = () => {
       </InfoWrapper>
       <InfoWrapper>
         {/* <SavingsOutlinedIcon fontSize="large" /> */}
-        <Icon2 />
+        <Icon2 src="https://res.cloudinary.com/derdim3m6/image/upload/v1690083929/web%20access/samples%20for%20e-commerce/Icons/2023-07-23_00h33_38-removebg-preview_v2z9qf.png" />
         <Info>
           <Title>Up to 40% off</Title>
           <Description>On the Second Unit </Description>
         </Info>
       </InfoWrapper>
       <InfoWrapper>
-        <CachedOutlinedIcon fontSize="large" />
+        {/* <CachedOutlinedIcon fontSize="large" /> */}
+        <Icon3 src="https://res.cloudinary.com/derdim3m6/image/upload/v1690083930/web%20access/samples%20for%20e-commerce/Icons/2023-07-23_00h33_42-removebg-preview_tjhayz.png" />
         <Info>
           <Title>¿Change Product?</Title>
           <Description>Free up to 30 days </Description>
@@ -34,12 +37,12 @@ export const InfoIcons = () => {
 };
 const InfoWrapper = styled.div`
   display: flex;
-  padding:20px 65px 60px;
+  padding: 20px 65px 60px;
   align-items: center;
 `;
 const Info = styled.div`
-margin-left: 12px;
-`
+  margin-left: 12px;
+`;
 const Title = styled.h1`
   text-transform: uppercase;
   font-weight: 600;
@@ -51,9 +54,22 @@ const Description = styled.h2`
   letter-spacing: 1.5px;
   font-size: 0.9rem;
 `;
-const Icon = styled(BsTruck)`
-  font-size: 40px;
-`
-const Icon2 = styled(BsPiggyBank)`
-font-size: 40px;
-`
+// const Icon = styled(BsTruck)`
+//   font-size: 40px;
+// `
+// const Icon2 = styled(BsPiggyBank)`
+// font-size: 40px;
+// `
+const Icon = styled.img`
+  width: 55px;
+  margin-top: -7px;
+  margin-right: -3px;
+`;
+const Icon2 = styled.img`
+  margin-top: -10px;
+  width: 45px;
+`;
+const Icon3 = styled.img`
+  margin-top: -10px;
+  margin-right: -3px;
+`;
