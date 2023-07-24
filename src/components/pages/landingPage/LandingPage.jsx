@@ -4,15 +4,12 @@ import { CarouselTablet } from "./carousels/CarouselTablet";
 import { CarouselMobile } from "./carousels/CarouselMobile";
 import { CarouselContainer } from "./carousels/CarouselContainer";
 import { ClipLoader } from "react-spinners";
-import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const LandingPage = () => {
-
   const [loading, setLoading] = useState(true);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  const { categoryName } = useParams();
 
   useEffect(() => {
     const handleResize = () => {
@@ -54,60 +51,66 @@ export const LandingPage = () => {
         </CarouselWrapper>
         <MiddleArticle>
           <ImgWrapper>
-            <MiddleItemsImg
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881568/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_15h11_03-removebg-preview_px49rf.png"
-              alt=""
-            />
-            <TextWrapper>
-              <MidImgText>
-                <Arrows>&#8594;</Arrows>
-                Shirts
-                <br />
-                <MidSpan>from</MidSpan>
-                <br />
-                $9.000
-              </MidImgText>
-            </TextWrapper>
+            <LinkImg to="/category/shirts">
+              <MiddleItemsImg
+                src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881568/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_15h11_03-removebg-preview_px49rf.png"
+                alt=""
+              />
+              <TextWrapper>
+                <MidImgText>
+                  <Arrows>&#8594;</Arrows>
+                  Shirts
+                  <br />
+                  <MidSpan>from</MidSpan>
+                  <br />
+                  $9.000
+                </MidImgText>
+              </TextWrapper>
+            </LinkImg>
           </ImgWrapper>
           <ImgWrapper>
-            <MiddleItemsImg
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881569/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_14h54_34-removebg-preview_p51ljr.png"
-              alt=""
-            />
-            <TextWrapper>
-              <MidImgText>
-                <Arrows>&#8594;</Arrows>
-                Pants
-                <br />
-                <MidSpan>from</MidSpan>
-                <br />
-                $12.000
-              </MidImgText>
-              ;
-            </TextWrapper>
+            <LinkImg to="/category/pants">
+              <MiddleItemsImg
+                src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881569/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_14h54_34-removebg-preview_p51ljr.png"
+                alt=""
+              />
+              <TextWrapper>
+                <MidImgText>
+                  <Arrows>&#8594;</Arrows>
+                  Pants
+                  <br />
+                  <MidSpan>from</MidSpan>
+                  <br />
+                  $12.000
+                </MidImgText>
+                ;
+              </TextWrapper>
+            </LinkImg>
           </ImgWrapper>
         </MiddleArticle>
-        <StrechedArticle>
-          <ShoesImg
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_37-removebg-preview_g6ithw.png"
-            alt=""
-          />
-          <ShoesImg
-            src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_45-removebg-preview_s2bmvf.png"
-            alt=""
-          />
+          <StrechedArticle>
+          <LinkStreched to="/category/shoes">
+            <ShoesImg
+              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_37-removebg-preview_g6ithw.png"
+              alt=""
+            />
+            <ShoesImg
+              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_45-removebg-preview_s2bmvf.png"
+              alt=""
+            />
 
-          <TextDiv>
-            <TextTitle>All our Shoes</TextTitle>
-            <TextPromo>30%off</TextPromo>
-            <TextSub>On second unit </TextSub>
-            <TextSub2 style={{ whiteSpace: "pre-line" }}>
-              The best for your feet
-              {"\n"}
-              And your pocket
-            </TextSub2>
-          </TextDiv>
-        </StrechedArticle>
+            <TextDiv>
+              <TextTitle>All our Shoes</TextTitle>
+              <TextPromo>30%off</TextPromo>
+              <TextSub>On second unit </TextSub>
+              <TextSub2 style={{ whiteSpace: "pre-line" }}>
+                The best for your feet
+                {"\n"}
+                And your pocket
+              </TextSub2>
+            </TextDiv>
+            </LinkStreched>
+          </StrechedArticle>
       </Wrapper>
     </>
   );
@@ -167,6 +170,10 @@ const ImgWrapper = styled.div`
     background-color: #fbfbfb;
   }
 `;
+const LinkImg = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
 const TextWrapper = styled.div`
   position: absolute;
   width: 80%;
@@ -210,13 +217,10 @@ const TextDiv = styled.div`
 const StrechedArticle = styled.article`
   cursor: pointer;
   overflow: hidden;
-  max-width: 1330px;
+  width: 1308px;
   height: 460px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  max-width: 1330px;
   background-color: #ddd8d8;
-  transition: background-color 0.4s ease-in-out;
   margin: 95px 0;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px;
   &:hover ${ShoesImg} {
@@ -225,6 +229,15 @@ const StrechedArticle = styled.article`
   &:hover ${TextDiv} {
     transform: scale(1.08);
   }
+`;
+const LinkStreched = styled(Link)`
+  text-decoration: none;
+  color: black;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.4s ease-in-out;
   &:hover {
     background-color: #f7f7f7;
   }

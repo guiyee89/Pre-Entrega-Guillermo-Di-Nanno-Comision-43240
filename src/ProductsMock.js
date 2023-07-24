@@ -7,13 +7,29 @@ export const products = [
         subtitle: "Running Shoes Absorbing Air",
         price: 15000,
         secondUnit: "",
-        stock: 12,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
-        detail: {
+        details: {
             size: ["s", "m", "l"],
             color: ["red", "blue", "green"],
         },
+        stock: {
+            s: {
+              red: 5,
+              blue: 3,
+              green: 4,
+            },
+            m: {
+              red: 7,
+              blue: 9,
+              green: 6,
+            },
+            l: {
+              red: 2,
+              blue: 1,
+              green: 3,
+            },
+          },
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h07_59_jt0ger.png",
     },
 
