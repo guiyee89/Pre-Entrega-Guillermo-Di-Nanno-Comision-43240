@@ -58,13 +58,13 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
         return (
           <ItemWrapper key={product.id}>
             <ItemCard>
-              <ImgWrapper to={`/item-details/${product.id}`}>
+              <ImgWrapperLink to={`/item-details/${product.id}`}>
                 <Loader>
                   {isLoadingAdd && <ClipLoader color="#194f44" size={50} />}
                   {isLoadingDetail && <ClipLoader color="#194f44" size={50} />}
                 </Loader>
                 <ItemImg variant="top" src={product.img} />
-              </ImgWrapper>
+              </ImgWrapperLink>
               {hasDiscount && <Discount>-{product.discount}%</Discount>}
               <ButtonsWrapper disabled={product.stock === 0}>
                 <BtnAddCart onClick={() => onAddCart(product)}>
@@ -126,7 +126,7 @@ const ItemImg = styled.img`
   cursor: pointer;
   mix-blend-mode: darken;
 `;
-const ImgWrapper = styled(Link)`
+const ImgWrapperLink = styled(Link)`
   position: relative;
   background-color: rgb(239, 237, 237);
   height: 100%;
@@ -166,7 +166,7 @@ const ItemCard = styled.div`
       transform: translateX(-20px);
       transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
     }
-    /* ${InfoWrapper}, ${ImgWrapper} {
+    /* ${InfoWrapper}, ${ImgWrapperLink} {
       background-color: white;
       transition: background-color ease-in-out 0.4s;
     } */

@@ -4,11 +4,15 @@ import { CarouselTablet } from "./carousels/CarouselTablet";
 import { CarouselMobile } from "./carousels/CarouselMobile";
 import { CarouselContainer } from "./carousels/CarouselContainer";
 import { ClipLoader } from "react-spinners";
+import { useParams } from "react-router-dom";
 
 export const LandingPage = () => {
+
   const [loading, setLoading] = useState(true);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const { categoryName } = useParams();
 
   useEffect(() => {
     const handleResize = () => {
