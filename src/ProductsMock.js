@@ -9,27 +9,11 @@ export const products = [
         secondUnit: "",
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
-        details: {
-            size: ["s", "m", "l"],
-            color: ["red", "blue", "green"],
-        },
-        stock: {
-            s: {
-              red: 5,
-              blue: 3,
-              green: 4,
-            },
-            m: {
-              red: 7,
-              blue: 9,
-              green: 6,
-            },
-            l: {
-              red: 2,
-              blue: 1,
-              green: 3,
-            },
-          },
+        stock: 10,
+        color: "red",
+        size: "S",
+        discount: 8,
+        discountPrice: 13800,
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h07_59_jt0ger.png",
     },
 
@@ -39,21 +23,14 @@ export const products = [
         subtitle: "White Comfy Urban Shoes",
         price: 14500,
         secondUnit: "",
-        stock: 5,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
-        size: {
-            small: "s",
-            medium: "m",
-            large: "l",
-        },
-        color: {
-            red:"red",
-            blue:"blue",
-            green:"green"
-        },
+        stock: 12,
+        color: "blue",
+        size: "M",
+        discount: 8,
+        discountPrice: 13340,
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h08_59_t8f2sr.png",
-        discount:"",
     },
 
     {
@@ -106,7 +83,7 @@ export const products = [
         title: "Nike Velvet",
         subtitle: "Urban Sportsy Style",
         price: 22000,
-        discount: "8",
+        discount: 8,
         secondUnit: "",
         stock: 7,
         category: "shoes",
