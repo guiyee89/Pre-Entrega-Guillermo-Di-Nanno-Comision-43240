@@ -86,6 +86,37 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
               })}
             </CarouselInner>
           </CarouselItem>
+
+          <CarouselItem>
+            <CarouselInner>
+              {discountProducts.slice(8, 12).map((product) => {
+                return (
+                  <ItemWrapper key={product.id}>
+                    <LinkWrapper to={`/item-details/${product.id}`}>
+                      <ItemCard>
+                        <CarouselImg
+                          className="d-block w-100"
+                          src={product.img}
+                          alt={product.title}
+                        />
+                        <Discount>-{product.discount}%</Discount>
+                        <InfoWrapper>
+                          <ItemTitle>{product.title}</ItemTitle>
+                          <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                          <ItemPrice hasDiscount={"discount" in product}>
+                            <DiscountPrice>
+                              $ {product.discountPrice}
+                            </DiscountPrice>{" "}
+                            ${product.price}
+                          </ItemPrice>
+                        </InfoWrapper>
+                      </ItemCard>
+                    </LinkWrapper>
+                  </ItemWrapper>
+                );
+              })}
+            </CarouselInner>
+          </CarouselItem>
         </StyledCarousel>
       )}
     </Wrapper>

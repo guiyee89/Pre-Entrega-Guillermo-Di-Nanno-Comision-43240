@@ -27,7 +27,7 @@ export const products = [
         category: "shoes",
         stock: 12,
         color: "blue",
-        size: "M",
+        size: "m",
         discount: 8,
         discountPrice: 13340,
         img: "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h08_59_t8f2sr.png",

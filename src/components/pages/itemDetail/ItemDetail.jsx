@@ -3,7 +3,7 @@ import { ItemCount } from "../../common/itemCount/ItemCount";
 
 export const ItemDetail = ({ selectedItem, onAdd }) => {
   const hasDiscount = "discount" in selectedItem;
-
+  
   return (
     <Wrapper>
       <ImgWrapper>
@@ -12,7 +12,8 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
       <InsideWrapper>
         <Title>{selectedItem.title}</Title>
         <SubTitle>{selectedItem.subtitle}</SubTitle>
-        <Description>{selectedItem.description}</Description>
+        <ColorCheckBox>Color:{selectedItem.color}</ColorCheckBox>
+        <SizeCheckBox>Size:  {selectedItem.size}</SizeCheckBox>
         {hasDiscount ? (
           <ItemPrice hasDiscount={hasDiscount}>
             <DiscountPrice>$ {selectedItem.discountPrice} </DiscountPrice> ${" "}
@@ -25,6 +26,10 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
           in stock <Num>{selectedItem.stock}</Num>
         </Stock>
         <ItemCount stock={selectedItem.stock} initial={1} onAdd={onAdd} />
+        <Description>{selectedItem.description}</Description>
+        <ReferenceWrapper>
+          <SizeReference>Reference Size Model</SizeReference>
+        </ReferenceWrapper>
       </InsideWrapper>
     </Wrapper>
   );
@@ -57,7 +62,19 @@ const SubTitle = styled.h2`
   font-size: 1.3rem;
   padding: 0px 0 24px 0;
 `;
-const Description = styled.p`
+// const Span = styled.span`
+//   padding-left:15px ;
+//   font-size: 1rem;
+//   font-weight: bold;
+// `
+const ColorCheckBox = styled.div`
+  font-size: 0.9rem;
+  margin-top: -24px;
+  line-height: 1.5;
+  text-transform: capitalize;
+`;
+const SizeCheckBox = styled.div`
+  text-transform: capitalize;
   font-size: 0.9rem;
   margin-top: -24px;
   line-height: 1.5;
@@ -107,3 +124,15 @@ const Image = styled.img`
   width: 100%;
   object-fit: contain;
 `;
+const Description = styled.p`
+  font-size: 0.9rem;
+  margin-top: -24px;
+  line-height: 1.5;
+`;
+const ReferenceWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const SizeReference = styled.p`
+text-transform: uppercase;
+`

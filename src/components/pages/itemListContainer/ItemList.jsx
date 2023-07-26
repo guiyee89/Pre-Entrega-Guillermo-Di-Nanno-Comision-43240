@@ -46,14 +46,39 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
     }, 1100);
   };
 
+  /////////////////////////////////////////////////////
+  //---------------     FILTER     ------------------//
+
+// Function to filter products based on their customId and color to avoid duplicates
+const filterProducts = () => {
+  const productMap = new Map();
+
+  items.forEach((product) => {
+    const { userId, color } = product;
+    const key = `${userId}-${color}`;
+
+    // Check if the product's customId and color combination already exists in the productMap
+    if (!productMap.has(key)) {
+      // If not, add the product to the productMap
+      productMap.set(key, product);
+    }
+  });
+
+  // Convert the Map values to an array of filtered products
+  return Array.from(productMap.values());
+};
+
+  // Filter the products
+  const filteredItems = filterProducts();
+
+  
   return (
     <Wrapper key="cart-wrapper">
       {/* Mapeo de productos */}
-      {items.map((product) => {
+      {filteredItems.map((product) => {
         const isLoadingDetail = loadingDetail === product.id;
         const isLoadingAdd = loadingAdd === product.id;
-        const hasDiscount = "discount" in product; // Check if the item has the 'discount' property
-        // const hasDiscount = Object.prototype.hasOwnProperty.call(item, 'discount');
+        const hasDiscount = "discount" in product;
 
         return (
           <ItemWrapper key={product.id}>

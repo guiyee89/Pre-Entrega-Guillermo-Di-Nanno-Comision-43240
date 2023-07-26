@@ -22,17 +22,18 @@ export const AgregarDocs = () => {
       title: "",
       subtitle: "",
       price: "",
-      discountPrice:"",
+      discountPrice: "",
       stock: "",
+      color: "",
+      size: "",
       description: "",
       category: "",
       img: "",
-      secondUnit:"",
+      secondUnit: "",
     },
 
     //Aca creamos la logica del submit
     onSubmit: async (values) => {
-
       //Calculamos el descuento (si es que hay)
       const price = parseFloat(values.price);
       const discount = parseFloat(values.discount);
@@ -51,6 +52,8 @@ export const AgregarDocs = () => {
           price: parseFloat(values.price),
           discountPrice: totalPrice,
           stock: parseInt(values.stock),
+          color: values.color,
+          size: values.size,
           discount: discount, //Agregamos discount
         };
       } else {
@@ -66,7 +69,6 @@ export const AgregarDocs = () => {
       await addDoc(ordersCollection, newItem);
       setAddProduct(true);
     },
-    
 
     //que no se valide mientras escribo, sino al hacer submit
     // validateOnChange: false,
@@ -145,6 +147,24 @@ export const AgregarDocs = () => {
               onChange={handleChange}
               helperText={errors.stock}
               error={errors.stock ? true : false}
+              sx={{ marginTop: "24px" }}
+            />
+            <Input
+              label="Color"
+              variant="outlined"
+              name="color"
+              onChange={handleChange}
+              helperText={errors.color}
+              error={errors.color ? true : false}
+              sx={{ marginTop: "24px" }}
+            />
+            <Input
+              label="Size"
+              variant="outlined"
+              name="size"
+              onChange={handleChange}
+              helperText={errors.size}
+              error={errors.size ? true : false}
               sx={{ marginTop: "24px" }}
             />
             <Input
