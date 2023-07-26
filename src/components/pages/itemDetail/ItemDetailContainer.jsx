@@ -17,7 +17,7 @@ export const ItemDetailContainer = () => {
   const { addToCart } = useContext(CartContext);
 
   const { id } = useParams();
-
+  
   //Obtener cantidades por ID para pasar la data
   // const quantityId = getTotalQuantityById(id);
 

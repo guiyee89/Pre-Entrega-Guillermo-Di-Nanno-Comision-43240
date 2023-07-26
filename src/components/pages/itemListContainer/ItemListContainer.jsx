@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
 import { MultiFilter } from "./multiFilter/MultiFilter";
-// import { AgregarDocs } from "../../dashboard/AgregarDocs";
+import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
 export const ItemListContainer = () => {
   //Loader
@@ -23,6 +23,8 @@ export const ItemListContainer = () => {
 
   //useParams de react-router-dom para filtrar productos por categoryName
   const { categoryName } = useParams();
+  // Rendering conditional title
+  const categoryTitle = categoryName ? categoryName : "All Products";
 
   //Pasamos useNavigate() como prop
   const navigate = useNavigate();
@@ -84,8 +86,6 @@ export const ItemListContainer = () => {
     }
   };
 
-  // Rendering conditional title
-  const categoryTitle = categoryName ? categoryName : "All Products";
 
   return (
     <>
@@ -140,7 +140,7 @@ export const ItemListContainer = () => {
           )}
         </>
       )}
-      {/* <AgregarDocs /> */}
+      <AgregarDocs />
     </>
   );
 };

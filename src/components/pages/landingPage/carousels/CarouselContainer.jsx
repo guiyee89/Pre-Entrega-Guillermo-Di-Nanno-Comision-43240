@@ -1,53 +1,54 @@
-import { useState } from "react";
-import { CarouselDesktop } from "./CarouselDesktop"
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { CarouselDesktop } from "./CarouselDesktop";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 
-
 export const CarouselContainer = () => {
+  const [discountProducts, setDiscountedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const [discountProducts, setDiscountedProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 1200);
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-          setLoading(false);
-        }, 1200);
-    
-        return () => clearTimeout(timeout);
-      }, []);
-    
-     // Fetch por id, filtrado por discount y dejar de fetchear al encontrar 8
-      useEffect(() => {
-        const fetchAllProducts = async () => {
-          const queryAllProducts = collection(db, "products");
-          const querySnapshot = await getDocs(queryAllProducts);
-          const allProducts = querySnapshot.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }));
-    
-          const filteredDiscountProducts = [];
-          let count = 0;
-    
-          for (const product of allProducts) {
-            if (product.discount && count < 8) {
-              filteredDiscountProducts.push(product);
-              count++;
-            }
-            if (count === 8) {
-              break; // Stop fetch una vez que encuentra 8
-            }
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    const fetchDiscountedProducts = async () => {
+      const queryAllProducts = collection(db, "products");
+      const querySnapshot = await getDocs(queryAllProducts);
+      const allProducts = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+
+      const filteredProductsMap = new Map();
+
+      for (const product of allProducts) {
+        if (product.discount) {
+          const { userId, color } = product;
+          const key = `${userId}-${color}`;
+
+          // Check if the product's userId and color combination already exists in the filteredProductsMap
+          if (!filteredProductsMap.has(key)) {
+            // If not, add the product to the filteredProductsMap
+            filteredProductsMap.set(key, product);
           }
-          setDiscountedProducts(filteredDiscountProducts);
-        };
-        fetchAllProducts();
-      }, []);
-    
+        }
+      }
+      // Convert the Map values to an array of filtered products
+      const filteredDiscountProducts = Array.from(filteredProductsMap.values());
+      setDiscountedProducts(filteredDiscountProducts);
+    };
 
-  return <CarouselDesktop discountProducts={discountProducts} loading={loading}/>
-}
+    fetchDiscountedProducts();
+  }, []);
+
+  return <CarouselDesktop discountProducts={discountProducts} loading={loading} />;
+};
+
 
 
 //LOGICA ANTERIOR DE CAROUSEL FETCHEANDO ITEMS X ID Y FILTRANDO DISCOUNT
