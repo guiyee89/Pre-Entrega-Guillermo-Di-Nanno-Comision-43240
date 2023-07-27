@@ -14,18 +14,14 @@ import { AgregarDocs } from "../../dashboard/AgregarDocs";
 export const ItemListContainer = () => {
   //Loader
   const [loading, setLoading] = useState(true);
-
   //Guardamos los items
   const [items, setItems] = useState([]);
-
   //Utilizamos contexto para agregar al Cart
   const { addToCart } = useContext(CartContext);
-
   //useParams de react-router-dom para filtrar productos por categoryName
   const { categoryName } = useParams();
   // Rendering conditional title
   const categoryTitle = categoryName ? categoryName : "All Products";
-
   //Pasamos useNavigate() como prop
   const navigate = useNavigate();
 
@@ -75,7 +71,7 @@ export const ItemListContainer = () => {
   //States de filtrados para pasar como evento a ItemListContainer
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
-
+  console.log(filteredItems);
   const handleFilterChange = (filteredItems, detailsFilters) => {
     if (filteredItems.length > 0) {
       setFilteredItems(filteredItems);
@@ -85,7 +81,6 @@ export const ItemListContainer = () => {
       setDetailsFilters([]); // Setea detailsFilters como array vacio
     }
   };
-
 
   return (
     <>
