@@ -117,6 +117,7 @@ export const LandingPage = () => {
 };
 const Wrapper = styled.section`
   max-width: 1320px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -217,7 +218,7 @@ const TextDiv = styled.div`
 const StrechedArticle = styled.article`
   cursor: pointer;
   overflow: hidden;
-  width: 1308px;
+  width: 100%;
   height: 460px;
   max-width: 1330px;
   background-color: #ddd8d8;

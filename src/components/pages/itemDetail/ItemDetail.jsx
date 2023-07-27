@@ -4,6 +4,7 @@ import { ItemCount } from "../../common/itemCount/ItemCount";
 export const ItemDetail = ({ selectedItem, onAdd }) => {
   const hasDiscount = "discount" in selectedItem;
   
+
   return (
     <Wrapper>
       <ImgWrapper>
