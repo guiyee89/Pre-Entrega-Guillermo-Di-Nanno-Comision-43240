@@ -110,6 +110,7 @@ export const ItemListContainer = () => {
         <>
           <ItemListTitle>{categoryTitle}</ItemListTitle>
 
+          {/******  FILTER  ******/}
           <FilterWrapper>
             <MultiFilter items={items} onFilterChange={handleFilterChange} />
           </FilterWrapper>
@@ -121,11 +122,9 @@ export const ItemListContainer = () => {
               navigate={navigate}
             />
           )}
-
           {filteredItems.length < 0 && (
             <ItemList items={items} onAddCart={onAddCart} navigate={navigate} />
           )}
-
           {detailsFilters.length === 0 && (
             <>
               <ItemList
