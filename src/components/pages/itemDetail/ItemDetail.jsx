@@ -2,27 +2,26 @@ import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
 import { FilterColorSize } from "./FilterColorSize";
 
-export const ItemDetail = ({ selectedItem, relatedItems, onAdd }) => {
+export const ItemDetail = ({ selectedItem, onAdd }) => {
 
   const hasDiscount = "discount" in selectedItem;
-  console.log(relatedItems)
 
-  const filterRelatedItems = () => {
-    const relatedItemMap = new Map();
+  // const filterRelatedItems = () => {
+  //   const relatedItemMap = new Map();
   
-    relatedItems.forEach((item) => {
-      const { userId, color } = item;
-      const key = `${userId}-${color}`;
+  //   relatedItems.forEach((item) => {
+  //     const { userId, color } = item;
+  //     const key = `${userId}-${color}`;
   
-      // Check if the item's userId and color combination already exists in the relatedItemMap
-      if (!relatedItemMap.has(key)) {
-        // If not, add the item to the relatedItemMap
-        relatedItemMap.set(key, item);
-      }
-    });
-    // Convert the Map values to an array of filtered related items
-    return Array.from(relatedItemMap.values());
-  };
+  //     // Check if the item's userId and color combination already exists in the relatedItemMap
+  //     if (!relatedItemMap.has(key)) {
+  //       // If not, add the item to the relatedItemMap
+  //       relatedItemMap.set(key, item);
+  //     }
+  //   });
+  //   // Convert the Map values to an array of filtered related items
+  //   return Array.from(relatedItemMap.values());
+  // };
   
 
   return (
@@ -35,7 +34,7 @@ export const ItemDetail = ({ selectedItem, relatedItems, onAdd }) => {
         <SubTitle>{selectedItem.subtitle}</SubTitle>
         {/* FILTER COMPONENT */}
         <FilterWrapper>
-          <FilterColorSize filterRelatedItems={filterRelatedItems} relatedItems={relatedItems}/>
+          <FilterColorSize  selectedItem={selectedItem} />
         </FilterWrapper>
         <Stock>
           in stock <Num>{selectedItem.stock}</Num>

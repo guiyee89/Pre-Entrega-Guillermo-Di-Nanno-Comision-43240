@@ -12,7 +12,7 @@ import { BarLoader } from "react-spinners";
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
   const [selectedItem, setSelectedItem] = useState({});
-  const [relatedItems, setRelatedItems] = useState([]);
+  // const [relatedItems, setRelatedItems] = useState([]);
 
   //PROVEEMOS EL "CONTEXTO"
   const { addToCart } = useContext(CartContext);
@@ -42,19 +42,19 @@ export const ItemDetailContainer = () => {
           id: response.id,
         });
 
-        const userId = response.data().userId;
-        // Fetch related items by userId
-        const relatedItemsQuery = query(
-          itemCollection,
-          where("userId", "==", userId)
-        );
-        getDocs(relatedItemsQuery).then((snapshot) => {
-          const relatedItems = snapshot.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }));
-          setRelatedItems(relatedItems);
-        });
+        // const userId = response.data().userId;
+        // // Fetch related items by userId
+        // const relatedItemsQuery = query(
+        //   itemCollection,
+        //   where("userId", "==", userId)
+        // );
+        // getDocs(relatedItemsQuery).then((snapshot) => {
+        //   const relatedItems = snapshot.docs.map((doc) => ({
+        //     ...doc.data(),
+        //     id: doc.id,
+        //   }));
+        //   setRelatedItems(relatedItems);
+        // });
       });
     }, 800);
   }, [id]);
@@ -76,7 +76,7 @@ export const ItemDetailContainer = () => {
       {selectedItem.id ? (
         <ItemDetail
           selectedItem={selectedItem}
-          relatedItems={relatedItems}
+          // relatedItems={relatedItems}
           onAdd={onAdd}
           // onFilterChange={handleFilter}
         />
