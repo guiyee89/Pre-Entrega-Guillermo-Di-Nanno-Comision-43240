@@ -1,8 +1,27 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
+import { FilterColorSize } from "./FilterColorSize";
 
 export const ItemDetail = ({ selectedItem, onAdd }) => {
+
   const hasDiscount = "discount" in selectedItem;
+
+  // const filterRelatedItems = () => {
+  //   const relatedItemMap = new Map();
+  
+  //   relatedItems.forEach((item) => {
+  //     const { userId, color } = item;
+  //     const key = `${userId}-${color}`;
+  
+  //     // Check if the item's userId and color combination already exists in the relatedItemMap
+  //     if (!relatedItemMap.has(key)) {
+  //       // If not, add the item to the relatedItemMap
+  //       relatedItemMap.set(key, item);
+  //     }
+  //   });
+  //   // Convert the Map values to an array of filtered related items
+  //   return Array.from(relatedItemMap.values());
+  // };
   
 
   return (
@@ -13,8 +32,13 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
       <InsideWrapper>
         <Title>{selectedItem.title}</Title>
         <SubTitle>{selectedItem.subtitle}</SubTitle>
-        <ColorCheckBox>Color:{selectedItem.color}</ColorCheckBox>
-        <SizeCheckBox>Size:  {selectedItem.size}</SizeCheckBox>
+        {/* FILTER COMPONENT */}
+        <FilterWrapper>
+          <FilterColorSize  selectedItem={selectedItem} />
+        </FilterWrapper>
+        <Stock>
+          in stock <Num>{selectedItem.stock}</Num>
+        </Stock>
         {hasDiscount ? (
           <ItemPrice hasDiscount={hasDiscount}>
             <DiscountPrice>$ {selectedItem.discountPrice} </DiscountPrice> ${" "}
@@ -23,10 +47,9 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
         ) : (
           <ItemPrice>$ {selectedItem.price}</ItemPrice>
         )}
-        <Stock>
-          in stock <Num>{selectedItem.stock}</Num>
-        </Stock>
-        <ItemCount stock={selectedItem.stock} initial={1} onAdd={onAdd} />
+        <ItemCountWrapper>
+          <ItemCount stock={selectedItem.stock} initial={1} onAdd={onAdd} />
+        </ItemCountWrapper>
         <Description>{selectedItem.description}</Description>
         <ReferenceWrapper>
           <SizeReference>Reference Size Model</SizeReference>
@@ -58,28 +81,25 @@ const Title = styled.h1`
   font-weight: bold;
   letter-spacing: -2px;
   margin-bottom: -14px;
+  text-align: center;
 `;
 const SubTitle = styled.h2`
   font-size: 1.3rem;
   padding: 0px 0 24px 0;
+  text-align: center;
 `;
 // const Span = styled.span`
 //   padding-left:15px ;
 //   font-size: 1rem;
 //   font-weight: bold;
 // `
-const ColorCheckBox = styled.div`
-  font-size: 0.9rem;
-  margin-top: -24px;
-  line-height: 1.5;
-  text-transform: capitalize;
+const FilterWrapper = styled.div`
+height: 100px;
+width: 80px;
+display: flex;
+align-items: center;
 `;
-const SizeCheckBox = styled.div`
-  text-transform: capitalize;
-  font-size: 0.9rem;
-  margin-top: -24px;
-  line-height: 1.5;
-`;
+
 const DiscountPrice = styled.span`
   color: #a83737;
   font-weight: 600;
@@ -102,11 +122,13 @@ const ItemPrice = styled.h4`
   font-size: 1rem;
   font-style: italic;
   padding: 6px 0 8px 0;
+  text-align: center;
 `;
 
 const Stock = styled.p`
   font-size: 0.85rem;
   font-style: italic;
+  text-align: center;
 `;
 const Num = styled.span`
   color: #c92b2b;
@@ -125,6 +147,10 @@ const Image = styled.img`
   width: 100%;
   object-fit: contain;
 `;
+const ItemCountWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
 const Description = styled.p`
   font-size: 0.9rem;
   margin-top: -24px;
@@ -133,7 +159,7 @@ const Description = styled.p`
 const ReferenceWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 const SizeReference = styled.p`
-text-transform: uppercase;
-`
+  text-transform: uppercase;
+`;
