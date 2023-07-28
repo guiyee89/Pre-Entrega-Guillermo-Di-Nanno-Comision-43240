@@ -1,28 +1,19 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
 import { FilterColorSize } from "./FilterColorSize";
+import { useState } from "react";
 
 export const ItemDetail = ({ selectedItem, onAdd }) => {
 
   const hasDiscount = "discount" in selectedItem;
 
-  // const filterRelatedItems = () => {
-  //   const relatedItemMap = new Map();
+  const [filteredItem, setFilteredItem] = useState({}); // State to hold the filtered item
+  console.log(filteredItem)
   
-  //   relatedItems.forEach((item) => {
-  //     const { userId, color } = item;
-  //     const key = `${userId}-${color}`;
-  
-  //     // Check if the item's userId and color combination already exists in the relatedItemMap
-  //     if (!relatedItemMap.has(key)) {
-  //       // If not, add the item to the relatedItemMap
-  //       relatedItemMap.set(key, item);
-  //     }
-  //   });
-  //   // Convert the Map values to an array of filtered related items
-  //   return Array.from(relatedItemMap.values());
-  // };
-  
+  // Function to handle changes to the filtered item
+  const handleFilterItemChange = (item) => {
+    setFilteredItem(item);
+  };
 
   return (
     <Wrapper>
@@ -34,7 +25,10 @@ export const ItemDetail = ({ selectedItem, onAdd }) => {
         <SubTitle>{selectedItem.subtitle}</SubTitle>
         {/* FILTER COMPONENT */}
         <FilterWrapper>
-          <FilterColorSize  selectedItem={selectedItem} />
+        <FilterColorSize
+          selectedItem={selectedItem}
+          onFilterItemChange={handleFilterItemChange} // Pass the function to handle filtered item change
+        />
         </FilterWrapper>
         <Stock>
           in stock <Num>{selectedItem.stock}</Num>

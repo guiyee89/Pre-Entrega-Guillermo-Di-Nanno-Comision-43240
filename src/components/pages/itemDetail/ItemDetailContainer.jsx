@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { ItemDetail } from "./ItemDetail";
 import { CartContext } from "../../context/CartContext";
 import { db } from "../../../firebaseConfig";
-import {collection,getDoc,doc,query,where,getDocs} from "firebase/firestore";
+import { collection, getDoc, doc } from "firebase/firestore";
 import styled from "styled-components/macro";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,20 +41,6 @@ export const ItemDetailContainer = () => {
           ...response.data(),
           id: response.id,
         });
-
-        // const userId = response.data().userId;
-        // // Fetch related items by userId
-        // const relatedItemsQuery = query(
-        //   itemCollection,
-        //   where("userId", "==", userId)
-        // );
-        // getDocs(relatedItemsQuery).then((snapshot) => {
-        //   const relatedItems = snapshot.docs.map((doc) => ({
-        //     ...doc.data(),
-        //     id: doc.id,
-        //   }));
-        //   setRelatedItems(relatedItems);
-        // });
       });
     }, 800);
   }, [id]);
@@ -74,12 +60,7 @@ export const ItemDetailContainer = () => {
         theme="dark"
       />
       {selectedItem.id ? (
-        <ItemDetail
-          selectedItem={selectedItem}
-          // relatedItems={relatedItems}
-          onAdd={onAdd}
-          // onFilterChange={handleFilter}
-        />
+        <ItemDetail selectedItem={selectedItem} onAdd={onAdd} />
       ) : (
         <LoaderWrapper>
           <BarLoader color="#12352e" width={250} />
