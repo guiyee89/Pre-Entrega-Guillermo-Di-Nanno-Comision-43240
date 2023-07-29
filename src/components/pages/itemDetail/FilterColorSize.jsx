@@ -4,8 +4,7 @@ import styled from "styled-components/macro";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
-
+export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
   const [selectedFilters, setSelectedFilters] = useState({
     color: null,
     size: null,
@@ -13,9 +12,9 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
 
   const [relatedItems, setRelatedItems] = useState([]);
   const [filteredItem, setFilteredItem] = useState({});
-  
+
   useEffect(() => {
-    // Fetch related items of selectedItem by userId to get all products 
+    // Fetch related items of selectedItem by userId to get all products
     const userId = selectedItem.userId;
     const relatedItemsQuery = query(
       collection(db, "products"),
@@ -27,18 +26,17 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
           ...doc.data(),
           id: doc.id,
         }));
-        setRelatedItems(relatedItems);//save the related items of the selectedItem
+        setRelatedItems(relatedItems); //save the related items of the selectedItem
       })
       .catch((error) => {
         console.error("Error fetching related items:", error);
       });
-      // Set the color and size checkboxes according to the selectedItem at first rendering
-      setSelectedFilters({
-        color: selectedItem.color,
-        size: selectedItem.size,
-      });
+    // Set the color and size checkboxes according to the selectedItem at first rendering
+    setSelectedFilters({
+      color: selectedItem.color,
+      size: selectedItem.size,
+    });
   }, [selectedItem]);
-
 
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
@@ -55,7 +53,6 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
     }));
   };
 
-
   // Function to handle size and color filter selection change
   useEffect(() => {
     const { color, size } = selectedFilters;
@@ -70,7 +67,6 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
       onFilterItemChange({}); // Call the onFilterItemChange function with an empty object
     }
   }, [selectedFilters, relatedItems, onFilterItemChange]);
-
 
   //Create map for properties "color" and "size" in the items objects to render
   const uniqueColors = Array.from(
@@ -89,19 +85,24 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
             const itemsWithCurrentColor = relatedItems.filter(
               (item) => item.color === color
             );
+            
+            <ColorText>{selectedFilters.color}</ColorText>
+        
             if (itemsWithCurrentColor.length > 0) {
               return (
-                <ColorCheckboxWrapper key={color}>
-                  <ColorCheckbox
-                    id={`color-${color}`}
-                    checked={selectedFilters.color === color}
-                    onChange={() => handleColorChange(color)}
-                  />
-                  <ColorImage
-                    src={itemsWithCurrentColor[0].img}
-                    alt={color}
-                  />
-                </ColorCheckboxWrapper>
+                <>
+                  <ColorCheckboxWrapper key={color}>
+                    <ColorCheckbox
+                      id={`color-${color}`}
+                      checked={selectedFilters.color === color}
+                      onChange={() => handleColorChange(color)}
+                    />
+                    <ColorImage
+                      src={itemsWithCurrentColor[0].img}
+                      alt={color}
+                    />
+                  </ColorCheckboxWrapper>
+                </>
               );
             } else {
               return (
@@ -149,34 +150,35 @@ const ColorContainer = styled.div`
   margin-bottom: 16px;
 `;
 
-const ColorCheckboxWrapper = styled.div`
+const ColorCheckboxWrapper = styled.label`
   display: flex;
   align-items: center;
-  margin-right: 8px;
+  position: relative;
+  margin-right: -5px;
 `;
 
 const ColorCheckbox = styled.input.attrs({ type: "checkbox" })`
   margin-right: 8px;
   appearance: none;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #ccc;
-  border-radius: 4px;
+  width: 81px;
+  height: 86px;
   outline: none;
   cursor: pointer;
-
   &:checked {
-    background-color: #007bff;
+    border: 6px rgb(21, 26, 32) solid;
   }
 `;
-const ColorRepresentation = styled.div``;
 const ColorImage = styled.img`
-  width: 80px;
+  width: 75px;
   height: 80px;
   object-fit: cover;
-  border-radius: 50%;
+  position: absolute;
+  right: 11px;
+  top: 3.5px;
+  cursor: pointer;
 `;
-
+const ColorRepresentation = styled.div``;
+const ColorText = styled.p``;
 const SizeContainer = styled.div`
   display: flex;
   align-items: center;
@@ -185,6 +187,20 @@ const SizeContainer = styled.div`
 const SizeCheckboxWrapper = styled.div`
   margin-right: 8px;
   position: relative;
+`;
+
+const SizeCheckboxLabel = styled.label`
+  cursor: pointer;
+  position: absolute;
+  top: 46%;
+  left: 42%;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: color 0.2s; /* Optional: Add a smooth transition for the color change */
+  &:active {
+    color: white;
+  }
 `;
 
 const SizeCheckbox = styled.input.attrs({ type: "checkbox" })`
@@ -198,17 +214,9 @@ const SizeCheckbox = styled.input.attrs({ type: "checkbox" })`
   cursor: pointer;
   &:checked {
     background-color: #b55604;
+    border: 2px solid rgb(181, 86, 4);
   }
-`;
-
-const SizeCheckboxLabel = styled.label`
-  cursor: pointer;
-  position: absolute;
-  top: 9px;
-  left: 10px;
-  text-transform: uppercase;
-  font-weight: bold;
-  &:active {
+  &:checked + ${SizeCheckboxLabel} {
     color: white;
   }
 `;

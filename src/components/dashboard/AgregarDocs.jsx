@@ -89,7 +89,7 @@ export const AgregarDocs = () => {
 
   return (
     <div>
-      <button onClick={rellenar}>Rellenar Coleccion Entera</button>
+      {/* <button onClick={rellenar}>Rellenar Coleccion Entera</button> */}
       {addProduct ? (
         <SuccessMessage>Product added successfully!</SuccessMessage>
       ) : (

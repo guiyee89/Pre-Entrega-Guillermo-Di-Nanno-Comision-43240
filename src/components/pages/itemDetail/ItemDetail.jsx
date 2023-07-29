@@ -51,6 +51,9 @@ export const ItemDetail = ({ selectedItem }) => {
             <SubTitle>
               {selectedItem.id ? selectedItem.subtitle : filteredItem.subtitle}
             </SubTitle>
+            <ColorText>
+              Color: <ColorSpan>{selectedItem.id ? selectedItem.color : filteredItem.color}</ColorSpan>
+            </ColorText>
             <FilterWrapper>
               <FilterColorSize
                 selectedItem={selectedItem} //pass the selectedItem to filter
@@ -117,17 +120,18 @@ const Wrapper = styled.div`
   height: 700px;
   max-width: 1300px;
   margin: 0 auto;
+  padding-left: 65px;
 `;
 const InsideWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 80%;
+  height: 90%;
   width: 520px;
-  padding-left: 70px;
+  padding-left: 50px;
   gap: 1.4rem;
   -webkit-box-pack: justify;
-  justify-content: space-evenly;
   align-items: flex-start;
+  justify-content: flex-start;
 `;
 const Title = styled.h1`
   font-size: 2.4rem;
@@ -138,16 +142,17 @@ const Title = styled.h1`
 `;
 const SubTitle = styled.h2`
   font-size: 1.3rem;
-  padding: 0px 0 24px 0;
   text-align: center;
 `;
-// const Span = styled.span`
-//   padding-left:15px ;
-//   font-size: 1rem;
-//   font-weight: bold;
-// `
+const ColorText = styled.p`
+  text-transform: capitalize;
+  font-weight: 500;
+`;
+const ColorSpan = styled.span`
+  font-weight: bold;
+`
 const FilterWrapper = styled.div`
-  height: 100px;
+  height: 150px;
   width: 80px;
   display: flex;
   align-items: center;
@@ -189,14 +194,12 @@ const Num = styled.span`
   font-size: 1.1rem;
 `;
 const ImgWrapper = styled.div`
-  /* height: 500px; */
   width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 const Image = styled.img`
-  /* height: 95%; */
   width: 100%;
   object-fit: contain;
   box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 1.3px;

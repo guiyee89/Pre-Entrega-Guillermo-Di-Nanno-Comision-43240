@@ -33,7 +33,7 @@ const Contador = styled(Badge)`
     height: 23px;
     border-radius: 50%;
     min-width: 23px;
-    background-color: #d94c4c;
+    background-color: #d94c4c!important;
   }
 `;
 const CartWrapper = styled.div`
