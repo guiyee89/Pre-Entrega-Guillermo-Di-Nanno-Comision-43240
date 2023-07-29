@@ -3,7 +3,7 @@ import { useCount } from "../../hooks/useCount";
 import styled from "styled-components/macro";
 
 //Usamos los datos como parametros en ItemCount
-export const ItemCount = ({ initial = 1, stock, onAdd }) => {
+export const ItemCount = ({ initial = 1, stock, onAddToCart }) => {
   //Recibimos la data del contador y los productos del padre ProductDetail
   const { count, increment, decrement, reset } = useCount(initial, stock);
 
@@ -19,7 +19,7 @@ export const ItemCount = ({ initial = 1, stock, onAdd }) => {
           {/* <ResetButton onClick={reset}>Reset</ResetButton> */}
 
           <AddCartButton
-            onClick={() => onAdd(count)}
+            onClick={() => onAddToCart(count)}
             disabled={stock === 0 || count > stock}
           >
             Add to Cart

@@ -19,6 +19,8 @@ export const CartContainer = () => {
     getSubTotal,
   } = useContext(CartContext);
 
+  console.log(cart)
+
   const totalPrice = getTotalPrice();
   const subTotal = getSubTotal();
   const totalDiscount = getTotalDiscount();
@@ -219,9 +221,9 @@ const DiscountPrice = styled.span`
     content: "";
     position: absolute;
     top: 45px;
-    width: 55%;
-    left: 23%;
-    border-top: 0.1rem solid rgb(75, 73, 73);
+    width: 85%;
+    left: 8%;
+    border-top: 0.13rem solid rgb(75, 73, 73);
   }
 `;
 const TotalPriceInfo = styled.div`

@@ -5,6 +5,7 @@ import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
+
   const [selectedFilters, setSelectedFilters] = useState({
     color: null,
     size: null,
@@ -12,10 +13,9 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
 
   const [relatedItems, setRelatedItems] = useState([]);
   const [filteredItem, setFilteredItem] = useState({});
-  console.log(filteredItem)
   
   useEffect(() => {
-    // Fetch related items by userId
+    // Fetch related items of selectedItem by userId to get all products 
     const userId = selectedItem.userId;
     const relatedItemsQuery = query(
       collection(db, "products"),
@@ -27,25 +27,18 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
           ...doc.data(),
           id: doc.id,
         }));
-        setRelatedItems(relatedItems);
-
-        // If there is a selectedItem, set the color and size checkboxes accordingly
-        if (selectedItem) {
-          setSelectedFilters({
-            color: selectedItem.color,
-            size: selectedItem.size,
-          });
-        }
+        setRelatedItems(relatedItems);//save the related items of the selectedItem
       })
       .catch((error) => {
         console.error("Error fetching related items:", error);
       });
-      // Set the color and size checkboxes according to the selectedItem
+      // Set the color and size checkboxes according to the selectedItem at first rendering
       setSelectedFilters({
         color: selectedItem.color,
         size: selectedItem.size,
       });
   }, [selectedItem]);
+
 
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
@@ -54,7 +47,6 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
       size: size,
     }));
   };
-
   // Function to handle color filter selection change
   const handleColorChange = (color) => {
     setSelectedFilters((prevFilters) => ({
@@ -62,6 +54,7 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
       color: color,
     }));
   };
+
 
   // Function to handle size and color filter selection change
   useEffect(() => {
@@ -78,6 +71,8 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
     }
   }, [selectedFilters, relatedItems, onFilterItemChange]);
 
+
+  //Create map for properties "color" and "size" in the items objects to render
   const uniqueColors = Array.from(
     new Set(relatedItems.map((item) => item.color))
   );
