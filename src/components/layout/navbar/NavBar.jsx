@@ -98,9 +98,10 @@ const Nav = styled.nav`
   /* border-bottom: 1px solid black; */
   position: fixed;
   z-index: 1;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.55) 0px 0px 10px;
-  &:before {
+  background-color: rgb(243, 239, 239);
+  box-shadow: rgba(0, 0, 0, 0.55) 0px 0px 3px;
+  background-color: ${(props) => (props.scrolled === "scrolled" ? "white" : "block")};
+  /* &:before {
     content: "";
     position: absolute;
     bottom: -3.5px;
@@ -109,7 +110,7 @@ const Nav = styled.nav`
     height: 1px;
     background-color: black;
     display: ${(props) => (props.scrolled === "scrolled" ? "none" : "block")};
-  }
+  } */
 `;
 const InsideNav = styled.div`
   width: 100vw;
