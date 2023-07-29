@@ -1,69 +1,119 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
 import { FilterColorSize } from "./FilterColorSize";
+import { useState, useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
-export const ItemDetail = ({ selectedItem, onAdd }) => {
+export const ItemDetail = ({ selectedItem }) => {
+  const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
 
-  const hasDiscount = "discount" in selectedItem;
+  const { addToCart } = useContext(CartContext); //Function addToCart from Context
 
-  // const filterRelatedItems = () => {
-  //   const relatedItemMap = new Map();
-  
-  //   relatedItems.forEach((item) => {
-  //     const { userId, color } = item;
-  //     const key = `${userId}-${color}`;
-  
-  //     // Check if the item's userId and color combination already exists in the relatedItemMap
-  //     if (!relatedItemMap.has(key)) {
-  //       // If not, add the item to the relatedItemMap
-  //       relatedItemMap.set(key, item);
-  //     }
-  //   });
-  //   // Convert the Map values to an array of filtered related items
-  //   return Array.from(relatedItemMap.values());
-  // };
-  
+  const hasDiscount = "discount" in selectedItem; //Get discounted item
+
+  console.log(filteredItem);
+
+  const handleFilterItemChange = (item) => {
+    //handle function to create the filter logic in FilterColorSize Component
+    setFilteredItem(item);
+  };
+
+  //On add to cart if selectedItem or filteredItem
+  const onAddToCart = (quantity) => {
+    let data = {
+      ...selectedItem,
+      quantity: quantity,
+    };
+    if (filteredItem && Object.keys(filteredItem).length > 0) {
+      data = {
+        ...filteredItem,
+        quantity: quantity,
+      };
+    }
+    addToCart(data);
+    setFilteredItem({}); // Reset the filteredItem state after adding to cart
+  };
 
   return (
     <Wrapper>
-      <ImgWrapper>
-        <Image src={selectedItem.img} id={selectedItem.id} />
-      </ImgWrapper>
-      <InsideWrapper>
-        <Title>{selectedItem.title}</Title>
-        <SubTitle>{selectedItem.subtitle}</SubTitle>
-        {/* FILTER COMPONENT */}
-        <FilterWrapper>
-          <FilterColorSize  selectedItem={selectedItem} />
-        </FilterWrapper>
-        <Stock>
-          in stock <Num>{selectedItem.stock}</Num>
-        </Stock>
-        {hasDiscount ? (
-          <ItemPrice hasDiscount={hasDiscount}>
-            <DiscountPrice>$ {selectedItem.discountPrice} </DiscountPrice> ${" "}
-            {selectedItem.price}
-          </ItemPrice>
-        ) : (
-          <ItemPrice>$ {selectedItem.price}</ItemPrice>
-        )}
-        <ItemCountWrapper>
-          <ItemCount stock={selectedItem.stock} initial={1} onAdd={onAdd} />
-        </ItemCountWrapper>
-        <Description>{selectedItem.description}</Description>
-        <ReferenceWrapper>
-          <SizeReference>Reference Size Model</SizeReference>
-        </ReferenceWrapper>
-      </InsideWrapper>
+      {(selectedItem.id || filteredItem.id) && (
+        <>
+          <ImgWrapper>
+            <Image
+              src={selectedItem.id ? selectedItem.img : filteredItem.img}
+              id={selectedItem.id || filteredItem.id}
+            />
+          </ImgWrapper>
+          <InsideWrapper>
+            <Title>
+              {selectedItem.id ? selectedItem.title : filteredItem.title}
+            </Title>
+            <SubTitle>
+              {selectedItem.id ? selectedItem.subtitle : filteredItem.subtitle}
+            </SubTitle>
+            <FilterWrapper>
+              <FilterColorSize
+                selectedItem={selectedItem} //pass the selectedItem to filter
+                onFilterItemChange={handleFilterItemChange} //handle function
+              />
+            </FilterWrapper>
+            <Stock>
+              in stock{" "}
+              <Num>
+                {selectedItem.id ? selectedItem.stock : filteredItem.stock}
+              </Num>
+            </Stock>
+            {selectedItem.id || filteredItem.id ? (
+              <>
+                {hasDiscount ? (
+                  <ItemPrice hasDiscount={hasDiscount}>
+                    <DiscountPrice>
+                      $
+                      {selectedItem.id
+                        ? selectedItem.discountPrice
+                        : filteredItem.discountPrice}
+                    </DiscountPrice>{" "}
+                    ${selectedItem.id ? selectedItem.price : filteredItem.price}
+                  </ItemPrice>
+                ) : (
+                  <ItemPrice>
+                    ${selectedItem.id ? selectedItem.price : filteredItem.price}
+                  </ItemPrice>
+                )}
+                <ItemCountWrapper>
+                  <ItemCount
+                    stock={
+                      selectedItem.id ? selectedItem.stock : filteredItem.stock
+                    }
+                    initial={1}
+                    onAddToCart={onAddToCart} // Pass the onAddToCart function to ItemCount
+                  />
+                </ItemCountWrapper>
+                <Description>
+                  {selectedItem.id
+                    ? selectedItem.description
+                    : filteredItem.description}
+                </Description>
+                <ReferenceWrapper>
+                  <SizeReference>Reference Size Model</SizeReference>
+                </ReferenceWrapper>
+              </>
+            ) : (
+              <p>No item selected.</p>
+            )}
+          </InsideWrapper>
+        </>
+      )}
     </Wrapper>
   );
 };
+
 const Wrapper = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: center;
-  justify-content: space-evenly;
+  justify-content: flex-end;
   height: 700px;
   max-width: 1300px;
   margin: 0 auto;
@@ -72,9 +122,12 @@ const InsideWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 80%;
-  width: 470px;
+  width: 520px;
+  padding-left: 70px;
+  gap: 1.4rem;
   -webkit-box-pack: justify;
   justify-content: space-evenly;
+  align-items: flex-start;
 `;
 const Title = styled.h1`
   font-size: 2.4rem;
@@ -94,10 +147,10 @@ const SubTitle = styled.h2`
 //   font-weight: bold;
 // `
 const FilterWrapper = styled.div`
-height: 100px;
-width: 80px;
-display: flex;
-align-items: center;
+  height: 100px;
+  width: 80px;
+  display: flex;
+  align-items: center;
 `;
 
 const DiscountPrice = styled.span`
@@ -146,11 +199,12 @@ const Image = styled.img`
   /* height: 95%; */
   width: 100%;
   object-fit: contain;
+  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 1.3px;
 `;
 const ItemCountWrapper = styled.div`
   display: flex;
   justify-content: center;
-`
+`;
 const Description = styled.p`
   font-size: 0.9rem;
   margin-top: -24px;

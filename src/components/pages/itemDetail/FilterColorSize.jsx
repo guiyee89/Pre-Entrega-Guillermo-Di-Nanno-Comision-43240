@@ -4,24 +4,18 @@ import styled from "styled-components/macro";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-export const FilterColorSize = ({ selectedItem }) => {
-  const [filterColor, setFilterColor] = useState({});
-  const [filterSize, setFilterSize] = useState({
-    xs: false,
-    s: false,
-    m: false,
-    l: false,
-    xl: false,
+export const FilterColorSize = ({ selectedItem, onFilterItemChange  }) => {
+
+  const [selectedFilters, setSelectedFilters] = useState({
+    color: null,
+    size: null,
   });
 
   const [relatedItems, setRelatedItems] = useState([]);
   const [filteredItem, setFilteredItem] = useState({});
-
-  console.log(relatedItems);
-  console.log(filteredItem);
-  //ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
+  
   useEffect(() => {
-    // Fetch related items by userId
+    // Fetch related items of selectedItem by userId to get all products 
     const userId = selectedItem.userId;
     const relatedItemsQuery = query(
       collection(db, "products"),
@@ -33,56 +27,57 @@ export const FilterColorSize = ({ selectedItem }) => {
           ...doc.data(),
           id: doc.id,
         }));
-        setRelatedItems(relatedItems);
+        setRelatedItems(relatedItems);//save the related items of the selectedItem
       })
       .catch((error) => {
         console.error("Error fetching related items:", error);
       });
+      // Set the color and size checkboxes according to the selectedItem at first rendering
+      setSelectedFilters({
+        color: selectedItem.color,
+        size: selectedItem.size,
+      });
   }, [selectedItem]);
+
 
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
-    setFilterSize((prevFilterSize) => ({
-      ...prevFilterSize,
-      xs: false,
-      s: false,
-      m: false,
-      l: false,
-      xl: false,
-      [size]: true, // Set the selected size to true
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      size: size,
     }));
-    // Filter related items based on the selected size
-    const filteredItemsBySize = relatedItems.filter(
-      (item) => item.size === size
-    );
-      // Update the filteredItem state with the filtered items
-      setFilteredItem(filteredItemsBySize);
-    
   };
-
+  // Function to handle color filter selection change
   const handleColorChange = (color) => {
-    setFilterColor((prevFilterColor) => {
-      // Create a new object with all colors set to false
-      const newFilterColor = {};
-      Object.keys(prevFilterColor).forEach((prevColor) => {
-        newFilterColor[prevColor] = false;
-      });
-      // Set the selected color to true
-      newFilterColor[color] = true;
-      return newFilterColor;
-    });
-    // Filter related items based on the selected color
-    const filteredItemsByColor = relatedItems.filter(
-      (item) => item.color === color
-    );
-    // Update the filteredItem state with the filtered items
-    setFilteredItem(filteredItemsByColor);
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      color: color,
+    }));
   };
 
-  
 
+  // Function to handle size and color filter selection change
+  useEffect(() => {
+    const { color, size } = selectedFilters;
+    if (color && size) {
+      const filteredItem = relatedItems.find(
+        (item) => item.color === color && item.size === size
+      );
+      setFilteredItem(filteredItem || {});
+      onFilterItemChange(filteredItem); // Call the onFilterItemChange function with the filtered item
+    } else {
+      setFilteredItem({});
+      onFilterItemChange({}); // Call the onFilterItemChange function with an empty object
+    }
+  }, [selectedFilters, relatedItems, onFilterItemChange]);
+
+
+  //Create map for properties "color" and "size" in the items objects to render
   const uniqueColors = Array.from(
     new Set(relatedItems.map((item) => item.color))
+  );
+  const uniqueSizes = Array.from(
+    new Set(relatedItems.map((item) => item.size))
   );
 
   return (
@@ -99,11 +94,11 @@ export const FilterColorSize = ({ selectedItem }) => {
                 <ColorCheckboxWrapper key={color}>
                   <ColorCheckbox
                     id={`color-${color}`}
-                    checked={filterColor[color] || false}
+                    checked={selectedFilters.color === color}
                     onChange={() => handleColorChange(color)}
                   />
                   <ColorImage
-                    src={itemsWithCurrentColor[0].img} // Use the image from the first related item with the current color
+                    src={itemsWithCurrentColor[0].img}
                     alt={color}
                   />
                 </ColorCheckboxWrapper>
@@ -113,7 +108,7 @@ export const FilterColorSize = ({ selectedItem }) => {
                 <ColorCheckboxWrapper key={color}>
                   <ColorCheckbox
                     id={`color-${color}`}
-                    checked={filterColor[color] || false}
+                    checked={selectedFilters.color === color}
                     onChange={() => handleColorChange(color)}
                   />
                   {/* Placeholder representation when there are no related items with the current color */}
@@ -126,11 +121,11 @@ export const FilterColorSize = ({ selectedItem }) => {
 
         {/* Size filter */}
         <SizeContainer>
-          {Object.keys(filterSize).map((size) => (
+          {uniqueSizes.map((size) => (
             <SizeCheckboxWrapper key={size}>
               <SizeCheckbox
                 id={`size-${size}`}
-                checked={filterSize[size] || false}
+                checked={selectedFilters.size === size}
                 onChange={() => handleSizeChange(size)}
               />
               <SizeCheckboxLabel htmlFor={`size-${size}`}>
@@ -143,7 +138,6 @@ export const FilterColorSize = ({ selectedItem }) => {
     </>
   );
 };
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
