@@ -59,6 +59,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
   return (
     <>
       <FilterWrapper>
+        <FilterBy>Filter by :</FilterBy>
         {/* Size filter */}
         {categoryName === "shoes" ? (
           <FilterDetailsBtn
@@ -128,6 +129,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
         </FilterDetailsBtn>
       </FilterWrapper>
       {/* Discount filter */}
+      <OrderBy>Order by : </OrderBy>
       <GeneralFilterBtn
         value={detailsFilters.discount}
         onChange={(e) => handleDetailsFilterChange("discount", e.target.value)}
@@ -166,3 +168,11 @@ const GeneralFilterBtn = styled.select`
   justify-content: center;
   background-color: rgb(243, 239, 239);
 `;
+const FilterBy = styled.p`
+  font-weight: bold;
+  margin-right: 10px;
+`
+const OrderBy = styled.p`
+  font-weight: bold;
+  margin-right: 10px;
+`
