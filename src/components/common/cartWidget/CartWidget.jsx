@@ -9,8 +9,9 @@ export const CartWidget = ({ scrolled, totalItems }) => {
       <Link to="/cart">
         <Contador
           badgeContent={totalItems}
+          aria-label={totalItems}
           showZero
-          color="primary"
+          color="warning"
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "left",
@@ -27,13 +28,12 @@ export const CartWidget = ({ scrolled, totalItems }) => {
 const Contador = styled(Badge)`
   padding-left: 8px;
   margin: 0 24px 0 0;
-  .css-1m5izjl-MuiBadge-badge {
+  .css-16rm5dn-MuiBadge-badge {
     font-weight: 600;
     font-size: 0.85rem;
     height: 23px;
     border-radius: 50%;
     min-width: 23px;
-    background-color: #d94c4c!important;
   }
 `;
 const CartWrapper = styled.div`
