@@ -127,8 +127,8 @@ const Wrapper = styled.div`
   grid-template-columns: repeat(4, 1fr);
   max-width: 1400px;
   padding: 12px 16px;
-  margin: 0px auto;
-  gap: 16px;
+  margin: 0px 20px;
+  gap: 20px;
   -webkit-box-pack: center;
   justify-items: center;
   align-items: center;
@@ -173,6 +173,7 @@ const InfoWrapper = styled.div`
 `;
 const ItemWrapper = styled.div`
   margin-bottom: 10px;
+  box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 3px;
 `;
 const ItemCard = styled.div`
   color: black;
@@ -184,7 +185,7 @@ const ItemCard = styled.div`
   margin-bottom: 8px;
   justify-content: center;
   position: relative;
-  box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 5px;
+  /* box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 3px; */
   &:hover {
     ${ButtonsWrapper} {
       opacity: 1;

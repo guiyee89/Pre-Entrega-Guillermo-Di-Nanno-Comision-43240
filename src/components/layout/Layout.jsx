@@ -54,7 +54,7 @@ const OutletWrapper = styled.div`
   flex-direction: column;
   -webkit-box-align: center;
   align-items: center;
-  margin: 0 16px;
+  margin: 0 auto;
   margin-top: ${({ isHome }) => (isHome ? "0" : "200px")};
 `;
 const HeroWrapper = styled.div`
