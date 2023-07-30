@@ -88,7 +88,7 @@ const HeaderWrapper = styled.header`
 const Nav = styled.nav`
   height: ${(props) => (props.scrolled === "scrolled" ? "65px" : "90px")};
   transition: height
-    ${(props) => (props.scrolled === "scrolled" ? "0.24s" : "0.16s")}
+  ${(props) => (props.scrolled === "scrolled" ? "0.16s" : "0.16s")}
     ease-in-out;
   width: 100%;
   margin: 0 auto;
@@ -100,7 +100,8 @@ const Nav = styled.nav`
   z-index: 1;
   background-color: rgb(243, 239, 239);
   box-shadow: rgba(0, 0, 0, 0.55) 0px 0px 3px;
-  background-color: ${(props) => (props.scrolled === "scrolled" ? "white" : "block")};
+  background-color: ${(props) =>
+    props.scrolled === "scrolled" ? "white" : "block"};
   /* &:before {
     content: "";
     position: absolute;
@@ -162,7 +163,10 @@ const NavLink = styled(Link)`
     color: #fafafa;
     transition: background-color 0.05s ease-in-out;
   }
-  &::after {
+  &:hover::after {
+    transform: scaleX(1);
+  }
+  /* &::after {
     content: "";
     position: absolute;
     bottom: -4px;
@@ -173,10 +177,7 @@ const NavLink = styled(Link)`
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.21s ease-in-out;
-  }
-  &:hover::after {
-    transform: scaleX(1);
-  }
+  } */
 `;
 //El otro nav
 // const NavLink = styled(Link)`

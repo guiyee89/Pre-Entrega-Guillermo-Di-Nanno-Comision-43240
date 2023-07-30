@@ -85,24 +85,17 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
             const itemsWithCurrentColor = relatedItems.filter(
               (item) => item.color === color
             );
-            
-            <ColorText>{selectedFilters.color}</ColorText>
-        
+
             if (itemsWithCurrentColor.length > 0) {
               return (
-                <>
-                  <ColorCheckboxWrapper key={color}>
-                    <ColorCheckbox
-                      id={`color-${color}`}
-                      checked={selectedFilters.color === color}
-                      onChange={() => handleColorChange(color)}
-                    />
-                    <ColorImage
-                      src={itemsWithCurrentColor[0].img}
-                      alt={color}
-                    />
-                  </ColorCheckboxWrapper>
-                </>
+                <ColorCheckboxWrapper key={color}>
+                  <ColorCheckbox
+                    id={`color-${color}`}
+                    checked={selectedFilters.color === color}
+                    onChange={() => handleColorChange(color)}
+                  />
+                  <ColorImage src={itemsWithCurrentColor[0].img} alt={color} />
+                </ColorCheckboxWrapper>
               );
             } else {
               return (
@@ -160,25 +153,28 @@ const ColorCheckboxWrapper = styled.label`
 const ColorCheckbox = styled.input.attrs({ type: "checkbox" })`
   margin-right: 8px;
   appearance: none;
-  width: 81px;
-  height: 86px;
+  width: 76px;
+  height: 80px;
   outline: none;
   cursor: pointer;
   &:checked {
-    border: 6px rgb(21, 26, 32) solid;
+    border: 2px rgb(21, 26, 32) solid;
+    border-radius: 12px;
   }
 `;
 const ColorImage = styled.img`
-  width: 75px;
-  height: 80px;
+  width: 72px;
+  height: 76px;
   object-fit: cover;
   position: absolute;
-  right: 11px;
-  top: 3.5px;
+  right: 10px;
+  top: 2.5px;
+  border-radius: 10px;
   cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 3.5px;
 `;
 const ColorRepresentation = styled.div``;
-const ColorText = styled.p``;
+
 const SizeContainer = styled.div`
   display: flex;
   align-items: center;

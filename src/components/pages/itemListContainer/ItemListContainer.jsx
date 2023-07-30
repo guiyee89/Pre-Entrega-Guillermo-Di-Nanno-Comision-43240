@@ -82,6 +82,25 @@ export const ItemListContainer = () => {
     }
   };
 
+  const [scroll, setScroll] = useState("not-scrolled");
+
+  //funcion para darle efecto al navbar al scrollear 22% de la pantalla
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = window.innerHeight * 0.22; 
+      if (window.scrollY > scrollHeight) {
+        setScroll("scrolled");
+      } else {
+        setScroll("not-scrolled");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <ToastContainer
@@ -106,9 +125,11 @@ export const ItemListContainer = () => {
           <ItemListTitle>{categoryTitle}</ItemListTitle>
 
           {/******  FILTER  ******/}
-          <FilterWrapper>
-            <MultiFilter items={items} onFilterChange={handleFilterChange} />
-          </FilterWrapper>
+        
+            <FilterWrapper scrolled={scroll}>
+              <MultiFilter items={items} onFilterChange={handleFilterChange} />
+            </FilterWrapper>
+       
 
           {filteredItems.length > 0 && (
             <ItemList
@@ -138,6 +159,7 @@ export const ItemListContainer = () => {
     </>
   );
 };
+
 const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -152,6 +174,7 @@ const ItemListTitle = styled.h1`
   font-size: 1.5rem;
   font-weight: bold;
   text-transform: uppercase;
+  margin-bottom: 30px;
 `;
 const NoProductMessage = styled.h2`
   height: 500px;
@@ -160,6 +183,11 @@ const NoProductMessage = styled.h2`
 const FilterWrapper = styled.div`
   display: flex;
   width: 100%;
-  padding: 20px;
+  padding: 20px 0 20px 0;
   justify-content: center;
+  position: sticky;
+  top: 66px;
+  z-index: 1;
+  background-color: ${(props) => (props.scrolled === "scrolled" ? "white" : "#f3efef")};
+  box-shadow: ${(props) => (props.scrolled === "scrolled" ? "0 6px 10px rgba(0, 0, 0, 0.4)" : "none")};
 `;
