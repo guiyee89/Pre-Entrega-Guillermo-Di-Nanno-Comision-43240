@@ -35,7 +35,8 @@ const Wrapper = styled.div`
 const Wrapper2 = styled.div`
   display: flex;
   gap: 1rem;
-  margin-bottom: 16px;
+  margin-bottom: 30px;
+  align-items: center;
 `;
 const CountButton = styled.button`
   width: 35px;
@@ -70,19 +71,19 @@ const CountButton = styled.button`
 // `;
 
 const AddCartButton = styled.button`
-  width: 125px;
+  width: 135px;
+  height: 45px;
   font-size: 0.9rem;
   font-weight: bold;
   border-radius: 0.8rem;
   background: ${({ disabled }) => (disabled ? "#999" : "rgb(9 9 9)")};
   color: white;
   cursor: pointer;
-  
+  margin-left: 70px;
   &:hover {
     background-color: ${({ disabled }) => (disabled ? "#999" : "#454444")};
     transition: ${({ disabled }) => (disabled ? "none" : "ease-in-out 0.2s")};
   }
-  
   &:active {
     background-color: ${({ disabled }) => (disabled ? "#999" : "#686565")};
     transition: ${({ disabled }) => (disabled ? "none" : "ease-in-out 0.3s")};

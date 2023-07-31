@@ -5,14 +5,30 @@ import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
+  /////////////////////////////////////////////////////
+  //set selectedFilters with color and size values
   const [selectedFilters, setSelectedFilters] = useState({
     color: null,
     size: null,
   });
 
-  const [relatedItems, setRelatedItems] = useState([]);
-  const [filteredItem, setFilteredItem] = useState({});
+  /////////////////////////////////////////////////////
+  const [relatedItems, setRelatedItems] = useState([]); //Items related to the selectedItem prop
+  const [filteredItem, setFilteredItem] = useState({}); //Item filtered
 
+
+  /////////////////////////////////////////////////////
+  //Create map for properties "color" and "size" in the items objects to render
+  const uniqueColors = Array.from(
+    new Set(relatedItems.map((item) => item.color))
+  );
+  const uniqueSizes = Array.from(
+    new Set(relatedItems.map((item) => item.size))
+  );
+  
+
+
+  /////////////////////////////////////////////////////
   useEffect(() => {
     // Fetch related items of selectedItem by userId to get all products
     const userId = selectedItem.userId;
@@ -38,13 +54,9 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
     });
   }, [selectedItem]);
 
-  // Function to handle size filter selection change
-  const handleSizeChange = (size) => {
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      size: size,
-    }));
-  };
+
+
+  /////////////////////////////////////////////////////
   // Function to handle color filter selection change
   const handleColorChange = (color) => {
     setSelectedFilters((prevFilters) => ({
@@ -52,29 +64,62 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
       color: color,
     }));
   };
+  // Function to handle size filter selection change
+  const handleSizeChange = (size) => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      size: size,
+    }));
+  };
 
+
+
+  /////////////////////////////////////////////////////
   // Function to handle size and color filter selection change
   useEffect(() => {
     const { color, size } = selectedFilters;
     if (color && size) {
-      const filteredItem = relatedItems.find(
+      let filteredItem = relatedItems.find(
         (item) => item.color === color && item.size === size
       );
+      if (!filteredItem) {
+        // If no item matches the selected combination of color and size, find the first item that has color and size
+        filteredItem = relatedItems.find(
+          (item) => item.color === color && item.size
+        );
+        // Set avialable selectedFilters "size" when selecting a new "color" in case filteredItem doesn't have that "size"
+        if (filteredItem) {
+          filteredItem = relatedItems.find((item) => item.color === color);
+          setSelectedFilters((prevFilters) => ({
+            ...prevFilters,
+            size: filteredItem.size,
+          }));
+        }
+      }
       setFilteredItem(filteredItem || {});
-      onFilterItemChange(filteredItem); // Call the onFilterItemChange function with the filtered item
-    } else {
-      setFilteredItem({});
-      onFilterItemChange({}); // Call the onFilterItemChange function with an empty object
+      onFilterItemChange(filteredItem);
     }
   }, [selectedFilters, relatedItems, onFilterItemChange]);
 
-  //Create map for properties "color" and "size" in the items objects to render
-  const uniqueColors = Array.from(
-    new Set(relatedItems.map((item) => item.color))
-  );
-  const uniqueSizes = Array.from(
-    new Set(relatedItems.map((item) => item.size))
-  );
+
+
+  /////////////////////////////////////////////////////
+  //Manipulate "size" enabling/disabling by selecting a "color" checking which sizes are available
+  const getAvailableSizesForColor = (color) => {
+    return Array.from(
+      new Set(
+        relatedItems
+          .filter((item) => item.color === color)
+          .map((item) => item.size)
+      )
+    );
+  };
+  // ... (your other handlers and useEffect)
+  const availableSizesForColor = selectedFilters.color
+    ? getAvailableSizesForColor(selectedFilters.color)
+    : [];
+
+
 
   return (
     <>
@@ -85,7 +130,6 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
             const itemsWithCurrentColor = relatedItems.filter(
               (item) => item.color === color
             );
-
             if (itemsWithCurrentColor.length > 0) {
               return (
                 <ColorCheckboxWrapper key={color}>
@@ -115,18 +159,27 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
 
         {/* Size filter */}
         <SizeContainer>
-          {uniqueSizes.map((size) => (
-            <SizeCheckboxWrapper key={size}>
-              <SizeCheckbox
-                id={`size-${size}`}
-                checked={selectedFilters.size === size}
-                onChange={() => handleSizeChange(size)}
-              />
-              <SizeCheckboxLabel htmlFor={`size-${size}`}>
-                {size}
-              </SizeCheckboxLabel>
-            </SizeCheckboxWrapper>
-          ))}
+          {uniqueSizes.map((size) => {
+            const isSizeAvailable =
+              !selectedFilters.color || availableSizesForColor.includes(size);
+
+            return (
+              <SizeCheckboxWrapper key={size}>
+                <SizeCheckbox
+                  id={`size-${size}`}
+                  checked={selectedFilters.size === size}
+                  onChange={() => handleSizeChange(size)}
+                  disabled={!isSizeAvailable}
+                />
+                <SizeCheckboxLabel
+                  htmlFor={`size-${size}`}
+                  style={{ color: isSizeAvailable ? "inherit" : "lightgray" }}
+                >
+                  {size}
+                </SizeCheckboxLabel>
+              </SizeCheckboxWrapper>
+            );
+          })}
         </SizeContainer>
       </Wrapper>
     </>
@@ -197,6 +250,9 @@ const SizeCheckboxLabel = styled.label`
   &:active {
     color: white;
   }
+  &:checked {
+    color: white;
+  }
 `;
 
 const SizeCheckbox = styled.input.attrs({ type: "checkbox" })`
@@ -212,7 +268,7 @@ const SizeCheckbox = styled.input.attrs({ type: "checkbox" })`
     background-color: #b55604;
     border: 2px solid rgb(181, 86, 4);
   }
-  &:checked + ${SizeCheckboxLabel} {
+  &:checked ${SizeCheckboxLabel} {
     color: white;
   }
 `;

@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
 import { MultiFilter } from "./multiFilter/MultiFilter";
-import { AgregarDocs } from "../../dashboard/AgregarDocs";
+// import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
 export const ItemListContainer = () => {
   //Loader
@@ -55,7 +55,7 @@ export const ItemListContainer = () => {
           setLoading(false);
         })
         .catch((err) => console.log(err));
-    }, 500);
+    }, 1000);
   }, [categoryName]);
 
   //Funcion para agregar items y cantidad desde ItemList
@@ -71,6 +71,7 @@ export const ItemListContainer = () => {
   //States de filtrados para pasar como evento a ItemListContainer
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
+
   console.log(filteredItems);
   const handleFilterChange = (filteredItems, detailsFilters) => {
     if (filteredItems.length > 0) {
@@ -125,7 +126,6 @@ export const ItemListContainer = () => {
           <ItemListTitle>{categoryTitle}</ItemListTitle>
 
           {/******  FILTER  ******/}
-        
             <FilterWrapper scrolled={scroll}>
               <MultiFilter items={items} onFilterChange={handleFilterChange} />
             </FilterWrapper>
@@ -155,7 +155,7 @@ export const ItemListContainer = () => {
           )}
         </>
       )}
-      <AgregarDocs />
+      {/* <AgregarDocs /> */}
     </>
   );
 };
@@ -190,4 +190,9 @@ const FilterWrapper = styled.div`
   z-index: 1;
   background-color: ${(props) => (props.scrolled === "scrolled" ? "white" : "#f3efef")};
   box-shadow: ${(props) => (props.scrolled === "scrolled" ? "0 6px 10px rgba(0, 0, 0, 0.4)" : "none")};
+  transition: background-color .11s ease-in-out; /* This defines the transition effect */
+  height: ${(props) => (props.scrolled === "scrolled" ? "62px" : "70px")};
+  transition: height
+  ${(props) => (props.scrolled === "scrolled" ? "0.19s" : "0.19s")}
+    ease-in-out;
 `;

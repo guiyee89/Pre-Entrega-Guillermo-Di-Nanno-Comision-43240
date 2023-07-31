@@ -5,18 +5,22 @@ import { useState, useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 
 export const ItemDetail = ({ selectedItem }) => {
+
+
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
-
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
-
   const hasDiscount = "discount" in selectedItem; //Get discounted item
 
-  console.log(filteredItem);
 
   const handleFilterItemChange = (item) => {
-    //handle function to create the filter logic in FilterColorSize Component
-    setFilteredItem(item);
+    console.log(item);
+    if (item === undefined) { //Check in case "item" doesn't exist, then return the original selected item
+      setFilteredItem(selectedItem);
+    } else { //else return the filtered item
+      setFilteredItem(item);
+    }
   };
+
 
   //On add to cart if selectedItem or filteredItem
   const onAddToCart = (quantity) => {
@@ -34,78 +38,107 @@ export const ItemDetail = ({ selectedItem }) => {
     setFilteredItem({}); // Reset the filteredItem state after adding to cart
   };
 
+
+
   return (
     <Wrapper>
-      {(selectedItem.id || filteredItem.id) && (
+      {/* Check if either selectedItem or filteredItem exists */}
+      {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
+          {/* Render item details based on the existence of selectedItem or filteredItem */}
           <ImgWrapper>
             <Image
-              src={selectedItem.id ? selectedItem.img : filteredItem.img}
-              id={selectedItem.id || filteredItem.id}
+              src={
+                Object.keys(filteredItem).length > 0
+                  ? filteredItem.img
+                  : selectedItem.img
+              }
+              id={
+                selectedItem?.id ||
+                (Object.keys(filteredItem).length > 0 && filteredItem.id)
+              }
             />
           </ImgWrapper>
           <InsideWrapper>
             <Title>
-              {selectedItem.id ? selectedItem.title : filteredItem.title}
+              {Object.keys(filteredItem).length > 0
+                ? filteredItem.title
+                : selectedItem.title}
             </Title>
             <SubTitle>
-              {selectedItem.id ? selectedItem.subtitle : filteredItem.subtitle}
+              {Object.keys(filteredItem).length > 0
+                ? filteredItem.subtitle
+                : selectedItem.subtitle}
             </SubTitle>
             <ColorText>
-              Color: <ColorSpan>{selectedItem.id ? selectedItem.color : filteredItem.color}</ColorSpan>
+              Color:{" "}
+              <ColorSpan>
+                {Object.keys(filteredItem).length > 0
+                  ? filteredItem.color
+                  : selectedItem.color}
+              </ColorSpan>
             </ColorText>
             <FilterWrapper>
               <FilterColorSize
-                selectedItem={selectedItem} //pass the selectedItem to filter
-                onFilterItemChange={handleFilterItemChange} //handle function
+                selectedItem={selectedItem}
+                onFilterItemChange={handleFilterItemChange}
               />
             </FilterWrapper>
-            <Stock>
-              in stock{" "}
-              <Num>
-                {selectedItem.id ? selectedItem.stock : filteredItem.stock}
-              </Num>
-            </Stock>
-            {selectedItem.id || filteredItem.id ? (
-              <>
-                {hasDiscount ? (
-                  <ItemPrice hasDiscount={hasDiscount}>
-                    <DiscountPrice>
-                      $
-                      {selectedItem.id
-                        ? selectedItem.discountPrice
-                        : filteredItem.discountPrice}
-                    </DiscountPrice>{" "}
-                    ${selectedItem.id ? selectedItem.price : filteredItem.price}
-                  </ItemPrice>
-                ) : (
-                  <ItemPrice>
-                    ${selectedItem.id ? selectedItem.price : filteredItem.price}
-                  </ItemPrice>
-                )}
-                <ItemCountWrapper>
-                  <ItemCount
-                    stock={
-                      selectedItem.id ? selectedItem.stock : filteredItem.stock
-                    }
-                    initial={1}
-                    onAddToCart={onAddToCart} // Pass the onAddToCart function to ItemCount
-                  />
-                </ItemCountWrapper>
-                <Description>
-                  {selectedItem.id
-                    ? selectedItem.description
-                    : filteredItem.description}
-                </Description>
-                <ReferenceWrapper>
-                  <SizeReference>Reference Size Model</SizeReference>
-                </ReferenceWrapper>
-              </>
-            ) : (
-              <p>No item selected.</p>
-            )}
+            <StockPriceWrapper>
+              {hasDiscount ? (
+                <ItemPrice hasDiscount={hasDiscount}>
+                  <DiscountPrice>
+                    $
+                    {Object.keys(filteredItem).length > 0
+                      ? filteredItem.discountPrice
+                      : selectedItem.discountPrice}
+                  </DiscountPrice>{" "}
+                  $
+                  {Object.keys(filteredItem).length > 0
+                    ? filteredItem.price
+                    : selectedItem.price}
+                </ItemPrice>
+              ) : (
+                <ItemPrice>
+                  $
+                  {Object.keys(filteredItem).length > 0
+                    ? filteredItem.price
+                    : selectedItem.price}
+                </ItemPrice>
+              )}
+              <Stock>
+                Available Stock{" "}
+                <Num>
+                  {Object.keys(filteredItem).length > 0
+                    ? filteredItem.stock
+                    : selectedItem.stock}
+                </Num>
+              </Stock>
+            </StockPriceWrapper>
+            <ItemCountWrapper>
+              <ItemCount
+                stock={
+                  Object.keys(filteredItem).length > 0
+                    ? filteredItem.stock
+                    : selectedItem.stock
+                }
+                initial={1}
+                onAddToCart={onAddToCart}
+              />
+            </ItemCountWrapper>
+            <Description>
+              {Object.keys(filteredItem).length > 0
+                ? filteredItem.description
+                : selectedItem.description}
+            </Description>
+            <ReferenceWrapper>
+              <SizeReference>Reference Size Model</SizeReference>
+            </ReferenceWrapper>
           </InsideWrapper>
         </>
+      ) : (
+        // Render a loading state or a message while the data is being loaded
+        <div>Loading...</div>
       )}
     </Wrapper>
   );
@@ -150,10 +183,10 @@ const ColorText = styled.p`
 `;
 const ColorSpan = styled.span`
   font-weight: bold;
-`
+`;
 const FilterWrapper = styled.div`
   height: 150px;
-  width: 80px;
+  width: 95%;
   display: flex;
   align-items: center;
 `;
@@ -161,37 +194,41 @@ const FilterWrapper = styled.div`
 const DiscountPrice = styled.span`
   color: #a83737;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;
   &::before {
     content: "";
     position: absolute;
-    bottom: 16px;
-    width: 100%;
-    left: 67px;
-    border-top: 0.1rem solid rgb(75, 73, 73);
+    bottom: 18px;
+    width: 102%;
+    left: 75px;
+    border-top: 0.15rem solid rgb(75, 73, 73);
   }
+`;
+const StockPriceWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 95%;
+  padding: 8px 0;
 `;
 const ItemPrice = styled.h4`
   color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-style: italic;
-  padding: 6px 0 8px 0;
-  text-align: center;
 `;
 
 const Stock = styled.p`
   font-size: 0.85rem;
   font-style: italic;
-  text-align: center;
+  padding-left: 60px;
 `;
 const Num = styled.span`
   color: #c92b2b;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 `;
 const ImgWrapper = styled.div`
   width: 50%;
