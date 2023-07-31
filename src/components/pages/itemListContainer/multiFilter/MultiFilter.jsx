@@ -93,9 +93,13 @@ export const MultiFilter = ({ items, onFilterChange }) => {
               }
             >
               <option value="">All Shoe Sizes</option>
+              <option value="39">39</option>
+              <option value="40">40</option>
               <option value="41">41</option>
               <option value="42">42</option>
+              <option value="43">43</option>
               <option value="44">44</option>
+              <option value="45">45</option>
             </FilterDetailsBtn>
 
             {/* String sizes */}

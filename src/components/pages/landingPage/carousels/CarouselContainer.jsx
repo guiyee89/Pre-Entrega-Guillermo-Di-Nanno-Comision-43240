@@ -10,7 +10,7 @@ export const CarouselContainer = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 1200);
+    }, 1300);
 
     return () => clearTimeout(timeout);
   }, []);
