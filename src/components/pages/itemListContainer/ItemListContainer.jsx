@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
 import { MultiFilter } from "./multiFilter/MultiFilter";
-import { AgregarDocs } from "../../dashboard/AgregarDocs";
+// import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
 
 //////////////     //////////////    ////////////      ////////////      /////////////
@@ -58,7 +58,7 @@ export const ItemListContainer = () => {
           setLoading(false);
         })
         .catch((err) => console.log(err));
-    }, 2000);
+    }, 1500);
   }, [categoryName]);
 
 
@@ -170,7 +170,7 @@ export const ItemListContainer = () => {
           )}
         </>
       )}
-      <AgregarDocs />
+      {/* <AgregarDocs /> */}
     </>
   );
 };
