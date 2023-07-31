@@ -9,40 +9,43 @@ import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
 import { MultiFilter } from "./multiFilter/MultiFilter";
-// import { AgregarDocs } from "../../dashboard/AgregarDocs";
+import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
+
+//////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
-  //Loader
-  const [loading, setLoading] = useState(true);
-  //Guardamos los items
-  const [items, setItems] = useState([]);
-  //Utilizamos contexto para agregar al Cart
-  const { addToCart } = useContext(CartContext);
-  //useParams de react-router-dom para filtrar productos por categoryName
-  const { categoryName } = useParams();
-  // Rendering conditional title
-  const categoryTitle = categoryName ? categoryName : "All Products";
-  //Pasamos useNavigate() como prop
-  const navigate = useNavigate();
 
-  //Creamos filtro de productos en NavBar por categoria
+  const [loading, setLoading] = useState(true); //Loader
+
+  const [items, setItems] = useState([]); //Guardamos los items
+  
+  const { addToCart } = useContext(CartContext);//Utilizamos contexto para agregar al Cart
+  
+  const { categoryName } = useParams();//useParams de react-router-dom para filtrar productos por categoryName
+ 
+  const categoryTitle = categoryName ? categoryName : "All Products"; // Rendering conditional title
+ 
+  const navigate = useNavigate(); //Pasamos useNavigate() como prop
+
+
+//////////////     //////////////    ////////////      ////////////      /////////////
+  //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
   useEffect(() => {
     setLoading(true);
     let itemsCollection = collection(db, "products");
     let filterCollection;
     if (!categoryName) {
-      //si categoryName no es = a alguna category, trae todos los productos (itemCollection)
+      //If there is no categoryName, fetch all products
       filterCollection = itemsCollection;
     } else {
-      //si categoryName es = a alguna category, filtra los productos
+      //if there is categoryName, filter that category
       filterCollection = query(
         itemsCollection,
         where("category", "==", categoryName)
       );
     }
-
     setTimeout(() => {
-      //getDocs es como la promesa para que se resuelva la peticion a firebase
+      //getDocs to resolve the promise and fetch the products
       getDocs(filterCollection)
         .then((res) => {
           let products = res.docs.map((product) => {
@@ -55,10 +58,32 @@ export const ItemListContainer = () => {
           setLoading(false);
         })
         .catch((err) => console.log(err));
-    }, 1000);
+    }, 2000);
   }, [categoryName]);
 
-  //Funcion para agregar items y cantidad desde ItemList
+
+//////////////     //////////////    ////////////      ////////////      /////////////
+//     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //
+
+ //States for MultfiFilter and ItemListcontainer data
+ const [detailsFilters, setDetailsFilters] = useState([]);
+ const [filteredItems, setFilteredItems] = useState([]);
+
+ console.log(filteredItems);
+
+ const handleFilterChange = (filteredItems, detailsFilters) => {
+   if (filteredItems.length > 0) {
+     setFilteredItems(filteredItems);
+     setDetailsFilters(detailsFilters); // Set detailsFilters to the selected filters from MultiFilter
+   } else {
+     setFilteredItems([]); 
+     setDetailsFilters([]); 
+   }
+ };
+
+
+//////////////     //////////////    ////////////      ////////////      /////////////
+//              FUNCTION TO ADD ITEMS DIRECTLY FROM ItemListContainer               //
   const onAddCart = (newItem) => {
     let quantity = 1;
     const productData = {
@@ -68,24 +93,12 @@ export const ItemListContainer = () => {
     addToCart(productData);
   };
 
-  //States de filtrados para pasar como evento a ItemListContainer
-  const [detailsFilters, setDetailsFilters] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
 
-  console.log(filteredItems);
-  const handleFilterChange = (filteredItems, detailsFilters) => {
-    if (filteredItems.length > 0) {
-      setFilteredItems(filteredItems);
-      setDetailsFilters(detailsFilters); // Setea detailsFilters a los filtros recibidos de MultiFilter
-    } else {
-      setFilteredItems([]); // Setea filteredItems como array vacio
-      setDetailsFilters([]); // Setea detailsFilters como array vacio
-    }
-  };
 
+//////////////     //////////////    ////////////      ////////////      /////////////
+//               SCROLLING EFFECT FOR FilterWrapper ON 22% OF SCREEN               //
   const [scroll, setScroll] = useState("not-scrolled");
 
-  //funcion para darle efecto al navbar al scrollear 22% de la pantalla
   useEffect(() => {
     const handleScroll = () => {
       const scrollHeight = window.innerHeight * 0.22; 
@@ -95,13 +108,15 @@ export const ItemListContainer = () => {
         setScroll("not-scrolled");
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
+
+
+//    RENDERING    //  
   return (
     <>
       <ToastContainer
@@ -155,7 +170,7 @@ export const ItemListContainer = () => {
           )}
         </>
       )}
-      {/* <AgregarDocs /> */}
+      <AgregarDocs />
     </>
   );
 };
@@ -182,7 +197,7 @@ const NoProductMessage = styled.h2`
 `;
 const FilterWrapper = styled.div`
   display: flex;
-  width: 100%;
+  width: 95%;
   max-width: ${(props) => (props.scrolled === "scrolled" ? "1371px" : "1375px")};;
   justify-content: ${(props) => (props.scrolled === "scrolled" ? "space-around" : "space-evenly")};;
   position: sticky;

@@ -4,11 +4,13 @@ import styled from "styled-components/macro";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
+
+
 export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
 
-
 //////////////     //////////////    ////////////      ////////////      /////////////
-  const [selectedFilters, setSelectedFilters] = useState({ //set selectedFilters with color and size values
+  const [selectedFilters, setSelectedFilters] = useState({
+    //set selectedFilters with color and size values
     color: null,
     size: null,
   });
@@ -87,22 +89,34 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
         }
       }
       setFilteredItem(filterSelection || {});
-      onFilterItemChange(filterSelection);
+      onFilterItemChange(filterSelection); //responible to set new item by color or sizes and render it
     }
   }, [selectedFilters, relatedItems, onFilterItemChange]);
 
 
-//////////////     //////////////    ////////////      ////////////      /////////////
-//                     LOGIC FOR COLOR & SIZE RENDERING                           //
 
-  //Create map for properties "color" and "size" in the items objects to render
+//////////////     //////////////    ////////////      ////////////      //////////////
+//                      LOGIC FOR COLOR & SIZE RENDERING                           //
+
+  //Create map for properties existing "color" 
   const uniqueColors = Array.from(
     new Set(relatedItems.map((item) => item.color))
   );
-  const uniqueSizes = Array.from(
-    new Set(relatedItems.map((item) => item.size))
-  );
+
+  //Render custom "size" for clothing or map existing "size" for shoes
+  const renderSizes = () => {
+    const customSizes = ["xs", "s", "m", "l", "xl", "xxl"];
+    const uniqueSizesShoes = Array.from(
+      new Set(relatedItems.map((item) => item.size))
+    );
   
+    return selectedItem.category === "shoes"
+      ? uniqueSizesShoes
+          .map((size) => parseInt(size, 10))
+          .sort((a, b) => a - b)
+          .map((sizeNumber) => sizeNumber.toString())
+      : customSizes;
+  };
 
   //Manipulate "size" enabling/disabling by selecting a "color" checking which sizes are available
   const getAvailableSizesForColor = (color) => {
@@ -114,13 +128,14 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
       )
     );
   };
-  // ... (your other handlers and useEffect)
+  // ... (other handlers)
   const availableSizesForColor = selectedFilters.color
     ? getAvailableSizesForColor(selectedFilters.color)
     : [];
 
-    
-//  RENDERING  //
+
+
+  //  RENDERING  //
   return (
     <>
       <Wrapper>
@@ -159,10 +174,9 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
 
         {/* Size filter */}
         <SizeContainer>
-          {uniqueSizes.map((size) => {
+          {renderSizes().map((size) => {
             const isSizeAvailable =
               !selectedFilters.color || availableSizesForColor.includes(size);
-
             return (
               <SizeCheckboxWrapper key={size}>
                 <SizeCheckbox
@@ -173,7 +187,8 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
                 />
                 <SizeCheckboxLabel
                   htmlFor={`size-${size}`}
-                  style={{ color: isSizeAvailable ? "inherit" : "lightgray" }}
+                  checked={SizeCheckboxLabel && "white"}
+                  isSizeAvailable={isSizeAvailable}
                 >
                   {size}
                 </SizeCheckboxLabel>
@@ -238,23 +253,6 @@ const SizeCheckboxWrapper = styled.div`
   position: relative;
 `;
 
-const SizeCheckboxLabel = styled.label`
-  cursor: pointer;
-  position: absolute;
-  top: 46%;
-  left: 42%;
-  transform: translate(-50%, -50%);
-  text-transform: uppercase;
-  font-weight: bold;
-  transition: color 0.2s; /* Optional: Add a smooth transition for the color change */
-  &:active {
-    color: white;
-  }
-  &:checked {
-    color: white;
-  }
-`;
-
 const SizeCheckbox = styled.input.attrs({ type: "checkbox" })`
   margin-right: 8px;
   appearance: none;
@@ -268,7 +266,22 @@ const SizeCheckbox = styled.input.attrs({ type: "checkbox" })`
     background-color: #b55604;
     border: 2px solid rgb(181, 86, 4);
   }
-  &:checked ${SizeCheckboxLabel} {
+`;
+const SizeCheckboxLabel = styled.label`
+  cursor: pointer;
+  position: absolute;
+  top: 46%;
+  left: 42%;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: color 0.1s;
+  color: black;
+
+  /* Style for the unchecked state */
+  color: ${(props) => !props.isSizeAvailable && "lightgray"};
+  /* Style for the checked state */
+  ${SizeCheckbox}:checked + & {
     color: white;
   }
 `;

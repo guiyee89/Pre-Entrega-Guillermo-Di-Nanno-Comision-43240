@@ -13,7 +13,7 @@ export const ItemDetail = ({ selectedItem }) => {
 
 
   const handleFilterItemChange = (item) => {
-    console.log(item);
+    console.log(item)
     if (item === undefined) { //Check in case "item" doesn't exist, then return the original selected item
       setFilteredItem(selectedItem);
     } else { //else return the filtered item
@@ -38,7 +38,7 @@ export const ItemDetail = ({ selectedItem }) => {
     setFilteredItem({}); // Reset the filteredItem state after adding to cart
   };
 
-
+  
 
   return (
     <Wrapper>
@@ -170,7 +170,7 @@ const Title = styled.h1`
   font-size: 2.4rem;
   font-weight: bold;
   letter-spacing: -2px;
-  margin-bottom: -14px;
+  margin-bottom: -27px;
   text-align: center;
 `;
 const SubTitle = styled.h2`

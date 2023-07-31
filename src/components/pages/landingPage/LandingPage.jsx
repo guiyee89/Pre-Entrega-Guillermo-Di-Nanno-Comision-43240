@@ -26,7 +26,7 @@ export const LandingPage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 500); // Delay of 1 second (1000 milliseconds)
+    }, 700); // Delay of 1 second (1000 milliseconds)
 
     return () => {
       clearTimeout(timer);
