@@ -14,7 +14,11 @@ export const products = [
         size: "S",
         discount: 8,
         discountPrice: 13800,
-        img: "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h07_59_jt0ger.png",
+        img: [
+            "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h07_59_jt0ger.png",
+            "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h07_59_jt0ger.png",
+            "https://res.cloudinary.com/derdim3m6/image/upload/v1689617920/web%20access/samples%20for%20e-commerce/Shoes/2023-07-17_15h07_59_jt0ger.png",
+          ],
     },
 
     {

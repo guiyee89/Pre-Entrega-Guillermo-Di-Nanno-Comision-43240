@@ -1,8 +1,9 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
-import { FilterColorSize } from "./FilterColorSize";
+import {  Filters } from "./Filters";
 import { useState, useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import { MultiImages } from "./MultiImages";
 
 export const ItemDetail = ({ selectedItem }) => {
 
@@ -13,7 +14,6 @@ export const ItemDetail = ({ selectedItem }) => {
 
 
   const handleFilterItemChange = (item) => {
-    console.log(item)
     if (item === undefined) { //Check in case "item" doesn't exist, then return the original selected item
       setFilteredItem(selectedItem);
     } else { //else return the filtered item
@@ -46,12 +46,16 @@ export const ItemDetail = ({ selectedItem }) => {
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
           {/* Render item details based on the existence of selectedItem or filteredItem */}
+          <SubImagesWrapper>
+              <MultiImages filteredItem={filteredItem} selectedItem={selectedItem}/>
+          </SubImagesWrapper>
+
           <ImgWrapper>
             <Image
               src={
                 Object.keys(filteredItem).length > 0
-                  ? filteredItem.img
-                  : selectedItem.img
+                  ? filteredItem.img[0]
+                  : selectedItem.img[0]
               }
               id={
                 selectedItem?.id ||
@@ -79,7 +83,7 @@ export const ItemDetail = ({ selectedItem }) => {
               </ColorSpan>
             </ColorText>
             <FilterWrapper>
-              <FilterColorSize
+              <Filters
                 selectedItem={selectedItem}
                 onFilterItemChange={handleFilterItemChange}
               />
@@ -144,6 +148,13 @@ export const ItemDetail = ({ selectedItem }) => {
   );
 };
 
+const SubImagesWrapper = styled.aside`
+width: 120px;
+height: 94%;
+margin-left: -51px;
+margin-right: 20px;
+`
+
 const Wrapper = styled.div`
   display: flex;
   -webkit-box-align: center;
@@ -158,7 +169,7 @@ const Wrapper = styled.div`
 const InsideWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 90%;
+  height: 81%;
   width: 520px;
   padding-left: 50px;
   gap: 1.4rem;

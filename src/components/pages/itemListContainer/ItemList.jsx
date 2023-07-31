@@ -88,7 +88,7 @@ const filterProducts = () => {
                   {isLoadingAdd && <ClipLoader color="#194f44" size={50} />}
                   {isLoadingDetail && <ClipLoader color="#194f44" size={50} />}
                 </Loader>
-                <ItemImg variant="top" src={product.img} />
+                <ItemImg variant="top" src={product.img[0]} />
               </ImgWrapperLink>
               {hasDiscount && <Discount>-{product.discount}%</Discount>}
               <ButtonsWrapper disabled={product.stock === 0}>

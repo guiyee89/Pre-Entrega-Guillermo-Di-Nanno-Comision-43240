@@ -6,7 +6,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 
 
 
-export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
+export const Filters = ({ selectedItem, onFilterItemChange }) => {
 
 //////////////     //////////////    ////////////      ////////////      /////////////
   const [selectedFilters, setSelectedFilters] = useState({
