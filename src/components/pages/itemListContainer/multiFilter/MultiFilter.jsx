@@ -151,7 +151,7 @@ const FilterDetailsBtn = styled.select`
   border-top: none;
   border-left: none;
   width: 130px;
-  margin: 0px 30px;
+  margin: 0px 16px;
   border-bottom-right-radius: 15px;
   justify-content: center;
   background-color: rgb(243, 239, 239);

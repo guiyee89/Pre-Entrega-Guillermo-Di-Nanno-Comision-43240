@@ -167,8 +167,8 @@ const ItemWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
 `;
 const ImgWrapper = styled.div`
-  height: 100%;
-  width: 200px;
+  height: 95%;
+  width: 100px;
   display: flex;
   align-items: center;
 `;
@@ -178,7 +178,7 @@ const QuantityWrapper = styled.div`
 `;
 const ItemImg = styled.img`
   width: 100%;
-  height: 90%;
+  height: 100%;
   object-fit: contain;
 `;
 const ItemQuantity = styled.h4`

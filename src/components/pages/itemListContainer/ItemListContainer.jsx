@@ -183,16 +183,19 @@ const NoProductMessage = styled.h2`
 const FilterWrapper = styled.div`
   display: flex;
   width: 100%;
-  padding: 20px 0 20px 0;
-  justify-content: center;
+  max-width: ${(props) => (props.scrolled === "scrolled" ? "1371px" : "1465px")};;
+  justify-content: ${(props) => (props.scrolled === "scrolled" ? "space-around" : "space-evenly")};;
   position: sticky;
   top: 66px;
   z-index: 1;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: ${(props) => (props.scrolled === "scrolled" ? "20px 0 13px 0;" : "20px 0 25px 0;")};;
   background-color: ${(props) => (props.scrolled === "scrolled" ? "white" : "#f3efef")};
   box-shadow: ${(props) => (props.scrolled === "scrolled" ? "0 6px 10px rgba(0, 0, 0, 0.4)" : "none")};
   transition: background-color .11s ease-in-out; /* This defines the transition effect */
-  height: ${(props) => (props.scrolled === "scrolled" ? "62px" : "70px")};
-  transition: height
+  height: ${(props) => (props.scrolled === "scrolled" ? "auto" : "70px")};
+  transition: height 0.19s cubic-bezier(0, 1.32, 0, 0.68) 0s
   ${(props) => (props.scrolled === "scrolled" ? "0.19s" : "0.19s")}
-    ease-in-out;
+  ease-in-out;
 `;
