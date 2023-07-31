@@ -12,7 +12,7 @@ export const NavBar = () => {
   //funcion para darle efecto al navbar al scrollear 12% de la pantalla
   useEffect(() => {
     const handleScroll = () => {
-      const scrollHeight = window.innerHeight * 0.12; // 10% of screen height
+      const scrollHeight = window.innerHeight * 0.05; // 10% of screen height
       if (window.scrollY > scrollHeight) {
         setScroll("scrolled");
       } else {
@@ -100,8 +100,8 @@ const Nav = styled.nav`
   z-index: 1;
   background-color: rgb(243, 239, 239);
   box-shadow: rgba(0, 0, 0, 0.55) 0px 0px 3px;
-  background-color: ${(props) =>
-    props.scrolled === "scrolled" ? "white" : "block"};
+  /* background-color: ${(props) =>
+    props.scrolled === "scrolled" ? "white" : "block"}; */
   /* &:before {
     content: "";
     position: absolute;
@@ -122,16 +122,16 @@ const InsideNav = styled.div`
   justify-content: space-between;
 `;
 const LogoDiv = styled.div`
-  width: ${(props) => (props.scrolled === "scrolled" ? "90px" : "120px")};
+  width: ${(props) => (props.scrolled === "scrolled" ? "90px" : "110px")};
   transition: width
-    ${(props) => (props.scrolled === "scrolled" ? "0.28s" : "0.16s")}
+    ${(props) => (props.scrolled === "scrolled" ? "0.20s" : "0.16s")}
     ease-in-out;
 `;
 const LogoLink = styled(Link)`
   text-decoration: none;
 `;
 const Logo = styled.img`
-  width: 65%;
+  width: 62%;
   margin-left: 12px;
 `;
 const NavListWrapper = styled.ul`
@@ -166,7 +166,7 @@ const NavLink = styled(Link)`
   &:hover::after {
     transform: scaleX(1);
   }
-  /* &::after {
+  &::after {
     content: "";
     position: absolute;
     bottom: -4px;
@@ -177,7 +177,7 @@ const NavLink = styled(Link)`
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.21s ease-in-out;
-  } */
+  }
 `;
 //El otro nav
 // const NavLink = styled(Link)`
