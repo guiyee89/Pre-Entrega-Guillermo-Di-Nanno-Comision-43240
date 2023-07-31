@@ -19,7 +19,7 @@ export const CartContainer = () => {
     getSubTotal,
   } = useContext(CartContext);
 
-  console.log(cart)
+  console.log(cart);
 
   const totalPrice = getTotalPrice();
   const subTotal = getSubTotal();
@@ -88,6 +88,14 @@ export const CartContainer = () => {
             ) : (
               <ItemPrice>${itemPrice}</ItemPrice>
             )}
+            <DetailsWrapper>
+              <Color>
+                Color: <Span>{product.color}</Span>
+              </Color>
+              <Size>
+                Size: <Span2>{product.size}</Span2>
+              </Size>
+            </DetailsWrapper>
             <QuantityWrapper>
               <BtnQuantity onClick={() => removeQuantity(product.id)}>
                 {" "}
@@ -249,6 +257,28 @@ const TotalText = styled.h3`
 const TotalDiscount = styled.h3`
   font-weight: 500;
   padding-left: 24px;
+`;
+const DetailsWrapper = styled.div`
+  width: auto;
+`;
+const Color = styled.p`
+  font-size: 0.8rem;
+  
+`;
+const Size = styled.p`
+  font-size: 0.75rem;
+`;
+const Span = styled.span`
+  font-weight: bold;
+  text-transform: capitalize;
+  padding-left: 10px;
+`;
+const Span2 = styled.span`
+  font-weight: bold;
+  text-transform: capitalize;
+  width: 100%;
+  text-align: center;
+  padding-left: 20px;
 `;
 const SubTotal = styled.h3`
   font-weight: 500;

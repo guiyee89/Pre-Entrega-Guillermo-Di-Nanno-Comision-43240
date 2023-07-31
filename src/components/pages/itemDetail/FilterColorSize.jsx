@@ -105,7 +105,7 @@ export const FilterColorSize = ({ selectedItem, onFilterItemChange }) => {
 
   //Render custom "size" for clothing or map existing "size" for shoes
   const renderSizes = () => {
-    const customSizes = ["xs", "s", "m", "l", "xl", "xxl"];
+    const customSizes = ["xs", "s", "m", "l", "xl"];
     const uniqueSizesShoes = Array.from(
       new Set(relatedItems.map((item) => item.size))
     );
