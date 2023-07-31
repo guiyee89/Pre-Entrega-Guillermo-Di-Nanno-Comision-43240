@@ -183,7 +183,7 @@ const NoProductMessage = styled.h2`
 const FilterWrapper = styled.div`
   display: flex;
   width: 100%;
-  max-width: ${(props) => (props.scrolled === "scrolled" ? "1371px" : "1465px")};;
+  max-width: ${(props) => (props.scrolled === "scrolled" ? "1371px" : "1375px")};;
   justify-content: ${(props) => (props.scrolled === "scrolled" ? "space-around" : "space-evenly")};;
   position: sticky;
   top: 66px;
