@@ -212,6 +212,7 @@ const StockPriceWrapper = styled.div`
   align-items: center;
   width: 95%;
   padding: 8px 0;
+  margin-left: 9px;
 `;
 const ItemPrice = styled.h4`
   color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
