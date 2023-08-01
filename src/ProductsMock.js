@@ -11,7 +11,7 @@ export const products = [
         category: "shoes",
         stock: 10,
         color: "red",
-        size: "S",
+        size: "s",
         discount: 8,
         discountPrice: 13800,
         img: [

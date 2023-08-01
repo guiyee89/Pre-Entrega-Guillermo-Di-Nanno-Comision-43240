@@ -72,7 +72,7 @@ export const CartContainer = () => {
         return (
           <ItemWrapper key={product.id}>
             <ImgWrapper>
-              <ItemImg src={product.img} alt="" />
+              <ItemImg src={product.img[0]} alt="" />
             </ImgWrapper>
 
             <ItemTitle>{product.title}</ItemTitle>

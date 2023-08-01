@@ -1,26 +1,14 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
-import {  Filters } from "./Filters";
+import { Filters } from "./Filters";
 import { useState, useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { MultiImages } from "./MultiImages";
 
 export const ItemDetail = ({ selectedItem }) => {
-
-
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
   const hasDiscount = "discount" in selectedItem; //Get discounted item
-
-
-  const handleFilterItemChange = (item) => {
-    if (item === undefined) { //Check in case "item" doesn't exist, then return the original selected item
-      setFilteredItem(selectedItem);
-    } else { //else return the filtered item
-      setFilteredItem(item);
-    }
-  };
-
 
   //On add to cart if selectedItem or filteredItem
   const onAddToCart = (quantity) => {
@@ -38,42 +26,54 @@ export const ItemDetail = ({ selectedItem }) => {
     setFilteredItem({}); // Reset the filteredItem state after adding to cart
   };
 
-  
+  const handleFilterItemChange = (item) => {
+    if (item === undefined) {
+      //Check in case "item" doesn't exist, then return the original selected item
+      setFilteredItem(selectedItem);
+    } else {
+      //else return the filtered item
+      setFilteredItem(item);
+    }
+  };
 
+  const [selectedImage, setSelectedImage] = useState({});
+
+  const handleImageChange = (image, index) => {
+    setSelectedImage(image, index);
+  };
+
+  console.log(selectedImage);
+
+
+  
   return (
+     /* Render item details based on the existence of selectedItem or filteredItem */
+
     <Wrapper>
       {/* Check if either selectedItem or filteredItem exists */}
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
-          {/* Render item details based on the existence of selectedItem or filteredItem */}
-          <SubImagesWrapper>
-              <MultiImages filteredItem={filteredItem} selectedItem={selectedItem}/>
-          </SubImagesWrapper>
 
-          <ImgWrapper>
-            <Image
-              src={
-                Object.keys(filteredItem).length > 0
-                  ? filteredItem.img[0]
-                  : selectedItem.img[0]
-              }
-              id={
-                selectedItem?.id ||
-                (Object.keys(filteredItem).length > 0 && filteredItem.id)
-              }
-            />
-          </ImgWrapper>
+         {/* Rendering Images */}
+          <MultiImages
+            filteredItem={filteredItem}
+            selectedItem={selectedItem}
+            handleImageChange={handleImageChange}
+          />
+
           <InsideWrapper>
             <Title>
               {Object.keys(filteredItem).length > 0
                 ? filteredItem.title
                 : selectedItem.title}
             </Title>
+
             <SubTitle>
               {Object.keys(filteredItem).length > 0
                 ? filteredItem.subtitle
                 : selectedItem.subtitle}
             </SubTitle>
+
             <ColorText>
               Color:{" "}
               <ColorSpan>
@@ -82,12 +82,14 @@ export const ItemDetail = ({ selectedItem }) => {
                   : selectedItem.color}
               </ColorSpan>
             </ColorText>
+
             <FilterWrapper>
               <Filters
                 selectedItem={selectedItem}
                 onFilterItemChange={handleFilterItemChange}
               />
             </FilterWrapper>
+
             <StockPriceWrapper>
               {hasDiscount ? (
                 <ItemPrice hasDiscount={hasDiscount}>
@@ -119,6 +121,7 @@ export const ItemDetail = ({ selectedItem }) => {
                 </Num>
               </Stock>
             </StockPriceWrapper>
+
             <ItemCountWrapper>
               <ItemCount
                 stock={
@@ -130,11 +133,13 @@ export const ItemDetail = ({ selectedItem }) => {
                 onAddToCart={onAddToCart}
               />
             </ItemCountWrapper>
+
             <Description>
               {Object.keys(filteredItem).length > 0
                 ? filteredItem.description
                 : selectedItem.description}
             </Description>
+
             <ReferenceWrapper>
               <SizeReference>Reference Size Model</SizeReference>
             </ReferenceWrapper>
@@ -148,20 +153,14 @@ export const ItemDetail = ({ selectedItem }) => {
   );
 };
 
-const SubImagesWrapper = styled.aside`
-width: 120px;
-height: 94%;
-margin-left: -51px;
-margin-right: 20px;
-`
-
 const Wrapper = styled.div`
   display: flex;
   -webkit-box-align: center;
-  align-items: center;
+  align-items: flex-start;
   -webkit-box-pack: center;
   justify-content: flex-end;
   height: 700px;
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   padding-left: 65px;
@@ -169,9 +168,8 @@ const Wrapper = styled.div`
 const InsideWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 81%;
-  width: 520px;
-  padding-left: 50px;
+  height: 85%;
+  width: 545px;
   gap: 1.4rem;
   -webkit-box-pack: justify;
   align-items: flex-start;
@@ -242,17 +240,7 @@ const Num = styled.span`
   font-weight: bold;
   font-size: 1.2rem;
 `;
-const ImgWrapper = styled.div`
-  width: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const Image = styled.img`
-  width: 100%;
-  object-fit: contain;
-  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 1.3px;
-`;
+
 const ItemCountWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -261,6 +249,7 @@ const Description = styled.p`
   font-size: 0.9rem;
   margin-top: -24px;
   line-height: 1.5;
+  padding-right: 25px;
 `;
 const ReferenceWrapper = styled.div`
   display: flex;
