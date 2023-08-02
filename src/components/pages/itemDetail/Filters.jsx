@@ -157,7 +157,7 @@ useEffect(() => {
                     checked={selectedFilters.color === color}
                     onChange={() => handleColorChange(color)}
                   />
-                  <ColorImage src={itemsWithCurrentColor[0].img} alt={color} />
+                  <ColorImage src={itemsWithCurrentColor[0].img[0]} alt={color} />
                 </ColorCheckboxWrapper>
               );
             } else {
