@@ -22,8 +22,9 @@ export const Filters = ({ selectedItem, onFilterItemChange }) => {
 //////////////     //////////////    ////////////      ////////////      /////////////
 //           FETCH ITEMS RELATED TO "selectedItem" BY userId PROPERTY              //           (Firestore database)
 
-  useEffect(() => {
-    // Fetch related items of selectedItem by userId to get all products
+useEffect(() => {
+  // Delay the fetching of related items using setTimeout
+  const delay = setTimeout(() => {
     const userId = selectedItem.userId;
     const relatedItemsQuery = query(
       collection(db, "products"),
@@ -35,7 +36,7 @@ export const Filters = ({ selectedItem, onFilterItemChange }) => {
           ...doc.data(),
           id: doc.id,
         }));
-        setRelatedItems(relatedItems); //save the related items of the selectedItem
+        setRelatedItems(relatedItems);
       })
       .catch((error) => {
         console.error("Error fetching related items:", error);
@@ -45,7 +46,10 @@ export const Filters = ({ selectedItem, onFilterItemChange }) => {
       color: selectedItem.color,
       size: selectedItem.size,
     });
-  }, [selectedItem]);
+  }, 2000); // 2 seconds delay
+
+  return () => clearTimeout(delay); // Clear the timeout if the component unmounts before the delay is completed
+}, [selectedItem]);
 
 
 
@@ -134,8 +138,8 @@ export const Filters = ({ selectedItem, onFilterItemChange }) => {
     : [];
 
 
-
-  //  RENDERING  //
+//////////////     //////////////    ////////////      ////////////      //////////////
+//                                 RENDERING                                         //
   return (
     <>
       <Wrapper>
@@ -153,7 +157,7 @@ export const Filters = ({ selectedItem, onFilterItemChange }) => {
                     checked={selectedFilters.color === color}
                     onChange={() => handleColorChange(color)}
                   />
-                  <ColorImage src={itemsWithCurrentColor[1].img} alt={color} />
+                  <ColorImage src={itemsWithCurrentColor[0].img} alt={color} />
                 </ColorCheckboxWrapper>
               );
             } else {

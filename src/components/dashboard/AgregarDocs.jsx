@@ -7,13 +7,16 @@ import { useFormik } from "formik";
 import { useState } from "react";
 
 export const AgregarDocs = () => {
+
   const [addProduct, setAddProduct] = useState(false);
 
   const rellenar = () => {
-    let itemsCollections = collection(db, "products");
-    products.forEach((elemento) => {
-      addDoc(itemsCollections, elemento);
-    });
+    setTimeout(() => {
+      let itemsCollections = collection(db, "products");
+      products.forEach((elemento) => {
+        addDoc(itemsCollections, elemento);
+      });
+    }, 3000); 
   };
 
   const { handleSubmit, handleChange, errors } = useFormik({
@@ -89,7 +92,7 @@ export const AgregarDocs = () => {
 
   return (
     <div>
-      {/* <button onClick={rellenar}>Rellenar Coleccion Entera</button> */}
+      <button onClick={rellenar}>Rellenar Coleccion Entera</button>
       {addProduct ? (
         <SuccessMessage>Product added successfully!</SuccessMessage>
       ) : (

@@ -34,7 +34,7 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
-                          src={product.img}
+                          src={product.img[0]}
                           alt={product.title}
                         />
                         <Discount>-{product.discount}%</Discount>
@@ -65,7 +65,7 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
-                          src={product.img}
+                          src={product.img[0]}
                           alt={product.title}
                         />
                         <Discount>-{product.discount}%</Discount>
@@ -96,7 +96,7 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
-                          src={product.img}
+                          src={product.img[0]}
                           alt={product.title}
                         />
                         <Discount>-{product.discount}%</Discount>

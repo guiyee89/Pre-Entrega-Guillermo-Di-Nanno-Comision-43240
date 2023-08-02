@@ -10,6 +10,7 @@ export const ItemDetail = ({ selectedItem }) => {
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
   const hasDiscount = "discount" in selectedItem; //Get discounted item
 
+
   //On add to cart if selectedItem or filteredItem
   const onAddToCart = (quantity) => {
     let data = {
@@ -26,6 +27,8 @@ export const ItemDetail = ({ selectedItem }) => {
     setFilteredItem({}); // Reset the filteredItem state after adding to cart
   };
 
+
+//------   HANDLE FILTERING OF ITEMS  -------//
   const handleFilterItemChange = (item) => {
     if (item === undefined) {
       //Check in case "item" doesn't exist, then return the original selected item
@@ -36,25 +39,24 @@ export const ItemDetail = ({ selectedItem }) => {
     }
   };
 
+
+//------      HANDLE IMAGES FOR RENDERING       -------//
   const [selectedImage, setSelectedImage] = useState({});
+  console.log(selectedImage);
 
   const handleImageChange = (image, index) => {
     setSelectedImage(image, index);
   };
 
-  console.log(selectedImage);
-
-
+ 
   
+/* Render item details based on the existence of selectedItem or filteredItem */
   return (
-     /* Render item details based on the existence of selectedItem or filteredItem */
-
     <Wrapper>
       {/* Check if either selectedItem or filteredItem exists */}
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
-
-         {/* Rendering Images */}
+          {/* Rendering Images */}
           <MultiImages
             filteredItem={filteredItem}
             selectedItem={selectedItem}
@@ -169,8 +171,9 @@ const InsideWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 85%;
-  width: 545px;
+  width: 450px;
   gap: 1.4rem;
+  margin-left: 12px;
   -webkit-box-pack: justify;
   align-items: flex-start;
   justify-content: flex-start;
@@ -211,9 +214,9 @@ const DiscountPrice = styled.span`
     content: "";
     position: absolute;
     bottom: 18px;
-    width: 102%;
-    left: 75px;
-    border-top: 0.15rem solid rgb(75, 73, 73);
+    width: 107%;
+    left: 110%;
+    border-top: 0.13rem solid rgb(75, 73, 73);
   }
 `;
 const StockPriceWrapper = styled.div`

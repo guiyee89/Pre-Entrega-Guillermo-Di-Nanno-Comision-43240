@@ -303,9 +303,9 @@ const DiscountPrice = styled.span`
     content: "";
     position: absolute;
     bottom: 16px;
-    width: 100%;
-    left: 67px;
-    border-top: 0.1rem solid rgb(75, 73, 73);
+    width: 90%;
+    left: 102%;
+    border-top: 0.13rem solid rgb(75, 73, 73);
   }
 `;
 const ItemPrice = styled.h4`

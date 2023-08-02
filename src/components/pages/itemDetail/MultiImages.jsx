@@ -73,7 +73,7 @@ const ImagesAside = styled.img`
       ? "rgba(0, 0, 0, 0.55) 0px 0px 3.5px"
       : "rgba(0, 0, 0, 0.65) 0px 0px 3px"};
   border: ${({ isSelected }) => (isSelected ? "1px solid black" : "none")};
-  width: ${({ isSelected }) => (isSelected ? "100%" : "89%")};
+  width: ${({ isSelected }) => (isSelected ? "95%" : "89%")};
 `;
 const ImgWrapper = styled.div`
   width: 100%;
@@ -91,5 +91,5 @@ const ImgAside = styled.aside`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  /* margin-top: 50px; */
+  margin-right: 10px;
 `;
