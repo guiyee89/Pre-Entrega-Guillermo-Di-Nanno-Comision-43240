@@ -1,25 +1,14 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
-import { FilterColorSize } from "./FilterColorSize";
+import { Filters } from "./Filters";
 import { useState, useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import { MultiImages } from "./MultiImages";
 
 export const ItemDetail = ({ selectedItem }) => {
-
-
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
   const hasDiscount = "discount" in selectedItem; //Get discounted item
-
-
-  const handleFilterItemChange = (item) => {
-    console.log(item)
-    if (item === undefined) { //Check in case "item" doesn't exist, then return the original selected item
-      setFilteredItem(selectedItem);
-    } else { //else return the filtered item
-      setFilteredItem(item);
-    }
-  };
 
 
   //On add to cart if selectedItem or filteredItem
@@ -38,38 +27,55 @@ export const ItemDetail = ({ selectedItem }) => {
     setFilteredItem({}); // Reset the filteredItem state after adding to cart
   };
 
-  
 
+//------   HANDLE FILTERING OF ITEMS  -------//
+  const handleFilterItemChange = (item) => {
+    if (item === undefined) {
+      //Check in case "item" doesn't exist, then return the original selected item
+      setFilteredItem(selectedItem);
+    } else {
+      //else return the filtered item
+      setFilteredItem(item);
+    }
+  };
+
+
+//------      HANDLE IMAGES FOR RENDERING       -------//
+  const [selectedImage, setSelectedImage] = useState({});
+  console.log(selectedImage);
+
+  const handleImageChange = (image, index) => {
+    setSelectedImage(image, index);
+  };
+
+ 
+  
+/* Render item details based on the existence of selectedItem or filteredItem */
   return (
     <Wrapper>
       {/* Check if either selectedItem or filteredItem exists */}
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
-          {/* Render item details based on the existence of selectedItem or filteredItem */}
-          <ImgWrapper>
-            <Image
-              src={
-                Object.keys(filteredItem).length > 0
-                  ? filteredItem.img
-                  : selectedItem.img
-              }
-              id={
-                selectedItem?.id ||
-                (Object.keys(filteredItem).length > 0 && filteredItem.id)
-              }
-            />
-          </ImgWrapper>
+          {/* Rendering Images */}
+          <MultiImages
+            filteredItem={filteredItem}
+            selectedItem={selectedItem}
+            handleImageChange={handleImageChange}
+          />
+
           <InsideWrapper>
             <Title>
               {Object.keys(filteredItem).length > 0
                 ? filteredItem.title
                 : selectedItem.title}
             </Title>
+
             <SubTitle>
               {Object.keys(filteredItem).length > 0
                 ? filteredItem.subtitle
                 : selectedItem.subtitle}
             </SubTitle>
+
             <ColorText>
               Color:{" "}
               <ColorSpan>
@@ -78,12 +84,14 @@ export const ItemDetail = ({ selectedItem }) => {
                   : selectedItem.color}
               </ColorSpan>
             </ColorText>
+
             <FilterWrapper>
-              <FilterColorSize
+              <Filters
                 selectedItem={selectedItem}
                 onFilterItemChange={handleFilterItemChange}
               />
             </FilterWrapper>
+
             <StockPriceWrapper>
               {hasDiscount ? (
                 <ItemPrice hasDiscount={hasDiscount}>
@@ -115,6 +123,7 @@ export const ItemDetail = ({ selectedItem }) => {
                 </Num>
               </Stock>
             </StockPriceWrapper>
+
             <ItemCountWrapper>
               <ItemCount
                 stock={
@@ -126,11 +135,13 @@ export const ItemDetail = ({ selectedItem }) => {
                 onAddToCart={onAddToCart}
               />
             </ItemCountWrapper>
+
             <Description>
               {Object.keys(filteredItem).length > 0
                 ? filteredItem.description
                 : selectedItem.description}
             </Description>
+
             <ReferenceWrapper>
               <SizeReference>Reference Size Model</SizeReference>
             </ReferenceWrapper>
@@ -147,10 +158,11 @@ export const ItemDetail = ({ selectedItem }) => {
 const Wrapper = styled.div`
   display: flex;
   -webkit-box-align: center;
-  align-items: center;
+  align-items: flex-start;
   -webkit-box-pack: center;
   justify-content: flex-end;
   height: 700px;
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   padding-left: 65px;
@@ -158,10 +170,10 @@ const Wrapper = styled.div`
 const InsideWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 90%;
-  width: 520px;
-  padding-left: 50px;
+  height: 85%;
+  width: 450px;
   gap: 1.4rem;
+  margin-left: 12px;
   -webkit-box-pack: justify;
   align-items: flex-start;
   justify-content: flex-start;
@@ -202,9 +214,9 @@ const DiscountPrice = styled.span`
     content: "";
     position: absolute;
     bottom: 18px;
-    width: 102%;
-    left: 75px;
-    border-top: 0.15rem solid rgb(75, 73, 73);
+    width: 107%;
+    left: 110%;
+    border-top: 0.13rem solid rgb(75, 73, 73);
   }
 `;
 const StockPriceWrapper = styled.div`
@@ -231,17 +243,7 @@ const Num = styled.span`
   font-weight: bold;
   font-size: 1.2rem;
 `;
-const ImgWrapper = styled.div`
-  width: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const Image = styled.img`
-  width: 100%;
-  object-fit: contain;
-  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 1.3px;
-`;
+
 const ItemCountWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -250,6 +252,7 @@ const Description = styled.p`
   font-size: 0.9rem;
   margin-top: -24px;
   line-height: 1.5;
+  padding-right: 25px;
 `;
 const ReferenceWrapper = styled.div`
   display: flex;

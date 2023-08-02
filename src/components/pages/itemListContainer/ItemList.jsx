@@ -88,7 +88,7 @@ const filterProducts = () => {
                   {isLoadingAdd && <ClipLoader color="#194f44" size={50} />}
                   {isLoadingDetail && <ClipLoader color="#194f44" size={50} />}
                 </Loader>
-                <ItemImg variant="top" src={product.img} />
+                <ItemImg variant="top" src={product.img[0]} />
               </ImgWrapperLink>
               {hasDiscount && <Discount>-{product.discount}%</Discount>}
               <ButtonsWrapper disabled={product.stock === 0}>
@@ -303,9 +303,9 @@ const DiscountPrice = styled.span`
     content: "";
     position: absolute;
     bottom: 16px;
-    width: 100%;
-    left: 67px;
-    border-top: 0.1rem solid rgb(75, 73, 73);
+    width: 90%;
+    left: 102%;
+    border-top: 0.13rem solid rgb(75, 73, 73);
   }
 `;
 const ItemPrice = styled.h4`
