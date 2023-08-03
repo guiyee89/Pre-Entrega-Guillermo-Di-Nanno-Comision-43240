@@ -5,11 +5,9 @@ import { Footer } from "./footer/Footer";
 import styled from "styled-components/macro";
 import { HeroCarousel } from "./hero/HeroCarousel";
 import { NewsLetter } from "./newsletter/NewsLetter";
-// import { useEffect, useState } from "react";
+
 
 export const Layout = () => {
-  //Loader
-  // const [loading, setLoading] = useState(true);
 
   //Render de Hero en Home
   const location = useLocation();
@@ -17,6 +15,7 @@ export const Layout = () => {
     (route) => route.path === location.pathname
   );
   const isHome = currentRoute?.id === "home";
+
 
   // useEffect(() => {
   //   const timeout = setTimeout(() => {
@@ -30,9 +29,6 @@ export const Layout = () => {
     <Wrapper>
       <NavBar />
 
-      {/* {loading ? (
-        isHome
-      ) : ( */}
       <HeroWrapper>{isHome && <HeroCarousel />}</HeroWrapper>
 
       <OutletWrapper isHome={isHome}>

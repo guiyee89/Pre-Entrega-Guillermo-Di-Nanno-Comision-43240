@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-// import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
+
 
 export const GlobalLoader = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -12,10 +12,11 @@ export const GlobalLoader = ({ children }) => {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 300);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [location]);
+
 
   return loading ? (
     <Wrapper>

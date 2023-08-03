@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import styled from "styled-components/macro";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-
+import LoadingBar from "react-top-loading-bar";
 
 
 export const FilterDetail = ({ selectedItem, onFilterItemChange }) => {
@@ -47,7 +47,7 @@ useEffect(() => {
       color: selectedItem.color,
       size: selectedItem.size,
     });
-  }, 2000); // 2 seconds delay
+  }, 1000); // 2 seconds delay
 
   return () => clearTimeout(delay); // Clear the timeout if the component unmounts before the delay is completed
 }, [selectedItem]);
@@ -59,17 +59,21 @@ useEffect(() => {
 
   // Function to handle color filter selection change
   const handleColorChange = (color) => {
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      color: color,
-    }));
+    setTimeout(() => {
+      setSelectedFilters((prevFilters) => ({
+        ...prevFilters,
+        color: color,
+      }));
+    }, 1000);
   };
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      size: size,
-    }));
+    setTimeout(() => {
+      setSelectedFilters((prevFilters) => ({
+        ...prevFilters,
+        size: size,
+      }));
+    }, 700);
   };
 
   // Function to handle size and color filter selection change
@@ -97,6 +101,18 @@ useEffect(() => {
       onFilterItemChange(filterSelection); //responible to set new item by color or sizes and render it
     }
   }, [selectedFilters, relatedItems, onFilterItemChange]);
+
+
+   //----    LOADING    ----//
+   const ref = useRef(null);
+
+   const handleLoadSomething = () => {
+     ref.current.continuousStart();
+     setTimeout(() => {
+       console.log("...loading something");
+       ref.current.complete();
+     }, 800);
+   };
 
 
 
@@ -152,7 +168,8 @@ useEffect(() => {
             );
             if (itemsWithCurrentColor.length > 0) {
               return (
-                <ColorCheckboxWrapper key={color}>
+                <ColorCheckboxWrapper key={color} onClick={handleLoadSomething}>
+                  <LoadingBar color="#f11946" ref={ref} />
                   <ColorCheckbox
                     id={`color-${color}`}
                     checked={selectedFilters.color === color}
@@ -163,7 +180,8 @@ useEffect(() => {
               );
             } else {
               return (
-                <ColorCheckboxWrapper key={color}>
+                <ColorCheckboxWrapper key={color} onClick={handleLoadSomething}>
+                  <LoadingBar color="#f11946" ref={ref} />
                   <ColorCheckbox
                     id={`color-${color}`}
                     checked={selectedFilters.color === color}

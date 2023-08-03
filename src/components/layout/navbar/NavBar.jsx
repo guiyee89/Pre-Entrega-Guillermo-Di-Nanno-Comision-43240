@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 
+
 export const NavBar = () => {
   //Almacenar scroll data
   const [scroll, setScroll] = useState("not-scrolled");
@@ -30,10 +31,12 @@ export const NavBar = () => {
 
   const totalItems = getTotalItems();
 
+
+
   return (
     <>
-      <HeaderWrapper>
-        <Nav scrolled={scroll}>
+      <HeaderWrapper >
+        <Nav scrolled={scroll} >
           <InsideNav>
             <LogoDiv scrolled={scroll}>
               <LogoLink to="/">
@@ -41,11 +44,13 @@ export const NavBar = () => {
               </LogoLink>
             </LogoDiv>
 
-            <NavListWrapper>
+            <NavListWrapper >
+            
               <NavList>
                 <NavLink to="/" scrolled={scroll}>
                   home
                 </NavLink>
+                
               </NavList>
               <NavList>
                 <NavLink to="/all-products" scrolled={scroll}>
@@ -76,6 +81,7 @@ export const NavBar = () => {
             />
           </InsideNav>
         </Nav>
+
       </HeaderWrapper>
     </>
   );

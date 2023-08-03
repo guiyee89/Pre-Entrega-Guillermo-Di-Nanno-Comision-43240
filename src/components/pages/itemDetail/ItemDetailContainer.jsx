@@ -50,7 +50,7 @@ export const ItemDetailContainer = () => {
         <ItemDetail selectedItem={selectedItem} />
       ) : (
         <LoaderWrapper>
-          <BarLoader color="#12352e" width={250} />
+          {/* <BarLoader color="#12352e" width={250} /> */}
         </LoaderWrapper>
       )}
     </>
