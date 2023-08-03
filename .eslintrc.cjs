@@ -12,6 +12,7 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': 'warn',
     'react/prop-types':"off",
-    'no-unused-vars': ['warn', { varsIgnorePattern: 'filteredItem' }], // Ignore 'filteredItem' variable
+    // Ignore     'filteredItem' from Filters     -     'selectedImage' from ItemDetail 
+    'no-unused-vars': ['warn', { varsIgnorePattern: 'filteredItem' }, {varsIgnorePattern: 'selectedImage'}], 
   },
 }

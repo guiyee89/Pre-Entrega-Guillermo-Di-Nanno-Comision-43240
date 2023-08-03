@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ItemList } from "./ItemList";
 import { CartContext } from "../../context/CartContext";
@@ -8,28 +8,26 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
-import { MultiFilter } from "./multiFilter/MultiFilter";
+import { MultiFilter } from "./MultiFilter";
 // import { AgregarDocs } from "../../dashboard/AgregarDocs";
+
 
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
 
-  const [loading, setLoading] = useState(true); //Loader
 
+  const [loading, setLoading] = useState(true); //Loader
   const [items, setItems] = useState([]); //Guardamos los items
-  
-  const { addToCart } = useContext(CartContext);//Utilizamos contexto para agregar al Cart
-  
-  const { categoryName } = useParams();//useParams de react-router-dom para filtrar productos por categoryName
- 
+  const { addToCart } = useContext(CartContext); //Utilizamos contexto para agregar al Cart
+  const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All Products"; // Rendering conditional title
- 
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
 
 
+
 //////////////     //////////////    ////////////      ////////////      /////////////
-  //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
+//FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
   useEffect(() => {
     setLoading(true);
     let itemsCollection = collection(db, "products");
@@ -62,24 +60,27 @@ export const ItemListContainer = () => {
   }, [categoryName]);
 
 
+
+
 //////////////     //////////////    ////////////      ////////////      /////////////
 //     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //
 
- //States for MultfiFilter and ItemListcontainer data
- const [detailsFilters, setDetailsFilters] = useState([]);
- const [filteredItems, setFilteredItems] = useState([]);
+  //States for MultfiFilter and ItemListcontainer data
+  const [detailsFilters, setDetailsFilters] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
 
- console.log(filteredItems);
+  console.log(filteredItems);
 
- const handleFilterChange = (filteredItems, detailsFilters) => {
-   if (filteredItems.length > 0) {
-     setFilteredItems(filteredItems);
-     setDetailsFilters(detailsFilters); // Set detailsFilters to the selected filters from MultiFilter
-   } else {
-     setFilteredItems([]); 
-     setDetailsFilters([]); 
-   }
- };
+  const handleFilterChange = (filteredItems, detailsFilters) => {
+    if (filteredItems.length > 0) {
+      setFilteredItems(filteredItems);
+      setDetailsFilters(detailsFilters); // Set detailsFilters to the selected filters from MultiFilter
+    } else {
+      setFilteredItems([]);
+      setDetailsFilters([]);
+    }
+  };
+
 
 
 //////////////     //////////////    ////////////      ////////////      /////////////
@@ -96,27 +97,7 @@ export const ItemListContainer = () => {
 
 
 //////////////     //////////////    ////////////      ////////////      /////////////
-//               SCROLLING EFFECT FOR FilterWrapper ON 22% OF SCREEN               //
-  const [scroll, setScroll] = useState("not-scrolled");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollHeight = window.innerHeight * 0.22; 
-      if (window.scrollY > scrollHeight) {
-        setScroll("scrolled");
-      } else {
-        setScroll("not-scrolled");
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-
-
-//    RENDERING    //  
+//                               RENDERING                                         //
   return (
     <>
       <ToastContainer
@@ -141,10 +122,9 @@ export const ItemListContainer = () => {
           <ItemListTitle>{categoryTitle}</ItemListTitle>
 
           {/******  FILTER  ******/}
-            <FilterWrapper scrolled={scroll}>
-              <MultiFilter items={items} onFilterChange={handleFilterChange} />
-            </FilterWrapper>
-       
+          <FilterWrapper scrolled={scroll}>
+            <MultiFilter items={items} onFilterChange={handleFilterChange} />
+          </FilterWrapper>
 
           {filteredItems.length > 0 && (
             <ItemList
@@ -198,19 +178,22 @@ const NoProductMessage = styled.h2`
 const FilterWrapper = styled.div`
   display: flex;
   width: 95%;
-  max-width: ${(props) => (props.scrolled === "scrolled" ? "1371px" : "1375px")};;
-  justify-content: ${(props) => (props.scrolled === "scrolled" ? "space-around" : "space-evenly")};;
+  margin-bottom: 12px;
+  max-width: ${(props) =>
+    props.scrolled === "scrolled" ? "1371px" : "1375px"};
+  justify-content: ${(props) =>
+    props.scrolled === "scrolled" ? "space-around" : "space-evenly"};
   position: sticky;
   top: 66px;
   z-index: 1;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  padding: ${(props) => (props.scrolled === "scrolled" ? "20px 0 13px 0;" : "20px 0 25px 0;")};;
-  background-color: ${(props) => (props.scrolled === "scrolled" ? "white" : "#f3efef")};
-  box-shadow: ${(props) => (props.scrolled === "scrolled" ? "0 6px 10px rgba(0, 0, 0, 0.4)" : "none")};
-  transition: background-color .11s ease-in-out; /* This defines the transition effect */
-  height: ${(props) => (props.scrolled === "scrolled" ? "auto" : "70px")};
-  transition: height 0.19s cubic-bezier(0, 1.32, 0, 0.68) 0s
-  ${(props) => (props.scrolled === "scrolled" ? "0.19s" : "0.19s")}
-  ease-in-out;
+  border-radius: 4px 4px 15px 15px;
+  padding: ${(props) =>
+    props.scrolled === "scrolled" ? "20px 0 13px 0;" : "20px 0px 17px;"};
+  background-color: ${(props) =>
+    props.scrolled === "scrolled" ? "white" : "rgb(246 241 241)"};
+  box-shadow: ${(props) =>
+    props.scrolled === "scrolled" ? "0 6px 10px rgba(0, 0, 0, 0.4)" : "rgba(40, 0, 0, 0.3) 0px 5px 2px;"};
+  height: ${(props) => (props.scrolled === "scrolled" ? "auto" : "60px")};
+  transition: background-color 0.11s ease-in-out, height 0.19s cubic-bezier(0, 1.32, 0, 0.68) 0s;
 `;
+

@@ -3,58 +3,55 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
 
 export const MultiFilter = ({ items, onFilterChange }) => {
+
+
   const [detailsFilters, setDetailsFilters] = useState({
     size: "",
     color: "",
     discount: "",
   });
-
   const { categoryName } = useParams();
-
   const [hasAppliedFilters, setHasAppliedFilters] = useState(false);
 
+
+  
   const applyDetailsFilters = (items, filters) => {
     let filteredItems = items;
-
     if (filters.size) {
-      filteredItems = filteredItems.filter(
-        (item) => item.size === filters.size
-      );
+      filteredItems = filteredItems.filter((item) => item.size === filters.size);
     }
-
     if (filters.color) {
-      filteredItems = filteredItems.filter(
-        (item) => item.color === filters.color
-      );
+      filteredItems = filteredItems.filter((item) => item.color === filters.color);
     }
-
     if (filters.discount === "discount") {
-      filteredItems = filteredItems.filter(
-        (item) => item.discount !== undefined
-      );
+      filteredItems = filteredItems.filter((item) => item.discount !== undefined);
     }
-
     return filteredItems;
   };
+
+
 
   useEffect(() => {
     if (hasAppliedFilters) {
       return;
     }
-
     const filteredItems = applyDetailsFilters(items, detailsFilters);
     onFilterChange(filteredItems, detailsFilters);
     setHasAppliedFilters(true);
   }, [detailsFilters, items, hasAppliedFilters, onFilterChange]);
+
+
 
   const handleDetailsFilterChange = (filterName, value) => {
     setDetailsFilters((prevFilters) => ({
       ...prevFilters,
       [filterName]: value,
     }));
-
     setHasAppliedFilters(false);
   };
+
+
+
 
   return (
     <>
@@ -175,8 +172,8 @@ const GeneralFilterBtn = styled.select`
 const FilterBy = styled.p`
   font-weight: bold;
   margin-right: 10px;
-`
+`;
 const OrderBy = styled.p`
   font-weight: bold;
   margin-right: 10px;
-`
+`;

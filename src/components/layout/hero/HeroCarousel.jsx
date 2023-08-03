@@ -51,7 +51,7 @@ export const HeroCarousel = () => {
 
 const Wrapper = styled.div`
   margin: 110px auto 0;
-  max-width: 1800px;
+  max-width: 1900px;
   z-index: 0;
   position: relative;
   max-height: 100%;

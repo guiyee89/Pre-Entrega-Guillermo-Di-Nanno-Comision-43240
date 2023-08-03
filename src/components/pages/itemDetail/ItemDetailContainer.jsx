@@ -30,6 +30,7 @@ export const ItemDetailContainer = () => {
     }, 800);
   }, [id]);
 
+  console.log(selectedItem)
 
   return (
     <>
