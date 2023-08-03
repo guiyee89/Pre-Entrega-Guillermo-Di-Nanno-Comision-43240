@@ -10,7 +10,7 @@ export const ItemDetail = ({ selectedItem }) => {
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
   const hasDiscount = "discount" in selectedItem; //Get discounted item
 
-
+  
   //On add to cart if selectedItem or filteredItem
   const onAddToCart = (quantity) => {
     let data = {

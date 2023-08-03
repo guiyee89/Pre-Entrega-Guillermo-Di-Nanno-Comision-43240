@@ -190,7 +190,7 @@ const FilterWrapper = styled.div`
   padding: ${(props) =>
     props.scrolled === "scrolled" ? "20px 0 13px 0;" : "20px 0px 17px;"};
   background-color: ${(props) =>
-    props.scrolled === "scrolled" ? "white" : "rgb(246 241 241)"};
+    props.scrolled === "scrolled" ? "white" : "rgb(246, 241, 241)"};
   box-shadow: ${(props) =>
     props.scrolled === "scrolled" ? "0 6px 10px rgba(0, 0, 0, 0.4)" : "rgba(40, 0, 0, 0.3) 0px 5px 2px;"};
   height: ${(props) => (props.scrolled === "scrolled" ? "auto" : "60px")};

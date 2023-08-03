@@ -5,6 +5,7 @@ import { menuRoutes } from "./components/routes/menuRoutes";
 import CartContextProvider from "./components/context/CartContext";
 import { GlobalLoader } from "./components/common/globalLoader/GlobalLoader";
 
+
 function App() {
   return (
     <>

@@ -16,8 +16,9 @@ export const FilterDetail = ({ selectedItem, onFilterItemChange }) => {
   });
   const [relatedItems, setRelatedItems] = useState([]); //Items related to the selectedItem prop
   const [filteredItem, setFilteredItem] = useState({}); //Item filtered
-  console.log(relatedItems)
 
+  console.log(relatedItems)
+  
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 //           FETCH ITEMS RELATED TO "selectedItem" BY userId PROPERTY              //           (Firestore database)
