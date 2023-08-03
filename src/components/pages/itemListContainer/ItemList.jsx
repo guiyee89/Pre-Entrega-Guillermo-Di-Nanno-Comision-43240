@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
-import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
+import {  BsEyeFill } from "react-icons/bs";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
+
 
 export const ItemList = ({ items, navigate }) => {
 
