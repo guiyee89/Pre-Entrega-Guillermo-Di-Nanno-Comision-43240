@@ -4,29 +4,12 @@ import { BsBagPlusFill, BsEyeFill } from "react-icons/bs";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 
-export const ItemList = ({ items, onAddCart, navigate }) => {
-  //Algoritmo para randomear listado te Items
-  // const [shuffledItems, setShuffledItems] = useState([]);
+export const ItemList = ({ items, navigate }) => {
 
-  // //Algoritmo de Fisher-Yates para renderizar los productos de manera aleatoria
-  // useEffect(() => {
-  //   const shuffleArray = (array) => {
-  //     const shuffledArray = [...array];
-  //     for (let i = shuffledArray.length - 1; i > 0; i--) {
-  //       const j = Math.floor(Math.random() * (i + 1));
-  //       [shuffledArray[i], shuffledArray[j]] = [
-  //         shuffledArray[j],
-  //         shuffledArray[i],
-  //       ];
-  //     }
-  //     return shuffledArray;
-  //   };
-  //   setShuffledItems(shuffleArray(items));
-  // }, [items]);
 
-  const [loadingDetail, setLoadingDetail] = useState(false);
-
-  const [loadingAdd, setLoadingAdd] = useState(false);
+//////////////////////////                    ////////////////////////////
+//--------------------    CONDITIONAL LOADING   -----------------------//
+const [loadingDetail, setLoadingDetail] = useState(false);
 
   //Evento loader para BtnSeeDetail
   const handleLoadDetail = (itemId) => {
@@ -37,17 +20,9 @@ export const ItemList = ({ items, onAddCart, navigate }) => {
       navigate(`/item-details/${itemId}`);
     }, 800);
   };
-  //Evento loader para BtnAddCart
-  const handleLoadAdd = (itemId) => {
-    setLoadingAdd(itemId);
-
-    setTimeout(() => {
-      setLoadingAdd(true);
-    }, 1100);
-  };
-
-  /////////////////////////////////////////////////////
-  //---------------     FILTER     ------------------//
+  
+//////////////////////////                    ////////////////////////////
+//----------------------        FILTER        -------------------------//
 
 // Function to filter products based on their customId and color to avoid duplicates
 const filterProducts = () => {
@@ -67,17 +42,36 @@ const filterProducts = () => {
   // Convert the Map values to an array of filtered products
   return Array.from(productMap.values());
 };
-
   // Filter the products
   const filteredItems = filterProducts();
 
+
+///////////////////////////                  /////////////////////////////
+    //Algoritmo para randomear listado te Items
+  // const [shuffledItems, setShuffledItems] = useState([]);
+
+  // //Algoritmo de Fisher-Yates para renderizar los productos de manera aleatoria
+  // useEffect(() => {
+  //   const shuffleArray = (array) => {
+  //     const shuffledArray = [...array];
+  //     for (let i = shuffledArray.length - 1; i > 0; i--) {
+  //       const j = Math.floor(Math.random() * (i + 1));
+  //       [shuffledArray[i], shuffledArray[j]] = [
+  //         shuffledArray[j],
+  //         shuffledArray[i],
+  //       ];
+  //     }
+  //     return shuffledArray;
+  //   };
+  //   setShuffledItems(shuffleArray(items));
+  // }, [items]);
   
+
   return (
     <Wrapper key="cart-wrapper">
       {/* Mapeo de productos */}
       {filteredItems.map((product) => {
         const isLoadingDetail = loadingDetail === product.id;
-        const isLoadingAdd = loadingAdd === product.id;
         const hasDiscount = "discount" in product;
 
         return (
@@ -85,23 +79,18 @@ const filterProducts = () => {
             <ItemCard>
               <ImgWrapperLink to={`/item-details/${product.id}`}>
                 <Loader>
-                  {isLoadingAdd && <ClipLoader color="#194f44" size={50} />}
                   {isLoadingDetail && <ClipLoader color="#194f44" size={50} />}
                 </Loader>
                 <ItemImg variant="top" src={product.img[0]} />
               </ImgWrapperLink>
               {hasDiscount && <Discount>-{product.discount}%</Discount>}
-              <ButtonsWrapper disabled={product.stock === 0}>
-                <BtnAddCart onClick={() => onAddCart(product)}>
-                  <AddCart onClick={() => handleLoadAdd(product.id)} />
-                </BtnAddCart>
+              <ButtonsWrapper>
 
                 <BtnSeeDetails onClick={() => handleLoadDetail(product.id)}>
                   <SeeDetails />
                 </BtnSeeDetails>
               </ButtonsWrapper>
 
-              <NoStock disabled={product.stock > 0}>Out of stock</NoStock>
             </ItemCard>
             <InfoWrapper>
               <ItemTitle>{product.title}</ItemTitle>
@@ -121,7 +110,7 @@ const filterProducts = () => {
     </Wrapper>
   );
 };
-//Styled-components
+
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -207,39 +196,6 @@ const Loader = styled.div`
   top: 5px;
   right: 100px;
 `;
-const AddCart = styled(BsBagPlusFill)`
-  color: white;
-  width: 70%;
-  height: 70%;
-  transition: transform 0.19s ease-in-out 0.08s;
-  &:active {
-    color: #8d5050;
-    transition: transform 0.15s ease-in-out;
-  }
-`;
-const BtnAddCart = styled.button`
-  &:active {
-    background-color: #efc0c0;
-    transition: background-color 0.1s ease-in-out;
-  }
-  background-color: transparent;
-  border: none;
-  width: 100%;
-  height: 100%;
-  display: block;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.5px;
-  cursor: pointer;
-  &:hover ${AddCart} {
-    transform: scale(1.3);
-  }
-  &:hover {
-    background-color: #d75454;
-    transition: background-color 0.2s ease-in-out;
-  }
-`;
 const SeeDetails = styled(BsEyeFill)`
   color: black;
   width: 60%;
@@ -267,20 +223,6 @@ const BtnSeeDetails = styled(Link)`
   &:hover ${SeeDetails} {
     transform: scale(1.3);
   }
-`;
-const NoStock = styled.p`
-  background-color: #b30c0c;
-  color: white;
-  width: 115px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  text-align: center;
-  position: absolute;
-  top: 10px;
-  right: 5px;
-  display: ${({ disabled }) => (disabled ? "none" : "block")};
-  text-transform: uppercase;
 `;
 const ItemTitle = styled.h2`
   font-size: 0.9rem;

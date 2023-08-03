@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components/macro";
 
-export const MultiImages = ({
+export const ImageDetail = ({
   filteredItem,
   selectedItem,
   handleImageChange,
 }) => {
+
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
 
@@ -29,6 +30,8 @@ export const MultiImages = ({
     setSelectedImage({ image, index });
     handleImageChange(image, index); // Call the handleImageChange function with the selected image
   };
+
+
 
   return (
     <Wrapper>
@@ -84,7 +87,7 @@ const ImgWrapper = styled.div`
 const MainImage = styled.img`
   width: 100%;
   object-fit: cover;
-  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 1.3px;
+  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 2.2px;
 `;
 const ImgAside = styled.aside`
   width: 18.8%;

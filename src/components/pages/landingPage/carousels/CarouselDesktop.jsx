@@ -45,7 +45,7 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            ${product.price}
+                            $ {product.price}
                           </ItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -76,7 +76,7 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            ${product.price}
+                            $ {product.price}
                           </ItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -107,7 +107,7 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            ${product.price}
+                            $ {product.price}
                           </ItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -266,8 +266,8 @@ const DiscountPrice = styled.span`
     position: absolute;
     bottom: 16px;
     width: 100%;
-    left: 67px;
-    border-top: 0.1rem solid rgb(75, 73, 73);
+    left: 115%;
+    border-top: 0.13rem solid rgb(75, 73, 73);
   }
 `;
 const ItemPrice = styled.h4`

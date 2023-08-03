@@ -6,7 +6,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 
 
 
-export const Filters = ({ selectedItem, onFilterItemChange }) => {
+export const FilterDetail = ({ selectedItem, onFilterItemChange }) => {
 
 //////////////     //////////////    ////////////      ////////////      /////////////
   const [selectedFilters, setSelectedFilters] = useState({
@@ -16,7 +16,7 @@ export const Filters = ({ selectedItem, onFilterItemChange }) => {
   });
   const [relatedItems, setRelatedItems] = useState([]); //Items related to the selectedItem prop
   const [filteredItem, setFilteredItem] = useState({}); //Item filtered
-
+  console.log(relatedItems)
 
 
 //////////////     //////////////    ////////////      ////////////      /////////////
@@ -240,7 +240,6 @@ const ColorImage = styled.img`
   object-fit: cover;
   position: absolute;
   right: 10px;
-  top: 2.5px;
   border-radius: 10px;
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 3.5px;

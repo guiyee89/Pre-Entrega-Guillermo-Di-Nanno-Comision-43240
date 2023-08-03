@@ -1,9 +1,9 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
-import { Filters } from "./Filters";
+import { FilterDetail } from "./FilterDetail";
 import { useState, useContext } from "react";
 import { CartContext } from "../../context/CartContext";
-import { MultiImages } from "./MultiImages";
+import { ImageDetail } from "./ImageDetail";
 
 export const ItemDetail = ({ selectedItem }) => {
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
@@ -42,7 +42,6 @@ export const ItemDetail = ({ selectedItem }) => {
 
 //------      HANDLE IMAGES FOR RENDERING       -------//
   const [selectedImage, setSelectedImage] = useState({});
-  console.log(selectedImage);
 
   const handleImageChange = (image, index) => {
     setSelectedImage(image, index);
@@ -57,7 +56,7 @@ export const ItemDetail = ({ selectedItem }) => {
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
           {/* Rendering Images */}
-          <MultiImages
+          <ImageDetail
             filteredItem={filteredItem}
             selectedItem={selectedItem}
             handleImageChange={handleImageChange}
@@ -86,7 +85,7 @@ export const ItemDetail = ({ selectedItem }) => {
             </ColorText>
 
             <FilterWrapper>
-              <Filters
+              <FilterDetail
                 selectedItem={selectedItem}
                 onFilterItemChange={handleFilterItemChange}
               />
