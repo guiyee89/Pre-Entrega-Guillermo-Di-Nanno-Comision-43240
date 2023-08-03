@@ -5,8 +5,8 @@ import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 
 
-export const ItemList = ({ items, navigate }) => {
 
+export const ItemList = ({ items, navigate }) => {
 
 //////////////////////////                    ////////////////////////////
 //--------------------    CONDITIONAL LOADING   -----------------------//
