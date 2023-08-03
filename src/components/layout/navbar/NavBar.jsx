@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
+import { useRef } from "react";
 
 
 export const NavBar = () => {
@@ -32,6 +33,25 @@ export const NavBar = () => {
   const totalItems = getTotalItems();
 
 
+
+
+   //----    LOADING    ----//
+   const ref = useRef(null);
+
+   const handleLoad = () => {
+     ref.current?.continuousStart();
+     setTimeout(() => {
+       console.log("...loading something");
+       ref.current?.complete();
+     }, 800);
+   };
+ 
+   // Clear the LoadingBar when the NavBar component is unmounted
+   useEffect(() => {
+     return () => {
+       ref.current?.complete();
+     };
+   }, []);
 
   return (
     <>
