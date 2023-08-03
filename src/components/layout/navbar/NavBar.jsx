@@ -34,25 +34,6 @@ export const NavBar = () => {
 
 
 
-
-   //----    LOADING    ----//
-   const ref = useRef(null);
-
-   const handleLoad = () => {
-     ref.current?.continuousStart();
-     setTimeout(() => {
-       console.log("...loading something");
-       ref.current?.complete();
-     }, 800);
-   };
- 
-   // Clear the LoadingBar when the NavBar component is unmounted
-   useEffect(() => {
-     return () => {
-       ref.current?.complete();
-     };
-   }, []);
-
   return (
     <>
       <HeaderWrapper >

@@ -56,7 +56,7 @@ export const ItemListContainer = () => {
           setLoading(false);
         })
         .catch((err) => console.log(err));
-    }, 1500);
+    }, 600);
   }, [categoryName]);
 
 
