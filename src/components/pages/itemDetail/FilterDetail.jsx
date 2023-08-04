@@ -6,7 +6,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import LoadingBar from "react-top-loading-bar";
 
 
-export const FilterDetail = ({ selectedItem, onFilterItemChange }) => {
+export const FilterDetail = ({ selectedItem, onFilterItemChange, handleTopLoading }) => {
 
 //////////////     //////////////    ////////////      ////////////      /////////////
   const [selectedFilters, setSelectedFilters] = useState({
@@ -71,7 +71,11 @@ useEffect(() => {
         ...prevFilters,
         size: size,
       }));
+      handleTopLoading()
   };
+
+
+ 
 
   // Function to handle size and color filter selection change
   useEffect(() => {
