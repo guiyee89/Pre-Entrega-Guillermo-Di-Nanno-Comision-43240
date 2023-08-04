@@ -1,17 +1,16 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
 import { FilterDetail } from "./FilterDetail";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { ImageDetail } from "./ImageDetail";
+import { ClipLoader } from "react-spinners";
 
 export const ItemDetail = ({ selectedItem }) => {
-
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
   const hasDiscount = "discount" in selectedItem; //Get discounted item
 
-  
   //On add to cart if selectedItem or filteredItem
   const onAddToCart = (quantity) => {
     let data = {
@@ -28,31 +27,40 @@ export const ItemDetail = ({ selectedItem }) => {
     setFilteredItem({}); // Reset the filteredItem state after adding to cart
   };
 
-
-//------   HANDLE FILTERING OF ITEMS  -------//
+  //------   HANDLE FILTERING OF ITEMS  -------//
   const handleFilterItemChange = (item) => {
     if (item === undefined) {
       //Check in case "item" doesn't exist, then return the original selected item
       setFilteredItem(selectedItem);
     } else {
+      setFiltering(true);
       //else return the filtered item
       setFilteredItem(item);
     }
   };
 
+  const [filtering, setFiltering] = useState(false);
+  // Use useRef to store the filtering state without triggering a re-render
+  const isFiltering = useRef(false);
 
-//------      HANDLE IMAGES FOR RENDERING       -------//
+  useEffect(() => {
+    if (filtering) {
+      isFiltering.current = true;
+      setTimeout(() => {
+        isFiltering.current = false;
+        setFiltering(false);
+      }, 800);
+    }
+  }, [filtering]);
+
+  //------      HANDLE IMAGES FOR RENDERING       -------//
   const [selectedImage, setSelectedImage] = useState({});
 
   const handleImageChange = (image, index) => {
     setSelectedImage(image, index);
   };
 
-
-  
- 
-  
-/* Render item details based on the existence of selectedItem or filteredItem */
+  /* Render item details based on the existence of selectedItem or filteredItem */
   return (
     <Wrapper>
       {/* Check if either selectedItem or filteredItem exists */}
@@ -127,15 +135,23 @@ export const ItemDetail = ({ selectedItem }) => {
             </StockPriceWrapper>
 
             <ItemCountWrapper>
-              <ItemCount
-                stock={
-                  Object.keys(filteredItem).length > 0
-                    ? filteredItem.stock
-                    : selectedItem.stock
-                }
-                initial={1}
-                onAddToCart={onAddToCart}
-              />
+              {/* Render the ClipLoader and disable the ItemCount for 1 second when filtering */}
+              {isFiltering.current ? (
+                <Loader>
+                  <ClipLoader color="#194f44" size={50} />
+                </Loader>
+              ) : (
+                <ItemCount
+                  stock={
+                    Object.keys(filteredItem).length > 0
+                      ? filteredItem.stock
+                      : selectedItem.stock
+                  }
+                  initial={1}
+                  onAddToCart={onAddToCart}
+                  disabled={isFiltering.current}
+                />
+              )}
             </ItemCountWrapper>
 
             <Description>
@@ -245,10 +261,12 @@ const Num = styled.span`
   font-weight: bold;
   font-size: 1.2rem;
 `;
-
 const ItemCountWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+  position: relative;
+  margin: 0 auto;
+`;
+const Loader = styled.div`
+  height: 70px;
 `;
 const Description = styled.p`
   font-size: 0.9rem;
