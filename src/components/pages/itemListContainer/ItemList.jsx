@@ -130,7 +130,7 @@ export const ItemList = ({ items, navigate }) => {
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3 , 1fr);
   max-width: 1400px;
   padding: 12px 16px;
   margin: 0px 20px;
@@ -182,6 +182,7 @@ const ItemWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 3px;
   position: relative;
   cursor: pointer;
+  max-width: 400px;
   &:hover {
     ${ButtonsWrapper} {
       opacity: 1;

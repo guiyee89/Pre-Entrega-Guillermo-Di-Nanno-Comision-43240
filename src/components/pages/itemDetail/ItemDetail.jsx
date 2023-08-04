@@ -7,10 +7,13 @@ import { ImageDetail } from "./ImageDetail";
 import { ClipLoader } from "react-spinners";
 
 export const ItemDetail = ({ selectedItem }) => {
+  ///////////////////////////////////////////////////////////////////////////////////
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
   const hasDiscount = "discount" in selectedItem; //Get discounted item
 
+
+///////////////////////////////////////////////////////////////////////////////////
   //On add to cart if selectedItem or filteredItem
   const onAddToCart = (quantity) => {
     let data = {
@@ -27,39 +30,41 @@ export const ItemDetail = ({ selectedItem }) => {
     setFilteredItem({}); // Reset the filteredItem state after adding to cart
   };
 
-  //------   HANDLE FILTERING OF ITEMS  -------//
+
+
+///////////////////////////////////////////////////////////////////////////////////
+//       FILTERING OF COLOR AND SIZE & HANDLING IMAGE CHANGE + Loaders        //
+
+  //  handle filtering size & color  //
   const handleFilterItemChange = (item) => {
     if (item === undefined) {
       //Check in case "item" doesn't exist, then return the original selected item
       setFilteredItem(selectedItem);
     } else {
-      setFiltering(true);
       //else return the filtered item
       setFilteredItem(item);
     }
   };
+  // Loader for Size filter
+  const [loadingSize, setFiltering] = useState(false);
 
-  const [filtering, setFiltering] = useState(false);
-  // Use useRef to store the filtering state without triggering a re-render
-  const isFiltering = useRef(false);
-
-  useEffect(() => {
-    if (filtering) {
-      isFiltering.current = true;
-      setTimeout(() => {
-        isFiltering.current = false;
-        setFiltering(false);
-      }, 800);
-    }
-  }, [filtering]);
-
-  //------      HANDLE IMAGES FOR RENDERING       -------//
+  const handleTopLoading = () => {
+    setFiltering(true);
+    setTimeout(() => {
+      setFiltering(false);
+    }, 700);
+  };
+  
+//------      HANDLE IMAGES FOR RENDERING       -------//
   const [selectedImage, setSelectedImage] = useState({});
 
   const handleImageChange = (image, index) => {
     setSelectedImage(image, index);
   };
 
+
+
+///////////////////////////////////////////////////////////////////////////////////
   /* Render item details based on the existence of selectedItem or filteredItem */
   return (
     <Wrapper>
@@ -99,6 +104,7 @@ export const ItemDetail = ({ selectedItem }) => {
               <FilterDetail
                 selectedItem={selectedItem}
                 onFilterItemChange={handleFilterItemChange}
+                handleTopLoading={handleTopLoading}
               />
             </FilterWrapper>
 
@@ -135,10 +141,9 @@ export const ItemDetail = ({ selectedItem }) => {
             </StockPriceWrapper>
 
             <ItemCountWrapper>
-              {/* Render the ClipLoader and disable the ItemCount for 1 second when filtering */}
-              {isFiltering.current ? (
+              {loadingSize ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
                 <Loader>
-                  <ClipLoader color="#194f44" size={50} />
+                  <ClipLoader color="#194f44" size={50} /> 
                 </Loader>
               ) : (
                 <ItemCount
@@ -149,7 +154,7 @@ export const ItemDetail = ({ selectedItem }) => {
                   }
                   initial={1}
                   onAddToCart={onAddToCart}
-                  disabled={isFiltering.current}
+                  disabled={loadingSize}
                 />
               )}
             </ItemCountWrapper>
