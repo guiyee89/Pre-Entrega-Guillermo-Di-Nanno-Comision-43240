@@ -10,34 +10,30 @@ export const ItemCount = ({ initial = 1, stock, onAddToCart }) => {
   return (
     <>
       <Wrapper>
-        <Wrapper2>
-          <CountButton onClick={decrement}>-</CountButton>
-          <CountNumber> {count} </CountNumber>
-          <CountButton onClick={increment} disabled={count >= stock}>
-            +
-          </CountButton>
-          {/* <ResetButton onClick={reset}>Reset</ResetButton> */}
+        <CountButton onClick={decrement}>-</CountButton>
+        <CountNumber> {count} </CountNumber>
+        <CountButton onClick={increment} disabled={count >= stock}>
+          +
+        </CountButton>
+        {/* <ResetButton onClick={reset}>Reset</ResetButton> */}
 
-          <AddCartButton
-            onClick={() => onAddToCart(count)}
-            disabled={stock === 0 || count > stock}
-          >
-            Add to Cart
-          </AddCartButton>
-        </Wrapper2>
+        <AddCartButton
+          onClick={() => onAddToCart(count)}
+          disabled={stock === 0 || count > stock}
+        >
+          Add to Cart
+        </AddCartButton>
       </Wrapper>
     </>
   );
 };
 const Wrapper = styled.div`
-  /* margin: 0 auto; */
-`;
-const Wrapper2 = styled.div`
   display: flex;
   gap: 1rem;
-  margin-bottom: 30px;
-  align-items: center;
+  align-items: flex-start;
+  height: 70px;
 `;
+
 const CountButton = styled.button`
   width: 35px;
   height: 35px;

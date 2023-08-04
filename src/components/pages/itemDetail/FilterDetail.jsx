@@ -46,7 +46,7 @@ useEffect(() => {
       color: selectedItem.color,
       size: selectedItem.size,
     });
-  }, 600); 
+  }, 500); 
 
   return () => clearTimeout(delay); // Clear the timeout if the component unmounts before the delay is completed
 }, [selectedItem]);
@@ -67,12 +67,10 @@ useEffect(() => {
   };
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
-    setTimeout(() => {
       setSelectedFilters((prevFilters) => ({
         ...prevFilters,
         size: size,
       }));
-    }, 700);
   };
 
   // Function to handle size and color filter selection change
