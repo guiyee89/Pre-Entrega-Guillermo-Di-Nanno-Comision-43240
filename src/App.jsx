@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { menuRoutes } from "./components/routes/menuRoutes";
 import CartContextProvider from "./components/context/CartContext";
-import { GlobalLoader } from "./components/common/globalLoader/GlobalLoader";
+// import { GlobalLoader } from "./components/common/globalLoader/GlobalLoader";
 
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
        
         <CartContextProvider>
-          <GlobalLoader>
+          {/* <GlobalLoader> */}
             <Routes>
               <Route element={<Layout />}>
                 {menuRoutes.map(({ id, path, Element }) => (
@@ -21,7 +21,7 @@ function App() {
               </Route>
               <Route path="*" element={<h1>404 not found</h1>} />
             </Routes>
-          </GlobalLoader>
+          {/* </GlobalLoader> */}
         </CartContextProvider>
      
       </BrowserRouter>

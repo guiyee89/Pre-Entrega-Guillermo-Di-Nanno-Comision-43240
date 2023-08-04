@@ -1,54 +1,66 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
-import {  BsEyeFill } from "react-icons/bs";
+import { BsEyeFill } from "react-icons/bs";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
+import { useRef } from "react";
+import LoadingBar from "react-top-loading-bar";
+import { Link } from "react-router-dom";
 
 
 
 export const ItemList = ({ items, navigate }) => {
-
-//////////////////////////                    ////////////////////////////
-//--------------------    CONDITIONAL LOADING   -----------------------//
-const [loadingDetail, setLoadingDetail] = useState(false);
-
-  //Evento loader para BtnSeeDetail
-  const handleLoadDetail = (itemId) => {
-    setLoadingDetail(itemId);
-
-    setTimeout(() => {
-      setLoadingDetail(true);
-      navigate(`/item-details/${itemId}`);
-    }, 800);
-  };
-  
 //////////////////////////                    ////////////////////////////
 //----------------------        FILTER        -------------------------//
+  // Function to filter products based on their customId and color to avoid duplicates
+  const filterProducts = () => {
+    const productMap = new Map();
 
-// Function to filter products based on their customId and color to avoid duplicates
-const filterProducts = () => {
-  const productMap = new Map();
+    items.forEach((product) => {
+      const { userId, color } = product;
+      const key = `${userId}-${color}`;
 
-  items.forEach((product) => {
-    const { userId, color } = product;
-    const key = `${userId}-${color}`;
+      // Check if the product's customId and color combination already exists in the productMap
+      if (!productMap.has(key)) {
+        // If not, add the product to the productMap
+        productMap.set(key, product);
+      }
+    });
 
-    // Check if the product's customId and color combination already exists in the productMap
-    if (!productMap.has(key)) {
-      // If not, add the product to the productMap
-      productMap.set(key, product);
-    }
-  });
+    // Convert the Map values to an array of filtered products
+    return Array.from(productMap.values());
+  };
 
-  // Convert the Map values to an array of filtered products
-  return Array.from(productMap.values());
-};
   // Filter the products
   const filteredItems = filterProducts();
 
 
-///////////////////////////                  /////////////////////////////
-    //Algoritmo para randomear listado te Items
+
+//////////////////////////                    ////////////////////////////
+//--------------------         LOADING          -----------------------//
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+  //Evento loader para BtnSeeDetail
+  const handleLoadDetail = (itemId) => {
+    setLoadingDetail(itemId);
+    setTimeout(() => {
+      setLoadingDetail(true);
+      navigate(`/item-details/${itemId}`);
+    }, 1600);
+  };
+//--------    TOP LOADING    --------//
+   const ref = useRef();
+
+   const handleLoadTop = () => {
+     ref.current.continuousStart();
+     setTimeout(() => {
+       ref.current.complete();
+     }, 1100);
+   };
+
+
+  ///////////////////////////                  /////////////////////////////
+
+  //Algoritmo para randomear listado te Items
   // const [shuffledItems, setShuffledItems] = useState([]);
 
   // //Algoritmo de Fisher-Yates para renderizar los productos de manera aleatoria
@@ -66,32 +78,36 @@ const filterProducts = () => {
   //   };
   //   setShuffledItems(shuffleArray(items));
   // }, [items]);
-  
-
   return (
     <Wrapper key="cart-wrapper">
+      <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4}/>
       {/* Mapeo de productos */}
       {filteredItems.map((product) => {
         const isLoadingDetail = loadingDetail === product.id;
         const hasDiscount = "discount" in product;
 
         return (
-          <ItemWrapper key={product.id}>
+          <ItemWrapper
+            key={product.id}
+            onClick={() => {
+              handleLoadDetail(product.id);
+              handleLoadTop();
+            }}
+          >
+            <Loader>
+              {isLoadingDetail && <ClipLoader color="#194f44" size={60} />}
+            </Loader>
             <ItemCard>
-              <ImgWrapperLink to={`/item-details/${product.id}`}>
-                <Loader>
-                  {isLoadingDetail && <ClipLoader color="#194f44" size={50} />}
-                </Loader>
+              <ImgWrapperLink>
                 <ItemImg variant="top" src={product.img[0]} />
               </ImgWrapperLink>
               {hasDiscount && <Discount>-{product.discount}%</Discount>}
-              <ButtonsWrapper>
 
+              <ButtonsWrapper>
                 <BtnSeeDetails onClick={() => handleLoadDetail(product.id)}>
                   <SeeDetails />
                 </BtnSeeDetails>
               </ButtonsWrapper>
-
             </ItemCard>
             <InfoWrapper>
               <ItemTitle>{product.title}</ItemTitle>
@@ -125,7 +141,7 @@ const Wrapper = styled.div`
 `;
 const ButtonsWrapper = styled.div`
   position: absolute;
-  top: 5px;
+  top: 15px;
   right: 0;
   background-color: #873c3c;
   width: 40px;
@@ -141,7 +157,7 @@ const ItemImg = styled.img`
   cursor: pointer;
   mix-blend-mode: darken;
 `;
-const ImgWrapperLink = styled(Link)`
+const ImgWrapperLink = styled.div`
   position: relative;
   background-color: rgb(239, 237, 237);
   height: 100%;
@@ -164,6 +180,23 @@ const InfoWrapper = styled.div`
 const ItemWrapper = styled.div`
   margin-bottom: 10px;
   box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 3px;
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    ${ButtonsWrapper} {
+      opacity: 1;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+    }
+    ${ItemImg} {
+      transform: scale(1.11);
+      mix-blend-mode: darken;
+    }
+    /* ${InfoWrapper}, ${ImgWrapperLink} {
+      background-color: white;
+      transition: background-color ease-in-out 0.4s;
+    } */
+  }
 `;
 const ItemCard = styled.div`
   color: black;
@@ -174,28 +207,12 @@ const ItemCard = styled.div`
   align-items: center;
   margin-bottom: 8px;
   justify-content: center;
-  position: relative;
   /* box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 3px; */
-  &:hover {
-    ${ButtonsWrapper} {
-      opacity: 1;
-      transform: translateX(-20px);
-      transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
-    }
-    /* ${InfoWrapper}, ${ImgWrapperLink} {
-      background-color: white;
-      transition: background-color ease-in-out 0.4s;
-    } */
-    ${ItemImg} {
-      transform: scale(1.11);
-      mix-blend-mode: darken;
-    }
-  }
 `;
 const Loader = styled.div`
   position: absolute;
-  top: 5px;
-  right: 100px;
+  top: 90%;
+  right: 40%;
 `;
 const SeeDetails = styled(BsEyeFill)`
   color: black;

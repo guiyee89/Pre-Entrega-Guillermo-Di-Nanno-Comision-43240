@@ -6,16 +6,13 @@ import styled from "styled-components/macro";
 import { HeroCarousel } from "./hero/HeroCarousel";
 import { NewsLetter } from "./newsletter/NewsLetter";
 
-
 export const Layout = () => {
-
   //Render de Hero en Home
   const location = useLocation();
   const currentRoute = menuRoutes.find(
     (route) => route.path === location.pathname
   );
   const isHome = currentRoute?.id === "home";
-
 
   // useEffect(() => {
   //   const timeout = setTimeout(() => {
@@ -28,7 +25,6 @@ export const Layout = () => {
   return (
     <Wrapper>
       <NavBar />
-
       <HeroWrapper>{isHome && <HeroCarousel />}</HeroWrapper>
 
       <OutletWrapper isHome={isHome}>

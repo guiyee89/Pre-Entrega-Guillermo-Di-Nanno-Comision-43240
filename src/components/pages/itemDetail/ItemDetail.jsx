@@ -6,6 +6,7 @@ import { CartContext } from "../../context/CartContext";
 import { ImageDetail } from "./ImageDetail";
 
 export const ItemDetail = ({ selectedItem }) => {
+
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
   const hasDiscount = "discount" in selectedItem; //Get discounted item
@@ -47,6 +48,8 @@ export const ItemDetail = ({ selectedItem }) => {
     setSelectedImage(image, index);
   };
 
+
+  
  
   
 /* Render item details based on the existence of selectedItem or filteredItem */

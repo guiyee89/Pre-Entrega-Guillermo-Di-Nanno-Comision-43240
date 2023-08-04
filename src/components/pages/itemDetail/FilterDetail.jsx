@@ -17,7 +17,6 @@ export const FilterDetail = ({ selectedItem, onFilterItemChange }) => {
   const [relatedItems, setRelatedItems] = useState([]); //Items related to the selectedItem prop
   const [filteredItem, setFilteredItem] = useState({}); //Item filtered
 
-  console.log(relatedItems)
   
 
 //////////////     //////////////    ////////////      ////////////      /////////////
@@ -47,7 +46,7 @@ useEffect(() => {
       color: selectedItem.color,
       size: selectedItem.size,
     });
-  }, 1000); // 2 seconds delay
+  }, 600); 
 
   return () => clearTimeout(delay); // Clear the timeout if the component unmounts before the delay is completed
 }, [selectedItem]);
@@ -64,7 +63,7 @@ useEffect(() => {
         ...prevFilters,
         color: color,
       }));
-    }, 1000);
+    }, 1200);
   };
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
@@ -103,15 +102,14 @@ useEffect(() => {
   }, [selectedFilters, relatedItems, onFilterItemChange]);
 
 
-   //----    LOADING    ----//
+//--------    LOADING    --------//
    const ref = useRef(null);
 
-   const handleLoadSomething = () => {
+   const handleTopLoad = () => {
      ref.current.continuousStart();
      setTimeout(() => {
-       console.log("...loading something");
        ref.current.complete();
-     }, 800);
+     }, 600);
    };
 
 
@@ -168,8 +166,8 @@ useEffect(() => {
             );
             if (itemsWithCurrentColor.length > 0) {
               return (
-                <ColorCheckboxWrapper key={color} onClick={handleLoadSomething}>
-                  <LoadingBar color="#f11946" ref={ref} />
+                <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
+                   <LoadingBar color="#cf6c2a" ref={ref} height={4} shadow={true}/>
                   <ColorCheckbox
                     id={`color-${color}`}
                     checked={selectedFilters.color === color}
@@ -180,8 +178,8 @@ useEffect(() => {
               );
             } else {
               return (
-                <ColorCheckboxWrapper key={color} onClick={handleLoadSomething}>
-                  <LoadingBar color="#f11946" ref={ref} />
+                <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
+                  <LoadingBar color="#cf6c2a" ref={ref} height={4} shadow={true}/>
                   <ColorCheckbox
                     id={`color-${color}`}
                     checked={selectedFilters.color === color}
