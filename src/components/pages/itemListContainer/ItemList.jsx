@@ -6,11 +6,11 @@ import { useRef } from "react";
 import LoadingBar from "react-top-loading-bar";
 import { Link } from "react-router-dom";
 
-
-
 export const ItemList = ({ items, navigate }) => {
-//////////////////////////                    ////////////////////////////
-//----------------------        FILTER        -------------------------//
+  //quizas salvar un localStorage un state de donde estaba el scroll bar antes de pasar a ItemDetail..
+  //o misma logica pero usando userId?
+  //////////////////////////                    ////////////////////////////
+  //----------------------        FILTER        -------------------------//
   // Function to filter products based on their customId and color to avoid duplicates
   const filterProducts = () => {
     const productMap = new Map();
@@ -33,10 +33,8 @@ export const ItemList = ({ items, navigate }) => {
   // Filter the products
   const filteredItems = filterProducts();
 
-
-
-//////////////////////////                    ////////////////////////////
-//--------------------         LOADING          -----------------------//
+  //////////////////////////                    ////////////////////////////
+  //--------------------         LOADING          -----------------------//
   const [loadingDetail, setLoadingDetail] = useState(false);
 
   //Evento loader para BtnSeeDetail
@@ -47,16 +45,15 @@ export const ItemList = ({ items, navigate }) => {
       navigate(`/item-details/${itemId}`);
     }, 1600);
   };
-//--------    TOP LOADING    --------//
-   const ref = useRef();
+  //--------    TOP LOADING    --------//
+  const ref = useRef();
 
-   const handleLoadTop = () => {
-     ref.current.continuousStart();
-     setTimeout(() => {
-       ref.current.complete();
-     }, 1100);
-   };
-
+  const handleLoadTop = () => {
+    ref.current.continuousStart();
+    setTimeout(() => {
+      ref.current.complete();
+    }, 1100);
+  };
 
   ///////////////////////////                  /////////////////////////////
 
@@ -80,7 +77,7 @@ export const ItemList = ({ items, navigate }) => {
   // }, [items]);
   return (
     <Wrapper key="cart-wrapper">
-      <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4}/>
+      <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
       {/* Mapeo de productos */}
       {filteredItems.map((product) => {
         const isLoadingDetail = loadingDetail === product.id;
@@ -113,12 +110,14 @@ export const ItemList = ({ items, navigate }) => {
               <ItemTitle>{product.title}</ItemTitle>
               <ItemSubTitle>{product.subtitle}</ItemSubTitle>
               {hasDiscount ? (
-                <ItemPrice hasDiscount={hasDiscount}>
-                  <DiscountPrice>$ {product.discountPrice} </DiscountPrice> ${" "}
-                  {product.price}
-                </ItemPrice>
+                <ItemPriceWrapper hasDiscount={hasDiscount}>
+                  {hasDiscount && (
+                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice>
+                  )}
+                  <Price hasDiscount={hasDiscount}>$ {product.price}</Price>
+                </ItemPriceWrapper>
               ) : (
-                <ItemPrice>$ {product.price}</ItemPrice>
+                <Price>$ {product.price}</Price>
               )}
             </InfoWrapper>
           </ItemWrapper>
@@ -130,7 +129,7 @@ export const ItemList = ({ items, navigate }) => {
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(3 , 1fr);
+  grid-template-columns: repeat(3, 1fr);
   max-width: 1400px;
   padding: 12px 16px;
   margin: 0px 20px;
@@ -258,23 +257,32 @@ const DiscountPrice = styled.span`
   font-weight: 600;
   font-size: 1rem;
   font-style: italic;
-  padding: 6px 0 8px 0;
+  padding: 6px 0;
   position: relative;
-  &::before {
-    content: "";
-    position: absolute;
-    bottom: 16px;
-    width: 90%;
-    left: 102%;
-    border-top: 0.13rem solid rgb(75, 73, 73);
-  }
+  display: inline-block;
+  text-align: center;
 `;
-const ItemPrice = styled.h4`
-  color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
+const Price = styled.span`
   font-weight: 600;
   font-size: 1rem;
   font-style: italic;
   padding: 6px 0 8px 0;
+  position: relative;
+  color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
+  /* Add the following styles to create the strike-through line if hasDiscount is true */
+  &::after {
+    content: ${(props) => (props.hasDiscount ? "''" : "none")};
+    position: absolute;
+    bottom: 52%;
+    left: 0;
+    width: 102%;
+    height: 1px;
+    background-color: black;
+  }
+`;
+const ItemPriceWrapper = styled.h4`
+  display: flex;
+  gap: 0.3rem;
 `;
 const Discount = styled.h4`
   position: absolute;

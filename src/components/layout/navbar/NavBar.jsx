@@ -102,11 +102,10 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* border-bottom: 1px solid black; */
   position: fixed;
   z-index: 1;
   background-color: rgb(243, 239, 239);
-  box-shadow: rgba(0, 0, 0, 0.55) 0px 0px 3px;
+  box-shadow:  ${(props) => (props.scrolled === "scrolled" ?  "rgba(0, 0, 0, 0.55) 0px 0px 1px" : "rgba(0, 0, 0, 0.55) 0px 0px 3px")};
   /* background-color: ${(props) =>
     props.scrolled === "scrolled" ? "white" : "block"}; */
   /* &:before {

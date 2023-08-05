@@ -7,6 +7,10 @@ import { ClipLoader } from "react-spinners";
 import { Link } from "react-router-dom";
 
 export const LandingPage = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+  
   const [loading, setLoading] = useState(true);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);

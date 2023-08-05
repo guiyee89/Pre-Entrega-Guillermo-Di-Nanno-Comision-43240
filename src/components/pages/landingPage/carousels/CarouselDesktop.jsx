@@ -5,13 +5,11 @@ import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
 export const CarouselDesktop = ({ discountProducts, loading }) => {
-
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
-
 
   return (
     <Wrapper>
@@ -41,12 +39,14 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
                         <InfoWrapper>
                           <ItemTitle>{product.title}</ItemTitle>
                           <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                          <ItemPrice hasDiscount={"discount" in product}>
+                          <CarouselItemPrice
+                            hasDiscount={"discount" in product}
+                          >
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
                             $ {product.price}
-                          </ItemPrice>
+                          </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
                     </LinkWrapper>
@@ -72,12 +72,14 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
                         <InfoWrapper>
                           <ItemTitle>{product.title}</ItemTitle>
                           <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                          <ItemPrice hasDiscount={"discount" in product}>
+                          <CarouselItemPrice
+                            hasDiscount={"discount" in product}
+                          >
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
                             $ {product.price}
-                          </ItemPrice>
+                          </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
                     </LinkWrapper>
@@ -103,12 +105,14 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
                         <InfoWrapper>
                           <ItemTitle>{product.title}</ItemTitle>
                           <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                          <ItemPrice hasDiscount={"discount" in product}>
+                          <CarouselItemPrice
+                            hasDiscount={"discount" in product}
+                          >
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
                             $ {product.price}
-                          </ItemPrice>
+                          </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
                     </LinkWrapper>
@@ -128,7 +132,7 @@ const Wrapper = styled.div`
   z-index: 0;
   /* position: relative; */
   max-height: 520px;
-  
+
   @media (max-width: 48rem) {
     max-height: 320px;
     min-height: 200px;
@@ -179,7 +183,6 @@ const StyledCarousel = styled(Carousel)`
   }
   .carousel-indicators {
     bottom: -75px;
-    
   }
   .carousel-inner {
     overflow: hidden;
@@ -254,6 +257,23 @@ const InfoWrapper = styled.div`
   padding-top: 8px;
   background-color: rgb(239 237 237);
 `;
+const CarouselItemPrice = styled.h4`
+  color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: italic;
+  padding: 6px 0 8px 0;
+  position: relative;
+  /* Add the following styles to create the strike-through line if hasDiscount is true */
+  &::before {
+    content: ${(props) => (props.hasDiscount ? "''" : "none")};
+    position: absolute;
+    bottom: 51%;
+    width: 46%;
+    left: 56%;
+    border-top: 1px solid rgb(75, 73, 73);
+  }
+`;
 const DiscountPrice = styled.span`
   color: #a83737;
   font-weight: 600;
@@ -261,21 +281,7 @@ const DiscountPrice = styled.span`
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;
-  &::before {
-    content: "";
-    position: absolute;
-    bottom: 16px;
-    width: 100%;
-    left: 115%;
-    border-top: 0.13rem solid rgb(75, 73, 73);
-  }
-`;
-const ItemPrice = styled.h4`
-  color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
-  font-weight: 600;
-  font-size: 1rem;
-  font-style: italic;
-  padding: 6px 0 8px 0;
+
 `;
 const Discount = styled.h4`
   position: absolute;

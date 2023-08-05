@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
 
 export const MultiFilter = ({ items, onFilterChange }) => {
-
-
   const [detailsFilters, setDetailsFilters] = useState({
     size: "",
     color: "",
@@ -13,23 +11,25 @@ export const MultiFilter = ({ items, onFilterChange }) => {
   const { categoryName } = useParams();
   const [hasAppliedFilters, setHasAppliedFilters] = useState(false);
 
-
-  
   const applyDetailsFilters = (items, filters) => {
     let filteredItems = items;
     if (filters.size) {
-      filteredItems = filteredItems.filter((item) => item.size === filters.size);
+      filteredItems = filteredItems.filter(
+        (item) => item.size === filters.size
+      );
     }
     if (filters.color) {
-      filteredItems = filteredItems.filter((item) => item.color === filters.color);
+      filteredItems = filteredItems.filter(
+        (item) => item.color === filters.color
+      );
     }
     if (filters.discount === "discount") {
-      filteredItems = filteredItems.filter((item) => item.discount !== undefined);
+      filteredItems = filteredItems.filter(
+        (item) => item.discount !== undefined
+      );
     }
     return filteredItems;
   };
-
-
 
   useEffect(() => {
     if (hasAppliedFilters) {
@@ -40,8 +40,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     setHasAppliedFilters(true);
   }, [detailsFilters, items, hasAppliedFilters, onFilterChange]);
 
-
-
   const handleDetailsFilterChange = (filterName, value) => {
     setDetailsFilters((prevFilters) => ({
       ...prevFilters,
@@ -49,9 +47,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     }));
     setHasAppliedFilters(false);
   };
-
-
-
 
   return (
     <>
@@ -130,12 +125,12 @@ export const MultiFilter = ({ items, onFilterChange }) => {
         </FilterDetailsBtn>
       </FilterWrapper>
       {/* Discount filter */}
-      <OrderBy>Order by : </OrderBy>
+
       <GeneralFilterBtn
         value={detailsFilters.discount}
         onChange={(e) => handleDetailsFilterChange("discount", e.target.value)}
       >
-        <option value="">All</option>
+        <option value="">Order by</option>
         <option value="discount">Discount</option>
       </GeneralFilterBtn>
     </>
@@ -153,27 +148,24 @@ const FilterDetailsBtn = styled.select`
   border-left: none;
   width: 130px;
   margin: 0px 16px;
-  border-bottom-right-radius: 15px;
+  border-bottom-right-radius: 8px;
   justify-content: center;
   background-color: rgb(243, 239, 239);
 `;
 
 const GeneralFilterBtn = styled.select`
-  margin: 0 10px;
-  border: 1px #c6bdbd solid;
+  border-right: 1px solid rgb(198, 189, 189);
+  border-bottom: 1px solid rgb(198, 189, 189);
+  border-image: initial;
   border-top: none;
   border-left: none;
-  width: 130px;
+  width: 134px;
   margin: 0px 30px;
-  border-bottom-right-radius: 15px;
-  justify-content: center;
+  border-bottom-right-radius: 8px;
+  font-weight: 600;
   background-color: rgb(243, 239, 239);
 `;
 const FilterBy = styled.p`
-  font-weight: bold;
-  margin-right: 10px;
-`;
-const OrderBy = styled.p`
   font-weight: bold;
   margin-right: 10px;
 `;
