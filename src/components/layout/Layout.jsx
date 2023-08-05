@@ -5,8 +5,14 @@ import { Footer } from "./footer/Footer";
 import styled from "styled-components/macro";
 import { HeroCarousel } from "./hero/HeroCarousel";
 import { NewsLetter } from "./newsletter/NewsLetter";
+import useScrollRestoration from "../hooks/useScrollRestoration";
+
 
 export const Layout = () => {
+  
+  //Restore scroll to top on navigation
+  useScrollRestoration();
+
   //Render de Hero en Home
   const location = useLocation();
   const currentRoute = menuRoutes.find(

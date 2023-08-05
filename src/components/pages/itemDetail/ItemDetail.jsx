@@ -1,17 +1,19 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
 import { FilterDetail } from "./FilterDetail";
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { ImageDetail } from "./ImageDetail";
 import { ClipLoader } from "react-spinners";
+import useScrollRestoration from "../../hooks/useScrollRestoration";
+
 
 export const ItemDetail = ({ selectedItem }) => {
-  ///////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
   const hasDiscount = "discount" in selectedItem; //Get discounted item
-
 
 ///////////////////////////////////////////////////////////////////////////////////
   //On add to cart if selectedItem or filteredItem
@@ -68,6 +70,7 @@ export const ItemDetail = ({ selectedItem }) => {
   /* Render item details based on the existence of selectedItem or filteredItem */
   return (
     <Wrapper>
+
       {/* Check if either selectedItem or filteredItem exists */}
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>

@@ -15,6 +15,8 @@ import { MultiFilter } from "./MultiFilter";
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
+//quizas salvar un localStorage un state de donde estaba el scroll bar antes de pasar a ItemDetail.. 
+  //o misma logica pero usando userId?
 
 
   const [loading, setLoading] = useState(true); //Loader
@@ -56,7 +58,7 @@ export const ItemListContainer = () => {
           setLoading(false);
         })
         .catch((err) => console.log(err));
-    }, 700);
+    }, 0);
   }, [categoryName]);
 
 
@@ -182,13 +184,13 @@ const FilterWrapper = styled.div`
   max-width: ${(props) =>
     props.scrolled === "scrolled" ? "1371px" : "1375px"};
   justify-content: ${(props) =>
-    props.scrolled === "scrolled" ? "space-around" : "space-evenly"};
+    props.scrolled === "scrolled" ? "space-around" : "space-between"};
   position: sticky;
   top: 66px;
   z-index: 1;
   border-radius: 4px 4px 15px 15px;
   padding: ${(props) =>
-    props.scrolled === "scrolled" ? "20px 0 13px 0;" : "20px 0px 17px;"};
+    props.scrolled === "scrolled" ? "20px 0 13px 0;" : "20px 20px 17px;"};
   background-color: ${(props) =>
     props.scrolled === "scrolled" ? "white" : "rgb(246, 241, 241)"};
   box-shadow: ${(props) =>

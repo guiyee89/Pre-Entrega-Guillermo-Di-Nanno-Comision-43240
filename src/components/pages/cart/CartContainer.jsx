@@ -1,12 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components/macro";
 import { CartContext } from "../../context/CartContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { db } from "../../../firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
 import Swal from "sweetalert2";
 
 export const CartContainer = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
   const {
     cart,
     clearCart,

@@ -12,7 +12,7 @@ export const NewsLetter = () => {
             label="Add your Email"
             variant="outlined"
             name="email"
-            sx={{ marginTop: "24px" }}
+            // sx={{ marginTop: "24px" }}
           />
           <Button type="submit">Subscribe</Button>
         </Form>

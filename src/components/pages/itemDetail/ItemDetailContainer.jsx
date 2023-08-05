@@ -27,10 +27,10 @@ export const ItemDetailContainer = () => {
           id: response.id,
         });
       });
-    }, 700);
+    }, 500);
   }, [id]);
 
-  console.log(selectedItem)
+
 
   return (
     <>
