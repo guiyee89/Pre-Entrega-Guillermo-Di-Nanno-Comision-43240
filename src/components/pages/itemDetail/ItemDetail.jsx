@@ -10,6 +10,8 @@ import useScrollRestoration from "../../hooks/useScrollRestoration";
 
 export const ItemDetail = ({ selectedItem }) => {
 
+
+
 ///////////////////////////////////////////////////////////////////////////////////
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
