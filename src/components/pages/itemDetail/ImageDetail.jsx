@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components/macro";
 
-export const ImageDetail = ( {filteredItem,selectedItem,handleImageChange} ) => {
-
+export const ImageDetail = ({
+  filteredItem,
+  selectedItem,
+  handleImageChange,
+}) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
 
@@ -27,13 +30,11 @@ export const ImageDetail = ( {filteredItem,selectedItem,handleImageChange} ) => 
     handleImageChange(image, index); // Call the handleImageChange function with the selected image
   };
 
-
-
   return (
     <Wrapper>
-      <ImgAside>
+      <ImgAsideWrapper>
         {imagesToRender.map((image, index) => (
-          <ImagesAside
+          <ImgAside
             key={index}
             src={image}
             alt=""
@@ -41,26 +42,24 @@ export const ImageDetail = ( {filteredItem,selectedItem,handleImageChange} ) => 
             onClick={() => handleImageClick(image, index)}
           />
         ))}
-      </ImgAside>
-      <ImgWrapper>
-     
-          {imagesToRender.map((image, index) => (
-            <MainImage
-              key={index}
-              src={image}
-              id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
-              translationDirection={
-                selectedImage.index === index
-                  ? "none"
-                  : selectedImage.index < index
-                  ? "translateX(-100%)"
-                  : "translateX(100%)"
-              }
-              isVisible={selectedImage.index === index}
-            />
-          ))}
-      
-      </ImgWrapper>
+      </ImgAsideWrapper>
+      <MainImgWrapper>
+        {imagesToRender.map((image, index) => (
+          <MainImg
+            key={index}
+            src={image}
+            id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
+            translationDirection={
+              selectedImage.index === index
+                ? "none"
+                : selectedImage.index < index
+                ? "translateX(-100%)"
+                : "translateX(100%)"
+            }
+            isVisible={selectedImage.index === index}
+          />
+        ))}
+      </MainImgWrapper>
     </Wrapper>
   );
 };
@@ -71,7 +70,15 @@ const Wrapper = styled.div`
   margin-left: -35px;
   margin-right: 20px;
 `;
-const ImagesAside = styled.img`
+const ImgAsideWrapper = styled.aside`
+  width: 18.8%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5px;
+`;
+
+const ImgAside = styled.img`
   box-shadow: ${({ isSelected }) =>
     isSelected
       ? "rgba(0, 0, 0, 0.55) 0px 0px 3.5px"
@@ -79,8 +86,8 @@ const ImagesAside = styled.img`
   border: ${({ isSelected }) => (isSelected ? "1px solid black" : "none")};
   width: ${({ isSelected }) => (isSelected ? "81%" : "75%")};
 `;
-const ImgWrapper = styled.div`
-   width: 100%;
+const MainImgWrapper = styled.div`
+  width: 100%;
   height: 700px;
   top: 0;
   left: 0;
@@ -89,7 +96,7 @@ const ImgWrapper = styled.div`
   overflow: hidden;
 `;
 
-const MainImage = styled.img`
+const MainImg = styled.img`
   width: 100%;
   max-height: 100%;
   position: absolute;
@@ -98,12 +105,5 @@ const MainImage = styled.img`
   object-fit: cover;
   transform: ${({ translationDirection }) => translationDirection};
   opacity: ${({ isVisible }) => (isVisible ? "1" : "0")};
-  transition: transform 0.18s ease, opacity 0.20s ease;
-`;
-
-const ImgAside = styled.aside`
-  width: 18.8%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  transition: transform 0.18s ease, opacity 0.2s ease;
 `;
