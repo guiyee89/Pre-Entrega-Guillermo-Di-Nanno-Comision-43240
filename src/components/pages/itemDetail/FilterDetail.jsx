@@ -17,19 +17,17 @@ export const FilterDetail = ({ selectedItem, onFilterItemChange, handleTopLoadin
   const [relatedItems, setRelatedItems] = useState([]); //Items related to the selectedItem prop
   const [filteredItem, setFilteredItem] = useState({}); //Item filtered
 
-  
+  console.log(relatedItems)
+
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 //           FETCH ITEMS RELATED TO "selectedItem" BY userId PROPERTY              //           (Firestore database)
 
 useEffect(() => {
-  // Delay the fetching of related items using setTimeout
-  const delay = setTimeout(() => {
+  console.log("Fetching related items from Firestore...");
+  const fetchRelatedItems = () => {
     const userId = selectedItem.userId;
-    const relatedItemsQuery = query(
-      collection(db, "products"),
-      where("userId", "==", userId)
-    );
+    const relatedItemsQuery = query(collection(db, "products"), where("userId", "==", userId));
     getDocs(relatedItemsQuery)
       .then((snapshot) => {
         const relatedItems = snapshot.docs.map((doc) => ({
@@ -41,14 +39,14 @@ useEffect(() => {
       .catch((error) => {
         console.error("Error fetching related items:", error);
       });
-    // Set the color and size checkboxes according to the selectedItem at first rendering
-    setSelectedFilters({
-      color: selectedItem.color,
-      size: selectedItem.size,
-    });
-  }, 500); 
-
-  return () => clearTimeout(delay); // Clear the timeout if the component unmounts before the delay is completed
+  };
+  // Fetch related items only once when the component mounts
+  fetchRelatedItems();
+  // Set the color and size checkboxes according to the selectedItem at first rendering
+  setSelectedFilters({
+    color: selectedItem.color,
+    size: selectedItem.size,
+  });
 }, [selectedItem]);
 
 
@@ -79,6 +77,7 @@ useEffect(() => {
 
   // Function to handle size and color filter selection change
   useEffect(() => {
+    console.log("Filtering related items...");
     const { color, size } = selectedFilters;
     if (color && size) {
       let filterSelection = relatedItems.find(
@@ -98,8 +97,8 @@ useEffect(() => {
           }));
         }
       }
-      setFilteredItem(filterSelection || {});
       onFilterItemChange(filterSelection); //responible to set new item by color or sizes and render it
+      setFilteredItem(filterSelection || {});
     }
   }, [selectedFilters, relatedItems, onFilterItemChange]);
 

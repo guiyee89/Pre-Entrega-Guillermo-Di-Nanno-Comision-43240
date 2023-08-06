@@ -100,8 +100,6 @@ const Nav = styled.nav`
   width: 100%;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: fixed;
   z-index: 1;
   background-color: rgb(243, 239, 239);
@@ -124,6 +122,7 @@ const InsideNav = styled.div`
   max-width: 1300px;
   display: flex;
   margin: 0 auto;
+  padding: 0 20px;
   align-items: center;
   justify-content: space-between;
 `;

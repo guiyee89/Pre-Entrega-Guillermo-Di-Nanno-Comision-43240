@@ -29,7 +29,7 @@ export const ItemCount = ({ initial = 1, stock, onAddToCart }) => {
 };
 const Wrapper = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 1.2rem;
   align-items: flex-start;
   height: 70px;
 `;
@@ -74,8 +74,8 @@ const AddCartButton = styled.button`
   border-radius: 0.8rem;
   background: ${({ disabled }) => (disabled ? "#999" : "rgb(9 9 9)")};
   color: white;
+  margin-left: 20px;
   cursor: pointer;
-  margin-left: 70px;
   &:hover {
     background-color: ${({ disabled }) => (disabled ? "#999" : "#454444")};
     transition: ${({ disabled }) => (disabled ? "none" : "ease-in-out 0.2s")};
