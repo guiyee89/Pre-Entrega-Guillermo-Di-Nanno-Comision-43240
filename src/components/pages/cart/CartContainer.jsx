@@ -146,7 +146,7 @@ export const CartContainer = () => {
     </Wrapper>
   );
 };
-//Swal Sweet Alert Message
+//Swal Sweet Alert Message - NO AVAILABLE STOCK
 const missingItemMessage = (missingItems) => {
   let message = "<ul style='list-style-type: none; padding: 0;'>";
 
@@ -233,7 +233,7 @@ const DiscountPrice = styled.span`
     content: "";
     position: absolute;
     top: 45px;
-    width: 85%;
+    width: 90%;
     left: 8%;
     border-top: 0.13rem solid rgb(75, 73, 73);
   }

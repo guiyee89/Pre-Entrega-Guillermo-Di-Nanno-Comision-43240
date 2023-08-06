@@ -42,13 +42,14 @@ export const ItemDetail = ({ selectedItem }) => {
       setFilteredItem(item);
     }
   };
-  // Loader for Size filter
-  const [loadingSize, setFiltering] = useState(false);
 
-  const handleTopLoading = () => {
-    setFiltering(true);
+  // Loader for Size filter
+  const [loadingSize, setLoadingSize] = useState(false);
+
+  const handleSizeLoading = () => {
+    setLoadingSize(true);
     setTimeout(() => {
-      setFiltering(false);
+      setLoadingSize(false);
     }, 700);
   };
 
@@ -99,7 +100,7 @@ export const ItemDetail = ({ selectedItem }) => {
               <FilterDetail
                 selectedItem={selectedItem}
                 onFilterItemChange={handleFilterItemChange}
-                handleTopLoading={handleTopLoading}
+                handleSizeLoading={handleSizeLoading}
               />
             </FilterWrapper>
 
@@ -278,6 +279,10 @@ const ItemCountWrapper = styled.div`
 `;
 const Loader = styled.div`
   height: 70px;
+  display: flex;
+  width: 177px;
+  align-content: center;
+  justify-content: flex-end;
 `;
 const Description = styled.p`
   font-size: 0.9rem;
