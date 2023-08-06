@@ -73,7 +73,7 @@ export const ItemDetail = ({ selectedItem }) => {
             selectedItem={selectedItem}
             handleImageChange={handleImageChange}
           />
-
+          {hasDiscount && <Discount>-{selectedItem.discount}%</Discount>}
           <InsideWrapper>
             <Title>
               {Object.keys(filteredItem).length > 0
@@ -178,6 +178,7 @@ export const ItemDetail = ({ selectedItem }) => {
 
 const Wrapper = styled.div`
   display: flex;
+  position: relative;
   -webkit-box-align: center;
   align-items: flex-start;
   -webkit-box-pack: center;
@@ -187,6 +188,23 @@ const Wrapper = styled.div`
   max-width: 1300px;
   margin: 0 auto;
   padding-left: 65px;
+`;
+const Discount = styled.h4`
+  position: absolute;
+  display: flex;
+  top: 10px;
+  right: 81.6%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgb(179, 70, 70);
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  line-height: 2.8;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
 `;
 const InsideWrapper = styled.div`
   display: flex;
