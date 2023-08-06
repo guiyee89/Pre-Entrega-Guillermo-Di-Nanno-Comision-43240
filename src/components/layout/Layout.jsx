@@ -6,21 +6,29 @@ import styled from "styled-components/macro";
 import { HeroCarousel } from "./hero/HeroCarousel";
 import { NewsLetter } from "./newsletter/NewsLetter";
 import useScrollRestoration from "../hooks/useScrollRestoration";
+import { useGlobalLoader } from "../hooks/useGlobalLoader";
+
 
 
 export const Layout = () => {
-  
-  //Restore scroll to top on navigation
+
+
+//Flash loading effect
+  useGlobalLoader()
+
+
+//Restore scroll to top on navigation
   useScrollRestoration();
 
-  //Render de Hero en Home
+
+//Render de Hero en Home
   const location = useLocation();
   const currentRoute = menuRoutes.find(
     (route) => route.path === location.pathname
   );
   const isHome = currentRoute?.id === "home";
 
-  // useEffect(() => {
+// useEffect(() => {
   //   const timeout = setTimeout(() => {
   //     setLoading(false);
   //   }, 1400);
@@ -62,11 +70,3 @@ const HeroWrapper = styled.div`
     margin-bottom: 100px;
   }
 `;
-
-// const LoaderWrapper = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: flex-end;
-//   height: 470px;
-//   margin-left: 35px;
-// `;
