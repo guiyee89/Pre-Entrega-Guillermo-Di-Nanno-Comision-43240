@@ -267,19 +267,16 @@ const DetailsWrapper = styled.div`
 `;
 const Color = styled.p`
   font-size: 0.8rem;
-  
 `;
 const Size = styled.p`
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 `;
 const Span = styled.span`
   font-weight: bold;
-  text-transform: capitalize;
   padding-left: 10px;
 `;
 const Span2 = styled.span`
   font-weight: bold;
-  text-transform: capitalize;
   width: 100%;
   text-align: center;
   padding-left: 20px;

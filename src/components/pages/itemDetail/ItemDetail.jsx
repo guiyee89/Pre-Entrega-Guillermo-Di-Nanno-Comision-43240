@@ -203,7 +203,7 @@ const Title = styled.h1`
   font-size: 2.4rem;
   font-weight: bold;
   letter-spacing: -2px;
-  margin-top: -12px;
+  margin-top: -11px;
   margin-bottom: -32px;
   text-align: center;
 `;
