@@ -79,6 +79,7 @@ const ImgAsideWrapper = styled.aside`
 `;
 
 const ImgAside = styled.img`
+cursor: pointer;
   box-shadow: ${({ isSelected }) =>
     isSelected
       ? "rgba(0, 0, 0, 0.55) 0px 0px 3.5px"

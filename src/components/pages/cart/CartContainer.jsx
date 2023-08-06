@@ -274,10 +274,12 @@ const Size = styled.p`
 const Span = styled.span`
   font-weight: bold;
   padding-left: 10px;
+  text-transform: capitalize;
 `;
 const Span2 = styled.span`
   font-weight: bold;
   width: 100%;
+  text-transform: uppercase;
   text-align: center;
   padding-left: 20px;
 `;
