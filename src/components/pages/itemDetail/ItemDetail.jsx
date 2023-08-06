@@ -5,19 +5,14 @@ import { useState, useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { ImageDetail } from "./ImageDetail";
 import { ClipLoader } from "react-spinners";
-import useScrollRestoration from "../../hooks/useScrollRestoration";
-
 
 export const ItemDetail = ({ selectedItem }) => {
-
-
-
-///////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
   const hasDiscount = "discount" in selectedItem; //Get discounted item
 
-///////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////
   //On add to cart if selectedItem or filteredItem
   const onAddToCart = (quantity) => {
     let data = {
@@ -34,10 +29,8 @@ export const ItemDetail = ({ selectedItem }) => {
     setFilteredItem({}); // Reset the filteredItem state after adding to cart
   };
 
-
-
-///////////////////////////////////////////////////////////////////////////////////
-//       FILTERING OF COLOR AND SIZE & HANDLING IMAGE CHANGE + Loaders        //
+  ///////////////////////////////////////////////////////////////////////////////////
+  //       FILTERING OF COLOR AND SIZE & HANDLING IMAGE CHANGE + Loaders        //
 
   //  handle filtering size & color  //
   const handleFilterItemChange = (item) => {
@@ -58,21 +51,18 @@ export const ItemDetail = ({ selectedItem }) => {
       setFiltering(false);
     }, 700);
   };
-  
-//------      HANDLE IMAGES FOR RENDERING       -------//
+
+  //------      HANDLE IMAGES FOR RENDERING       -------//
   const [selectedImage, setSelectedImage] = useState({});
 
   const handleImageChange = (image, index) => {
     setSelectedImage(image, index);
   };
 
-
-
-///////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////
   /* Render item details based on the existence of selectedItem or filteredItem */
   return (
     <Wrapper>
-
       {/* Check if either selectedItem or filteredItem exists */}
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
@@ -115,25 +105,27 @@ export const ItemDetail = ({ selectedItem }) => {
 
             <StockPriceWrapper>
               {hasDiscount ? (
-                <ItemPrice hasDiscount={hasDiscount}>
-                  <DiscountPrice>
-                    $
+                <ItemPriceWrapper>
+                  <Price>
+                    ${" "}
                     {Object.keys(filteredItem).length > 0
                       ? filteredItem.discountPrice
                       : selectedItem.discountPrice}
-                  </DiscountPrice>{" "}
-                  $
-                  {Object.keys(filteredItem).length > 0
-                    ? filteredItem.price
-                    : selectedItem.price}
-                </ItemPrice>
+                  </Price>{" "}
+                  <DiscountPrice hasDiscount={hasDiscount}>
+                    ${" "}
+                    {Object.keys(filteredItem).length > 0
+                      ? filteredItem.price
+                      : selectedItem.price}
+                  </DiscountPrice>
+                </ItemPriceWrapper>
               ) : (
-                <ItemPrice>
-                  $
+                <Price>
+                  ${" "}
                   {Object.keys(filteredItem).length > 0
                     ? filteredItem.price
                     : selectedItem.price}
-                </ItemPrice>
+                </Price>
               )}
               <Stock>
                 Available Stock{" "}
@@ -148,7 +140,7 @@ export const ItemDetail = ({ selectedItem }) => {
             <ItemCountWrapper>
               {loadingSize ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
                 <Loader>
-                  <ClipLoader color="#194f44" size={50} /> 
+                  <ClipLoader color="#194f44" size={50} />
                 </Loader>
               ) : (
                 <ItemCount
@@ -210,7 +202,8 @@ const Title = styled.h1`
   font-size: 2.4rem;
   font-weight: bold;
   letter-spacing: -2px;
-  margin-bottom: -27px;
+  margin-top: -12px;
+  margin-bottom: -32px;
   text-align: center;
 `;
 const SubTitle = styled.h2`
@@ -232,33 +225,41 @@ const FilterWrapper = styled.div`
 `;
 
 const DiscountPrice = styled.span`
-  color: #a83737;
+  color: ${(props) => (props.hasDiscount ? "#6c757d;" : "#a83737")};
   font-weight: 600;
   font-size: 1.2rem;
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;
-  &::before {
-    content: "";
+  &::after {
+    content: ${(props) => (props.hasDiscount ? "''" : "none")};
     position: absolute;
-    bottom: 18px;
-    width: 107%;
-    left: 110%;
-    border-top: 0.13rem solid rgb(75, 73, 73);
+    z-index: 1;
+    bottom: 50%;
+    left: -2%;
+    width: 103%;
+    border-top: 0.13rem solid rgb(84 81 81);
   }
+`;
+const Price = styled.span`
+  color: #a83737;
+  font-weight: 600;
+  font-size: 1.4rem;
+  font-style: italic;
+  position: relative;
+`;
+const ItemPriceWrapper = styled.h4`
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 0.6rem;
+  justify-content: space-around;
 `;
 const StockPriceWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 95%;
-  padding: 8px 0;
-  margin-left: 9px;
-`;
-const ItemPrice = styled.h4`
-  color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
-  font-weight: 600;
-  font-size: 1.2rem;
-  font-style: italic;
+  padding: 8px 11px;
 `;
 
 const Stock = styled.p`
@@ -273,7 +274,7 @@ const Num = styled.span`
 `;
 const ItemCountWrapper = styled.div`
   position: relative;
-  margin: 0 auto;
+  margin: 0 0;
 `;
 const Loader = styled.div`
   height: 70px;
@@ -282,7 +283,7 @@ const Description = styled.p`
   font-size: 0.9rem;
   margin-top: -24px;
   line-height: 1.5;
-  padding-right: 25px;
+  padding-right: 30px;
 `;
 const ReferenceWrapper = styled.div`
   display: flex;
