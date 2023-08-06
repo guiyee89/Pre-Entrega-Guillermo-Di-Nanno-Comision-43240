@@ -102,8 +102,13 @@ export const ItemList = ({ items, navigate }) => {
               </ImgWrapperLink>
               {hasDiscount && <Discount>-{product.discount}%</Discount>}
 
-              <ButtonsWrapper>
-                <BtnSeeDetails onClick={() => handleLoadDetail(product.id)}>
+              <ButtonsWrapper
+                onClick={() => {
+                  handleLoadDetail(product.id);
+                  handleLoadTop();
+                }}
+              >
+                <BtnSeeDetails>
                   <SeeDetails />
                 </BtnSeeDetails>
               </ButtonsWrapper>
@@ -150,6 +155,34 @@ const ButtonsWrapper = styled.div`
   opacity: 0;
   transform: translateX(20px);
   display: ${({ disabled }) => (disabled ? "none" : "block")};
+`;
+const SeeDetails = styled(BsEyeFill)`
+  color: black;
+  width: 60%;
+  height: 50%;
+  cursor: pointer;
+  transition: transform 0.19s ease-in-out 0.03s;
+`;
+const BtnSeeDetails = styled.span`
+  &:active {
+    background-color: #e3e0e0;
+    transition: background-color 0.1s ease-in-out;
+  }
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #e1e1e1;
+    transition: background-color ease-in-out 0.3s;
+  }
+  &:hover ${SeeDetails} {
+    transform: scale(1.3);
+  }
 `;
 const ItemImg = styled.img`
   margin: 0 auto;
@@ -215,34 +248,6 @@ const Loader = styled.div`
   position: absolute;
   top: 90%;
   right: 40%;
-`;
-const SeeDetails = styled(BsEyeFill)`
-  color: black;
-  width: 60%;
-  height: 50%;
-  cursor: pointer;
-  transition: transform 0.19s ease-in-out 0.03s;
-`;
-const BtnSeeDetails = styled(Link)`
-  &:active {
-    background-color: #e3e0e0;
-    transition: background-color 0.1s ease-in-out;
-  }
-  background-color: white;
-  width: 100%;
-  height: 100%;
-  display: block;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  &:hover {
-    background-color: #e1e1e1;
-    transition: background-color ease-in-out 0.3s;
-  }
-  &:hover ${SeeDetails} {
-    transform: scale(1.3);
-  }
 `;
 const ItemTitle = styled.h2`
   font-size: 0.9rem;
