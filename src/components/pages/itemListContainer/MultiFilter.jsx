@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
 
+
 export const MultiFilter = ({ items, onFilterChange }) => {
+  
   const [detailsFilters, setDetailsFilters] = useState({
+    category:"",
     size: "",
     color: "",
     discount: "",
   });
   const { categoryName } = useParams();
   const [hasAppliedFilters, setHasAppliedFilters] = useState(false);
+
 
   const applyDetailsFilters = (items, filters) => {
     let filteredItems = items;
@@ -28,8 +32,23 @@ export const MultiFilter = ({ items, onFilterChange }) => {
         (item) => item.discount !== undefined
       );
     }
+    if(filters.category) {
+      filteredItems = filteredItems.filter(
+        (item) => item.category === filters.category
+      )
+    }
     return filteredItems;
   };
+
+
+  const handleDetailsFilterChange = (filterName, value) => {
+    setDetailsFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterName]: value,
+    }));
+    setHasAppliedFilters(false);
+  };
+
 
   useEffect(() => {
     if (hasAppliedFilters) {
@@ -40,13 +59,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     setHasAppliedFilters(true);
   }, [detailsFilters, items, hasAppliedFilters, onFilterChange]);
 
-  const handleDetailsFilterChange = (filterName, value) => {
-    setDetailsFilters((prevFilters) => ({
-      ...prevFilters,
-      [filterName]: value,
-    }));
-    setHasAppliedFilters(false);
-  };
+ 
 
   return (
     <>
@@ -58,10 +71,14 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             value={detailsFilters.size}
             onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
           >
-            <option value="">All Sizes</option>
-            <option value="41">41</option>
-            <option value="42">42</option>
-            <option value="44">44</option>
+            <option value="">All Shoe Sizes</option>
+              <option value="39">39</option>
+              <option value="40">40</option>
+              <option value="41">41</option>
+              <option value="42">42</option>
+              <option value="43">43</option>
+              <option value="44">44</option>
+              <option value="45">45</option>
           </FilterDetailsBtn>
         ) : categoryName === "pants" || categoryName === "shirts" ? (
           // For "pants" and "shirts" categories, render string sizes options
@@ -70,13 +87,27 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
           >
             <option value="">All Sizes</option>
-            <option value="s">Small</option>
-            <option value="m">Medium</option>
-            <option value="l">Large</option>
+            <option value="xs">XS</option>
+            <option value="s">S</option>
+            <option value="m">M</option>
+            <option value="l">L</option>
+            <option value="xl">XL</option>
           </FilterDetailsBtn>
         ) : (
           // For "all products" and when categoryName is not defined, render both options
           <>
+            {/* Category filter */}
+            <FilterDetailsBtn
+              value={detailsFilters.category}
+              onChange={(e) =>
+                handleDetailsFilterChange("category", e.target.value)
+              }
+            >
+              <option value="">All Categories</option>
+              <option value="pants">Pants</option>
+              <option value="shirts">Shirts</option>
+              <option value="shoes">Shoes</option>
+            </FilterDetailsBtn>
             {/* Numeric sizes */}
             <FilterDetailsBtn
               value={detailsFilters.size}
@@ -102,9 +133,11 @@ export const MultiFilter = ({ items, onFilterChange }) => {
               }
             >
               <option value="">All Sizes</option>
-              <option value="s">Small</option>
-              <option value="m">Medium</option>
-              <option value="l">Large</option>
+              <option value="xs">XS</option>
+              <option value="s">S</option>
+              <option value="m">M</option>
+              <option value="l">L</option>
+              <option value="xl">XL</option>
             </FilterDetailsBtn>
           </>
         )}
@@ -136,6 +169,8 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     </>
   );
 };
+
+
 const FilterWrapper = styled.div`
   display: flex;
   width: 65%;
@@ -168,4 +203,5 @@ const GeneralFilterBtn = styled.select`
 const FilterBy = styled.p`
   font-weight: bold;
   margin-right: 10px;
+  min-width: 78px;
 `;

@@ -7,6 +7,7 @@ import LoadingBar from "react-top-loading-bar";
 import { Link } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 
+
 export const ItemList = ({ items, navigate }) => {
   //quizas salvar un localStorage un state de donde estaba el scroll bar antes de pasar a ItemDetail..
   //o misma logica pero usando userId?
