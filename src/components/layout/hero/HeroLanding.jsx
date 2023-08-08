@@ -3,7 +3,7 @@ import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
 import { InfoIcons } from "../../common/infoIcons/InfoIcons";
 
-export const HeroCarousel = () => {
+export const HeroLanding = () => {
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {

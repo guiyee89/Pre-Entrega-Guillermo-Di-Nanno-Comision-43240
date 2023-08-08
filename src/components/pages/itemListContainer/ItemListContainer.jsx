@@ -23,7 +23,7 @@ export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
   const { addToCart } = useContext(CartContext); //Utilizamos contexto para agregar al Cart
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
-  const categoryTitle = categoryName ? categoryName : "All Products"; // Rendering conditional title
+  const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
 
 
@@ -168,10 +168,10 @@ const ItemListTitle = styled.h1`
   width: 100%;
   color: #2b2929;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: bold;
-  text-transform: uppercase;
-  margin-bottom: 30px;
+  text-transform: capitalize;
+  margin: 50px auto 0;
 `;
 const NoProductMessage = styled.h2`
   height: 500px;

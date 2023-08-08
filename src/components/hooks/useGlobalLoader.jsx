@@ -4,6 +4,7 @@ import styled from "styled-components/macro";
 
 
 export const useGlobalLoader = () => {
+  
   const [loading, setLoading] = useState(true);
   const location = useLocation();
 
@@ -18,13 +19,7 @@ export const useGlobalLoader = () => {
   }, [location]);
 
 
-  return loading ? (
-    <Wrapper>
-    </Wrapper>
-  ) : (
-    <Wrapper>
-    </Wrapper>
-  );
+  return loading;
 };
 const Wrapper = styled.div`
     display: flex;

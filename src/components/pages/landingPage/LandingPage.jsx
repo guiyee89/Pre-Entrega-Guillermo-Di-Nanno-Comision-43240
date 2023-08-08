@@ -67,7 +67,7 @@ export const LandingPage = () => {
                   <br />
                   <MidSpan>from</MidSpan>
                   <br />
-                  $9.000
+                  $70
                 </MidImgText>
               </TextWrapper>
             </LinkImg>
@@ -85,7 +85,7 @@ export const LandingPage = () => {
                   <br />
                   <MidSpan>from</MidSpan>
                   <br />
-                  $12.000
+                  $80
                 </MidImgText>
                 ;
               </TextWrapper>
