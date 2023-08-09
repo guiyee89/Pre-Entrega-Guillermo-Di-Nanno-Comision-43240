@@ -205,7 +205,9 @@ export const MultiFilter = ({ items, onFilterChange }) => {
         </FilterDetailsBtn> */}
 
         <FormControl sx={mainStyle}>
-          <InputLabel id="color-select-label" sx={labelStyle}>Colors</InputLabel>
+          <InputLabel id="color-select-label" sx={labelStyle}>
+            Colors
+          </InputLabel>
           <Select
             sx={selectStyle}
             MenuProps={MenuProps}
@@ -215,7 +217,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             value={detailsFilters.color || []} // Ensure detailsFilters.color is an array
             onChange={(e) => handleDetailsFilterChange("color", e.target.value)}
             input={<OutlinedInput label="Colors" />}
-            renderValue={(selected) => selected.join(", ")}     
+            renderValue={(selected) => selected.join(", ")}
           >
             {uniqueColors.map((color, index) => (
               <MenuItem key={index} value={color}>
@@ -281,34 +283,51 @@ const FilterBy = styled.p`
 `;
 
 //MATERIAL UI STYLES
-const mainStyle ={
+const mainStyle = {
   m: 1,
   minWidth: 138,
-  width: 165,
-}
+  width: 205,
+  "& .css-u1gz39-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+    {
+      borderColor: "#2a1d1d",
+      borderWidth: "2px",
+    },
+  "& .css-1ufri7h-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
+    color: "#d25519",
+  },
+  "& .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
+    {
+      textTransform: "capitalize",
+    },
+};
 const labelStyle = {
- paddingLeft: 2.2,
- paddingTop: 0.2
-}
+  paddingLeft: 2.2,
+  paddingTop: 0,
+  "&.css-f3d38a-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
+    color: "#d25519",
+  },
+};
 const selectStyle = {
   m: 1,
   height: 35,
   borderBottom: "solid 2px gray",
-  borderLeft: "solid 1px gray",
-  '& .MuiOutlinedInput-notchedOutline': {
-    borderTop: 'none',
-    borderRight:'none',
-  }
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderTop: "none",
+    borderRight: "none",
+    borderLeft: "none",
+    transition: "border-color 0.3s ease-in-out",
+    borderColor: "grey",
+  },
 };
 //Material UI
-const ITEM_HEIGHT = 58;
+const ITEM_HEIGHT = 78;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 220,
-      overflow: scrollX
+      overflow: scrollX,
     },
   },
 };
