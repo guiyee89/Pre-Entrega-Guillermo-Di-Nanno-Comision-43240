@@ -9,9 +9,8 @@ import {
   ListItemText,
   MenuItem,
   OutlinedInput,
+  TextField,
 } from "@mui/material";
-
-
 
 export const MultiFilter = ({ items, onFilterChange }) => {
   //////////           ////////////           ////////////           ///////////
@@ -24,8 +23,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
   });
   const { categoryName } = useParams();
   const [hasAppliedFilters, setHasAppliedFilters] = useState(false);
-
-
 
   //////////           ////////////           ////////////           ///////////
   //                MAPING COLORS AND QUANTITY OF THAT COLOR                  //
@@ -65,10 +62,10 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     }
     if (filters.color && filters.color.length > 0) {
       // color
-      filteredItems = filteredItems.filter(
-        (item) => filters.color.includes(item.color)
+      filteredItems = filteredItems.filter((item) =>
+        filters.color.includes(item.color)
       );
-    } 
+    }
     if (filters.orderBy === "discount") {
       //discount
       filteredItems = filteredItems.filter(
@@ -206,18 +203,19 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             </ColorOption>
           ))}
         </FilterDetailsBtn> */}
-        
-        <FormControlMUI sx={{ m: 1, minWidth: 128, width: 165 }}>
-          <InputLabelMUI id="color-select-label">Colors</InputLabelMUI>
-          <SelectMUI
+
+        <FormControl sx={mainStyle}>
+          <InputLabel id="color-select-label" sx={labelStyle}>Colors</InputLabel>
+          <Select
+            sx={selectStyle}
+            MenuProps={MenuProps}
             labelId="color-select-label"
             id="color-select"
             multiple
             value={detailsFilters.color || []} // Ensure detailsFilters.color is an array
             onChange={(e) => handleDetailsFilterChange("color", e.target.value)}
             input={<OutlinedInput label="Colors" />}
-            renderValue={(selected) => selected.join(", ")}
-            MenuProps={MenuProps}
+            renderValue={(selected) => selected.join(", ")}     
           >
             {uniqueColors.map((color, index) => (
               <MenuItem key={index} value={color}>
@@ -227,9 +225,8 @@ export const MultiFilter = ({ items, onFilterChange }) => {
                 />
               </MenuItem>
             ))}
-          </SelectMUI>
-        </FormControlMUI>
-
+          </Select>
+        </FormControl>
       </FilterWrapper>
       {/* Discount filter */}
       <GeneralFilterBtn
@@ -284,15 +281,25 @@ const FilterBy = styled.p`
 `;
 
 //MATERIAL UI STYLES
-const FormControlMUI = styled(FormControl)`
-  padding: 5px;
-`
-const InputLabelMUI = styled(InputLabel)`
-
-`
-const SelectMUI = styled(Select)`
-  padding: 10px;
-`
+const mainStyle ={
+  m: 1,
+  minWidth: 138,
+  width: 165,
+}
+const labelStyle = {
+ paddingLeft: 2.2,
+ paddingTop: 0.2
+}
+const selectStyle = {
+  m: 1,
+  height: 35,
+  borderBottom: "solid 2px gray",
+  borderLeft: "solid 1px gray",
+  '& .MuiOutlinedInput-notchedOutline': {
+    borderTop: 'none',
+    borderRight:'none',
+  }
+};
 //Material UI
 const ITEM_HEIGHT = 58;
 const ITEM_PADDING_TOP = 8;
@@ -301,7 +308,7 @@ const MenuProps = {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 220,
-
+      overflow: scrollX
     },
   },
 };
