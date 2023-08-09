@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
 import Select from "@mui/material/Select";
 import {
@@ -9,30 +8,28 @@ import {
   ListItemText,
   MenuItem,
   OutlinedInput,
-  TextField,
 } from "@mui/material";
 
 export const MultiFilter = ({ items, onFilterChange }) => {
   //////////           ////////////           ////////////           ///////////
   //                       STATE FOR DIFFERENT FILTERS                        //
+  const [hasAppliedFilters, setHasAppliedFilters] = useState(false);
   const [detailsFilters, setDetailsFilters] = useState({
     category: "",
     size: "",
     color: "",
     orderBy: "",
   });
-  const { categoryName } = useParams();
-  const [hasAppliedFilters, setHasAppliedFilters] = useState(false);
 
   //////////           ////////////           ////////////           ///////////
-  //                MAPING COLORS AND QUANTITY OF THAT COLOR                  //
+  //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
+
+  //-------    COLOR MAPING   -------//
   const uniqueColors = Array.from(new Set(items.map((item) => item.color))); //Find all the colors
-
   const colorUserMap = {}; //Track unique colors
-
   items.forEach((item) => {
-    // Iterate through the items to populate the colorUserMap
     if (!colorUserMap[item.color]) {
+      // Iterate through the items to populate the colorUserMap
       colorUserMap[item.color] = new Set();
     }
     colorUserMap[item.color].add(item.userId); // Add the "userId" property to set that color
@@ -44,20 +41,49 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     colorQuantityMap[color] = userSet.size;
   });
 
+  //-------    SIZE MAPING   -------//
+  const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
+  const sizeUserMap = {};
+  items.forEach((item) => {
+    if (!sizeUserMap[item.size]) {
+      sizeUserMap[item.size] = new Set();
+    }
+    sizeUserMap[item.size].add(item.userId);
+  });
+
+  const sizeQuantityMap = {};
+  Object.keys(sizeUserMap).forEach((size) => {
+    const userSet = sizeUserMap[size];
+    sizeQuantityMap[size] = userSet.size;
+  });
+
+  //-------    CATEGORY MAPING   -------//
+  const uniqueCategory = Array.from(
+    new Set(items.map((item) => item.category))
+  );
+  const categoryUserMap = {};
+  items.forEach((item) => {
+    if (!categoryUserMap[item.category]) {
+      categoryUserMap[item.category] = new Set();
+    }
+    categoryUserMap[item.category].add(item.userId);
+  });
+
   //////////           ////////////           ////////////           ///////////
   //                     FILTERING LOGIC FOR ALL ITEMS                       //
   const applyDetailsFilters = (items, filters) => {
     let filteredItems = items;
-    if (filters.category) {
-      //category
-      filteredItems = filteredItems.filter(
-        (item) => item.category === filters.category
+
+    if (filters.category && filters.category.length > 0) {
+      // category
+      filteredItems = filteredItems.filter((item) =>
+        filters.category.includes(item.category)
       );
     }
-    if (filters.size) {
+    if (filters.size && filters.size.length > 0) {
       //size
-      filteredItems = filteredItems.filter(
-        (item) => item.size === filters.size
+      filteredItems = filteredItems.filter((item) =>
+        filters.size.includes(item.size)
       );
     }
     if (filters.color && filters.color.length > 0) {
@@ -114,98 +140,105 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     <>
       <FilterWrapper>
         <FilterBy>Filter by :</FilterBy>
-        {/* Size filter */}
-        {categoryName === "shoes" ? (
-          <FilterDetailsBtn
-            value={detailsFilters.size}
-            onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
-          >
-            <option value="">Shoe Sizes</option>
-            <option value="39">39</option>
-            <option value="40">40</option>
-            <option value="41">41</option>
-            <option value="42">42</option>
-            <option value="43">43</option>
-            <option value="44">44</option>
-            <option value="45">45</option>
-          </FilterDetailsBtn>
-        ) : categoryName === "pants" || categoryName === "shirts" ? (
-          // For "pants" and "shirts" categories, render string sizes options
-          <FilterDetailsBtn
-            value={detailsFilters.size}
-            onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
-          >
-            <option value="">Sizes</option>
-            <option value="xs">XS</option>
-            <option value="s">S</option>
-            <option value="m">M</option>
-            <option value="l">L</option>
-            <option value="xl">XL</option>
-          </FilterDetailsBtn>
-        ) : (
-          // For "all products" and when categoryName is not defined, render both options
-          <>
-            {/* Category filter */}
-            <FilterDetailsBtn
-              value={detailsFilters.category}
-              onChange={(e) =>
-                handleDetailsFilterChange("category", e.target.value)
-              }
-            >
-              <option value="">Categories</option>
-              <option value="pants">Pants</option>
-              <option value="shirts">Shirts</option>
-              <option value="shoes">Shoes</option>
-            </FilterDetailsBtn>
-            {/* Numeric sizes */}
-            <FilterDetailsBtn
-              value={detailsFilters.size}
-              onChange={(e) =>
-                handleDetailsFilterChange("size", e.target.value)
-              }
-            >
-              <option value="">Shoe Sizes</option>
-              <option value="39">39</option>
-              <option value="40">40</option>
-              <option value="41">41</option>
-              <option value="42">42</option>
-              <option value="43">43</option>
-              <option value="44">44</option>
-              <option value="45">45</option>
-            </FilterDetailsBtn>
 
-            {/* String sizes */}
-            <FilterDetailsBtn
-              value={detailsFilters.size}
-              onChange={(e) =>
-                handleDetailsFilterChange("size", e.target.value)
-              }
-            >
-              <option value="">Sizes</option>
-              <option value="xs">XS</option>
-              <option value="s">S</option>
-              <option value="m">M</option>
-              <option value="l">L</option>
-              <option value="xl">XL</option>
-            </FilterDetailsBtn>
-          </>
-        )}
+        {/* Category filter */}
+        <FormControl sx={mainStyle}>
+          <InputLabel
+            id="category-select-label"
+            sx={{
+              paddingLeft: "10px",
+              fontSize: "1.1rem",
+              "&.Mui-focused": {
+                color: "#b26507",
+              },
+            }}
+          >
+            Categories
+          </InputLabel>
+          <Select
+            sx={selectStyle}
+            MenuProps={MenuProps}
+            multiple
+            labelId="category-select-label"
+            id="category-select"
+            value={detailsFilters.category || []}
+            onChange={(e) =>
+              handleDetailsFilterChange("category", e.target.value)
+            }
+            input={<OutlinedInput label="Categories" />}
+            renderValue={(selected) => selected.join(", ")}
+          >
+            {uniqueCategory.map((category, index) => (
+              <MenuItem key={index} value={category}>
+                <Checkbox
+                  checked={detailsFilters.category.includes(category)}
+                />
+                <ListItemText
+                  sx={{ textTransform: "capitalize" }}
+                  primary={category}
+                />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        {/* Sizes filter */}
+        <FormControl sx={mainStyle}>
+          <InputLabel
+            id="size-select-label"
+            sx={{
+              paddingLeft: "25px",
+              fontSize: "1.1rem",
+              "&.Mui-focused": {
+                color: "#b26507", // Change to your desired color
+              },
+            }}
+          >
+            Sizes
+          </InputLabel>
+          <Select
+            sx={selectStyle}
+            MenuProps={MenuProps}
+            labelId="size-select-label"
+            id="size-select"
+            multiple
+            value={detailsFilters.size || []} // Ensure detailsFilters.size is an array
+            onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
+            input={<OutlinedInput label="Sizes" />}
+            renderValue={(selected) => selected.join(", ")}
+          >
+            {uniqueSizes
+              .sort((a, b) => {
+                // Custom sorting logic to order sizes as desired
+                const sizeOrder = { xs: 1, s: 2, m: 3, l: 4, xl: 5 };
+                const aOrder = sizeOrder[a] || parseInt(a, 10) || 9999;
+                const bOrder = sizeOrder[b] || parseInt(b, 10) || 9999;
+                return aOrder - bOrder;
+              })
+              .map((size, index) => (
+                <MenuItem key={index} value={size}>
+                  <Checkbox checked={detailsFilters.size.includes(size)} />
+                  <ListItemText
+                    primary={`${size} (${sizeQuantityMap[size] || 0})`}
+                    sx={{ textTransform: "uppercase" }}
+                  />
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
 
         {/* Color filter */}
-        {/* <FilterDetailsBtn
-          value={detailsFilters.color}
-          onChange={(e) => handleDetailsFilterChange("color", e.target.value)}
-        >
-          <ColorOption value="">Colors</ColorOption>
-          {uniqueColors.map((color, index) => (
-            <ColorOption key={index} value={color} index={index}>
-              {`${color}  (${colorQuantityMap[color] || 0})`}
-            </ColorOption>
-          ))}
-        </FilterDetailsBtn> */}
-
         <FormControl sx={mainStyle}>
-          <InputLabel id="color-select-label" sx={labelStyle}>
+          <InputLabel
+            id="color-select-label"
+            sx={{
+              fontSize: "1.1rem",
+              paddingLeft: "25px",
+              "&.Mui-focused": {
+                color: "#b26507",
+              },
+            }}
+          >
             Colors
           </InputLabel>
           <Select
@@ -223,6 +256,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
               <MenuItem key={index} value={color}>
                 <Checkbox checked={detailsFilters.color.includes(color)} />
                 <ListItemText
+                  sx={{ textTransform: "capitalize" }}
                   primary={`${color} (${colorQuantityMap[color] || 0})`}
                 />
               </MenuItem>
@@ -230,16 +264,38 @@ export const MultiFilter = ({ items, onFilterChange }) => {
           </Select>
         </FormControl>
       </FilterWrapper>
-      {/* Discount filter */}
-      <GeneralFilterBtn
-        value={detailsFilters.orderBy}
-        onChange={(e) => handleDetailsFilterChange("orderBy", e.target.value)}
-      >
-        <option value="">Order by</option>
-        <option value="discount">Discount</option>
-        <option value="lowPrice">Lower Price</option>
-        <option value="highPrice">Higher Price</option>
-      </GeneralFilterBtn>
+
+      {/* General filter */}
+     
+      <FormControl sx={orderStyle} >
+        <InputLabel
+          id="order-by-select-label"
+          sx={{
+            fontSize: "1.1rem",
+            fontWeight:"bold",
+            paddingLeft: "10px",
+            color:"black",
+            "&.Mui-focused": {
+              color: "#b26507",
+            },
+          }}
+        >
+          Order by
+        </InputLabel>
+        <Select
+          labelId="order-by-select-label"
+          id="order-by-select"
+          value={detailsFilters.orderBy || ""}
+          onChange={(e) => handleDetailsFilterChange("orderBy", e.target.value)}
+          input={<OutlinedInput label="Order by" />}
+          sx={selectStyle}
+        >
+          <MenuItem value="discount">Discount</MenuItem>
+          <MenuItem value="lowPrice">Lower Price</MenuItem>
+          <MenuItem value="highPrice">Higher Price</MenuItem>
+        </Select>
+      </FormControl>
+     
     </>
   );
 };
@@ -249,63 +305,31 @@ const FilterWrapper = styled.div`
   width: 65%;
   max-width: 800px;
   align-items: center;
-`;
-const FilterDetailsBtn = styled.select`
-  margin: 0 10px;
-  border: 1px #c6bdbd solid;
-  border-top: none;
-  border-left: none;
-  width: 130px;
-  min-width: 110px;
-  margin: 0px 16px;
-  border-bottom-right-radius: 8px;
-  justify-content: center;
-  background-color: rgb(243, 239, 239);
-  text-transform: capitalize;
+  padding-bottom: 8px;
 `;
 
-const GeneralFilterBtn = styled.select`
-  border-right: 1px solid rgb(198, 189, 189);
-  border-bottom: 1px solid rgb(198, 189, 189);
-  border-image: initial;
-  border-top: none;
-  border-left: none;
-  width: 134px;
-  margin: 0px 30px;
-  border-bottom-right-radius: 8px;
-  font-weight: 600;
-  background-color: rgb(243, 239, 239);
-`;
 const FilterBy = styled.p`
   font-weight: bold;
+  font-size: 1.1rem;
   margin-right: 10px;
-  min-width: 78px;
+  margin-bottom: -10px;
+  min-width: 86px;
 `;
 
 //MATERIAL UI STYLES
 const mainStyle = {
   m: 1,
-  minWidth: 138,
+  minWidth: 150,
   width: 205,
   "& .css-u1gz39-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
     {
       borderColor: "#2a1d1d",
       borderWidth: "1px",
     },
-    "& .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
+  "& .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
     {
       textTransform: "capitalize",
     },
-};
-const labelStyle = {
-  paddingLeft: 2.2,
-  paddingTop: 0,
-  "&.css-f3d38a-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
-    color: "#d25519",
-  },
-  "& .css-1ufri7h-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
-    color: "#d25519",
-  },
 };
 const selectStyle = {
   m: 1,
@@ -319,6 +343,21 @@ const selectStyle = {
     borderColor: "grey",
   },
 };
+const orderStyle = {
+  m: 1,
+  minWidth: 150,
+  width: 160,
+  paddingBottom: "7px",
+  "& .css-u1gz39-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+    {
+      borderColor: "#2a1d1d",
+      borderWidth: "1px",
+    },
+  "& .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
+    {
+      textTransform: "capitalize",
+    },
+}
 //Material UI
 const ITEM_HEIGHT = 78;
 const ITEM_PADDING_TOP = 8;
@@ -331,3 +370,161 @@ const MenuProps = {
     },
   },
 };
+
+// return (
+//   <>
+//     <FilterWrapper>
+//       <FilterBy>Filter by :</FilterBy>
+//       {/* Size filter */}
+//       {categoryName === "shoes" ? (
+//         <FilterDetailsBtn
+//           value={detailsFilters.size}
+//           onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
+//         >
+//           <option value="">Shoe Sizes</option>
+//           <option value="39">39</option>
+//           <option value="40">40</option>
+//           <option value="41">41</option>
+//           <option value="42">42</option>
+//           <option value="43">43</option>
+//           <option value="44">44</option>
+//           <option value="45">45</option>
+//         </FilterDetailsBtn>
+//       ) : categoryName === "pants" || categoryName === "shirts" ? (
+//         // For "pants" and "shirts" categories, render string sizes options
+//         <FilterDetailsBtn
+//           value={detailsFilters.size}
+//           onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
+//         >
+//           <option value="">Sizes</option>
+//           <option value="xs">XS</option>
+//           <option value="s">S</option>
+//           <option value="m">M</option>
+//           <option value="l">L</option>
+//           <option value="xl">XL</option>
+//         </FilterDetailsBtn>
+//       ) : (
+//         // For "all products" and when categoryName is not defined, render both options
+//         <>
+//           {/* Category filter */}
+//           <FilterDetailsBtn
+//             value={detailsFilters.category}
+//             onChange={(e) =>
+//               handleDetailsFilterChange("category", e.target.value)
+//             }
+//           >
+//             <option value="">Categories</option>
+//             <option value="pants">Pants</option>
+//             <option value="shirts">Shirts</option>
+//             <option value="shoes">Shoes</option>
+//           </FilterDetailsBtn>
+//           {/* Numeric sizes */}
+//           <FilterDetailsBtn
+//             value={detailsFilters.size}
+//             onChange={(e) =>
+//               handleDetailsFilterChange("size", e.target.value)
+//             }
+//           >
+//             <option value="">Shoe Sizes</option>
+//             <option value="39">39</option>
+//             <option value="40">40</option>
+//             <option value="41">41</option>
+//             <option value="42">42</option>
+//             <option value="43">43</option>
+//             <option value="44">44</option>
+//             <option value="45">45</option>
+//           </FilterDetailsBtn>
+
+//           {/* String sizes */}
+//           <FormControl sx={mainStyle}>
+//             <InputLabel
+//               id="size-select-label"
+//               sx={{
+//                 "&.Mui-focused": {
+//                   color: "#b26507", // Change to your desired color
+//                 },
+//               }}>Sizes</InputLabel>
+//             <Select
+//               sx={selectStyle}
+//               MenuProps={MenuProps}
+//               labelId="size-select-label"
+//               id="size-select"
+//               multiple
+//               value={detailsFilters.size || []} // Ensure detailsFilters.size is an array
+//               onChange={(e) =>
+//                 handleDetailsFilterChange("size", e.target.value)
+//               }
+//               input={<OutlinedInput label="Sizes" />}
+//               renderValue={(selected) => selected.join(", ")}
+//             >
+//               {uniqueSizes
+//                 .sort((a, b) => {
+//                   // Custom sorting logic to order sizes as desired
+//                   const sizeOrder = {xs: 1, s: 2, m: 3, l: 4, xl: 5};
+//                   const aOrder = sizeOrder[a] || parseInt(a, 10) || 9999;
+//                   const bOrder = sizeOrder[b] || parseInt(b, 10) || 9999;
+//                   return aOrder - bOrder;
+//                 })
+//                 .map((size, index) => (
+//                   <MenuItem key={index} value={size}>
+//                     <Checkbox checked={detailsFilters.size.includes(size)} />
+//                     <ListItemText
+//                       primary={`${size} (${sizeQuantityMap[size] || 0})`}
+//                       sx={{ textTransform: "uppercase" }}
+//                     />
+//                   </MenuItem>
+//                 ))}
+//             </Select>
+//           </FormControl>
+//         </>
+//       )}
+
+//       {/* Color filter */}
+//       <FormControl sx={mainStyle}>
+//         <InputLabel
+//           id="color-select-label"
+//           sx={{
+//             "&.Mui-focused": {
+//               color: "#b26507",
+//             },
+//           }}
+//         >
+//           Colors
+//         </InputLabel>
+//         <Select
+//           sx={selectStyle}
+//           MenuProps={MenuProps}
+//           labelId="color-select-label"
+//           id="color-select"
+//           multiple
+//           value={detailsFilters.color || []} // Ensure detailsFilters.color is an array
+//           onChange={(e) => handleDetailsFilterChange("color", e.target.value)}
+//           input={<OutlinedInput label="Colors" />}
+//           renderValue={(selected) => selected.join(", ")}
+//         >
+//           {uniqueColors.map((color, index) => (
+//             <MenuItem key={index} value={color}>
+//               <Checkbox checked={detailsFilters.color.includes(color)} />
+//               <ListItemText
+//                 sx={{ textTransform: "capitalize" }}
+//                 primary={`${color} (${colorQuantityMap[color] || 0})`}
+//               />
+//             </MenuItem>
+//           ))}
+//         </Select>
+//       </FormControl>
+//     </FilterWrapper>
+
+//     {/* Discount filter */}
+//     <GeneralFilterBtn
+//       value={detailsFilters.orderBy}
+//       onChange={(e) => handleDetailsFilterChange("orderBy", e.target.value)}
+//     >
+//       <option value="">Order by</option>
+//       <option value="discount">Discount</option>
+//       <option value="lowPrice">Lower Price</option>
+//       <option value="highPrice">Higher Price</option>
+//     </GeneralFilterBtn>
+//   </>
+// );
+// };
