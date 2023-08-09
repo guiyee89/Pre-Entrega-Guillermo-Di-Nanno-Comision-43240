@@ -11,6 +11,8 @@ import {
   OutlinedInput,
 } from "@mui/material";
 
+
+
 export const MultiFilter = ({ items, onFilterChange }) => {
   //////////           ////////////           ////////////           ///////////
   //                       STATE FOR DIFFERENT FILTERS                        //
@@ -22,6 +24,8 @@ export const MultiFilter = ({ items, onFilterChange }) => {
   });
   const { categoryName } = useParams();
   const [hasAppliedFilters, setHasAppliedFilters] = useState(false);
+
+
 
   //////////           ////////////           ////////////           ///////////
   //                MAPING COLORS AND QUANTITY OF THAT COLOR                  //
@@ -59,12 +63,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
         (item) => item.size === filters.size
       );
     }
-    // if (filters.color) {
-    //   //color
-    //   filteredItems = filteredItems.filter(
-    //     (item) => item.color === filters.color
-    //   );
-    // }
     if (filters.color && filters.color.length > 0) {
       // color
       filteredItems = filteredItems.filter(
@@ -208,9 +206,10 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             </ColorOption>
           ))}
         </FilterDetailsBtn> */}
-        <FormControlx sx={{ m: 1, minWidth: 128, width: 165 }}>
-          <InputLabel id="color-select-label">Colors</InputLabel>
-          <Select
+        
+        <FormControlMUI sx={{ m: 1, minWidth: 128, width: 165 }}>
+          <InputLabelMUI id="color-select-label">Colors</InputLabelMUI>
+          <SelectMUI
             labelId="color-select-label"
             id="color-select"
             multiple
@@ -228,10 +227,10 @@ export const MultiFilter = ({ items, onFilterChange }) => {
                 />
               </MenuItem>
             ))}
-          </Select>
-        </FormControlx>
-      </FilterWrapper>
+          </SelectMUI>
+        </FormControlMUI>
 
+      </FilterWrapper>
       {/* Discount filter */}
       <GeneralFilterBtn
         value={detailsFilters.orderBy}
@@ -285,46 +284,14 @@ const FilterBy = styled.p`
 `;
 
 //MATERIAL UI STYLES
-const FormControlx = styled(FormControl)`
-  .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
-    padding: 5px;
-  }
-  .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
-    top: -10px;
-  }
-  .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{//label
-    font-weight: 500;
-    font-size: 1.1rem;
-    padding-left: 15px;
-  }
-  .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root{
-    left: 37px;
-    top: -8px;
-   
-  }
-  .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {//label focus
-    color: #977a75;
-    left: 37px;
-    top: -8px;
-    
-}
-  .css-1d3z3hw-MuiOutlinedInput-notchedOutline{//border outer
-    border-color: rgb(67 34 11 / 75%);
-  }
-  .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {//border active
-    border-color: #744924;
-    border-width: 2px;
-}
-  .css-1d3z3hw-MuiOutlinedInput-notchedOutline {//border
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-right-width: 3px;
-    border-bottom-width: 2px;
-  }
-  .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{
-    border-radius: 12px;
-  }
+const FormControlMUI = styled(FormControl)`
+  padding: 5px;
+`
+const InputLabelMUI = styled(InputLabel)`
+
+`
+const SelectMUI = styled(Select)`
+  padding: 10px;
 `
 //Material UI
 const ITEM_HEIGHT = 58;
