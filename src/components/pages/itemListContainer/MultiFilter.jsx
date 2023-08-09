@@ -303,7 +303,7 @@ const mainStyle = {
 const labelStyle = {
   paddingLeft: 2.2,
   paddingTop: 0,
-  "&.css-f3d38a-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
+  "& .css-f3d38a-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
     color: "#d25519",
   },
 };
