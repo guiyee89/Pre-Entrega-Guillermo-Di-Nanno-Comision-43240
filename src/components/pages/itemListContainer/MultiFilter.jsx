@@ -156,7 +156,13 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             Categories
           </InputLabel>
           <Select
-            sx={selectStyle}
+            sx={{
+              ...selectStyle,
+              "&.Mui-focused": {
+                borderBottomColor: "black",
+                textTransform:"capitalize" 
+              },
+            }}
             MenuProps={MenuProps}
             multiple
             labelId="category-select-label"
@@ -197,7 +203,13 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             Sizes
           </InputLabel>
           <Select
-            sx={selectStyle}
+            sx={{
+              ...selectStyle,
+              "&.Mui-focused": {
+                borderBottomColor: "black",
+                textTransform:"capitalize" 
+              },
+            }}
             MenuProps={MenuProps}
             labelId="size-select-label"
             id="size-select"
@@ -242,7 +254,13 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             Colors
           </InputLabel>
           <Select
-            sx={selectStyle}
+            sx={{
+              ...selectStyle,
+              "&.Mui-focused": {
+                borderBottomColor: "black",
+                textTransform:"capitalize" 
+              },
+            }}
             MenuProps={MenuProps}
             labelId="color-select-label"
             id="color-select"
@@ -288,7 +306,13 @@ export const MultiFilter = ({ items, onFilterChange }) => {
           value={detailsFilters.orderBy || ""}
           onChange={(e) => handleDetailsFilterChange("orderBy", e.target.value)}
           input={<OutlinedInput label="Order by" />}
-          sx={selectStyle}
+          sx={{
+            ...selectStyle,
+            "&.Mui-focused": {
+              borderBottomColor: "black",
+              textTransform:"capitalize" 
+            },
+          }}
         >
           <MenuItem value="discount">Discount</MenuItem>
           <MenuItem value="lowPrice">Lower Price</MenuItem>
@@ -334,14 +358,14 @@ const mainStyle = {
 const selectStyle = {
   m: 1,
   height: 35,
-  borderBottom: "solid 2px gray",
+  borderBottom: "solid 0 gray",
   "& .MuiOutlinedInput-notchedOutline": {
     borderTop: "none",
     borderRight: "none",
     borderLeft: "none",
-    transition: "border-color 0.3s ease-in-out",
-    borderColor: "grey"
-  }
+    transition: "border-color 10000.3s ease-in-out",
+    borderColor: "grey",
+  },
 };
 const orderStyle = {
   m: 1,
@@ -371,160 +395,3 @@ const MenuProps = {
   },
 };
 
-// return (
-//   <>
-//     <FilterWrapper>
-//       <FilterBy>Filter by :</FilterBy>
-//       {/* Size filter */}
-//       {categoryName === "shoes" ? (
-//         <FilterDetailsBtn
-//           value={detailsFilters.size}
-//           onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
-//         >
-//           <option value="">Shoe Sizes</option>
-//           <option value="39">39</option>
-//           <option value="40">40</option>
-//           <option value="41">41</option>
-//           <option value="42">42</option>
-//           <option value="43">43</option>
-//           <option value="44">44</option>
-//           <option value="45">45</option>
-//         </FilterDetailsBtn>
-//       ) : categoryName === "pants" || categoryName === "shirts" ? (
-//         // For "pants" and "shirts" categories, render string sizes options
-//         <FilterDetailsBtn
-//           value={detailsFilters.size}
-//           onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
-//         >
-//           <option value="">Sizes</option>
-//           <option value="xs">XS</option>
-//           <option value="s">S</option>
-//           <option value="m">M</option>
-//           <option value="l">L</option>
-//           <option value="xl">XL</option>
-//         </FilterDetailsBtn>
-//       ) : (
-//         // For "all products" and when categoryName is not defined, render both options
-//         <>
-//           {/* Category filter */}
-//           <FilterDetailsBtn
-//             value={detailsFilters.category}
-//             onChange={(e) =>
-//               handleDetailsFilterChange("category", e.target.value)
-//             }
-//           >
-//             <option value="">Categories</option>
-//             <option value="pants">Pants</option>
-//             <option value="shirts">Shirts</option>
-//             <option value="shoes">Shoes</option>
-//           </FilterDetailsBtn>
-//           {/* Numeric sizes */}
-//           <FilterDetailsBtn
-//             value={detailsFilters.size}
-//             onChange={(e) =>
-//               handleDetailsFilterChange("size", e.target.value)
-//             }
-//           >
-//             <option value="">Shoe Sizes</option>
-//             <option value="39">39</option>
-//             <option value="40">40</option>
-//             <option value="41">41</option>
-//             <option value="42">42</option>
-//             <option value="43">43</option>
-//             <option value="44">44</option>
-//             <option value="45">45</option>
-//           </FilterDetailsBtn>
-
-//           {/* String sizes */}
-//           <FormControl sx={mainStyle}>
-//             <InputLabel
-//               id="size-select-label"
-//               sx={{
-//                 "&.Mui-focused": {
-//                   color: "#b26507", // Change to your desired color
-//                 },
-//               }}>Sizes</InputLabel>
-//             <Select
-//               sx={selectStyle}
-//               MenuProps={MenuProps}
-//               labelId="size-select-label"
-//               id="size-select"
-//               multiple
-//               value={detailsFilters.size || []} // Ensure detailsFilters.size is an array
-//               onChange={(e) =>
-//                 handleDetailsFilterChange("size", e.target.value)
-//               }
-//               input={<OutlinedInput label="Sizes" />}
-//               renderValue={(selected) => selected.join(", ")}
-//             >
-//               {uniqueSizes
-//                 .sort((a, b) => {
-//                   // Custom sorting logic to order sizes as desired
-//                   const sizeOrder = {xs: 1, s: 2, m: 3, l: 4, xl: 5};
-//                   const aOrder = sizeOrder[a] || parseInt(a, 10) || 9999;
-//                   const bOrder = sizeOrder[b] || parseInt(b, 10) || 9999;
-//                   return aOrder - bOrder;
-//                 })
-//                 .map((size, index) => (
-//                   <MenuItem key={index} value={size}>
-//                     <Checkbox checked={detailsFilters.size.includes(size)} />
-//                     <ListItemText
-//                       primary={`${size} (${sizeQuantityMap[size] || 0})`}
-//                       sx={{ textTransform: "uppercase" }}
-//                     />
-//                   </MenuItem>
-//                 ))}
-//             </Select>
-//           </FormControl>
-//         </>
-//       )}
-
-//       {/* Color filter */}
-//       <FormControl sx={mainStyle}>
-//         <InputLabel
-//           id="color-select-label"
-//           sx={{
-//             "&.Mui-focused": {
-//               color: "#b26507",
-//             },
-//           }}
-//         >
-//           Colors
-//         </InputLabel>
-//         <Select
-//           sx={selectStyle}
-//           MenuProps={MenuProps}
-//           labelId="color-select-label"
-//           id="color-select"
-//           multiple
-//           value={detailsFilters.color || []} // Ensure detailsFilters.color is an array
-//           onChange={(e) => handleDetailsFilterChange("color", e.target.value)}
-//           input={<OutlinedInput label="Colors" />}
-//           renderValue={(selected) => selected.join(", ")}
-//         >
-//           {uniqueColors.map((color, index) => (
-//             <MenuItem key={index} value={color}>
-//               <Checkbox checked={detailsFilters.color.includes(color)} />
-//               <ListItemText
-//                 sx={{ textTransform: "capitalize" }}
-//                 primary={`${color} (${colorQuantityMap[color] || 0})`}
-//               />
-//             </MenuItem>
-//           ))}
-//         </Select>
-//       </FormControl>
-//     </FilterWrapper>
-
-//     {/* Discount filter */}
-//     <GeneralFilterBtn
-//       value={detailsFilters.orderBy}
-//       onChange={(e) => handleDetailsFilterChange("orderBy", e.target.value)}
-//     >
-//       <option value="">Order by</option>
-//       <option value="discount">Discount</option>
-//       <option value="lowPrice">Lower Price</option>
-//       <option value="highPrice">Higher Price</option>
-//     </GeneralFilterBtn>
-//   </>
-// );
-// };
