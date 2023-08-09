@@ -181,21 +181,16 @@ const FilterWrapper = styled.div`
   display: flex;
   width: 95%;
   margin-bottom: 12px;
-  max-width: ${(props) =>
-    props.scrolled === "scrolled" ? "1371px" : "1375px"};
-  justify-content: ${(props) =>
-    props.scrolled === "scrolled" ? "space-around" : "space-between"};
+  align-items: center;
+  max-width: 1375px;
+  justify-content: space-between;
   position: sticky;
   top: 66px;
   z-index: 1;
   border-radius: 4px 4px 15px 15px;
-  padding: ${(props) =>
-    props.scrolled === "scrolled" ? "20px 0 13px 0;" : "20px 20px 17px;"};
-  background-color: ${(props) =>
-    props.scrolled === "scrolled" ? "white" : "rgb(246, 241, 241)"};
-  box-shadow: ${(props) =>
-    props.scrolled === "scrolled" ? "0 6px 10px rgba(0, 0, 0, 0.4)" : "rgba(40, 0, 0, 0.3) 0px 5px 2px;"};
-  height: ${(props) => (props.scrolled === "scrolled" ? "auto" : "60px")};
-  transition: background-color 0.11s ease-in-out, height 0.19s cubic-bezier(0, 1.32, 0, 0.68) 0s;
+  padding: 20px 20px 17px;
+  background-color:rgb(246, 241, 241);
+  box-shadow:rgba(40, 0, 0, 0.3) 0px 5px 2px;;
+  height: 60px;
 `;
 
