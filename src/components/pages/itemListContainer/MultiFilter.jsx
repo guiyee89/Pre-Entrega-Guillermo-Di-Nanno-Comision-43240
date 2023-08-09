@@ -340,8 +340,8 @@ const selectStyle = {
     borderRight: "none",
     borderLeft: "none",
     transition: "border-color 0.3s ease-in-out",
-    borderColor: "grey",
-  },
+    borderColor: "grey"
+  }
 };
 const orderStyle = {
   m: 1,
