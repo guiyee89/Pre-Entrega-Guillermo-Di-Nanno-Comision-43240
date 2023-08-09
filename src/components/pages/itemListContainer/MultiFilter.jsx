@@ -290,7 +290,7 @@ const mainStyle = {
   "& .css-u1gz39-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
     {
       borderColor: "#2a1d1d",
-      borderWidth: "2px",
+      borderWidth: "1px",
     },
     "& .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
     {
