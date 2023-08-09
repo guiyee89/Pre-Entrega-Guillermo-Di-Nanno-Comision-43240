@@ -47,7 +47,7 @@ export const HeroSmall = () => {
   );
 };
 const Wrapper = styled.div`
-  max-width: 1040px;
+  max-width: 800px;
   margin: 0 auto;
   background: white;
 `;
