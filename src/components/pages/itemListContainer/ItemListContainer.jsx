@@ -171,7 +171,7 @@ const ItemListTitle = styled.h1`
   font-size: 1.6rem;
   font-weight: bold;
   text-transform: capitalize;
-  margin: 50px auto 0;
+  margin: 50px auto 15px;
 `;
 const NoProductMessage = styled.h2`
   height: 500px;
