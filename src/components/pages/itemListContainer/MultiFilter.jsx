@@ -292,10 +292,7 @@ const mainStyle = {
       borderColor: "#2a1d1d",
       borderWidth: "2px",
     },
-  "& .css-1ufri7h-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
-    color: "#d25519",
-  },
-  "& .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
+    "& .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
     {
       textTransform: "capitalize",
     },
@@ -303,7 +300,10 @@ const mainStyle = {
 const labelStyle = {
   paddingLeft: 2.2,
   paddingTop: 0,
-  "& .css-f3d38a-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
+  "&.css-f3d38a-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
+    color: "#d25519",
+  },
+  "& .css-1ufri7h-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
     color: "#d25519",
   },
 };
