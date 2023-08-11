@@ -1,16 +1,17 @@
 import styled from "styled-components/macro";
 import { BsEyeFill } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { useRef } from "react";
 import LoadingBar from "react-top-loading-bar";
-import { Link } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
+import { Pagination, PaginationItem } from "@mui/material";
 
+export const ItemList = ({
+  items,
+  navigate
+}) => {
 
-export const ItemList = ({ items, navigate }) => {
-  //quizas salvar un localStorage un state de donde estaba el scroll bar antes de pasar a ItemDetail..
-  //o misma logica pero usando userId?
   useScrollRestoration();
   //////////////////////////                    ////////////////////////////
   //----------------------        FILTER        -------------------------//
@@ -36,12 +37,16 @@ export const ItemList = ({ items, navigate }) => {
   // Filter the products
   const filteredItems = filterProducts();
 
+
   //////////////////////////                    ////////////////////////////
-  //--------------------         LOADING          -----------------------//
+  //-------------------    LOADING + currentPage    ---------------------//
   const [loadingDetail, setLoadingDetail] = useState(false);
 
   //Evento loader para BtnSeeDetail
   const handleLoadDetail = (itemId) => {
+    // Store the current page in local storage
+    localStorage.setItem("currentPage", currentPage);
+
     setLoadingDetail(itemId);
     setTimeout(() => {
       setLoadingDetail(true);
@@ -57,6 +62,25 @@ export const ItemList = ({ items, navigate }) => {
       ref.current.complete();
     }, 1100);
   };
+
+  //////////////////////////                    ////////////////////////////
+  //-------------------         PAGINATION          ---------------------//
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 21;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const itemsToDisplay = filteredItems.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+
+  // Restore stored page value when the component mounts
+  useEffect(() => {
+    const storedPage = localStorage.getItem("currentPage");
+    if (storedPage) {
+      setCurrentPage(parseInt(storedPage));
+    }
+  }, []);
+
+
 
   ///////////////////////////                  /////////////////////////////
 
@@ -79,59 +103,72 @@ export const ItemList = ({ items, navigate }) => {
   //   setShuffledItems(shuffleArray(items));
   // }, [items]);
   return (
-    <Wrapper key="cart-wrapper">
-      <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
-      {/* Mapeo de productos */}
-      {filteredItems.map((product) => {
-        const isLoadingDetail = loadingDetail === product.id;
-        const hasDiscount = "discount" in product;
+    <>
+      <Wrapper key="cart-wrapper">
+        <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
+        {/* Mapeo de productos */}
+        {itemsToDisplay.map((product) => {
+          const isLoadingDetail = loadingDetail === product.id;
+          const hasDiscount = "discount" in product;
 
-        return (
-          <ItemWrapper
-            key={product.id}
-            onClick={() => {
-              handleLoadDetail(product.id);
-              handleLoadTop();
-            }}
-          >
-            <Loader>
-              {isLoadingDetail && <ClipLoader color="#194f44" size={60} />}
-            </Loader>
-            <ItemCard>
-              <ImgWrapperLink>
-                <ItemImg variant="top" src={product.img[0]} />
-              </ImgWrapperLink>
-              {hasDiscount && <Discount>-{product.discount}%</Discount>}
+          return (
+            <ItemWrapper
+              key={product.id}
+              onClick={() => {
+                handleLoadDetail(product.id);
+                handleLoadTop();
+              }}
+            >
+              <Loader>
+                {isLoadingDetail && <ClipLoader color="#194f44" size={60} />}
+              </Loader>
+              <ItemCard>
+                <ImgWrapperLink>
+                  <ItemImg variant="top" src={product.img[0]} />
+                </ImgWrapperLink>
+                {hasDiscount && <Discount>-{product.discount}%</Discount>}
 
-              <ButtonsWrapper
-                onClick={() => {
-                  handleLoadDetail(product.id);
-                  handleLoadTop();
-                }}
-              >
-                <BtnSeeDetails>
-                  <SeeDetails />
-                </BtnSeeDetails>
-              </ButtonsWrapper>
-            </ItemCard>
-            <InfoWrapper>
-              <ItemTitle>{product.title}</ItemTitle>
-              <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-              {hasDiscount ? (
-                <ItemPriceWrapper hasDiscount={hasDiscount}>
-                  {hasDiscount && (
-                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice>
-                  )}
-                  <Price hasDiscount={hasDiscount}>$ {product.price}</Price>
-                </ItemPriceWrapper>
-              ) : (
-                <Price>$ {product.price}</Price>
-              )}
-            </InfoWrapper>
-          </ItemWrapper>
-        );
-      })}
-    </Wrapper>
+                <ButtonsWrapper
+                  onClick={() => {
+                    handleLoadDetail(product.id);
+                    handleLoadTop();
+                  }}
+                >
+                  <BtnSeeDetails>
+                    <SeeDetails />
+                  </BtnSeeDetails>
+                </ButtonsWrapper>
+              </ItemCard>
+              <InfoWrapper>
+                <ItemTitle>{product.title}</ItemTitle>
+                <ItemSubTitle>{product.subtitle}</ItemSubTitle>
+                {hasDiscount ? (
+                  <ItemPriceWrapper hasDiscount={hasDiscount}>
+                    {hasDiscount && (
+                      <DiscountPrice>$ {product.discountPrice}</DiscountPrice>
+                    )}
+                    <Price hasDiscount={hasDiscount}>$ {product.price}</Price>
+                  </ItemPriceWrapper>
+                ) : (
+                  <Price>$ {product.price}</Price>
+                )}
+              </InfoWrapper>
+            </ItemWrapper>
+          );
+        })}
+      </Wrapper>
+      {/* Pagination */}
+      <PaginationWrapper>
+        <PaginationWrapper>
+          <Pagination
+            count={totalPages} // Set the count to the total number of pages
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)}
+            renderItem={(item) => <PaginationItem component="div" {...item} />}
+          />
+        </PaginationWrapper>
+      </PaginationWrapper>
+    </>
   );
 };
 
@@ -145,6 +182,7 @@ const Wrapper = styled.div`
   -webkit-box-pack: center;
   justify-items: center;
   align-items: center;
+  background-color: rgb(253 253 253);
 `;
 const ButtonsWrapper = styled.div`
   position: absolute;
@@ -214,10 +252,11 @@ const InfoWrapper = styled.div`
 `;
 const ItemWrapper = styled.div`
   margin-bottom: 10px;
-  box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 3px;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 3px;
   position: relative;
   cursor: pointer;
   max-width: 400px;
+  background-color: rgb(239, 237, 237);
   &:hover {
     ${ButtonsWrapper} {
       opacity: 1;
@@ -306,4 +345,8 @@ const Discount = styled.h4`
   font-size: 1.1rem;
   line-height: 2.8;
   cursor: pointer;
+`;
+const PaginationWrapper = styled.div`
+  max-width: 100%;
+  margin: 15px auto 30px;
 `;

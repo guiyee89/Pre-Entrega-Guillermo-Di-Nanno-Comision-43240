@@ -117,9 +117,9 @@ const IconsWrapper = styled.div`
   height: 85px;
   margin: 12px auto;
   padding: 12px 0 0 16px;
-  background-color: rgb(235 231 231);
-  box-shadow: rgba(0, 10, 10, 0.1) 0px 5px 50px,
-    rgba(0, 0, 0, 0.1) 0px 1.3px 1px; /* Box shadow at top and bottom */
+  background-color: rgb(253 253 253);
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 0.5px; */
+  border-bottom: 2px solid rgb(130 125 125 / 20%);
   @media (max-width: 68rem) {
     display: none;
   }

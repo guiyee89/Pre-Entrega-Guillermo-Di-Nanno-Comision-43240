@@ -13,7 +13,6 @@ import {
 export const MultiFilter = ({ items, onFilterChange }) => {
   //////////           ////////////           ////////////           ///////////
   //                       STATE FOR DIFFERENT FILTERS                        //
-  const [hasAppliedFilters, setHasAppliedFilters] = useState(false);
   const [detailsFilters, setDetailsFilters] = useState({
     category: "",
     size: "",
@@ -116,6 +115,10 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     return filteredItems;
   };
 
+  //////////           ////////////           ////////////           ///////////
+  //                         HANDLE FILTERED ITEMS                        //
+  const [hasAppliedFilters, setHasAppliedFilters] = useState(false);
+
   //Handle each filter change
   const handleDetailsFilterChange = (filterName, value) => {
     setDetailsFilters((prevFilters) => ({
@@ -134,6 +137,20 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     onFilterChange(filteredItems, detailsFilters);
     setHasAppliedFilters(true);
   }, [detailsFilters, items, hasAppliedFilters, onFilterChange]);
+
+  // Load selected filters from localStorage when the component mounts
+  useEffect(() => {
+    const storedFilters = localStorage.getItem("selectedFilters");
+    if (storedFilters) {
+      setDetailsFilters(JSON.parse(storedFilters));
+      setHasAppliedFilters(false); // Reset the applied filters status
+    }
+  }, []);
+
+  // Update localStorage when the detailsFilters state changes
+  useEffect(() => {
+    localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
+  }, [detailsFilters]);
 
   //////////           ////////////           ////////////           ///////////
   return (
@@ -160,7 +177,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
               ...selectStyle,
               "&.Mui-focused": {
                 borderBottomColor: "black",
-                textTransform:"capitalize" 
+                textTransform: "capitalize",
               },
             }}
             MenuProps={MenuProps}
@@ -207,7 +224,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
               ...selectStyle,
               "&.Mui-focused": {
                 borderBottomColor: "black",
-                textTransform:"capitalize" 
+                textTransform: "capitalize",
               },
             }}
             MenuProps={MenuProps}
@@ -258,7 +275,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
               ...selectStyle,
               "&.Mui-focused": {
                 borderBottomColor: "black",
-                textTransform:"capitalize" 
+                textTransform: "capitalize",
               },
             }}
             MenuProps={MenuProps}
@@ -284,15 +301,15 @@ export const MultiFilter = ({ items, onFilterChange }) => {
       </FilterWrapper>
 
       {/* General filter */}
-     
-      <FormControl sx={orderStyle} >
+
+      <FormControl sx={orderStyle}>
         <InputLabel
           id="order-by-select-label"
           sx={{
             fontSize: "1.1rem",
-            fontWeight:"bold",
+            fontWeight: "bold",
             paddingLeft: "10px",
-            color:"black",
+            color: "black",
             "&.Mui-focused": {
               color: "#b26507",
             },
@@ -310,7 +327,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             ...selectStyle,
             "&.Mui-focused": {
               borderBottomColor: "black",
-              textTransform:"capitalize" 
+              textTransform: "capitalize",
             },
           }}
         >
@@ -319,7 +336,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
           <MenuItem value="highPrice">Higher Price</MenuItem>
         </Select>
       </FormControl>
-     
     </>
   );
 };
@@ -381,7 +397,7 @@ const orderStyle = {
     {
       textTransform: "capitalize",
     },
-}
+};
 //Material UI
 const ITEM_HEIGHT = 78;
 const ITEM_PADDING_TOP = 8;
@@ -394,4 +410,3 @@ const MenuProps = {
     },
   },
 };
-

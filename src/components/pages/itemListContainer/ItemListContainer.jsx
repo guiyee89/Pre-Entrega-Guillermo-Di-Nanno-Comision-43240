@@ -11,14 +11,8 @@ import styled from "styled-components/macro";
 import { MultiFilter } from "./MultiFilter";
 // import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
-
-
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
-//quizas salvar un localStorage un state de donde estaba el scroll bar antes de pasar a ItemDetail.. 
-  //o misma logica pero usando userId?
-
-
   const [loading, setLoading] = useState(true); //Loader
   const [items, setItems] = useState([]); //Guardamos los items
   const { addToCart } = useContext(CartContext); //Utilizamos contexto para agregar al Cart
@@ -26,10 +20,8 @@ export const ItemListContainer = () => {
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
 
-
-
-//////////////     //////////////    ////////////      ////////////      /////////////
-//FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
+  //////////////     //////////////    ////////////      ////////////      /////////////
+  //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
   useEffect(() => {
     setLoading(true);
     let itemsCollection = collection(db, "products");
@@ -61,17 +53,12 @@ export const ItemListContainer = () => {
     }, 0);
   }, [categoryName]);
 
-
-
-
-//////////////     //////////////    ////////////      ////////////      /////////////
-//     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //
+  //////////////     //////////////    ////////////      ////////////      /////////////
+  //     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //
 
   //States for MultfiFilter and ItemListcontainer data
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
-
-  console.log(filteredItems);
 
   const handleFilterChange = (filteredItems, detailsFilters) => {
     if (filteredItems.length > 0) {
@@ -83,10 +70,8 @@ export const ItemListContainer = () => {
     }
   };
 
-
-
-//////////////     //////////////    ////////////      ////////////      /////////////
-//              FUNCTION TO ADD ITEMS DIRECTLY FROM ItemListContainer               //
+  //////////////     //////////////    ////////////      ////////////      /////////////
+  //              FUNCTION TO ADD ITEMS DIRECTLY FROM ItemListContainer               //
   const onAddCart = (newItem) => {
     let quantity = 1;
     const productData = {
@@ -96,10 +81,8 @@ export const ItemListContainer = () => {
     addToCart(productData);
   };
 
-
-
-//////////////     //////////////    ////////////      ////////////      /////////////
-//                               RENDERING                                         //
+  //////////////     //////////////    ////////////      ////////////      /////////////
+  //                               RENDERING                                         //
   return (
     <>
       <ToastContainer
@@ -136,7 +119,12 @@ export const ItemListContainer = () => {
             />
           )}
           {filteredItems.length < 0 && (
-            <ItemList items={items} onAddCart={onAddCart} navigate={navigate} />
+            <ItemList
+              items={items}
+              onAddCart={onAddCart}
+              navigate={navigate}
+              detailsFilters={detailsFilters}
+            />
           )}
           {detailsFilters.length === 0 && (
             <>
@@ -182,15 +170,13 @@ const FilterWrapper = styled.div`
   width: 95%;
   margin-bottom: 12px;
   align-items: center;
-  max-width: 1375px;
+  max-width: 1246px;
   justify-content: space-between;
   position: sticky;
-  top: 66px;
+  top: 65px;
   z-index: 1;
-  border-radius: 4px 4px 15px 15px;
   padding: 20px 20px 17px;
-  background-color:rgb(246, 241, 241);
-  box-shadow:rgba(40, 0, 0, 0.3) 0px 5px 2px;;
   height: 60px;
+  background-color: rgb(253, 253, 253);
+  border-bottom: 1px solid rgba(133, 132, 132, 0.20);
 `;
-

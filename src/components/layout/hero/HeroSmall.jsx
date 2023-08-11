@@ -47,9 +47,8 @@ export const HeroSmall = () => {
   );
 };
 const Wrapper = styled.div`
-  max-width: 800px;
   margin: 0 auto;
-  background: white;
+  background-color: rgba(231, 230, 230, 0.35);
 `;
 const WrapperCarousel = styled.div`
   margin: 87px auto 40px;
@@ -74,7 +73,6 @@ const WrapperCarousel = styled.div`
     left: -60px;
     opacity: 1;
     width: 25px;
-    background-color: rgb(243, 239, 239);
     .carousel-control-prev-icon {
       width: 14px;
       height: 17px;
@@ -85,7 +83,6 @@ const WrapperCarousel = styled.div`
     right: -60px;
     opacity: 1;
     width: 25px;
-    background-color: rgb(243, 239, 239);
     .carousel-control-next-icon {
       width: 15px;
       height: 17px;
@@ -100,6 +97,7 @@ const Banner = styled.div`
   line-height: 1.5;
   padding: 27px 0 11px;
   overflow-x: hidden;
+  border-bottom: 1px solid #ededed;
 `;
 
 const BannerText = styled.p`
