@@ -1,13 +1,17 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
-import { useRef } from "react";
 
 
 export const NavBar = () => {
+
+  const { getTotalItems } = useContext(CartContext);
+
+  const totalItems = getTotalItems();
+
   //Almacenar scroll data
   const [scroll, setScroll] = useState("not-scrolled");
 
@@ -28,48 +32,48 @@ export const NavBar = () => {
     };
   }, []);
 
-  const { getTotalItems } = useContext(CartContext);
 
-  const totalItems = getTotalItems();
-
+  //Remove localStorage Filters and Pagination when accessing items from NavBar
+  const handleNavLinkClick = () => {
+    localStorage.removeItem("selectedFilters");
+    localStorage.removeItem("currentPage");
+  };
 
 
   return (
     <>
-      <HeaderWrapper >
-        <Nav scrolled={scroll} >
+      <HeaderWrapper>
+        <Nav scrolled={scroll}>
           <InsideNav>
-            <LogoDiv scrolled={scroll}>
+            <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
               <LogoLink to="/">
                 <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
               </LogoLink>
             </LogoDiv>
 
-            <NavListWrapper >
-            
+            <NavListWrapper>
               <NavList>
-                <NavLink to="/" scrolled={scroll}>
+                <NavLink to="/" scrolled={scroll} onClick={handleNavLinkClick}>
                   home
                 </NavLink>
-                
               </NavList>
               <NavList>
-                <NavLink to="/all-products" scrolled={scroll}>
+                <NavLink to="/all-products" scrolled={scroll} onClick={handleNavLinkClick}>
                   products
                 </NavLink>
               </NavList>
               <NavList>
-                <NavLink to="/category/shoes" scrolled={scroll}>
+                <NavLink to="/category/shoes" scrolled={scroll} onClick={handleNavLinkClick}>
                   shoes
                 </NavLink>
               </NavList>
               <NavList>
-                <NavLink to="/category/pants" scrolled={scroll}>
+                <NavLink to="/category/pants" scrolled={scroll} onClick={handleNavLinkClick}>
                   pants
                 </NavLink>
               </NavList>
               <NavList>
-                <NavLink to="/category/shirts" scrolled={scroll}>
+                <NavLink to="/category/shirts" scrolled={scroll} onClick={handleNavLinkClick}>
                   shirts
                 </NavLink>
               </NavList>
@@ -82,28 +86,32 @@ export const NavBar = () => {
             />
           </InsideNav>
         </Nav>
-
       </HeaderWrapper>
     </>
   );
 };
 const HeaderWrapper = styled.header`
-  background-color: #f4f4f4;
+  background-color: rgb(253 253 253);
   display: flex;
   justify-content: center;
 `;
 const Nav = styled.nav`
   height: ${(props) => (props.scrolled === "scrolled" ? "65px" : "90px")};
   transition: height
-  ${(props) => (props.scrolled === "scrolled" ? "0.16s" : "0.16s")}
+    ${(props) => (props.scrolled === "scrolled" ? "0.16s" : "0.16s")}
     ease-in-out;
   width: 100%;
   margin: 0 auto;
   display: flex;
   position: fixed;
   z-index: 1;
-  background-color: rgb(243, 239, 239);
-  box-shadow:  ${(props) => (props.scrolled === "scrolled" ?  "rgba(0, 0, 0, 0.55) 0px 0px 1px" : "rgba(0, 0, 0, 0.55) 0px 0px 3px")};
+  background-color: rgb(253 253 253);
+  box-shadow: ${(props) =>
+    props.scrolled === "scrolled"
+      ? "none"
+      : "rgba(0, 0, 0, 0.55) 0px 0px 3px"};
+  border-bottom: ${(props) =>
+    (props.scrolled === "scrolled" ? "1px solid rgb(133 132 132 / 25%)" : "none")};
   /* background-color: ${(props) =>
     props.scrolled === "scrolled" ? "white" : "block"}; */
   /* &:before {

@@ -29,6 +29,7 @@ const loading = useGlobalLoader();
   const isItemDetail = useMatch("/item-details/:id");
 
 
+
 // useEffect(() => {
   //   const timeout = setTimeout(() => {
   //     setLoading(false);
@@ -71,6 +72,7 @@ const OutletWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
+  background-color: rgb(253 253 253);
 `;
 const HeroWrapper = styled.div`
   margin-bottom: 30px;

@@ -37,6 +37,8 @@ export const LandingPage = () => {
     };
   }, []);
 
+  
+
   return (
     <>
       <Wrapper>
