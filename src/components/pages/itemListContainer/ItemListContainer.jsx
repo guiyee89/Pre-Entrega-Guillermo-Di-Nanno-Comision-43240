@@ -63,7 +63,7 @@ export const ItemListContainer = () => {
     console.log("Fetching items from Firestore...");
     setLoading(true);
     
-    const delay = 1000;
+    const delay = 700;
     const timer = setTimeout(() => {
       let itemsCollection = collection(db, "products");
       let filterCollection;

@@ -74,6 +74,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   //                     FILTERING LOGIC FOR ALL ITEMS                       //
   const { categoryName } = useParams();
+
   //Fetch items from Firestore Database and filter accordingly on selection
   const fetchFilteredItems = async () => {
     console.log("fetching MultiFilter...");
@@ -92,16 +93,30 @@ export const MultiFilter = ({ items, onFilterChange }) => {
       if (detailsFilters.color.length > 0) {
         queryFilters.push(where("color", "in", detailsFilters.color));
       }
-
+  
       const filteredQuery = query(filteredCollection, ...queryFilters);
       const querySnapshot = await getDocs(filteredQuery);
-      const filteredItems = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
+  
+      // Use a Set to track unique userId-color combinations
+      const uniqueItems = new Set();
+  
+      const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
+        const item = doc.data();
+        const key = `${item.userId}-${item.color}`;
+        
+        if (!uniqueItems.has(key)) {
+          uniqueItems.add(key);
+          filtered.push({
+            id: doc.id,
+            ...item,
+          });
+        }
+        
+        return filtered;
+      }, []);
+  
       let orderedItems = [...filteredItems];
-
+  
       // Apply the ordering logic
       if (detailsFilters.orderBy === "discount") {
         orderedItems = orderedItems.filter(
@@ -126,6 +141,8 @@ export const MultiFilter = ({ items, onFilterChange }) => {
       console.error("Error fetching filtered items:", error);
     }
   };
+
+  
 
   //Order by filtering logic according if filtered items or original items are being rendered
   useEffect(() => {
@@ -170,6 +187,16 @@ export const MultiFilter = ({ items, onFilterChange }) => {
       [filterName]: value,
     }));
   };
+
+  const handleReset = () => {
+    setDetailsFilters((prevFilters) => ({
+      ...prevFilters,
+      category: [],
+      size: [],
+      color: [],
+    }));
+  };
+
 
   // Load selected filters from localStorage when the component mounts
   useEffect(() => {
@@ -319,7 +346,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             input={<OutlinedInput label="Colors" />}
             renderValue={(selected) => selected.join(", ")}
           >
-             <MenuItem value="">Reset filters</MenuItem>
             {uniqueColors.map((color, index) => (
               <MenuItem key={index} value={color}>
                 <Checkbox checked={detailsFilters.color.includes(color)} />
@@ -331,6 +357,9 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             ))}
           </Select>
         </FormControl>
+
+        
+      <ResetButton onClick={handleReset}>Clear filters</ResetButton>
       </FilterWrapper>
 
       {/* General filter */}
@@ -787,3 +816,13 @@ const MenuProps = {
     },
   },
 };
+const ResetButton = styled.button`
+  width: 120px;
+  font-size: .8rem;
+  padding: 0;
+  font-weight: bold;
+  color: #b15419;
+  border: none;
+  border-radius: 10px;
+  background-color: lightgrey;
+`
