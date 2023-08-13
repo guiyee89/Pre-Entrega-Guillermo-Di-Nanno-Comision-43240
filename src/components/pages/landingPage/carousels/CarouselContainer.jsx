@@ -6,6 +6,7 @@ import { db } from "../../../../firebaseConfig";
 export const CarouselContainer = () => {
   const [discountProducts, setDiscountedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log(discountProducts)
 
   useEffect(() => {
     const timeout = setTimeout(() => {

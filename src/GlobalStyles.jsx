@@ -66,6 +66,7 @@ table {
 /*3. Allow percentage-based heights in the application*/
 html, body {
   height: 100%;
+  background-color: rgb(253 253 253);
 }
 
 /*Typographic tweaks!
@@ -74,7 +75,6 @@ html, body {
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  background-color: rgb(253 253 253);
 }
 
 /*6. Improve media defaults*/
