@@ -17,22 +17,3 @@ const useScrollRestoration = () => {
 
 export default useScrollRestoration;
 
-
-//DEPRECATED
-// import { useEffect } from 'react';
-// import { withRouter } from 'react-router-dom';
-
-// function useScrollRestoration({ navigate }) {
-//   useEffect(() => {
-//     const unlisten = navigate.listen(() => {
-//       window.scrollTo(0, 0);
-//     });
-//     return () => {
-//       unlisten();
-//     }
-//   }, []);
-
-//   return (null);
-// }
-
-// export default withRouter(useScrollRestoration);

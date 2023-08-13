@@ -6,15 +6,13 @@ import { useRef } from "react";
 import LoadingBar from "react-top-loading-bar";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 import { Pagination, PaginationItem } from "@mui/material";
+import { Link } from "react-router-dom";
 
-export const ItemList = ({
-  items,
-  navigate
-}) => {
-
+export const ItemList = ({ items, navigate, filterChanged }) => {
   useScrollRestoration();
+
   //////////////////////////                    ////////////////////////////
-  //----------------------        FILTER        -------------------------//
+  //-------------------     FILTER DUPLICATED ITEM    -------------------//
   // Function to filter products based on their customId and color to avoid duplicates
   const filterProducts = () => {
     const productMap = new Map();
@@ -34,9 +32,8 @@ export const ItemList = ({
     return Array.from(productMap.values());
   };
 
-  // Filter the products
+  // FILTER THE PRODUCTS WITH THE FUNCTION
   const filteredItems = filterProducts();
-
 
   //////////////////////////                    ////////////////////////////
   //-------------------    LOADING + currentPage    ---------------------//
@@ -50,7 +47,7 @@ export const ItemList = ({
     setLoadingDetail(itemId);
     setTimeout(() => {
       setLoadingDetail(true);
-      navigate(`/item-details/${itemId}`);
+      // navigate(`/item-details/${itemId}`);
     }, 1600);
   };
   //--------    TOP LOADING    --------//
@@ -80,7 +77,17 @@ export const ItemList = ({
     }
   }, []);
 
+  //scroll back to top of page when change pagination
+  useEffect(() => {
+    window.scrollTo({ top: 250, behavior: "instant" });
+  }, [currentPage]);
 
+  //set currentPage to 1 if there are changes in filters
+  useEffect(() => {
+    if (filterChanged) {
+      setCurrentPage(1);
+    }
+  }, [filterChanged]);
 
   ///////////////////////////                  /////////////////////////////
 
@@ -104,15 +111,26 @@ export const ItemList = ({
   // }, [items]);
   return (
     <>
+    <PaginationWrapper>
+        <Pagination
+          size="large"
+          variant="outlined"
+          count={totalPages} // Set the count to the total number of pages
+          page={currentPage}
+          onChange={(event, value) => setCurrentPage(value)}
+          renderItem={(item) => <PaginationItem component="div" {...item} />}
+        />
+      </PaginationWrapper>
       <Wrapper key="cart-wrapper">
         <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
-        {/* Mapeo de productos */}
+        {/* Map products list */}
         {itemsToDisplay.map((product) => {
           const isLoadingDetail = loadingDetail === product.id;
           const hasDiscount = "discount" in product;
 
           return (
-            <ItemWrapper
+            <ItemWrapper 
+              to={`/item-details/${product.id}`}
               key={product.id}
               onClick={() => {
                 handleLoadDetail(product.id);
@@ -128,12 +146,7 @@ export const ItemList = ({
                 </ImgWrapperLink>
                 {hasDiscount && <Discount>-{product.discount}%</Discount>}
 
-                <ButtonsWrapper
-                  onClick={() => {
-                    handleLoadDetail(product.id);
-                    handleLoadTop();
-                  }}
-                >
+                <ButtonsWrapper>
                   <BtnSeeDetails>
                     <SeeDetails />
                   </BtnSeeDetails>
@@ -159,14 +172,14 @@ export const ItemList = ({
       </Wrapper>
       {/* Pagination */}
       <PaginationWrapper>
-        <PaginationWrapper>
-          <Pagination
-            count={totalPages} // Set the count to the total number of pages
-            page={currentPage}
-            onChange={(event, value) => setCurrentPage(value)}
-            renderItem={(item) => <PaginationItem component="div" {...item} />}
-          />
-        </PaginationWrapper>
+        <Pagination
+          size="large"
+          variant="outlined"
+          count={totalPages} // Set the count to the total number of pages
+          page={currentPage}
+          onChange={(event, value) => setCurrentPage(value)}
+          renderItem={(item) => <PaginationItem component="div" {...item} />}
+        />
       </PaginationWrapper>
     </>
   );
@@ -250,7 +263,8 @@ const InfoWrapper = styled.div`
   padding: 0px 8px 22px;
   background-color: rgb(239 237 237);
 `;
-const ItemWrapper = styled.div`
+const ItemWrapper = styled(Link)`
+  text-decoration: none;
   margin-bottom: 10px;
   box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 3px;
   position: relative;
@@ -298,6 +312,7 @@ const ItemTitle = styled.h2`
 `;
 const ItemSubTitle = styled.h3`
   font-size: 0.8rem;
+  color: black;
 `;
 const DiscountPrice = styled.span`
   color: #a83737;

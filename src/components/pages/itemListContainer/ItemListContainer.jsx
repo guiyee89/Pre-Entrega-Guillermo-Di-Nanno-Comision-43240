@@ -1,7 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ItemList } from "./ItemList";
-import { CartContext } from "../../context/CartContext";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { ToastContainer } from "react-toastify";
@@ -15,43 +14,98 @@ import { MultiFilter } from "./MultiFilter";
 export const ItemListContainer = () => {
   const [loading, setLoading] = useState(true); //Loader
   const [items, setItems] = useState([]); //Guardamos los items
-  const { addToCart } = useContext(CartContext); //Utilizamos contexto para agregar al Cart
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
-
+  
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
+  // useEffect(() => {
+  //   console.log("fetching...");
+  //   setLoading(true);
+  //   let itemsCollection = collection(db, "products");
+  //   let filterCollection;
+  //   if (!categoryName) {
+  //     //If there is no categoryName, fetch all products
+  //     filterCollection = itemsCollection;
+  //   } else {
+  //     //if there is categoryName, filter that category
+  //     filterCollection = query(
+  //       itemsCollection,
+  //       where("category", "==", categoryName)
+  //     );
+  //   }
+
+  //   setTimeout(() => {
+  //     //getDocs to resolve the promise and fetch the products
+  //     getDocs(filterCollection)
+  //       .then((res) => {
+  //         let products = res.docs.map((product) => {
+  //           return {
+  //             ...product.data(),
+  //             id: product.id,
+  //           };
+
+  //         });
+  //         console.log(products)
+  //         setItems(products);
+  //         setLoading(false);
+  //       })
+
+  //       .catch((err) => console.log(err));
+  //   }, 0);
+
+  // }, [categoryName]);
+
+  
+
   useEffect(() => {
+    console.log("Fetching items from Firestore...");
     setLoading(true);
-    let itemsCollection = collection(db, "products");
-    let filterCollection;
-    if (!categoryName) {
-      //If there is no categoryName, fetch all products
-      filterCollection = itemsCollection;
-    } else {
-      //if there is categoryName, filter that category
-      filterCollection = query(
-        itemsCollection,
-        where("category", "==", categoryName)
-      );
-    }
-    setTimeout(() => {
-      //getDocs to resolve the promise and fetch the products
+    
+    const delay = 1000;
+    const timer = setTimeout(() => {
+      let itemsCollection = collection(db, "products");
+      let filterCollection;
+  
+      if (!categoryName) {
+        filterCollection = itemsCollection;
+      } else {
+        filterCollection = query(
+          itemsCollection,
+          where("category", "==", categoryName)
+        );
+      }
+  
       getDocs(filterCollection)
         .then((res) => {
-          let products = res.docs.map((product) => {
-            return {
-              ...product.data(),
-              id: product.id,
-            };
-          });
+          const products = res.docs.reduce((filtered, productDoc) => {
+            const product = productDoc.data();
+            const { userId, color } = product;
+            const key = `${userId}-${color}`;
+            // Check if the product's customId and color combination already exists
+            if (
+              !filtered.some((item) => `${item.userId}-${item.color}` === key)
+            ) {
+              filtered.push({
+                ...product,
+                id: productDoc.id,
+              });
+            }
+            return filtered;
+          }, []);
+          console.log(products);
+          
           setItems(products);
           setLoading(false);
         })
         .catch((err) => console.log(err));
-    }, 0);
-  }, [categoryName]);
+    }, delay);
+    return () => clearTimeout(timer); // Clear the timeout if the component unmounts
+  }, []);
+  
+
+  
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //
@@ -59,27 +113,20 @@ export const ItemListContainer = () => {
   //States for MultfiFilter and ItemListcontainer data
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
+  const [filterChanged, setFilterChanged] = useState();
 
   const handleFilterChange = (filteredItems, detailsFilters) => {
     if (filteredItems.length > 0) {
       setFilteredItems(filteredItems);
-      setDetailsFilters(detailsFilters); // Set detailsFilters to the selected filters from MultiFilter
+      setDetailsFilters(detailsFilters); //Set detailsFilters to the selected filters from MultiFilter
+      setFilterChanged(detailsFilters); //Set filters on filterChanged to automatically change currentPage in ItemList
     } else {
       setFilteredItems([]);
       setDetailsFilters([]);
     }
   };
 
-  //////////////     //////////////    ////////////      ////////////      /////////////
-  //              FUNCTION TO ADD ITEMS DIRECTLY FROM ItemListContainer               //
-  const onAddCart = (newItem) => {
-    let quantity = 1;
-    const productData = {
-      ...newItem,
-      quantity: quantity,
-    };
-    addToCart(productData);
-  };
+
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //                               RENDERING                                         //
@@ -114,30 +161,30 @@ export const ItemListContainer = () => {
           {filteredItems.length > 0 && (
             <ItemList
               items={filteredItems}
-              onAddCart={onAddCart}
               navigate={navigate}
+              filterChanged={filterChanged}
             />
           )}
-          {filteredItems.length < 0 && (
+          {/* {filteredItems.length < 0 && (
             <ItemList
               items={items}
-              onAddCart={onAddCart}
               navigate={navigate}
               detailsFilters={detailsFilters}
+              filterChanged={filterChanged}
             />
           )}
           {detailsFilters.length === 0 && (
             <>
               <ItemList
                 items={detailsFilters}
-                onAddCart={onAddCart}
-                navigate={navigate}
+                navigate={navigate}  
+                filterChanged={filterChanged}
               />
               <NoProductMessage>
                 There are no products with this filter criteria.
               </NoProductMessage>
             </>
-          )}
+          )} */}
         </>
       )}
       {/* <AgregarDocs /> */}
@@ -178,5 +225,5 @@ const FilterWrapper = styled.div`
   padding: 20px 20px 17px;
   height: 60px;
   background-color: rgb(253, 253, 253);
-  border-bottom: 1px solid rgba(133, 132, 132, 0.20);
+  border-bottom: 1px solid rgba(133, 132, 132, 0.2);
 `;
