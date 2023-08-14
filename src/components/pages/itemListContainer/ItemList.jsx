@@ -61,7 +61,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
-  const itemsPerPage = 24;
+  const itemsPerPage = 21;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = items.slice(startIndex, endIndex);
