@@ -59,7 +59,6 @@ export const ItemListContainer = () => {
   // }, [categoryName]);
 
   useEffect(() => {
-    console.log("Fetching items from Firestore...");
     setLoading(true);
 
     const delay = 700;

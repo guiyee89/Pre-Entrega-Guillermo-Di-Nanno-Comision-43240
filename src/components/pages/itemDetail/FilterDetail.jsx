@@ -17,7 +17,6 @@ export const FilterDetail = ({ selectedItem, onFilterItemChange, handleSizeLoadi
   const [relatedItems, setRelatedItems] = useState([]); //Items related to the selectedItem prop
   const [filteredItem, setFilteredItem] = useState({}); //Item filtered
 
-
 //////////////     //////////////    ////////////      ////////////      /////////////
 //           FETCH ITEMS RELATED TO "selectedItem" BY userId PROPERTY              //           (Firestore database)
 
@@ -38,6 +37,7 @@ useEffect(() => {
         console.error("Error fetching related items:", error);
       });
   };
+ 
   // Fetch related items only once when the component mounts
   fetchRelatedItems();
   // Set the color and size checkboxes according to the selectedItem at first rendering
