@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
 import { MultiFilter } from "./MultiFilter";
+import { Pagination, PaginationItem } from "@mui/material";
 // import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
 //////////////     //////////////    ////////////      ////////////      /////////////
@@ -17,7 +18,7 @@ export const ItemListContainer = () => {
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
-  
+
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
   // useEffect(() => {
@@ -57,17 +58,15 @@ export const ItemListContainer = () => {
 
   // }, [categoryName]);
 
-  
-
   useEffect(() => {
     console.log("Fetching items from Firestore...");
     setLoading(true);
-    
+
     const delay = 700;
     const timer = setTimeout(() => {
       let itemsCollection = collection(db, "products");
       let filterCollection;
-  
+
       if (!categoryName) {
         filterCollection = itemsCollection;
       } else {
@@ -76,7 +75,7 @@ export const ItemListContainer = () => {
           where("category", "==", categoryName)
         );
       }
-  
+
       getDocs(filterCollection)
         .then((res) => {
           const products = res.docs.reduce((filtered, productDoc) => {
@@ -95,7 +94,7 @@ export const ItemListContainer = () => {
             return filtered;
           }, []);
           console.log(products);
-          
+
           setItems(products);
           setLoading(false);
         })
@@ -103,9 +102,6 @@ export const ItemListContainer = () => {
     }, delay);
     return () => clearTimeout(timer); // Clear the timeout if the component unmounts
   }, []);
-  
-
-  
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //
@@ -113,19 +109,18 @@ export const ItemListContainer = () => {
   //States for MultfiFilter and ItemListcontainer data
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
-  const [filterChanged, setFilterChanged] = useState();
+  const [currentPage, setCurrentPage] = useState(1);//Set currentPage and pass prop to ItemList
 
   const handleFilterChange = (filteredItems, detailsFilters) => {
     if (filteredItems.length > 0) {
       setFilteredItems(filteredItems);
       setDetailsFilters(detailsFilters); //Set detailsFilters to the selected filters from MultiFilter
-      setFilterChanged(detailsFilters); //Set filters on filterChanged to automatically change currentPage in ItemList
+      setCurrentPage(1); //Set filters on filterChanged to automatically change currentPage in ItemList
     } else {
       setFilteredItems([]);
       setDetailsFilters([]);
     }
   };
-
 
 
   //////////////     //////////////    ////////////      ////////////      /////////////
@@ -155,36 +150,38 @@ export const ItemListContainer = () => {
 
           {/******  FILTER  ******/}
           <FilterWrapper scrolled={scroll}>
-            <MultiFilter items={items} onFilterChange={handleFilterChange} />
+            <MultiFilter
+              items={items}
+              onFilterChange={handleFilterChange}
+            />
           </FilterWrapper>
 
+  
+          {/* RENDERING ITEMS */}
           {filteredItems.length > 0 && (
             <ItemList
               items={filteredItems}
               navigate={navigate}
-              filterChanged={filterChanged}
-            />
-          )}
-          {/* {filteredItems.length < 0 && (
-            <ItemList
-              items={items}
-              navigate={navigate}
               detailsFilters={detailsFilters}
-              filterChanged={filterChanged}
+               currentPage={currentPage}
+               setCurrentPage={setCurrentPage}
             />
           )}
-          {detailsFilters.length === 0 && (
+          {/* No products message */}
+          {filteredItems.length === 0 && detailsFilters.length > 0 && (
             <>
               <ItemList
-                items={detailsFilters}
-                navigate={navigate}  
-                filterChanged={filterChanged}
+                items={filteredItems} 
+                navigate={navigate}
+                detailsFilters={detailsFilters}
+                 currentPage={currentPage}
+                 setCurrentPage={setCurrentPage}
               />
               <NoProductMessage>
                 There are no products with this filter criteria.
               </NoProductMessage>
             </>
-          )} */}
+          )}
         </>
       )}
       {/* <AgregarDocs /> */}
@@ -226,4 +223,8 @@ const FilterWrapper = styled.div`
   height: 60px;
   background-color: rgb(253, 253, 253);
   border-bottom: 1px solid rgba(133, 132, 132, 0.2);
+`;
+const PaginationWrapper = styled.div`
+  max-width: 100%;
+  margin: 15px auto 30px;
 `;
