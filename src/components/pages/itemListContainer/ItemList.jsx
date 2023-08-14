@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { useRef } from "react";
 import LoadingBar from "react-top-loading-bar";
-import useScrollRestoration from "../../hooks/useScrollRestoration";
 import { Pagination, PaginationItem } from "@mui/material";
 import { Link } from "react-router-dom";
 
-export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
-  useScrollRestoration();
 
+
+export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   //////////////////////////                    ////////////////////////////
   //-------------------     FILTER DUPLICATED ITEM    -------------------//
   // Function to filter products based on their customId and color to avoid duplicates
@@ -42,7 +41,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   //Evento loader para BtnSeeDetail
   const handleLoadDetail = (itemId) => {
     // Store the current page in local storage
-    localStorage.setItem("currentPage", currentPage);//save currentPage in localStorage
+    localStorage.setItem("currentPage", currentPage); //save currentPage in localStorage
 
     setLoadingDetail(itemId);
     setTimeout(() => {
@@ -68,7 +67,6 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   const itemsToDisplay = items.slice(startIndex, endIndex);
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
-
   //scroll back to top of page when change pagination
   useEffect(() => {
     window.scrollTo({ top: 250, behavior: "instant" });
@@ -79,10 +77,8 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
     const storedPage = localStorage.getItem("currentPage");
     if (storedPage) {
       setCurrentPage(parseInt(storedPage));
-    } 
+    }
   }, []);
-
-
 
   ///////////////////////////                  /////////////////////////////
 
@@ -125,11 +121,14 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
 
           return (
             <ItemWrapper
-              to={`/item-details/${product.id}`}
               key={product.id}
-              onClick={() => {
+              onClick={(event) => {
+                event.preventDefault(); // Prevent immediate navigation
                 handleLoadDetail(product.id);
                 handleLoadTop();
+                setTimeout(() => {
+                  navigate(`/item-details/${product.id}`);
+                }, 1600); // Delay in milliseconds
               }}
             >
               <Loader>

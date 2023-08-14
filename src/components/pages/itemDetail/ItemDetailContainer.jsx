@@ -6,7 +6,8 @@ import { collection, getDoc, doc } from "firebase/firestore";
 import styled from "styled-components/macro";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BarLoader } from "react-spinners";
+// import { BarLoader } from "react-spinners";
+
 
 export const ItemDetailContainer = () => {
 
