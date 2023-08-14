@@ -99,7 +99,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
   
       // Use a Set to track unique userId-color combinations
       const uniqueItems = new Set();
-  
       const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
         const item = doc.data();
         const key = `${item.userId}-${item.color}`;
@@ -142,7 +141,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     }
   };
 
-  
 
   //Order by filtering logic according if filtered items or original items are being rendered
   useEffect(() => {
@@ -177,9 +175,12 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     }
   }, [detailsFilters]);
 
+
+
+
+
   //////////           ////////////           ////////////           ///////////           ///////////
   //                         HANDLE FILTERED ITEMS                        //
-
   //Handle each filter change and pass the values
   const handleDetailsFilterChange = (filterName, value) => {
     setDetailsFilters((prevFilters) => ({
@@ -188,6 +189,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     }));
   };
 
+  //Reset filters
   const handleReset = () => {
     setDetailsFilters((prevFilters) => ({
       ...prevFilters,
@@ -210,6 +212,9 @@ export const MultiFilter = ({ items, onFilterChange }) => {
   useEffect(() => {
     localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
   }, [detailsFilters]);
+
+
+
 
   //////////           ////////////           ////////////           ///////////           ///////////
   return (

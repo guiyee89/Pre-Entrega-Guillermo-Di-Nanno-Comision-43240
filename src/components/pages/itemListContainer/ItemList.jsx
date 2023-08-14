@@ -8,32 +8,32 @@ import useScrollRestoration from "../../hooks/useScrollRestoration";
 import { Pagination, PaginationItem } from "@mui/material";
 import { Link } from "react-router-dom";
 
-export const ItemList = ({ items, navigate, filterChanged }) => {
+export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   useScrollRestoration();
 
   //////////////////////////                    ////////////////////////////
   //-------------------     FILTER DUPLICATED ITEM    -------------------//
   // Function to filter products based on their customId and color to avoid duplicates
-  const filterProducts = () => {
-    const productMap = new Map();
+  // const filterProducts = () => {
+  //   const productMap = new Map();
 
-    items.forEach((product) => {
-      const { userId, color } = product;
-      const key = `${userId}-${color}`;
+  //   items.forEach((product) => {
+  //     const { userId, color } = product;
+  //     const key = `${userId}-${color}`;
 
-      // Check if the product's customId and color combination already exists in the productMap
-      if (!productMap.has(key)) {
-        // If not, add the product to the productMap
-        productMap.set(key, product);
-      }
-    });
+  //     // Check if the product's customId and color combination already exists in the productMap
+  //     if (!productMap.has(key)) {
+  //       // If not, add the product to the productMap
+  //       productMap.set(key, product);
+  //     }
+  //   });
 
-    // Convert the Map values to an array of filtered products
-    return Array.from(productMap.values());
-  };
+  //   // Convert the Map values to an array of filtered products
+  //   return Array.from(productMap.values());
+  // };
 
-  // FILTER THE PRODUCTS WITH THE FUNCTION
-  const filteredItems = filterProducts();
+  // // FILTER THE PRODUCTS WITH THE FUNCTION
+  // const filteredItems = filterProducts();
 
   //////////////////////////                    ////////////////////////////
   //-------------------    LOADING + currentPage    ---------------------//
@@ -42,7 +42,7 @@ export const ItemList = ({ items, navigate, filterChanged }) => {
   //Evento loader para BtnSeeDetail
   const handleLoadDetail = (itemId) => {
     // Store the current page in local storage
-    localStorage.setItem("currentPage", currentPage);
+    localStorage.setItem("currentPage", currentPage);//save currentPage in localStorage
 
     setLoadingDetail(itemId);
     setTimeout(() => {
@@ -62,20 +62,12 @@ export const ItemList = ({ items, navigate, filterChanged }) => {
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 21;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const itemsToDisplay = filteredItems.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const itemsToDisplay = items.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(items.length / itemsPerPage);
 
-  // Restore stored page value when the component mounts
-  useEffect(() => {
-    const storedPage = localStorage.getItem("currentPage");
-    if (storedPage) {
-      setCurrentPage(parseInt(storedPage));
-    }
-  }, []);
 
   //scroll back to top of page when change pagination
   useEffect(() => {
@@ -84,10 +76,13 @@ export const ItemList = ({ items, navigate, filterChanged }) => {
 
   //set currentPage to 1 if there are changes in filters
   useEffect(() => {
-    if (filterChanged) {
-      setCurrentPage(1);
-    }
-  }, [filterChanged]);
+    const storedPage = localStorage.getItem("currentPage");
+    if (storedPage) {
+      setCurrentPage(parseInt(storedPage));
+    } 
+  }, []);
+
+
 
   ///////////////////////////                  /////////////////////////////
 
@@ -111,7 +106,7 @@ export const ItemList = ({ items, navigate, filterChanged }) => {
   // }, [items]);
   return (
     <>
-    <PaginationWrapper>
+      <PaginationWrapper>
         <Pagination
           size="large"
           variant="outlined"
@@ -129,7 +124,7 @@ export const ItemList = ({ items, navigate, filterChanged }) => {
           const hasDiscount = "discount" in product;
 
           return (
-            <ItemWrapper 
+            <ItemWrapper
               to={`/item-details/${product.id}`}
               key={product.id}
               onClick={() => {
