@@ -224,8 +224,8 @@ export const MultiFilter = ({ items, onFilterChange }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   return (
     <>
+      
       <FilterWrapper>
-        <FilterBy>Filter by :</FilterBy>
         {/* Category filter */}
         <Loader>
           {loadingDetail && <ClipLoader color="#194f44" size={60} />}
@@ -390,15 +390,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             ))}
           </Select>
         </FormControl>
-
-        <ResetButton
-          onClick={() => {
-            handleReset();
-            handleLoadDetail();
-          }}
-        >
-          Clear filters
-        </ResetButton>
       </FilterWrapper>
 
       {/* General filter */}
@@ -470,6 +461,14 @@ export const MultiFilter = ({ items, onFilterChange }) => {
           </MenuItem>
         </Select>
       </FormControl>
+      <ResetButton
+          onClick={() => {
+            handleReset();
+            handleLoadDetail();
+          }}
+        >
+          Clear filters
+        </ResetButton>
     </>
   );
 };
@@ -819,10 +818,11 @@ export const MultiFilter = ({ items, onFilterChange }) => {
 
 const FilterWrapper = styled.div`
   display: flex;
-  width: 65%;
-  max-width: 800px;
+  gap:1.4rem;
+  flex-direction: column;
+  height: 100%;
   align-items: center;
-  padding-bottom: 8px;
+
 `;
 const FilterBy = styled.p`
   font-weight: bold;
@@ -861,7 +861,7 @@ const selectStyle = {
 const orderStyle = {
   m: 1,
   minWidth: 150,
-  width: 160,
+  width: 200,
   paddingBottom: "7px",
   "& .css-u1gz39-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
     {
@@ -887,6 +887,7 @@ const MenuProps = {
 };
 const ResetButton = styled.button`
   width: 120px;
+  margin: 0 50px 20px 0;
   font-size: 0.8rem;
   padding: 0;
   font-weight: bold;

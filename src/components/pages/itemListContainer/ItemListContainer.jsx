@@ -14,20 +14,13 @@ import useScrollRestoration from "../../hooks/useScrollRestoration";
 export const ScrollRestorationWrapper = ({ children }) => {
   useScrollRestoration(); // Apply the scroll restoration hook
   return <>{children}</>; // Render the children content
-
 };
-const StyledScrollRestorationWrapper = styled.div`
-  display: flex;
-
-  /* Add your custom styles here */
-`;
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
   const [loading, setLoading] = useState(true); //Loader
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
-  const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
 
   //////////////     //////////////    ////////////      ////////////      /////////////
@@ -136,62 +129,63 @@ export const ItemListContainer = () => {
   //                               RENDERING                                         //
   return (
     <>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={1000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-        <ScrollRestorationWrapper>
-          {loading ? (
-            <LoaderWrapper>
-              <BarLoader color="#12352e" width={250} />
-            </LoaderWrapper>
-          ) : (
-            <>
-              <ItemListTitle>{categoryTitle}</ItemListTitle>
-
-              {/******  FILTER  ******/}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <ScrollRestorationWrapper>
+        {loading ? (
+          <LoaderWrapper>
+            <BarLoader color="#12352e" width={250} />
+          </LoaderWrapper>
+        ) : (
+          <>
+            {/******  FILTER  ******/}
+            <ItemsFiltersWrapper>
               <FilterWrapper scrolled={scroll}>
                 <MultiFilter
                   items={items}
                   onFilterChange={handleFilterChange}
                 />
               </FilterWrapper>
-
-              {/* RENDERING ITEMS */}
-              {filteredItems.length > 0 && (
-                <ItemList
-                  items={filteredItems}
-                  navigate={navigate}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                />
-              )}
-              {/* No products message */}
-              {filteredItems.length === 0 && detailsFilters.length > 0 && (
-                <>
+              <ItemListWrapper>
+                {/* RENDERING ITEMS */}
+                {filteredItems.length > 0 && (
                   <ItemList
                     items={filteredItems}
                     navigate={navigate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                   />
-                  <NoProductMessage>
-                    There are no products with this filter criteria.
-                  </NoProductMessage>
-                </>
-              )}
-            </>
-          )}
-          {/* <AgregarDocs /> */}
-        </ScrollRestorationWrapper>
+                )}
+                {/* No products message */}
+                {filteredItems.length === 0 && detailsFilters.length > 0 && (
+                  <>
+                    <ItemList
+                      items={filteredItems}
+                      navigate={navigate}
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                    />
+                    <NoProductMessage>
+                      There are no products with this filter criteria.
+                    </NoProductMessage>
+                  </>
+                )}
+              </ItemListWrapper>
+            </ItemsFiltersWrapper>
+          </>
+        )}
+        {/* <AgregarDocs /> */}
+      </ScrollRestorationWrapper>
     </>
   );
 };
@@ -203,31 +197,30 @@ const LoaderWrapper = styled.div`
   min-height: 550px;
   margin-left: 35px;
 `;
-const ItemListTitle = styled.h1`
-  width: 100%;
-  color: #2b2929;
-  text-align: center;
-  font-size: 1.6rem;
-  font-weight: bold;
-  text-transform: capitalize;
-  margin: 50px auto 15px;
-`;
+
 const NoProductMessage = styled.h2`
   height: 500px;
   color: black;
 `;
 const FilterWrapper = styled.aside`
   display: flex;
-  width: 95%;
-  margin-bottom: 12px;
+  gap:1.4rem;
+  flex-direction: column-reverse;
+  margin: 11px 5px 0 8px;
+  height: 450px;
+  -webkit-box-align: center;
   align-items: center;
-  max-width: 1246px;
-  justify-content: space-between;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
   position: sticky;
-  top: 65px;
-  z-index: 1;
-  padding: 20px 20px 17px;
-  height: 60px;
+  top: 110px;
   background-color: rgb(253, 253, 253);
-  border-bottom: 1px solid rgba(133, 132, 132, 0.2);
+`;
+const ItemListWrapper = styled.div`
+  grid-column: 2/7;
+`;
+const ItemsFiltersWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  height: 100%;
 `;

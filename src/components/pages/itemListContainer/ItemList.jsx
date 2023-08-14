@@ -5,9 +5,7 @@ import { ClipLoader } from "react-spinners";
 import { useRef } from "react";
 import LoadingBar from "react-top-loading-bar";
 import { Pagination, PaginationItem } from "@mui/material";
-import { Link } from "react-router-dom";
-
-
+import { Link, useParams } from "react-router-dom";
 
 export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   //////////////////////////                    ////////////////////////////
@@ -37,6 +35,8 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   //////////////////////////                    ////////////////////////////
   //-------------------    LOADING + currentPage    ---------------------//
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
+  const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
 
   //Evento loader para BtnSeeDetail
   const handleLoadDetail = (itemId) => {
@@ -61,7 +61,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
-  const itemsPerPage = 21;
+  const itemsPerPage = 24;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = items.slice(startIndex, endIndex);
@@ -102,16 +102,19 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   // }, [items]);
   return (
     <>
-      <PaginationWrapper>
-        <Pagination
-          size="large"
-          variant="outlined"
-          count={totalPages} // Set the count to the total number of pages
-          page={currentPage}
-          onChange={(event, value) => setCurrentPage(value)}
-          renderItem={(item) => <PaginationItem component="div" {...item} />}
-        />
-      </PaginationWrapper>
+      <HeaderWrapper>
+        <ItemListTitle>{categoryTitle}</ItemListTitle>
+        <PaginationWrapperTop>
+          <Pagination
+            size="large"
+            variant="outlined"
+            count={totalPages} // Set the count to the total number of pages
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)}
+            renderItem={(item) => <PaginationItem component="div" {...item} />}
+          />
+        </PaginationWrapperTop>
+      </HeaderWrapper>
       <Wrapper key="cart-wrapper">
         <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
         {/* Map products list */}
@@ -165,7 +168,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
         })}
       </Wrapper>
       {/* Pagination */}
-      <PaginationWrapper>
+      <PaginationWrapperBottom>
         <Pagination
           size="large"
           variant="outlined"
@@ -174,7 +177,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
           onChange={(event, value) => setCurrentPage(value)}
           renderItem={(item) => <PaginationItem component="div" {...item} />}
         />
-      </PaginationWrapper>
+      </PaginationWrapperBottom>
     </>
   );
 };
@@ -184,7 +187,7 @@ const Wrapper = styled.div`
   grid-template-columns: repeat(3, 1fr);
   max-width: 1400px;
   padding: 12px 16px;
-  margin: 0px 20px;
+  margin: 0px 10px 0 0;
   gap: 20px;
   -webkit-box-pack: center;
   justify-items: center;
@@ -355,7 +358,30 @@ const Discount = styled.h4`
   line-height: 2.8;
   cursor: pointer;
 `;
-const PaginationWrapper = styled.div`
-  max-width: 100%;
-  margin: 15px auto 30px;
+const HeaderWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  padding: 0 0 15px 75px;
+  -webkit-box-align: center;
+  align-items: center;
+`;
+const PaginationWrapperTop = styled.div`
+   display: flex;
+  width: 100%;
+  margin-left: -280px;
+  justify-content: center;
+`
+const PaginationWrapperBottom = styled.div`
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+  justify-content: center;
+`;
+const ItemListTitle = styled.h1`
+  min-width: 240px;
+  color: #2b2929;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-transform: capitalize;
 `;
