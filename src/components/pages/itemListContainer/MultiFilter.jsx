@@ -12,6 +12,7 @@ import {
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import { useParams } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 export const MultiFilter = ({ items, onFilterChange }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
@@ -93,16 +94,16 @@ export const MultiFilter = ({ items, onFilterChange }) => {
       if (detailsFilters.color.length > 0) {
         queryFilters.push(where("color", "in", detailsFilters.color));
       }
-  
+
       const filteredQuery = query(filteredCollection, ...queryFilters);
       const querySnapshot = await getDocs(filteredQuery);
-  
+
       // Use a Set to track unique userId-color combinations
       const uniqueItems = new Set();
       const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
         const item = doc.data();
         const key = `${item.userId}-${item.color}`;
-        
+
         if (!uniqueItems.has(key)) {
           uniqueItems.add(key);
           filtered.push({
@@ -110,12 +111,12 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             ...item,
           });
         }
-        
+
         return filtered;
       }, []);
-  
+
       let orderedItems = [...filteredItems];
-  
+
       // Apply the ordering logic
       if (detailsFilters.orderBy === "discount") {
         orderedItems = orderedItems.filter(
@@ -140,7 +141,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
       console.error("Error fetching filtered items:", error);
     }
   };
-
 
   //Order by filtering logic according if filtered items or original items are being rendered
   useEffect(() => {
@@ -175,30 +175,29 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     }
   }, [detailsFilters]);
 
-
-
-
-
   //////////           ////////////           ////////////           ///////////           ///////////
   //                         HANDLE FILTERED ITEMS                        //
   //Handle each filter change and pass the values
   const handleDetailsFilterChange = (filterName, value) => {
-    setDetailsFilters((prevFilters) => ({
-      ...prevFilters,
-      [filterName]: value,
-    }));
+    setTimeout(() => {
+      setDetailsFilters((prevFilters) => ({
+        ...prevFilters,
+        [filterName]: value,
+      }));
+    }, 700);
   };
 
   //Reset filters
   const handleReset = () => {
-    setDetailsFilters((prevFilters) => ({
-      ...prevFilters,
-      category: [],
-      size: [],
-      color: [],
-    }));
+    setTimeout(() => {
+      setDetailsFilters((prevFilters) => ({
+        ...prevFilters,
+        category: [],
+        size: [],
+        color: [],
+      }));
+    }, 600);
   };
-
 
   // Load selected filters from localStorage when the component mounts
   useEffect(() => {
@@ -213,16 +212,24 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
   }, [detailsFilters]);
 
-
-
+  //------    LOADER    ------//
+  const [loadingDetail, setLoadingDetail] = useState(false);
+  const handleLoadDetail = () => {
+    setLoadingDetail(true);
+    setTimeout(() => {
+      setLoadingDetail(false);
+    }, 600);
+  };
 
   //////////           ////////////           ////////////           ///////////           ///////////
   return (
     <>
       <FilterWrapper>
         <FilterBy>Filter by :</FilterBy>
-
         {/* Category filter */}
+        <Loader>
+          {loadingDetail && <ClipLoader color="#194f44" size={60} />}
+        </Loader>
         <FormControl sx={mainStyle}>
           <InputLabel
             id="category-select-label"
@@ -256,14 +263,21 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             renderValue={(selected) => selected.join(", ")}
           >
             {uniqueCategory.map((category, index) => (
-              <MenuItem key={index} value={category}>
+              <MenuItem
+                key={index}
+                value={category}
+                onClick={(event) => {
+                  event.preventDefault();
+                  handleLoadDetail();
+                }}
+              >
                 <Checkbox
                   checked={detailsFilters.category.includes(category)}
                 />
                 <ListItemText
                   sx={{ textTransform: "capitalize" }}
                   primary={category}
-                />
+                ></ListItemText>
               </MenuItem>
             ))}
           </Select>
@@ -309,7 +323,14 @@ export const MultiFilter = ({ items, onFilterChange }) => {
                 return aOrder - bOrder;
               })
               .map((size, index) => (
-                <MenuItem key={index} value={size}>
+                <MenuItem
+                  key={index}
+                  value={size}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleLoadDetail();
+                  }}
+                >
                   <Checkbox checked={detailsFilters.size.includes(size)} />
                   <ListItemText
                     primary={size}
@@ -352,7 +373,14 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             renderValue={(selected) => selected.join(", ")}
           >
             {uniqueColors.map((color, index) => (
-              <MenuItem key={index} value={color}>
+              <MenuItem
+                key={index}
+                value={color}
+                onClick={(event) => {
+                  event.preventDefault();
+                  handleLoadDetail();
+                }}
+              >
                 <Checkbox checked={detailsFilters.color.includes(color)} />
                 <ListItemText
                   sx={{ textTransform: "capitalize" }}
@@ -363,8 +391,14 @@ export const MultiFilter = ({ items, onFilterChange }) => {
           </Select>
         </FormControl>
 
-        
-      <ResetButton onClick={handleReset}>Clear filters</ResetButton>
+        <ResetButton
+          onClick={() => {
+            handleReset();
+            handleLoadDetail();
+          }}
+        >
+          Clear filters
+        </ResetButton>
       </FilterWrapper>
 
       {/* General filter */}
@@ -398,10 +432,42 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             },
           }}
         >
-          <MenuItem value="">No order</MenuItem>
-          <MenuItem value="discount">Discount Only</MenuItem>
-          <MenuItem value="lowPrice">Lower Price</MenuItem>
-          <MenuItem value="highPrice">Higher Price</MenuItem>
+          <MenuItem
+            value=""
+            onClick={(event) => {
+              event.preventDefault();
+              handleLoadDetail();
+            }}
+          >
+            No order
+          </MenuItem>
+          <MenuItem
+            value="discount"
+            onClick={(event) => {
+              event.preventDefault();
+              handleLoadDetail();
+            }}
+          >
+            Discount Only
+          </MenuItem>
+          <MenuItem
+            value="lowPrice"
+            onClick={(event) => {
+              event.preventDefault();
+              handleLoadDetail();
+            }}
+          >
+            Lower Price
+          </MenuItem>
+          <MenuItem
+            value="highPrice"
+            onClick={(event) => {
+              event.preventDefault();
+              handleLoadDetail();
+            }}
+          >
+            Higher Price
+          </MenuItem>
         </Select>
       </FormControl>
     </>
@@ -758,7 +824,6 @@ const FilterWrapper = styled.div`
   align-items: center;
   padding-bottom: 8px;
 `;
-
 const FilterBy = styled.p`
   font-weight: bold;
   font-size: 1.1rem;
@@ -766,7 +831,6 @@ const FilterBy = styled.p`
   margin-bottom: -10px;
   min-width: 86px;
 `;
-
 //MATERIAL UI STYLES
 const mainStyle = {
   m: 1,
@@ -823,11 +887,16 @@ const MenuProps = {
 };
 const ResetButton = styled.button`
   width: 120px;
-  font-size: .8rem;
+  font-size: 0.8rem;
   padding: 0;
   font-weight: bold;
   color: #b15419;
   border: none;
   border-radius: 10px;
   background-color: lightgrey;
-`
+`;
+const Loader = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 66%;
+`;

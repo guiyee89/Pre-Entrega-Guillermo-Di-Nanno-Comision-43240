@@ -17,6 +17,8 @@ export const FilterDetail = ({ selectedItem, onFilterItemChange, handleSizeLoadi
   const [relatedItems, setRelatedItems] = useState([]); //Items related to the selectedItem prop
   const [filteredItem, setFilteredItem] = useState({}); //Item filtered
 
+
+
 //////////////     //////////////    ////////////      ////////////      /////////////
 //           FETCH ITEMS RELATED TO "selectedItem" BY userId PROPERTY              //           (Firestore database)
 
@@ -48,7 +50,6 @@ useEffect(() => {
 }, [selectedItem]);
 
 
-
 //////////////     //////////////    ////////////      ////////////      /////////////
 //              HANDLING OF COLOR AND SIZE SELECTION ON-CHANGE                      //
 
@@ -70,8 +71,6 @@ useEffect(() => {
       handleSizeLoading()
   };
 
-
- 
 
   // Function to handle size and color filter selection change
   useEffect(() => {
@@ -110,7 +109,6 @@ useEffect(() => {
        ref.current.complete();
      }, 600);
    };
-
 
 
 //////////////     //////////////    ////////////      ////////////      //////////////
@@ -166,7 +164,7 @@ useEffect(() => {
             if (itemsWithCurrentColor.length > 0) {
               return (
                 <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
-                   <LoadingBar color="#cf6c2a" ref={ref} height={4} shadow={true}/>
+                   <LoadingBar color="#cf6c2a" ref={ref} height={2} shadow={false}/>
                   <ColorCheckbox
                     id={`color-${color}`}
                     checked={selectedFilters.color === color}

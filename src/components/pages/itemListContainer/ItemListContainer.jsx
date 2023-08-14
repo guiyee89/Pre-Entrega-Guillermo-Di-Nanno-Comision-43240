@@ -8,8 +8,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
 import { MultiFilter } from "./MultiFilter";
-import { Pagination, PaginationItem } from "@mui/material";
+import useScrollRestoration from "../../hooks/useScrollRestoration";
 // import { AgregarDocs } from "../../dashboard/AgregarDocs";
+
+export const ScrollRestorationWrapper = ({ children }) => {
+  useScrollRestoration(); // Apply the scroll restoration hook
+  return <>{children}</>; // Render the children content
+
+};
+const StyledScrollRestorationWrapper = styled.div`
+  display: flex;
+
+  /* Add your custom styles here */
+`;
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
@@ -61,7 +72,7 @@ export const ItemListContainer = () => {
   useEffect(() => {
     setLoading(true);
 
-    const delay = 700;
+    const delay = 750;
     const timer = setTimeout(() => {
       let itemsCollection = collection(db, "products");
       let filterCollection;
@@ -108,7 +119,7 @@ export const ItemListContainer = () => {
   //States for MultfiFilter and ItemListcontainer data
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);//Set currentPage and pass prop to ItemList
+  const [currentPage, setCurrentPage] = useState(1); //Set currentPage and pass prop to ItemList
 
   const handleFilterChange = (filteredItems, detailsFilters) => {
     if (filteredItems.length > 0) {
@@ -121,69 +132,66 @@ export const ItemListContainer = () => {
     }
   };
 
-
   //////////////     //////////////    ////////////      ////////////      /////////////
   //                               RENDERING                                         //
   return (
     <>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-
-      {loading ? (
-        <LoaderWrapper>
-          <BarLoader color="#12352e" width={250} />
-        </LoaderWrapper>
-      ) : (
-        <>
-          <ItemListTitle>{categoryTitle}</ItemListTitle>
-
-          {/******  FILTER  ******/}
-          <FilterWrapper scrolled={scroll}>
-            <MultiFilter
-              items={items}
-              onFilterChange={handleFilterChange}
-            />
-          </FilterWrapper>
-
-  
-          {/* RENDERING ITEMS */}
-          {filteredItems.length > 0 && (
-            <ItemList
-              items={filteredItems}
-              navigate={navigate}
-              detailsFilters={detailsFilters}
-               currentPage={currentPage}
-               setCurrentPage={setCurrentPage}
-            />
-          )}
-          {/* No products message */}
-          {filteredItems.length === 0 && detailsFilters.length > 0 && (
+        <ToastContainer
+          position="bottom-right"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+        <ScrollRestorationWrapper>
+          {loading ? (
+            <LoaderWrapper>
+              <BarLoader color="#12352e" width={250} />
+            </LoaderWrapper>
+          ) : (
             <>
-              <ItemList
-                items={filteredItems} 
-                navigate={navigate}
-                detailsFilters={detailsFilters}
-                 currentPage={currentPage}
-                 setCurrentPage={setCurrentPage}
-              />
-              <NoProductMessage>
-                There are no products with this filter criteria.
-              </NoProductMessage>
+              <ItemListTitle>{categoryTitle}</ItemListTitle>
+
+              {/******  FILTER  ******/}
+              <FilterWrapper scrolled={scroll}>
+                <MultiFilter
+                  items={items}
+                  onFilterChange={handleFilterChange}
+                />
+              </FilterWrapper>
+
+              {/* RENDERING ITEMS */}
+              {filteredItems.length > 0 && (
+                <ItemList
+                  items={filteredItems}
+                  navigate={navigate}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
+              )}
+              {/* No products message */}
+              {filteredItems.length === 0 && detailsFilters.length > 0 && (
+                <>
+                  <ItemList
+                    items={filteredItems}
+                    navigate={navigate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                  />
+                  <NoProductMessage>
+                    There are no products with this filter criteria.
+                  </NoProductMessage>
+                </>
+              )}
             </>
           )}
-        </>
-      )}
-      {/* <AgregarDocs /> */}
+          {/* <AgregarDocs /> */}
+        </ScrollRestorationWrapper>
     </>
   );
 };
@@ -192,7 +200,7 @@ const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 538px;
+  min-height: 550px;
   margin-left: 35px;
 `;
 const ItemListTitle = styled.h1`
@@ -208,7 +216,7 @@ const NoProductMessage = styled.h2`
   height: 500px;
   color: black;
 `;
-const FilterWrapper = styled.div`
+const FilterWrapper = styled.aside`
   display: flex;
   width: 95%;
   margin-bottom: 12px;
@@ -222,8 +230,4 @@ const FilterWrapper = styled.div`
   height: 60px;
   background-color: rgb(253, 253, 253);
   border-bottom: 1px solid rgba(133, 132, 132, 0.2);
-`;
-const PaginationWrapper = styled.div`
-  max-width: 100%;
-  margin: 15px auto 30px;
 `;
