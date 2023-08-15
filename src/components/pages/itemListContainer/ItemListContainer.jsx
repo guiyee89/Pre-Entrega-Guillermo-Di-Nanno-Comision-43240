@@ -119,6 +119,7 @@ export const ItemListContainer = () => {
       setFilteredItems(filteredItems);
       setDetailsFilters(detailsFilters); //Set detailsFilters to the selected filters from MultiFilter
       setCurrentPage(1); //Set filters on filterChanged to automatically change currentPage in ItemList
+      window.scrollTo({ top: 0, behavior: "instant" });
     } else {
       setFilteredItems([]);
       setDetailsFilters([]);
@@ -129,19 +130,20 @@ export const ItemListContainer = () => {
   //                               RENDERING                                         //
   return (
     <>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       <ScrollRestorationWrapper>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+
         {loading ? (
           <LoaderWrapper>
             <BarLoader color="#12352e" width={250} />
@@ -204,23 +206,26 @@ const NoProductMessage = styled.h2`
 `;
 const FilterWrapper = styled.aside`
   display: flex;
-  gap:1.4rem;
-  flex-direction: column-reverse;
-  margin: 11px 5px 0 8px;
-  height: 450px;
+  grid-column: 1/2;
+  gap: .5rem;
+  flex-direction: column;
+  margin: 23px 5px 0 8px;
+  max-height: 1110px;
+  min-width: 235px;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: end;
-  justify-content: flex-end;
+  justify-content: flex-start;
   position: sticky;
   top: 110px;
   background-color: rgb(253, 253, 253);
 `;
 const ItemListWrapper = styled.div`
-  grid-column: 2/7;
+  grid-column: 2/13;
 `;
 const ItemsFiltersWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   height: 100%;
+  max-width: 1618px;
 `;
