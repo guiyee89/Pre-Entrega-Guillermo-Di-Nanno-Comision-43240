@@ -6,7 +6,6 @@ import { db } from "../../../../firebaseConfig";
 export const CarouselContainer = () => {
   const [discountProducts, setDiscountedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(discountProducts)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -18,6 +17,7 @@ export const CarouselContainer = () => {
 
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
+      console.log("fetching discount")
       const queryAllProducts = collection(db, "products");
       const querySnapshot = await getDocs(queryAllProducts);
       const allProducts = querySnapshot.docs.map((doc) => ({

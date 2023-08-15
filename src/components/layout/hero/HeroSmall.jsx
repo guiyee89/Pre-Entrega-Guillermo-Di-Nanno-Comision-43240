@@ -52,7 +52,7 @@ const Wrapper = styled.div`
 `;
 const WrapperCarousel = styled.div`
   margin: 87px auto 40px;
-  max-width: 700px;
+  max-width: 850px;
   background-color: white;
   position: relative;
   height: 11%;

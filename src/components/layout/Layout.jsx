@@ -73,7 +73,7 @@ const OutletWrapper = styled.div`
   align-items: center;
   margin: 0 auto;
   background-color: rgb(253 253 253);
-  padding-top: 50px;
+  padding-top: 35px;
 `;
 const HeroWrapper = styled.div`
   max-height: 800px;

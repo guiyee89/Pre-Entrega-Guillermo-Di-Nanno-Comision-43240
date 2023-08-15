@@ -6,8 +6,10 @@ import { useRef } from "react";
 import LoadingBar from "react-top-loading-bar";
 import { Pagination, PaginationItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
+import useScrollRestoration from "../../hooks/useScrollRestoration";
 
 export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
+  useScrollRestoration()
   //////////////////////////                    ////////////////////////////
   //-------------------     FILTER DUPLICATED ITEM    -------------------//
   // Function to filter products based on their customId and color to avoid duplicates
@@ -61,7 +63,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
-  const itemsPerPage = 24;
+  const itemsPerPage = 27;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = items.slice(startIndex, endIndex);
@@ -69,7 +71,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
 
   //scroll back to top of page when change pagination
   useEffect(() => {
-    window.scrollTo({ top: 250, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "instant" });
   }, [currentPage]);
 
   //set currentPage to 1 if there are changes in filters
@@ -78,6 +80,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
     if (storedPage) {
       setCurrentPage(parseInt(storedPage));
     }
+    localStorage.removeItem("currentPage")
   }, []);
 
   ///////////////////////////                  /////////////////////////////
@@ -186,9 +189,9 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   max-width: 1400px;
-  padding: 12px 16px;
+  padding: 2px 16px;
   margin: 0px 10px 0 0;
-  gap: 20px;
+  gap: 0.6rem;
   -webkit-box-pack: center;
   justify-items: center;
   align-items: center;
@@ -266,7 +269,7 @@ const ItemWrapper = styled(Link)`
   box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 3px;
   position: relative;
   cursor: pointer;
-  max-width: 400px;
+  max-width: 430px;
   background-color: rgb(239, 237, 237);
   &:hover {
     ${ButtonsWrapper} {
@@ -368,13 +371,13 @@ const HeaderWrapper = styled.div`
 const PaginationWrapperTop = styled.div`
    display: flex;
   width: 100%;
-  margin-left: -280px;
+  margin: 0 0 15px -280px;
   justify-content: center;
 `
 const PaginationWrapperBottom = styled.div`
   display: flex;
   width: 100%;
-  margin-bottom: 20px;
+  margin: 20px 0 40px;
   justify-content: center;
 `;
 const ItemListTitle = styled.h1`
