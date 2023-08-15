@@ -121,8 +121,8 @@ export const ItemListContainer = () => {
       setCurrentPage(1); //Set filters on filterChanged to automatically change currentPage in ItemList
       window.scrollTo({ top: 0, behavior: "instant" });
     } else {
-      setFilteredItems([]);
-      setDetailsFilters([]);
+      setFilteredItems([])
+      setDetailsFilters([])
     }
   };
 
