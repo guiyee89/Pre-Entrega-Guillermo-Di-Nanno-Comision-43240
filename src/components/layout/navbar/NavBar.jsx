@@ -5,9 +5,7 @@ import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 
-
 export const NavBar = () => {
-
   const { getTotalItems } = useContext(CartContext);
 
   const totalItems = getTotalItems();
@@ -32,13 +30,11 @@ export const NavBar = () => {
     };
   }, []);
 
-
   //Remove localStorage Filters and Pagination when accessing items from NavBar
   const handleNavLinkClick = () => {
     localStorage.removeItem("selectedFilters");
     localStorage.removeItem("currentPage");
   };
-
 
   return (
     <>
@@ -58,22 +54,38 @@ export const NavBar = () => {
                 </NavLink>
               </NavList>
               <NavList>
-                <NavLink to="/all-products" scrolled={scroll} onClick={handleNavLinkClick}>
+                <NavLink
+                  to="/all-products"
+                  scrolled={scroll}
+                  onClick={handleNavLinkClick}
+                >
                   products
                 </NavLink>
               </NavList>
               <NavList>
-                <NavLink to="/category/shoes" scrolled={scroll} onClick={handleNavLinkClick}>
+                <NavLink
+                  to="/category/shoes"
+                  scrolled={scroll}
+                  onClick={handleNavLinkClick}
+                >
                   shoes
                 </NavLink>
               </NavList>
               <NavList>
-                <NavLink to="/category/pants" scrolled={scroll} onClick={handleNavLinkClick}>
+                <NavLink
+                  to="/category/pants"
+                  scrolled={scroll}
+                  onClick={handleNavLinkClick}
+                >
                   pants
                 </NavLink>
               </NavList>
               <NavList>
-                <NavLink to="/category/shirts" scrolled={scroll} onClick={handleNavLinkClick}>
+                <NavLink
+                  to="/category/shirts"
+                  scrolled={scroll}
+                  onClick={handleNavLinkClick}
+                >
                   shirts
                 </NavLink>
               </NavList>
@@ -107,11 +119,11 @@ const Nav = styled.nav`
   z-index: 1;
   background-color: rgb(253 253 253);
   box-shadow: ${(props) =>
-    props.scrolled === "scrolled"
-      ? "none"
-      : "rgba(0, 0, 0, 0.55) 0px 0px 3px"};
+    props.scrolled === "scrolled" ? "none" : "rgba(0, 0, 0, 0.55) 0px 0px 3px"};
   border-bottom: ${(props) =>
-    (props.scrolled === "scrolled" ? "1px solid rgb(133 132 132 / 25%)" : "none")};
+    props.scrolled === "scrolled"
+      ? "1px solid rgb(133 132 132 / 25%)"
+      : "none"};
   /* background-color: ${(props) =>
     props.scrolled === "scrolled" ? "white" : "block"}; */
   /* &:before {
@@ -127,11 +139,13 @@ const Nav = styled.nav`
 `;
 const InsideNav = styled.div`
   width: 100vw;
-  max-width: 1300px;
+  max-width: 1548px;
   display: flex;
-  margin: 0 auto;
-  padding: 0 20px;
+  margin: 0px auto;
+  padding: 0px 20px 0 45px;
+  -webkit-box-align: center;
   align-items: center;
+  -webkit-box-pack: justify;
   justify-content: space-between;
 `;
 const LogoDiv = styled.div`

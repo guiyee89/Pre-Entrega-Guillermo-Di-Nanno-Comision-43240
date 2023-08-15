@@ -45,7 +45,7 @@ const loading = useGlobalLoader();
     ) : (
       <>
         <NavBar />
-        {!isHome && !isItemDetail && <HeroSmall />}
+        {!isHome && /* !isItemDetail && */ <HeroSmall />}
         <HeroWrapper>{isHome && <HeroLanding />}</HeroWrapper>
 
         <OutletWrapper isHome={isHome}>

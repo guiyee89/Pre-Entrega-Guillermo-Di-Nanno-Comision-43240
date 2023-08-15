@@ -145,7 +145,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     }
   };
 
-  
   //ORDER BY - filtering logic according if filtered items or original items are being rendered
   useEffect(() => {
     setTimeout(() => {
@@ -218,7 +217,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
         category: [],
         size: [],
         color: [],
-        orderBy:[],
+        orderBy: [],
       }));
     }, 710);
   };
@@ -241,14 +240,17 @@ export const MultiFilter = ({ items, onFilterChange }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   return (
     <>
-      <ResetButton
-        onClick={() => {
-          handleReset();
-          handleLoadDetail();
-        }}
-      >
-        Clear filters
-      </ResetButton>
+      <FilterHeader>
+        <FilterBy>Filters</FilterBy>
+        <ResetButton
+          onClick={() => {
+            handleReset();
+            handleLoadDetail();
+          }}
+        >
+         Clear filters
+        </ResetButton>
+      </FilterHeader>
       <FilterWrapper>
         {/* Loader Circle */}
         <Loader>
@@ -345,6 +347,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
                   ...selectStyle,
                   marginBottom: "-3px",
                   textTransform: "capitalize",
+                  marginTop: "0px;"
                 }}
                 control={
                   <Checkbox
@@ -383,6 +386,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
           >
             <Typography
               sx={{
+                minWidth:"112px",
                 fontWeight: "bold",
                 marginLeft: "22px",
                 fontSize: "1.1rem",
@@ -840,6 +844,34 @@ export const MultiFilter = ({ items, onFilterChange }) => {
 
 //MATERIAL UI STYLES
 
+const FilterHeader = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+`;
+const FilterBy = styled.p`
+  font-weight: bold;
+`;
+const ResetButton = styled.button`
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  background-color: transparent;
+  position: relative; 
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 7%;
+    width: 90%;
+    height: 2px;
+    background-color: black;
+  }
+  &:hover{
+    color: #00a6ff;
+  }
+`;
+
 const FilterWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -862,26 +894,7 @@ const FilterWrapper = styled.div`
     background-color: #f6f6f6;
   }
 `;
-const FilterBy = styled.p`
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-right: 10px;
-  margin-bottom: -10px;
-  min-width: 86px;
-  min-height: 0;
-  height: 20px;
-`;
-const ResetButton = styled.button`
-  width: 120px;
-  margin: 0 50px 20px 0;
-  font-size: 0.8rem;
-  padding: 0;
-  font-weight: bold;
-  color: #b15419;
-  border: none;
-  border-radius: 10px;
-  background-color: lightgrey;
-`;
+
 const Loader = styled.div`
   position: absolute;
   top: 25%;

@@ -188,7 +188,7 @@ const Wrapper = styled.div`
   height: 700px;
   width: 100%;
   max-width: 1300px;
-  margin: 150px auto;
+  margin: 95px auto 95px;
   padding-left: 65px;
 `;
 const Discount = styled.h4`
