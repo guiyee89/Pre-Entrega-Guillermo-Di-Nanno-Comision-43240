@@ -220,7 +220,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
         color: [],
         orderBy:[],
       }));
-    }, 700);
+    }, 710);
   };
 
   //////////           ////////////           ////////////           ///////////           ///////////
