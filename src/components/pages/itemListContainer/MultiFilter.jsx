@@ -248,7 +248,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
             handleLoadDetail();
           }}
         >
-         Clear filters
+          Clear filters
         </ResetButton>
       </FilterHeader>
       <FilterWrapper>
@@ -347,7 +347,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
                   ...selectStyle,
                   marginBottom: "-3px",
                   textTransform: "capitalize",
-                  marginTop: "0px;"
+                  marginTop: "0px;",
                 }}
                 control={
                   <Checkbox
@@ -386,7 +386,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
           >
             <Typography
               sx={{
-                minWidth:"112px",
+                minWidth: "112px",
                 fontWeight: "bold",
                 marginLeft: "22px",
                 fontSize: "1.1rem",
@@ -846,18 +846,23 @@ export const MultiFilter = ({ items, onFilterChange }) => {
 
 const FilterHeader = styled.div`
   display: flex;
-  width: 100%;
-  justify-content: space-evenly;
+  width: 90%;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid lightgray;
 `;
 const FilterBy = styled.p`
   font-weight: bold;
+  margin-right: 25px;
 `;
 const ResetButton = styled.button`
   font-size: 0.8rem;
   font-weight: 600;
   border: none;
   background-color: transparent;
-  position: relative; 
+  margin-right: -25px;
+  position: relative;
   &::after {
     content: "";
     position: absolute;
@@ -867,7 +872,7 @@ const ResetButton = styled.button`
     height: 2px;
     background-color: black;
   }
-  &:hover{
+  &:hover {
     color: #00a6ff;
   }
 `;
@@ -879,6 +884,7 @@ const FilterWrapper = styled.div`
   align-items: center;
   overflow-x: hidden;
   overflow-y: auto;
+  border-bottom: 1px solid lightgrey;
   /* Customize the scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
@@ -914,16 +920,17 @@ const selectStyle = {
   width: 100,
 };
 const OrderByWrapper = styled.div`
-  width: 100%;
+  width: 69%;
   margin-left: 18px;
 `;
 const OrderByBtn = styled.button`
   width: 100%;
   text-align: inherit;
   border-radius: 3%;
-  margin-bottom: 2px;
-  padding: 8px;
+  margin-bottom: 5px;
+  padding: 5px;
   color: black;
+  font-size: 0.85rem;
   background-color: ${(props) => (props.active ? "#dbe4f5" : "#f4f4f4")};
   border: ${(props) =>
     props.active ? "1px solid black" : "1px solid lightgrey"};
