@@ -212,7 +212,7 @@ const FilterWrapper = styled.aside`
   flex-direction: column;
   margin: 23px 5px 0 8px;
   max-height: 1110px;
-  min-width: 235px;
+  min-width: 250px;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: end;
@@ -229,4 +229,5 @@ const ItemsFiltersWrapper = styled.div`
   grid-template-columns: repeat(12, 1fr);
   height: 100%;
   max-width: 1618px;
+  margin-left: -20px;
 `;
