@@ -161,14 +161,17 @@ const MiddleArticle = styled.article`
 const MiddleItemsImg = styled.img`
   transition: transform 0.29s ease-in-out 0.1s;
   width: 645px;
+  height: 100%;
+  object-fit: cover;
 `;
 const ImgWrapper = styled.div`
   cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 2px;
   overflow: hidden;
   background-color: #e7e3e3;
   transition: background-color 0.4s ease-in-out;
   max-width: 100%;
+  height: 700px;
   position: relative;
   &:hover ${MiddleItemsImg} {
     transform: scale(1.11);
@@ -229,7 +232,7 @@ const StrechedArticle = styled.article`
   max-width: 1330px;
   background-color: #ddd8d8;
   margin: 95px 0;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 2px;
   &:hover ${ShoesImg} {
     transform: scale(1.08);
   }

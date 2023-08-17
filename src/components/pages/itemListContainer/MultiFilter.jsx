@@ -16,7 +16,7 @@ import { db } from "../../../firebaseConfig";
 import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
-export const MultiFilter = ({ items, onFilterChange }) => {
+export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   //                       STATE FOR DIFFERENT FILTERS                        //
   const [detailsFilters, setDetailsFilters] = useState({
@@ -190,6 +190,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
       ...prevFilters,
       [filterName]: value,
     }));
+    setCurrentPage(1); //Set pagiination to 1 if filters changed
   };
 
   // Helper function to update filter array
@@ -207,19 +208,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     setTimeout(() => {
       setLoadingDetail(false);
     }, 850);
-  };
-
-  //Reset filters
-  const handleReset = () => {
-    setTimeout(() => {
-      setDetailsFilters((prevFilters) => ({
-        ...prevFilters,
-        category: [],
-        size: [],
-        color: [],
-        orderBy: [],
-      }));
-    }, 710);
   };
 
   //////////           ////////////           ////////////           ///////////           ///////////
@@ -242,22 +230,30 @@ export const MultiFilter = ({ items, onFilterChange }) => {
     <>
       <FilterHeader>
         <FilterBy>Filters</FilterBy>
-        <ResetButton
-          onClick={() => {
-            handleReset();
+        <ResetAllBtn
+          onClick={() => {//Reset General Filters
+            setTimeout(() => {
+              setDetailsFilters((prevFilters) => ({
+                ...prevFilters,
+                category: "",
+                size: "",
+                color: "",
+                orderBy: "",
+              }));
+            }, 710);
             handleLoadDetail();
           }}
         >
-          Clear filters
-        </ResetButton>
+          Reset all filters
+        </ResetAllBtn>
       </FilterHeader>
       <FilterWrapper>
-        {/* Loader Circle */}
+        {/*      Loader Circle      */}
         <Loader>
           {loadingDetail && <ClipLoader color="#194f44" size={60} />}
         </Loader>
 
-        {/* General filter */}
+        {/****************      GENERAL FILTER       ****************/}
         <Accordion defaultExpanded sx={styles.expandedAccordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -321,9 +317,15 @@ export const MultiFilter = ({ items, onFilterChange }) => {
           </AccordionDetails>
         </Accordion>
 
-        {/* CATEGORY FILTER */}
+        {/****************      CATEGORY FILTER       ****************/}
         <Accordion defaultExpanded sx={styles.expandedAccordion}>
           <AccordionSummary
+            sx={{
+              "&.Mui-expanded": {
+                minHeight: "0px",
+                height: "30px",
+              },
+            }}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
@@ -339,15 +341,28 @@ export const MultiFilter = ({ items, onFilterChange }) => {
               Categories
             </Typography>
           </AccordionSummary>
-          <AccordionDetails>
+          <ClearFilterBtn
+            onClick={() => {     //Reset section filters
+              setTimeout(() => {
+                setDetailsFilters((prevFilters) => ({
+                  ...prevFilters,
+                  category: "",
+                }));
+              }, 710);
+              handleLoadDetail();
+            }}
+          >
+            Clear filters
+          </ClearFilterBtn>
+          <AccordionDetails sx={{ paddingTop: "18px" }}>
             {uniqueCategory.map((category, index) => (
               <FormControlLabel
                 key={index}
                 sx={{
                   ...selectStyle,
-                  marginBottom: "-3px",
+                  marginBottom: "3px",
                   textTransform: "capitalize",
-                  marginTop: "0px;",
+                 
                 }}
                 control={
                   <Checkbox
@@ -360,7 +375,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
                     onClick={() => handleLoadDetail()}
                     checked={detailsFilters.category.includes(category)}
                     onChange={(e) =>
-                      handleDetailsFilterChange(
+                      handleDetailsFilterChange(     //Handle details function
                         "category",
                         updateFilterArray(
                           detailsFilters.category,
@@ -377,9 +392,15 @@ export const MultiFilter = ({ items, onFilterChange }) => {
           </AccordionDetails>
         </Accordion>
 
-        {/* SIZE FILTER */}
+        {/****************      SIZE FILTER       ****************/}
         <Accordion defaultExpanded sx={styles.expandedAccordion}>
           <AccordionSummary
+            sx={{
+              "&.Mui-expanded": {
+                minHeight: "0px",
+                height: "30px",
+              },
+            }}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
@@ -396,7 +417,20 @@ export const MultiFilter = ({ items, onFilterChange }) => {
               Sizes
             </Typography>
           </AccordionSummary>
-          <AccordionDetails>
+          <ClearFilterBtn
+            onClick={() => {
+              setTimeout(() => {
+                setDetailsFilters((prevFilters) => ({   //Reset section filters
+                  ...prevFilters,
+                  size: "",
+                }));
+              }, 710);
+              handleLoadDetail();
+            }}
+          >
+            Clear filters
+          </ClearFilterBtn>
+          <AccordionDetails sx={{ paddingTop: "35px" }}>
             <Grid container spacing={0}>
               {uniqueSizes
                 .sort((a, b) => {
@@ -414,7 +448,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
                           checked={detailsFilters.size.includes(size)}
                           onClick={() => handleLoadDetail()}
                           onChange={(e) =>
-                            handleDetailsFilterChange(
+                            handleDetailsFilterChange( //Handle details function
                               "size",
                               updateFilterArray(
                                 detailsFilters.size,
@@ -433,9 +467,15 @@ export const MultiFilter = ({ items, onFilterChange }) => {
           </AccordionDetails>
         </Accordion>
 
-        {/* COLOR FILTER */}
+        {/****************      COLOR FILTER       ****************/}
         <Accordion defaultExpanded sx={styles.expandedAccordion}>
           <AccordionSummary
+            sx={{
+              "&.Mui-expanded": {
+                minHeight: "0px",
+                height: "30px",
+              },
+            }}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
@@ -451,8 +491,21 @@ export const MultiFilter = ({ items, onFilterChange }) => {
               Colors
             </Typography>
           </AccordionSummary>
-          <AccordionDetails>
-            <Grid container spacing={2}>
+          <ClearFilterBtn
+            onClick={() => {    //Reset section filters
+              setTimeout(() => {
+                setDetailsFilters((prevFilters) => ({
+                  ...prevFilters,
+                  color: "",
+                }));
+              }, 710);
+              handleLoadDetail();
+            }}
+          >
+            Clear filters
+          </ClearFilterBtn>
+          <AccordionDetails sx={{ paddingTop: "15px" }}>
+            <Grid container spacing={1}>
               {/* Use the Grid container */}
               {uniqueColors.map((color, index) => (
                 <Grid item xs={6} key={index}>
@@ -460,7 +513,6 @@ export const MultiFilter = ({ items, onFilterChange }) => {
                   <FormControlLabel
                     sx={{
                       ...selectStyle,
-                      marginBottom: "15px",
                       textTransform: "capitalize",
                     }}
                     control={
@@ -476,7 +528,7 @@ export const MultiFilter = ({ items, onFilterChange }) => {
                         checked={detailsFilters.color.includes(color)}
                         onClick={() => handleLoadDetail()}
                         onChange={(e) =>
-                          handleDetailsFilterChange(
+                          handleDetailsFilterChange(    //Handle details function
                             "color",
                             updateFilterArray(
                               detailsFilters.color,
@@ -856,7 +908,7 @@ const FilterBy = styled.p`
   font-weight: bold;
   margin-right: 25px;
 `;
-const ResetButton = styled.button`
+const ResetAllBtn = styled.button`
   font-size: 0.8rem;
   font-weight: 600;
   border: none;
@@ -876,7 +928,26 @@ const ResetButton = styled.button`
     color: #00a6ff;
   }
 `;
-
+const ClearFilterBtn = styled.button`
+  font-size: 0.76rem;
+  font-weight: 600;
+  border: none;
+  background-color: transparent;
+  margin: 24px 0 0 32px;
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 7%;
+    width: 90%;
+    height: 1px;
+    background-color: black;
+  }
+  &:hover {
+    color: #00a6ff;
+  }
+`;
 const FilterWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -885,7 +956,6 @@ const FilterWrapper = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   border-bottom: 1px solid lightgrey;
-  /* Customize the scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
   }
@@ -912,6 +982,7 @@ const styles = {
     margin: 0px 14px 0 24px !important;
     border-top: 1px solid lightgray;
     box-shadow: none;
+    padding: 16px 0;
   `,
 };
 const selectStyle = {
@@ -931,9 +1002,9 @@ const OrderByBtn = styled.button`
   padding: 5px;
   color: black;
   font-size: 0.85rem;
-  background-color: ${(props) => (props.active ? "#dbe4f5" : "#f4f4f4")};
+  background-color: ${(props) => (props.active ? "#dbe4f5" : "rgb(244, 244, 244);")};
   border: ${(props) =>
-    props.active ? "1px solid black" : "1px solid lightgrey"};
+    props.active ? "1px solid #857a7a" : "1px solid lightgrey"};
   font-weight: ${(props) => (props.active ? "600" : "normal")};
 `;
 const CheckboxWrapper = styled.div`

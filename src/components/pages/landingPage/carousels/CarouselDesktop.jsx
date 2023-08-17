@@ -246,7 +246,7 @@ const ItemCard = styled.div`
   margin-bottom: 8px;
   justify-content: center;
   position: relative;
-  box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 6px;
+  box-shadow: rgba(0, 0, 0, 0.55) 0px 0px 2px;
 `;
 const InfoWrapper = styled.div`
   display: flex;
