@@ -8,8 +8,9 @@ import { Pagination, PaginationItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 
+
 export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
-  useScrollRestoration()
+  useScrollRestoration();
   //////////////////////////                    ////////////////////////////
   //-------------------     FILTER DUPLICATED ITEM    -------------------//
   // Function to filter products based on their customId and color to avoid duplicates
@@ -74,13 +75,13 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [currentPage]);
 
-  //set currentPage to 1 if there are changes in filters
+  //set currentPage to previous page when navigating to ItemDetail
   useEffect(() => {
     const storedPage = localStorage.getItem("currentPage");
     if (storedPage) {
       setCurrentPage(parseInt(storedPage));
     }
-    localStorage.removeItem("currentPage")
+    // localStorage.removeItem("currentPage");
   }, []);
 
   ///////////////////////////                  /////////////////////////////
@@ -191,7 +192,7 @@ const Wrapper = styled.div`
   max-width: 1400px;
   padding: 2px 16px;
   margin: 0px 10px 0 0;
-  gap: 0.6rem;
+  gap: 1.1rem;
   -webkit-box-pack: center;
   justify-items: center;
   align-items: center;
@@ -258,9 +259,9 @@ const ImgWrapperLink = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
-  padding: 0px 8px 22px;
+  padding: 1px 0px 13px 33px;
   background-color: rgb(239 237 237);
 `;
 const ItemWrapper = styled(Link)`
@@ -366,14 +367,14 @@ const HeaderWrapper = styled.div`
   display: flex;
   padding: 0 0 15px 75px;
   -webkit-box-align: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 const PaginationWrapperTop = styled.div`
-   display: flex;
+  display: flex;
   width: 100%;
   margin: 0 0 15px -280px;
   justify-content: center;
-`
+`;
 const PaginationWrapperBottom = styled.div`
   display: flex;
   width: 100%;

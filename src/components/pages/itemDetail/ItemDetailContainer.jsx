@@ -28,7 +28,7 @@ export const ItemDetailContainer = () => {
           id: response.id,
         });
       });
-    }, 500);
+    }, 600);
   }, [id]);
 
 

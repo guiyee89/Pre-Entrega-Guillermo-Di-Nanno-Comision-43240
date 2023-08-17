@@ -118,15 +118,14 @@ export const ItemListContainer = () => {
     if (filteredItems.length > 0) {
       setFilteredItems(filteredItems);
       setDetailsFilters(detailsFilters); //Set detailsFilters to the selected filters from MultiFilter
-      setCurrentPage(1); //Set filters on filterChanged to automatically change currentPage in ItemList
-      window.scrollTo({ top: 0, behavior: "instant" });
+      /* setCurrentPage(); */ //Set filters on filterChanged to automatically change currentPage in ItemList
+      window.scrollTo({ /* top: 0, */ behavior: "instant" });
     } else {
       setFilteredItems([]);
-      setDetailsFilters([])
+      setDetailsFilters([]);
     }
   };
 
-  
   //////////////     //////////////    ////////////      ////////////      /////////////
   //                               RENDERING                                         //
   return (
@@ -157,6 +156,7 @@ export const ItemListContainer = () => {
                 <MultiFilter
                   items={items}
                   onFilterChange={handleFilterChange}
+                  setCurrentPage={setCurrentPage}
                 />
               </FilterWrapper>
               <ItemListWrapper>
@@ -207,15 +207,15 @@ const NoProductMessage = styled.h2`
 `;
 const FilterWrapper = styled.aside`
   display: flex;
-  grid-column: 1/2;
-  gap: .5rem;
+  grid-column: 1 / 2;
+  gap: 0.5rem;
   flex-direction: column;
-  margin: 23px 5px 0 8px;
-  max-height: 1110px;
-  min-width: 250px;
+  margin: 5px 8px 0px 0px;
+  height: 1110px;
+  min-width: 255px;
   -webkit-box-align: center;
   align-items: center;
-  -webkit-box-pack: end;
+  -webkit-box-pack: start;
   justify-content: flex-start;
   position: sticky;
   top: 110px;

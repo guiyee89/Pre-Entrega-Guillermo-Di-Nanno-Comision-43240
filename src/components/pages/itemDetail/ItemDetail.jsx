@@ -6,6 +6,8 @@ import { CartContext } from "../../context/CartContext";
 import { ImageDetail } from "./ImageDetail";
 import { ClipLoader } from "react-spinners";
 
+
+
 export const ItemDetail = ({ selectedItem }) => {
   ///////////////////////////////////////////////////////////////////////////////////
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
@@ -177,6 +179,7 @@ export const ItemDetail = ({ selectedItem }) => {
     </Wrapper>
   );
 };
+
 
 const Wrapper = styled.div`
   display: flex;
