@@ -570,17 +570,6 @@ const fetchFilteredItems = async () => {
   );
 };
 
-const ColorCheckbox = styled.input`
-  appearance: none;
-  outline: none;
-  cursor: pointer;
-  border-radius: 50%;
-  width: ${({ checked }) => (checked ? "38px" : "24px")};
-  height: ${({ checked }) => (checked ? "38px" : "24px")};
-  background-color: ${({ color }) => color};
-  border: ${({ checked }) => (checked ? "1px solid black" : "1px solid#bfc2c6")};
-`;
-
 //MATERIAL UI STYLES
 
 const FilterHeader = styled.div`
@@ -695,6 +684,18 @@ const OrderByBtn = styled.button`
     props.active ? "1px solid #857a7a" : "1px solid lightgrey"};
   font-weight: ${(props) => (props.active ? "600" : "normal")};
 `;
+const ColorCheckbox = styled.input`
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  margin-left: 1px;
+  border-radius: 50%;
+  width: ${({ checked }) => (checked ? "38px" : "24px")};
+  height: ${({ checked }) => (checked ? "38px" : "24px")};
+  background-color: ${({ color }) => color};
+  border: ${({ checked }) => (checked ? "1px solid black" : "1px solid#bfc2c6")};
+`;
+
 const CheckboxWrapper = styled.div`
   margin-left: 24px;
 `;
@@ -723,10 +724,4 @@ const StyledCheckboxInput = styled.input`
     border-width: 0.2rem;
     border-color: black;
   }
-`;
-const NoProductsMessage = styled.div`
-  margin: 20px;
-  text-align: center;
-  font-size: 1.2rem;
-  color: #d9534f; 
 `;
