@@ -83,11 +83,14 @@ export const ItemListContainer = () => {
         .then((res) => {
           const products = res.docs.reduce((filtered, productDoc) => {
             const product = productDoc.data();
-            const { userId, color } = product;
-            const key = `${userId}-${color}`;
+            const { userId, color, colorSecondary } = product;
+            const key = `${userId}-${color}-${colorSecondary}`;
             // Check if the product's customId and color combination already exists
             if (
-              !filtered.some((item) => `${item.userId}-${item.color}` === key)
+              !filtered.some(
+                (item) =>
+                  `${item.userId}-${item.color}-${item.colorSecondary}` === key
+              )
             ) {
               filtered.push({
                 ...product,
@@ -96,10 +99,10 @@ export const ItemListContainer = () => {
             }
             return filtered;
           }, []);
-          console.log(products);
 
           setItems(products);
           setLoading(false);
+          console.log(products);
         })
         .catch((err) => console.log(err));
     }, delay);
@@ -161,27 +164,17 @@ export const ItemListContainer = () => {
               </FilterWrapper>
               <ItemListWrapper>
                 {/* RENDERING ITEMS */}
-                {filteredItems.length > 0 && (
+                {filteredItems.length > 0 ? (
                   <ItemList
                     items={filteredItems}
                     navigate={navigate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                   />
-                )}
-                {/* No products message */}
-                {filteredItems.length === 0 && detailsFilters.length > 0 && (
-                  <>
-                    <ItemList
-                      items={filteredItems}
-                      navigate={navigate}
-                      currentPage={currentPage}
-                      setCurrentPage={setCurrentPage}
-                    />
-                    <NoProductMessage>
-                      There are no products with this filter criteria.
-                    </NoProductMessage>
-                  </>
+                ) : (
+                  <NoProductMessage>
+                    There are no products with this filter criteria.
+                  </NoProductMessage>
                 )}
               </ItemListWrapper>
             </ItemsFiltersWrapper>
@@ -192,7 +185,6 @@ export const ItemListContainer = () => {
     </>
   );
 };
-
 const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -202,6 +194,11 @@ const LoaderWrapper = styled.div`
 `;
 
 const NoProductMessage = styled.h2`
+  padding-top: 140px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  width: 100%;
   height: 500px;
   color: black;
 `;

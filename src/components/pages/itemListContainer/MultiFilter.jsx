@@ -30,120 +30,114 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
   //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
 
   //-------    COLOR MAPING   -------//
-  const uniqueColors = Array.from(new Set(items.map((item) => item.color))); //Find all the colors
-  // const colorUserMap = {}; //Track unique colors
-  // items.forEach((item) => {
-  //   if (!colorUserMap[item.color]) {
-  //     // Iterate through the items to populate the colorUserMap
-  //     colorUserMap[item.color] = new Set();
-  //   }
-  //   colorUserMap[item.color].add(item.userId); // Add the "userId" property to set that color
-  // });
-
-  // const colorQuantityMap = {}; // Create a colorQuantityMap. Filter quantity of color by "userId" of items
-  // Object.keys(colorUserMap).forEach((color) => {
-  //   const userSet = colorUserMap[color];
-  //   colorQuantityMap[color] = userSet.size;
-  // });
+  // Define a mapping of color names to CSS color values
+  const colorMapping = {
+    black: "#000000",
+    white: "#ffffff",
+    grey: "#8e8e8e",
+    blue: "#2626e4",
+    purple: "#dc10ce",
+    pink: "#ea7baf",
+    red: "#e81a1a",
+    orange: "#f49d2c",
+    yellow: "#e6d21a",
+    green: "#24df13",
+    brown: "#682f21",
+  };
+  const getFirstColorWord = (color) => {
+    //function to find first color
+    const words = color.split(" ");
+    console.log(words);
+    return words[0];
+  };
 
   //-------    SIZE MAPING   -------//
   const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
-  // const sizeUserMap = {};
-  // items.forEach((item) => {
-  //   if (!sizeUserMap[item.size]) {
-  //     sizeUserMap[item.size] = new Set();
-  //   }
-  //   sizeUserMap[item.size].add(item.userId);
-  // });
-
-  // const sizeQuantityMap = {};
-  // Object.keys(sizeUserMap).forEach((size) => {
-  //   const userSet = sizeUserMap[size];
-  //   sizeQuantityMap[size] = userSet.size;
-  // });
-
   //-------    CATEGORY MAPING   -------//
   const uniqueCategory = Array.from(
     new Set(items.map((item) => item.category))
   );
-  const categoryUserMap = {};
-  items.forEach((item) => {
-    if (!categoryUserMap[item.category]) {
-      categoryUserMap[item.category] = new Set();
-    }
-    categoryUserMap[item.category].add(item.userId);
-  });
 
   //////////           ////////////           ////////////           ///////////           ///////////
   //                             FILTERING LOGIC FOR ALL ITEMS                            //
   const { categoryName } = useParams();
+  const [hasFilteredItems, setHasFilteredItems] = useState(true);
 
-  //Fetch items from Firestore Database and filter accordingly on selection
-  const fetchFilteredItems = async () => {
-    try {
-      const filteredCollection = collection(db, "products");
-      console.log("fetching MultiFilter...");
-      let queryFilters = [];
-      if (categoryName) {
-        queryFilters.push(where("category", "==", categoryName));
-      }
-      if (detailsFilters.category.length > 0) {
-        queryFilters.push(where("category", "in", detailsFilters.category));
-      }
-      if (detailsFilters.size.length > 0) {
-        queryFilters.push(where("size", "in", detailsFilters.size));
-      }
-      if (detailsFilters.color.length > 0) {
-        queryFilters.push(where("color", "in", detailsFilters.color));
-      }
+// Fetch items from Firestore Database and filter accordingly on selection
+const fetchFilteredItems = async () => {
+  try {
+    const filteredCollection = collection(db, "products");
+    console.log("fetching MultiFilter...");
+    let queryFilters = [];
+    if (categoryName) {
+      queryFilters.push(where("category", "==", categoryName));
+    }
+    if (detailsFilters.category.length > 0) {
+      queryFilters.push(where("category", "in", detailsFilters.category));
+    }
+    if (detailsFilters.size.length > 0) {
+      queryFilters.push(where("size", "in", detailsFilters.size));
+    }
+    /* if (detailsFilters.color.length > 0) {
+       queryFilters.push(where("color", "in", detailsFilters.color));
+    }    */ 
+  
 
-      const filteredQuery = query(filteredCollection, ...queryFilters);
-      const querySnapshot = await getDocs(filteredQuery);
 
-      // Use a Set to track unique userId-color combinations
-      const uniqueItems = new Set();
-      const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
-        const item = doc.data();
-        const key = `${item.userId}-${item.color}`;
+    const filteredQuery = query(filteredCollection, ...queryFilters);
+    const querySnapshot = await getDocs(filteredQuery);
 
-        if (!uniqueItems.has(key)) {
-          uniqueItems.add(key);
+    // Use a Set to track unique userId-color combinations
+    const uniqueItems = new Set();
+    const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
+      const item = doc.data();
+      const key = `${item.userId}-${item.color}`;
+
+      if (!uniqueItems.has(key)) {
+        uniqueItems.add(key);
+        // Check if any color filter matches with any word in the item's color
+        if (
+          detailsFilters.color.length === 0 ||
+          detailsFilters.color.some((colorFilter) =>
+            item.color.includes(colorFilter)
+          )
+        ) {
           filtered.push({
             id: doc.id,
             ...item,
           });
         }
-
-        return filtered;
-      }, []);
-
-      let orderedItems = [...filteredItems];
-
-      // Apply the ordering logic
-      if (detailsFilters.orderBy === "discount") {
-        orderedItems = orderedItems.filter(
-          (item) => item.discount !== undefined
-        );
-      } else if (detailsFilters.orderBy === "lowPrice") {
-        orderedItems.sort((a, b) => {
-          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-          return priceA - priceB;
-        });
-      } else if (detailsFilters.orderBy === "highPrice") {
-        orderedItems.sort((a, b) => {
-          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-          return priceB - priceA;
-        });
       }
-      console.log(orderedItems);
+      return filtered;
+    }, []);
 
-      onFilterChange(orderedItems, detailsFilters);
-    } catch (error) {
-      console.error("Error fetching filtered items:", error);
+    let orderedItems = [...filteredItems];
+
+    // Apply the ordering logic
+    if (detailsFilters.orderBy === "discount") {
+      orderedItems = orderedItems.filter((item) => item.discount !== undefined);
+    } else if (detailsFilters.orderBy === "lowPrice") {
+      orderedItems.sort((a, b) => {
+        const priceA = "discountPrice" in a ? a.discountPrice : a.price;
+        const priceB = "discountPrice" in b ? b.discountPrice : b.price;
+        return priceA - priceB;
+      });
+    } else if (detailsFilters.orderBy === "highPrice") {
+      orderedItems.sort((a, b) => {
+        const priceA = "discountPrice" in a ? a.discountPrice : a.price;
+        const priceB = "discountPrice" in b ? b.discountPrice : b.price;
+        return priceB - priceA;
+      });
     }
-  };
+    
+    console.log(orderedItems);
+
+    onFilterChange(orderedItems, detailsFilters);
+  } catch (error) {
+    console.error("Error fetching filtered items:", error);
+  }
+};
+
 
   //ORDER BY - filtering logic according if filtered items or original items are being rendered
   useEffect(() => {
@@ -231,7 +225,8 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
       <FilterHeader>
         <FilterBy>Filters</FilterBy>
         <ResetAllBtn
-          onClick={() => {//Reset General Filters
+          onClick={() => {
+            //Reset General Filters
             setTimeout(() => {
               setDetailsFilters((prevFilters) => ({
                 ...prevFilters,
@@ -273,6 +268,11 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
           </AccordionSummary>
           <AccordionDetails>
             <FormControlLabel
+              sx={{
+                justifyContent: "flex-end",
+                marginLeft: "-37px",
+                marginRight: "50px",
+              }}
               control={
                 <OrderByWrapper>
                   <OrderByBtn
@@ -342,7 +342,8 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
             </Typography>
           </AccordionSummary>
           <ClearFilterBtn
-            onClick={() => {     //Reset section filters
+            onClick={() => {
+              //Reset section filters
               setTimeout(() => {
                 setDetailsFilters((prevFilters) => ({
                   ...prevFilters,
@@ -362,7 +363,6 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                   ...selectStyle,
                   marginBottom: "3px",
                   textTransform: "capitalize",
-                 
                 }}
                 control={
                   <Checkbox
@@ -375,7 +375,8 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                     onClick={() => handleLoadDetail()}
                     checked={detailsFilters.category.includes(category)}
                     onChange={(e) =>
-                      handleDetailsFilterChange(     //Handle details function
+                      handleDetailsFilterChange(
+                        //Handle details function
                         "category",
                         updateFilterArray(
                           detailsFilters.category,
@@ -420,7 +421,8 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
           <ClearFilterBtn
             onClick={() => {
               setTimeout(() => {
-                setDetailsFilters((prevFilters) => ({   //Reset section filters
+                setDetailsFilters((prevFilters) => ({
+                  //Reset section filters
                   ...prevFilters,
                   size: "",
                 }));
@@ -448,7 +450,8 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                           checked={detailsFilters.size.includes(size)}
                           onClick={() => handleLoadDetail()}
                           onChange={(e) =>
-                            handleDetailsFilterChange( //Handle details function
+                            handleDetailsFilterChange(
+                              //Handle details function
                               "size",
                               updateFilterArray(
                                 detailsFilters.size,
@@ -492,7 +495,8 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
             </Typography>
           </AccordionSummary>
           <ClearFilterBtn
-            onClick={() => {    //Reset section filters
+            onClick={() => {
+              //Reset section filters
               setTimeout(() => {
                 setDetailsFilters((prevFilters) => ({
                   ...prevFilters,
@@ -504,45 +508,60 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
           >
             Clear filters
           </ClearFilterBtn>
-          <AccordionDetails sx={{ paddingTop: "15px" }}>
+          <AccordionDetails sx={{ padding: "20px 32px" }}>
             <Grid container spacing={1}>
               {/* Use the Grid container */}
-              {uniqueColors.map((color, index) => (
-                <Grid item xs={6} key={index}>
-                  {/* Divide the grid into 2 columns */}
-                  <FormControlLabel
-                    sx={{
-                      ...selectStyle,
-                      textTransform: "capitalize",
-                    }}
-                    control={
-                      <Checkbox
-                        sx={{
-                          color: "#202932",
-                          minWidth: "55px",
-                          marginRight: "-10px",
-                          "&.Mui-checked": {
-                            color: "black",
-                          },
-                        }}
-                        checked={detailsFilters.color.includes(color)}
-                        onClick={() => handleLoadDetail()}
-                        onChange={(e) =>
-                          handleDetailsFilterChange(    //Handle details function
-                            "color",
-                            updateFilterArray(
-                              detailsFilters.color,
-                              color,
-                              e.target.checked
+              {Object.keys(colorMapping).map((colorKey, index) => {
+                const checkBoxColors = colorMapping[colorKey].split(" , "); //background color for checkboxes
+                const checkBoxStyle =
+                  checkBoxColors.length > 1
+                    ? `${checkBoxColors[0]}, ${checkBoxColors[1]}`
+                    : checkBoxColors[0];
+
+                return (
+                  <Grid item xs={6} key={index}>
+                    <FormControlLabel
+                      sx={{
+                        flexDirection:"column",
+                        alignItems: "flex-start",
+                        margin:"8px 0 10px 0",
+                        textTransform: "capitalize",
+                      }}
+                      control={
+                        <ColorCheckbox
+                          type="checkbox"
+                          style={{
+                            background: checkBoxStyle,
+                          }}
+                          checked={detailsFilters.color.includes(colorKey)}
+                          onClick={() => handleLoadDetail()}
+                          onChange={(e) =>
+                            handleDetailsFilterChange(
+                              "color",
+                              updateFilterArray(
+                                detailsFilters.color,
+                                /* getFirstColorWord(colorKey), */ //get first word value of property "color" in the object
+                                colorKey,
+                                e.target.checked
+                              )
                             )
-                          )
-                        }
-                      />
-                    }
-                    label={color}
-                  />
-                </Grid>
-              ))}
+                          }
+                        />
+                      }
+                      label={(
+                        <Typography
+                          sx={{
+                            fontSize: "0.83rem", // Add the desired font size
+                            paddingTop:"3px"
+                          }}
+                        >
+                          {colorKey}
+                        </Typography>
+                      )}
+                    />
+                  </Grid>
+                );
+              })}
             </Grid>
           </AccordionDetails>
         </Accordion>
@@ -551,348 +570,16 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
   );
 };
 
-// import { useEffect, useState } from "react";
-// import styled from "styled-components/macro";
-// import Select from "@mui/material/Select";
-// import {
-//   Checkbox,
-//   FormControl,
-//   InputLabel,
-//   ListItemText,
-//   MenuItem,
-//   OutlinedInput,
-// } from "@mui/material";
-
-// export const MultiFilter = ({ items, onFilterChange }) => {
-//   //////////           ////////////           ////////////           ///////////           ///////////
-//   //                       STATE FOR DIFFERENT FILTERS                        //
-//   const [detailsFilters, setDetailsFilters] = useState({
-//     category: "",
-//     size: "",
-//     color: "",
-//     orderBy: "",
-//   });
-
-//   //////////           ////////////           ////////////           ///////////           ///////////
-//   //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
-
-//   //-------    COLOR MAPING   -------//
-//   const uniqueColors = Array.from(new Set(items.map((item) => item.color))); //Find all the colors
-//   const colorUserMap = {}; //Track unique colors
-//   items.forEach((item) => {
-//     if (!colorUserMap[item.color]) {
-//       // Iterate through the items to populate the colorUserMap
-//       colorUserMap[item.color] = new Set();
-//     }
-//     colorUserMap[item.color].add(item.userId); // Add the "userId" property to set that color
-//   });
-
-//   const colorQuantityMap = {}; // Create a colorQuantityMap. Filter quantity of color by "userId" of items
-//   Object.keys(colorUserMap).forEach((color) => {
-//     const userSet = colorUserMap[color];
-//     colorQuantityMap[color] = userSet.size;
-//   });
-
-//   //-------    SIZE MAPING   -------//
-//   const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
-//   const sizeUserMap = {};
-//   items.forEach((item) => {
-//     if (!sizeUserMap[item.size]) {
-//       sizeUserMap[item.size] = new Set();
-//     }
-//     sizeUserMap[item.size].add(item.userId);
-//   });
-
-//   // const sizeQuantityMap = {};
-//   // Object.keys(sizeUserMap).forEach((size) => {
-//   //   const userSet = sizeUserMap[size];
-//   //   sizeQuantityMap[size] = userSet.size;
-//   // });
-
-//   //-------    CATEGORY MAPING   -------//
-//   const uniqueCategory = Array.from(
-//     new Set(items.map((item) => item.category))
-//   );
-//   const categoryUserMap = {};
-//   items.forEach((item) => {
-//     if (!categoryUserMap[item.category]) {
-//       categoryUserMap[item.category] = new Set();
-//     }
-//     categoryUserMap[item.category].add(item.userId);
-//   });
-
-//   //////////           ////////////           ////////////           ///////////           ///////////
-//   //                     FILTERING LOGIC FOR ALL ITEMS                       //
-//   const applyDetailsFilters = (items, filters) => {
-//     let filteredItems = items;
-
-//     if (filters.category && filters.category.length > 0) {
-//       // category
-//       filteredItems = filteredItems.filter((item) =>
-//         filters.category.includes(item.category)
-//       );
-//     }
-//     if (filters.size && filters.size.length > 0) {
-//       //size
-//       filteredItems = filteredItems.filter((item) =>
-//         filters.size.includes(item.size)
-//       );
-//     }
-//     if (filters.color && filters.color.length > 0) {
-//       // color
-//       filteredItems = filteredItems.filter((item) =>
-//         filters.color.includes(item.color)
-//       );
-//     }
-//     if (filters.orderBy === "discount") {
-//       //discount
-//       filteredItems = filteredItems.filter(
-//         (item) => item.discount !== undefined
-//       );
-//     }
-//     if (filters.orderBy === "lowPrice") {
-//       //lower price
-//       filteredItems.sort((a, b) => {
-//         const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-//         const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-//         return priceA - priceB;
-//       });
-//     } else if (filters.orderBy === "highPrice") {
-//       //higher price
-//       filteredItems.sort((a, b) => {
-//         const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-//         const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-//         return priceB - priceA;
-//       });
-//     }
-//     return filteredItems;
-//   };
-
-//   //////////           ////////////           ////////////           ///////////           ///////////
-//   //                         HANDLE FILTERED ITEMS                        //
-//   const [hasAppliedFilters, setHasAppliedFilters] = useState(false);
-
-//   //Handle each filter change and pass the values
-//   const handleDetailsFilterChange = (filterName, value) => {
-//     setDetailsFilters((prevFilters) => ({
-//       ...prevFilters,
-//       [filterName]: value,
-//     }));
-//     setHasAppliedFilters(false);
-//   };
-
-//   //Apply filters. Pass the value to ItemList component -> onFilterChange
-//   useEffect(() => {
-//     if (hasAppliedFilters) {
-//       return;
-//     }
-//     const filteredItems = applyDetailsFilters(items, detailsFilters);
-//     onFilterChange(filteredItems, detailsFilters);
-//     setHasAppliedFilters(true);
-//   }, [detailsFilters, items, hasAppliedFilters, onFilterChange]);
-
-//   // Load selected filters from localStorage when the component mounts
-//   useEffect(() => {
-//     const storedFilters = localStorage.getItem("selectedFilters");
-//     if (storedFilters) {
-//       setDetailsFilters(JSON.parse(storedFilters));
-//       setHasAppliedFilters(false); // Reset the applied filters status
-//     }
-//   }, []);
-
-//   // Update localStorage when the detailsFilters state changes
-//   useEffect(() => {
-//     localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
-//   }, [detailsFilters]);
-
-//   //////////           ////////////           ////////////           ///////////           ///////////
-//   return (
-//     <>
-//       <FilterWrapper>
-//         <FilterBy>Filter by :</FilterBy>
-
-//         {/* Category filter */}
-//         <FormControl sx={mainStyle}>
-//           <InputLabel
-//             id="category-select-label"
-//             sx={{
-//               paddingLeft: "10px",
-//               fontSize: "1.1rem",
-//               "&.Mui-focused": {
-//                 color: "#b26507",
-//               },
-//             }}
-//           >
-//             Categories
-//           </InputLabel>
-//           <Select
-//             sx={{
-//               ...selectStyle,
-//               "&.Mui-focused": {
-//                 borderBottomColor: "black",
-//                 textTransform: "capitalize",
-//               },
-//             }}
-//             MenuProps={MenuProps}
-//             multiple
-//             labelId="category-select-label"
-//             id="category-select"
-//             value={detailsFilters.category || []}
-//             onChange={(e) =>
-//               handleDetailsFilterChange("category", e.target.value)
-//             }
-//             input={<OutlinedInput label="Categories" />}
-//             renderValue={(selected) => selected.join(", ")}
-//           >
-//             {uniqueCategory.map((category, index) => (
-//               <MenuItem key={index} value={category}>
-//                 <Checkbox
-//                   checked={detailsFilters.category.includes(category)}
-//                 />
-//                 <ListItemText
-//                   sx={{ textTransform: "capitalize" }}
-//                   primary={category}
-//                 />
-//               </MenuItem>
-//             ))}
-//           </Select>
-//         </FormControl>
-
-//         {/* Sizes filter */}
-//         <FormControl sx={mainStyle}>
-//           <InputLabel
-//             id="size-select-label"
-//             sx={{
-//               paddingLeft: "25px",
-//               fontSize: "1.1rem",
-//               "&.Mui-focused": {
-//                 color: "#b26507", // Change to your desired color
-//               },
-//             }}
-//           >
-//             Sizes
-//           </InputLabel>
-//           <Select
-//             sx={{
-//               ...selectStyle,
-//               "&.Mui-focused": {
-//                 borderBottomColor: "black",
-//                 textTransform: "capitalize",
-//               },
-//             }}
-//             MenuProps={MenuProps}
-//             labelId="size-select-label"
-//             id="size-select"
-//             multiple
-//             value={detailsFilters.size || []} // Ensure detailsFilters.size is an array
-//             onChange={(e) => handleDetailsFilterChange("size", e.target.value)}
-//             input={<OutlinedInput label="Sizes" />}
-//             renderValue={(selected) => selected.join(", ")}
-//           >
-//             {uniqueSizes
-//               .sort((a, b) => {
-//                 // Custom sorting logic to order sizes as desired
-//                 const sizeOrder = { xs: 1, s: 2, m: 3, l: 4, xl: 5 };
-//                 const aOrder = sizeOrder[a] || parseInt(a, 10) || 9999;
-//                 const bOrder = sizeOrder[b] || parseInt(b, 10) || 9999;
-//                 return aOrder - bOrder;
-//               })
-//               .map((size, index) => (
-//                 <MenuItem key={index} value={size}>
-//                   <Checkbox checked={detailsFilters.size.includes(size)} />
-//                   <ListItemText
-//                     primary={size}
-//                     sx={{ textTransform: "uppercase" }}
-//                   />
-//                 </MenuItem>
-//               ))}
-//           </Select>
-//         </FormControl>
-
-//         {/* Color filter */}
-//         <FormControl sx={mainStyle}>
-//           <InputLabel
-//             id="color-select-label"
-//             sx={{
-//               fontSize: "1.1rem",
-//               paddingLeft: "25px",
-//               "&.Mui-focused": {
-//                 color: "#b26507",
-//               },
-//             }}
-//           >
-//             Colors
-//           </InputLabel>
-//           <Select
-//             sx={{
-//               ...selectStyle,
-//               "&.Mui-focused": {
-//                 borderBottomColor: "black",
-//                 textTransform: "capitalize",
-//               },
-//             }}
-//             MenuProps={MenuProps}
-//             labelId="color-select-label"
-//             id="color-select"
-//             multiple
-//             value={detailsFilters.color || []} // Ensure detailsFilters.color is an array
-//             onChange={(e) => handleDetailsFilterChange("color", e.target.value)}
-//             input={<OutlinedInput label="Colors" />}
-//             renderValue={(selected) => selected.join(", ")}
-//           >
-//             {uniqueColors.map((color, index) => (
-//               <MenuItem key={index} value={color}>
-//                 <Checkbox checked={detailsFilters.color.includes(color)} />
-//                 <ListItemText
-//                   sx={{ textTransform: "capitalize" }}
-//                   primary={`${color} (${colorQuantityMap[color] || 0})`}
-//                 />
-//               </MenuItem>
-//             ))}
-//           </Select>
-//         </FormControl>
-//       </FilterWrapper>
-
-//       {/* General filter */}
-
-//       <FormControl sx={orderStyle}>
-//         <InputLabel
-//           id="order-by-select-label"
-//           sx={{
-//             fontSize: "1.1rem",
-//             fontWeight: "bold",
-//             paddingLeft: "10px",
-//             color: "black",
-//             "&.Mui-focused": {
-//               color: "#b26507",
-//             },
-//           }}
-//         >
-//           Order by
-//         </InputLabel>
-//         <Select
-//           labelId="order-by-select-label"
-//           id="order-by-select"
-//           value={detailsFilters.orderBy || ""}
-//           onChange={(e) => handleDetailsFilterChange("orderBy", e.target.value)}
-//           input={<OutlinedInput label="Order by" />}
-//           sx={{
-//             ...selectStyle,
-//             "&.Mui-focused": {
-//               borderBottomColor: "black",
-//               textTransform: "capitalize",
-//             },
-//           }}
-//         >
-//           <MenuItem value="">No order</MenuItem>
-//           <MenuItem value="discount">Discount Only</MenuItem>
-//           <MenuItem value="lowPrice">Lower Price</MenuItem>
-//           <MenuItem value="highPrice">Higher Price</MenuItem>
-//         </Select>
-//       </FormControl>
-//     </>
-//   );
-// };
+const ColorCheckbox = styled.input`
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  width: ${({ checked }) => (checked ? "38px" : "24px")};
+  height: ${({ checked }) => (checked ? "38px" : "24px")};
+  background-color: ${({ color }) => color};
+  border: ${({ checked }) => (checked ? "1px solid black" : "2px solid#bfc2c6")};
+`;
 
 //MATERIAL UI STYLES
 
@@ -1002,7 +689,8 @@ const OrderByBtn = styled.button`
   padding: 5px;
   color: black;
   font-size: 0.85rem;
-  background-color: ${(props) => (props.active ? "#dbe4f5" : "rgb(244, 244, 244);")};
+  background-color: ${(props) =>
+    props.active ? "#dbe4f5" : "rgb(244, 244, 244);"};
   border: ${(props) =>
     props.active ? "1px solid #857a7a" : "1px solid lightgrey"};
   font-weight: ${(props) => (props.active ? "600" : "normal")};
@@ -1035,4 +723,10 @@ const StyledCheckboxInput = styled.input`
     border-width: 0.2rem;
     border-color: black;
   }
+`;
+const NoProductsMessage = styled.div`
+  margin: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #d9534f; 
 `;

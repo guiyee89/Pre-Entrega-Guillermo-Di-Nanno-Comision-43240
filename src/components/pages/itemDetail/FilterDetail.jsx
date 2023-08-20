@@ -5,10 +5,12 @@ import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import LoadingBar from "react-top-loading-bar";
 
-
-export const FilterDetail = ({ selectedItem, onFilterItemChange, handleSizeLoading }) => {
-
-//////////////     //////////////    ////////////      ////////////      /////////////
+export const FilterDetail = ({
+  selectedItem,
+  onFilterItemChange,
+  handleSizeLoading,
+}) => {
+  //////////////     //////////////    ////////////      ////////////      /////////////
   const [selectedFilters, setSelectedFilters] = useState({
     //set selectedFilters with color and size values
     color: null,
@@ -17,41 +19,41 @@ export const FilterDetail = ({ selectedItem, onFilterItemChange, handleSizeLoadi
   const [relatedItems, setRelatedItems] = useState([]); //Items related to the selectedItem prop
   const [filteredItem, setFilteredItem] = useState({}); //Item filtered
 
+  //////////////     //////////////    ////////////      ////////////      /////////////
+  //           FETCH ITEMS RELATED TO "selectedItem" BY userId PROPERTY              //           (Firestore database)
 
+  useEffect(() => {
+    // console.log("Fetching related items from Firestore...");
+    const fetchRelatedItems = () => {
+      const userId = selectedItem.userId;
+      const relatedItemsQuery = query(
+        collection(db, "products"),
+        where("userId", "==", userId)
+      );
+      getDocs(relatedItemsQuery)
+        .then((snapshot) => {
+          const relatedItems = snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          setRelatedItems(relatedItems);
+        })
+        .catch((error) => {
+          console.error("Error fetching related items:", error);
+        });
+    };
 
-//////////////     //////////////    ////////////      ////////////      /////////////
-//           FETCH ITEMS RELATED TO "selectedItem" BY userId PROPERTY              //           (Firestore database)
+    // Fetch related items only once when the component mounts
+    fetchRelatedItems();
+    // Set the color and size checkboxes according to the selectedItem at first rendering
+    setSelectedFilters({
+      color: selectedItem.color,
+      size: selectedItem.size,
+    });
+  }, [selectedItem]);
 
-useEffect(() => {
-  // console.log("Fetching related items from Firestore...");
-  const fetchRelatedItems = () => {
-    const userId = selectedItem.userId;
-    const relatedItemsQuery = query(collection(db, "products"), where("userId", "==", userId));
-    getDocs(relatedItemsQuery)
-      .then((snapshot) => {
-        const relatedItems = snapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        setRelatedItems(relatedItems);
-      })
-      .catch((error) => {
-        console.error("Error fetching related items:", error);
-      });
-  };
- 
-  // Fetch related items only once when the component mounts
-  fetchRelatedItems();
-  // Set the color and size checkboxes according to the selectedItem at first rendering
-  setSelectedFilters({
-    color: selectedItem.color,
-    size: selectedItem.size,
-  });
-}, [selectedItem]);
-
-
-//////////////     //////////////    ////////////      ////////////      /////////////
-//              HANDLING OF COLOR AND SIZE SELECTION ON-CHANGE                      //
+  //////////////     //////////////    ////////////      ////////////      /////////////
+  //              HANDLING OF COLOR AND SIZE SELECTION ON-CHANGE                      //
 
   // Function to handle color filter selection change
   const handleColorChange = (color) => {
@@ -64,13 +66,12 @@ useEffect(() => {
   };
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
-      setSelectedFilters((prevFilters) => ({
-        ...prevFilters,
-        size: size,
-      }));
-      handleSizeLoading()
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      size: size,
+    }));
+    handleSizeLoading();
   };
-
 
   // Function to handle size and color filter selection change
   useEffect(() => {
@@ -94,27 +95,25 @@ useEffect(() => {
           }));
         }
       }
+
       onFilterItemChange(filterSelection); //responible to set new item by color or sizes and render it
       setFilteredItem(filterSelection || {});
     }
   }, [selectedFilters, relatedItems, onFilterItemChange]);
 
+  //--------    LOADING    --------//
+  const ref = useRef(null);
 
-//--------    LOADING    --------//
-   const ref = useRef(null);
+  const handleTopLoad = () => {
+    ref.current.continuousStart();
+    setTimeout(() => {
+      ref.current.complete();
+    }, 600);
+  };
 
-   const handleTopLoad = () => {
-     ref.current.continuousStart();
-     setTimeout(() => {
-       ref.current.complete();
-     }, 600);
-   };
-
-
-//////////////     //////////////    ////////////      ////////////      //////////////
-//                      LOGIC FOR COLOR & SIZE RENDERING                           //
-
-  //Create map for properties existing "color" 
+  //////////////     //////////////    ////////////      ////////////      //////////////
+  //                      LOGIC FOR COLOR & SIZE RENDERING                           //
+  //Create map for properties existing "color"
   const uniqueColors = Array.from(
     new Set(relatedItems.map((item) => item.color))
   );
@@ -125,7 +124,7 @@ useEffect(() => {
     const uniqueSizesShoes = Array.from(
       new Set(relatedItems.map((item) => item.size))
     );
-  
+
     return selectedItem.category === "shoes"
       ? uniqueSizesShoes
           .map((size) => parseInt(size, 10))
@@ -149,9 +148,8 @@ useEffect(() => {
     ? getAvailableSizesForColor(selectedFilters.color)
     : [];
 
-
-//////////////     //////////////    ////////////      ////////////      //////////////
-//                                 RENDERING                                         //
+  //////////////     //////////////    ////////////      ////////////      //////////////
+  //                                 RENDERING                                         //
   return (
     <>
       <Wrapper>
@@ -161,22 +159,36 @@ useEffect(() => {
             const itemsWithCurrentColor = relatedItems.filter(
               (item) => item.color === color
             );
+
             if (itemsWithCurrentColor.length > 0) {
               return (
                 <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
-                   <LoadingBar color="#cf6c2a" ref={ref} height={2} shadow={false}/>
+                  <LoadingBar
+                    color="#cf6c2a"
+                    ref={ref}
+                    height={2}
+                    shadow={false}
+                  />
                   <ColorCheckbox
                     id={`color-${color}`}
                     checked={selectedFilters.color === color}
                     onChange={() => handleColorChange(color)}
                   />
-                  <ColorImage src={itemsWithCurrentColor[0].img[0]} alt={color} />
+                  <ColorImage
+                    src={itemsWithCurrentColor[0].img[0]}
+                    alt={color}
+                  />
                 </ColorCheckboxWrapper>
               );
             } else {
               return (
                 <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
-                  <LoadingBar color="#cf6c2a" ref={ref} height={4} shadow={true}/>
+                  <LoadingBar
+                    color="#cf6c2a"
+                    ref={ref}
+                    height={4}
+                    shadow={true}
+                  />
                   <ColorCheckbox
                     id={`color-${color}`}
                     checked={selectedFilters.color === color}
@@ -218,6 +230,327 @@ useEffect(() => {
     </>
   );
 };
+
+// import { useEffect, useRef } from "react";
+// import { useState } from "react";
+// import styled from "styled-components/macro";
+// import { db } from "../../../firebaseConfig";
+// import { collection, getDocs, query, where } from "firebase/firestore";
+// import LoadingBar from "react-top-loading-bar";
+
+// export const FilterDetail = ({
+//   selectedItem,
+//   onFilterItemChange,
+//   handleSizeLoading,
+// }) => {
+//   //////////////     //////////////    ////////////      ////////////      /////////////
+//   const [selectedFilters, setSelectedFilters] = useState({
+//     //set selectedFilters with color and size values
+//     color: null,
+//     colorSecondary: null,
+//     size: null,
+//   });
+//   console.log(selectedFilters);
+//   const [relatedItems, setRelatedItems] = useState([]); //Items related to the selectedItem prop
+//   const [filteredItem, setFilteredItem] = useState({}); //Item filtered
+
+//   //////////////     //////////////    ////////////      ////////////      /////////////
+//   //           FETCH ITEMS RELATED TO "selectedItem" BY userId PROPERTY              //           (Firestore database)
+
+//   useEffect(() => {
+//     // console.log("Fetching related items from Firestore...");
+//     const fetchRelatedItems = () => {
+//       const userId = selectedItem.userId;
+//       const relatedItemsQuery = query(
+//         collection(db, "products"),
+//         where("userId", "==", userId)
+//       );
+//       getDocs(relatedItemsQuery)
+//         .then((snapshot) => {
+//           const relatedItems = snapshot.docs.map((doc) => ({
+//             ...doc.data(),
+//             id: doc.id,
+//           }));
+//           setRelatedItems(relatedItems);
+//         })
+//         .catch((error) => {
+//           console.error("Error fetching related items:", error);
+//         });
+//     };
+
+//     // Fetch related items only once when the component mounts
+//     fetchRelatedItems();
+//     // Set the color and size checkboxes according to the selectedItem at first rendering
+//     setSelectedFilters({
+//       color: selectedItem.color,
+//       colorSecondary: selectedItem.colorSecondary,
+//       size: selectedItem.size,
+//     });
+//   }, [selectedItem]);
+
+//   //////////////     //////////////    ////////////      ////////////      /////////////
+//   //              HANDLING OF COLOR AND SIZE SELECTION ON-CHANGE                      //
+
+//   // Function to handle color filter selection change
+//   const handleColorChange = (color) => {
+//     setTimeout(() => {
+//       setSelectedFilters((prevFilters) => ({
+//         ...prevFilters,
+//         color: color,
+//       }));
+//     }, 1200);
+//   };
+//   // Function to handle size filter selection change
+//   const handleSizeChange = (size) => {
+//     setSelectedFilters((prevFilters) => ({
+//       ...prevFilters,
+//       size: size,
+//     }));
+//     handleSizeLoading();
+//   };
+
+//   // Function to handle size and color filter selection change
+//   // useEffect(() => {
+//   //   // console.log("Filtering related items...");
+//   //   const { color, colorSecondary, size } = selectedFilters;
+
+//   //   let filterSelection
+
+//   //   if (color && size) {
+//   //     filterSelection = relatedItems.find(
+//   //       (item) => item.color === color && item.size === size
+//   //     )
+
+//   //     if (!filterSelection) {
+//   //       // If no item matches the selected combination of color and size, find the first item that has color and size properties
+//   //       filterSelection = relatedItems.find(
+//   //         (item) => item.color === color && item.size
+//   //       );
+//   //       // Set an available selectedFilters "size" when selecting a new "color" in case filteredItem doesn't have current "size"
+//   //       if (filterSelection) {
+//   //         filterSelection = relatedItems.find((item) => item.color === color);
+//   //         setSelectedFilters((prevFilters) => ({
+//   //           ...prevFilters,
+//   //           size: filterSelection.size,
+//   //         }));
+//   //       }
+//   //     }
+//   //     console.log(filterSelection)
+
+//   //     onFilterItemChange(filterSelection); //responible to set new item by color or sizes and render it
+//   //     setFilteredItem(filterSelection || {});
+//   //   }
+//   // }, [selectedFilters, relatedItems, onFilterItemChange]);
+//   // Function to handle size and color filter selection change
+//   useEffect(() => {
+//     const { color, colorSecondary, size } = selectedFilters;
+
+//     let filterSelection;
+
+//     if (color && size) {
+//       filterSelection = relatedItems.find(
+//         (item) => item.color === color && item.size === size
+//       );
+//     } else if (colorSecondary && size) {
+//       filterSelection = relatedItems.find(
+//         (item) => item.colorSecondary === colorSecondary && item.size === size
+//       );
+//     } else if (color) {
+//       filterSelection = relatedItems.find((item) => item.color === color);
+//     } else if (colorSecondary) {
+//       filterSelection = relatedItems.find(
+//         (item) => item.colorSecondary === colorSecondary
+//       );
+//       if (!filterSelection) {
+//         // If no item matches the selected combination of color and size, find the first item that has color and size properties
+//         filterSelection = relatedItems.find(
+//           (item) => item.color === color && item.size
+//         );
+//         // Set an available selectedFilters "size" when selecting a new "color" in case filteredItem doesn't have current "size"
+//         if (filterSelection) {
+//           filterSelection = relatedItems.find((item) => item.color === color);
+//           setSelectedFilters((prevFilters) => ({
+//             ...prevFilters,
+//             size: filterSelection.size,
+//           }));
+//         }
+//       }
+//     }
+//     console.log(filterSelection);
+
+//     if (filterSelection) {
+//       onFilterItemChange(filterSelection);
+//       setFilteredItem(filterSelection);
+//     }
+//   }, [selectedFilters, relatedItems, onFilterItemChange]);
+
+//   //--------    LOADING    --------//
+//   const ref = useRef(null);
+
+//   const handleTopLoad = () => {
+//     ref.current.continuousStart();
+//     setTimeout(() => {
+//       ref.current.complete();
+//     }, 600);
+//   };
+
+//   //////////////     //////////////    ////////////      ////////////      //////////////
+//   //                      LOGIC FOR COLOR & SIZE RENDERING                           //
+//   //Create map for properties existing "color"
+//   const uniqueColors = Array.from(
+//     new Set(relatedItems.flatMap((item) => [item.color, item.colorSecondary]))
+//   ).filter(Boolean);
+
+//   //Render custom "size" for clothing or map existing "size" for shoes
+//   const renderSizes = () => {
+//     const customSizes = ["xs", "s", "m", "l", "xl"];
+//     const uniqueSizesShoes = Array.from(
+//       new Set(relatedItems.map((item) => item.size))
+//     );
+
+//     return selectedItem.category === "shoes"
+//       ? uniqueSizesShoes
+//           .map((size) => parseInt(size, 10))
+//           .sort((a, b) => a - b)
+//           .map((sizeNumber) => sizeNumber.toString())
+//       : customSizes;
+//   };
+
+//   //Manipulate "size" enabling/disabling by selecting a "color" checking which sizes are available
+//   const getAvailableSizesForColor = (color) => {
+//     const items = relatedItems.filter(
+//       (item) => item.color === color && !item.colorSecondary
+//     );
+//     const items2 = relatedItems.filter((item) => item.colorSecondary === color);
+
+//     /*  console.log(items);
+//     console.log(items2); */
+
+//     if (items.length > 0) {
+//       return Array.from(
+//         new Set(
+//           items
+//             .filter((item) => item.color === selectedFilters.color)
+//             .map((item) => item.size)
+//         )
+//       );
+//     } else if (items2.length > 0) {
+//       return Array.from(
+//         new Set(
+//           items2
+//             .filter(
+//               (item) => item.colorSecondary === selectedFilters.colorSecondary
+//             )
+//             .map((item) => item.size)
+//         )
+//       );
+//     } else {
+//       return [];
+//     }
+//   };
+//   // ... (other handlers)
+//   const availableSizesForColor = selectedFilters.color
+//     ? getAvailableSizesForColor(selectedFilters.color || selectedFilters.colorSecondary)
+//     : [];
+
+//   //////////////     //////////////    ////////////      ////////////      //////////////
+//   //                                 RENDERING                                         //
+//   return (
+//     <>
+//       <Wrapper>
+//         {/* Color filter */}
+//         <ColorContainer>
+//           {uniqueColors.map((color) => {
+//             const hasColorSecondary = selectedItem.colorSecondary;
+
+//             const itemsWithColor = relatedItems.filter(
+//               (item) => item.color === color && !item.colorSecondary
+//             );
+//             const itemsWithSecondaryColor = relatedItems.filter(
+//               (item) => item.colorSecondary === color
+//             );
+
+//             if (hasColorSecondary) {
+//               return (
+//                 <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
+//                   <LoadingBar
+//                     color="#cf6c2a"
+//                     ref={ref}
+//                     height={2}
+//                     shadow={false}
+//                   />
+//                   <ColorCheckbox
+//                     id={`color-${color}`}
+//                     checked={selectedFilters.color === color}
+//                     onChange={() => handleColorChange(color)}
+//                   />
+//                   <ColorImage
+//                     src={
+//                       itemsWithColor[0]?.img[0] ||
+//                       itemsWithSecondaryColor[0]?.img[0] ||
+//                       "fallback-image-url.png"
+//                     }
+//                     alt={color}
+//                   />
+//                 </ColorCheckboxWrapper>
+//               );
+//             } else {
+//               return (
+//                 <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
+//                   <LoadingBar
+//                     color="#cf6c2a"
+//                     ref={ref}
+//                     height={2}
+//                     shadow={false}
+//                   />
+//                   <ColorCheckbox
+//                     id={`color-${color}`}
+//                     checked={selectedFilters.color === color}
+//                     onChange={() => handleColorChange(color)}
+//                   />
+//                   <ColorImage
+//                     src={
+//                       itemsWithColor[0]?.img[0] ||
+//                       itemsWithSecondaryColor[0]?.img[0] ||
+//                       "fallback-image-url.png"
+//                     }
+//                     alt={color}
+//                   />
+//                 </ColorCheckboxWrapper>
+//               );
+//             }
+//           })}
+//         </ColorContainer>
+
+//         {/* Size filter */}
+//         <SizeContainer>
+//           {renderSizes().map((size) => {
+//             const isSizeAvailable =
+//               !selectedFilters.color || availableSizesForColor.includes(size);
+//             return (
+//               <SizeCheckboxWrapper key={size}>
+//                 <SizeCheckbox
+//                   id={`size-${size}`}
+//                   checked={selectedFilters.size === size}
+//                   onChange={() => handleSizeChange(size)}
+//                   disabled={!isSizeAvailable}
+//                 />
+//                 <SizeCheckboxLabel
+//                   htmlFor={`size-${size}`}
+//                   checked={SizeCheckboxLabel && "white"}
+//                   isSizeAvailable={isSizeAvailable}
+//                 >
+//                   {size}
+//                 </SizeCheckboxLabel>
+//               </SizeCheckboxWrapper>
+//             );
+//           })}
+//         </SizeContainer>
+//       </Wrapper>
+//     </>
+//   );
+// };
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;

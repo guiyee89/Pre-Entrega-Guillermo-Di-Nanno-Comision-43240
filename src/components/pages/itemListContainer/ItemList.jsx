@@ -41,9 +41,9 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
 
-  //Evento loader para BtnSeeDetail
-  const handleLoadDetail = (itemId) => {
-    // Store the current page in local storage
+  //////////////////////////                    ////////////////////////////
+  //-------------------         LOADERS          ---------------------//
+  const handleLoadDetail = (itemId) => {   // Circle Loader
     localStorage.setItem("currentPage", currentPage); //save currentPage in localStorage
 
     setLoadingDetail(itemId);
@@ -52,15 +52,16 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
       // navigate(`/item-details/${itemId}`);
     }, 1600);
   };
-  //--------    TOP LOADING    --------//
+
   const ref = useRef();
 
-  const handleLoadTop = () => {
+  const handleLoadTop = () => {  // TOP LOADING
     ref.current.continuousStart();
     setTimeout(() => {
       ref.current.complete();
     }, 1100);
   };
+
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
@@ -83,6 +84,16 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
     }
     // localStorage.removeItem("currentPage");
   }, []);
+
+
+  const [productsQuantity, setProductsQuantity] = useState()
+  const showProductsQuantity = () => {
+    setProductsQuantity(items.length); // Update the state with the number of items
+  };
+  
+  useEffect(() => {   // Call the showProductsQuantity function to update the productsQuantity state
+    showProductsQuantity();
+  }, [items]);
 
   ///////////////////////////                  /////////////////////////////
 
@@ -118,6 +129,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
             renderItem={(item) => <PaginationItem component="div" {...item} />}
           />
         </PaginationWrapperTop>
+        <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
       </HeaderWrapper>
       <Wrapper key="cart-wrapper">
         <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
@@ -365,14 +377,14 @@ const Discount = styled.h4`
 const HeaderWrapper = styled.div`
   width: 100%;
   display: flex;
-  padding: 0 0 15px 75px;
+  padding: 0px 25px 15px 30px;
   -webkit-box-align: center;
   align-items: flex-start;
 `;
 const PaginationWrapperTop = styled.div`
   display: flex;
-  width: 100%;
-  margin: 0 0 15px -280px;
+  width: 50%;
+  margin: 0 0 15px 0;
   justify-content: center;
 `;
 const PaginationWrapperBottom = styled.div`
@@ -382,10 +394,18 @@ const PaginationWrapperBottom = styled.div`
   justify-content: center;
 `;
 const ItemListTitle = styled.h1`
-  min-width: 240px;
+  /* min-width: 240px; */
+  width: 25%;
   color: #2b2929;
   text-align: center;
   font-size: 1.6rem;
   font-weight: bold;
   text-transform: capitalize;
 `;
+const ItemsQuantity = styled.p`
+  min-width: 25%;
+  font-weight: 600;
+  font-size: .9rem;
+  margin: 11px 10px 0 -20px;
+  word-spacing: 5px;
+`
