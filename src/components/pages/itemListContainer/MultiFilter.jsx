@@ -508,7 +508,7 @@ const fetchFilteredItems = async () => {
           >
             Clear filters
           </ClearFilterBtn>
-          <AccordionDetails sx={{ padding: "20px 32px" }}>
+          <AccordionDetails sx={{ padding: "20px 26px 20px 37px" }}>
             <Grid container spacing={1}>
               {/* Use the Grid container */}
               {Object.keys(colorMapping).map((colorKey, index) => {
@@ -578,7 +578,7 @@ const ColorCheckbox = styled.input`
   width: ${({ checked }) => (checked ? "38px" : "24px")};
   height: ${({ checked }) => (checked ? "38px" : "24px")};
   background-color: ${({ color }) => color};
-  border: ${({ checked }) => (checked ? "1px solid black" : "2px solid#bfc2c6")};
+  border: ${({ checked }) => (checked ? "1px solid black" : "1px solid#bfc2c6")};
 `;
 
 //MATERIAL UI STYLES
