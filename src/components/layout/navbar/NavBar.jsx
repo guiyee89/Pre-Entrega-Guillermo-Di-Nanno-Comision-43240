@@ -142,7 +142,7 @@ const InsideNav = styled.div`
   max-width: 1548px;
   display: flex;
   margin: 0px auto;
-  padding: 0px 20px 0 45px;
+  padding: 0px 20px 0 20px;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: justify;
@@ -206,6 +206,8 @@ const NavLink = styled(Link)`
     transition: transform 0.21s ease-in-out;
   }
 `;
+
+
 //El otro nav
 // const NavLink = styled(Link)`
 //   text-decoration: none;

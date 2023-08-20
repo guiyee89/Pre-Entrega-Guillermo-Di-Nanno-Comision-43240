@@ -259,7 +259,7 @@ export const products = [
         stock: 15,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
-        color: "Dark blue",
+        color: "blue dark",
         size: "39",
         img: [
             "https://res.cloudinary.com/derdim3m6/image/upload/v1690917116/web%20access/samples%20for%20e-commerce/Shoes/4-a_1_s7cyz8.png",
@@ -277,7 +277,7 @@ export const products = [
         stock: 15,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
-        color: "Dark blue",
+        color: "blue dark",
         size: "41",
         img: [
             "https://res.cloudinary.com/derdim3m6/image/upload/v1690917116/web%20access/samples%20for%20e-commerce/Shoes/4-a_1_s7cyz8.png",
@@ -295,7 +295,8 @@ export const products = [
         stock: 15,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
-        color: "Dark blue",
+        color: "blue dark",
+        colorSecondary:"white",
         size: "42",
         img: [
             "https://res.cloudinary.com/derdim3m6/image/upload/v1690917116/web%20access/samples%20for%20e-commerce/Shoes/4-a_1_s7cyz8.png",
@@ -313,7 +314,7 @@ export const products = [
         stock: 15,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
-        color: "Dark blue",
+        color: "blue dark",
         size: "43",
         img: [
             "https://res.cloudinary.com/derdim3m6/image/upload/v1690917116/web%20access/samples%20for%20e-commerce/Shoes/4-a_1_s7cyz8.png",
@@ -331,7 +332,7 @@ export const products = [
         stock: 15,
         description: "Step up your style game with our exclusive limited edition shoes, designed for comfort and crafted with premium materials. Don't miss out on this irresistible sale!",
         category: "shoes",
-        color: "Dark blue",
+        color: "blue dark",
         size: "44",
         img: [
             "https://res.cloudinary.com/derdim3m6/image/upload/v1690917116/web%20access/samples%20for%20e-commerce/Shoes/4-a_1_s7cyz8.png",
