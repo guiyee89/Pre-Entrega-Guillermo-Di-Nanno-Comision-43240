@@ -401,6 +401,15 @@ const HeaderWrapper = styled.div`
   -webkit-box-align: center;
   align-items: flex-start;
 `;
+
+const ClipLoaderTop = styled(ClipLoader)`
+  position: absolute;
+  top: 210px;
+`
+const ClipLoaderBottom = styled(ClipLoader)`
+  position: absolute;
+  bottom: -378%;
+`
 const PaginationWrapperTop = styled.div`
   display: flex;
   width: 50%;
