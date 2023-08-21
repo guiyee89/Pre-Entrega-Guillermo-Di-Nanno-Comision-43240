@@ -63,6 +63,15 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
     }, 1100);
   };
 
+  //Pagination loader
+  const handlePageChange = (value) => {
+    setIsLoadingPageChange(true);
+    setTimeout(() => {
+      setIsLoadingPageChange(false); 
+      setCurrentPage(value);
+    }, 700);
+  };
+
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
