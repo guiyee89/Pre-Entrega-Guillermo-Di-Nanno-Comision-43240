@@ -102,7 +102,6 @@ export const ItemListContainer = () => {
           console.log("fetching itemList...")
           setItems(products);
           setLoading(false);
-          console.log(products);
         })
         .catch((err) => console.log(err));
     }, delay);

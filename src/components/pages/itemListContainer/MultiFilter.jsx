@@ -34,24 +34,26 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     new Set(items.map((item) => item.category))
   );
   //----------        SIZE MAPING       ----------//
-  const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
-  /*   const sizeMapping = {
+  /* const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
+  console.log(uniqueSizes) */
+  const sizeMapping = {
     xs: "xs",
-    s:"s",
-    m:"m",
-    l:"l",
-    xl:"xl",
-    xxl:"xxl",
-    39:"39",
-    40:"40",
-    41:"41",
-    42:"42",
-    43:"43",
-    44:"44"
-  } */
+    s: "s",
+    m: "m",
+    l: "l",
+    xl: "xl",
+    xxl: "xxl",
+    39: "39",
+    40: "40",
+    41: "41",
+    42: "42",
+    43: "43",
+    44: "44",
+  };
 
   //----------       COLOR MAPING      ----------//
   // Define a mapping of color names to CSS color values
+
   const colorMapping = {
     black: "#000000",
     white: "#ffffff",
@@ -445,11 +447,11 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
           </ClearFilterBtn>
           <AccordionDetails sx={{ padding: "35px 37px 16px 16px" }}>
             <Grid container spacing={0}>
-              {uniqueSizes
-                .sort((a, b) => {
-                  const sizeOrder = { xs: 1, s: 2, m: 3, l: 4, xl: 5 };
-                  const aOrder = sizeOrder[a] || parseInt(a, 10) || 9999;
-                  const bOrder = sizeOrder[b] || parseInt(b, 10) || 9999;
+              {Object.keys(sizeMapping)
+                /* uniqueSizes */ .sort((a, b) => {
+                  const sizeOrder = { xs: 1, s: 2, m: 3, l: 4, xl: 5, xxl: 6 };
+                  const aOrder = sizeOrder[a] || parseInt(a, 12) || 9999;
+                  const bOrder = sizeOrder[b] || parseInt(b, 12) || 9999;
                   return aOrder - bOrder;
                 })
                 .map((size, index) => (
