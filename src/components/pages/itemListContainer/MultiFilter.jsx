@@ -456,8 +456,8 @@ const fetchFilteredItems = async () => {
                 .map((size, index) => (
                   <Grid item xs={6} key={index}>
                     <CheckboxWrapper>
-                      <StyledCheckboxLabel>
-                        <StyledCheckboxInput
+                      <SizeCheckboxLabel>
+                        <SizeCheckboxInput
                           type="checkbox"
                           checked={detailsFilters.size.includes(size)}
                           onClick={() => handleLoadDetail()}
@@ -474,7 +474,7 @@ const fetchFilteredItems = async () => {
                           }
                         />
                         {size}
-                      </StyledCheckboxLabel>
+                      </SizeCheckboxLabel>
                     </CheckboxWrapper>
                   </Grid>
                 ))}
@@ -711,7 +711,7 @@ const ColorCheckbox = styled.input`
 const CheckboxWrapper = styled.div`
   margin-left: 24px;
 `;
-const StyledCheckboxLabel = styled.label`
+const SizeCheckboxLabel = styled.label`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -720,20 +720,23 @@ const StyledCheckboxLabel = styled.label`
   margin-bottom: 25px;
   text-transform: uppercase;
   justify-content: space-around;
+  &:hover{
+    color: grey;
+  }
 `;
-const StyledCheckboxInput = styled.input`
+const SizeCheckboxInput = styled.input`
   width: 46px;
-  height: 36px;
+  height: 33px;
   border-radius: 13%;
   background-color: transparent;
   border: 2px solid rgb(191 194 198);
   appearance: none;
   outline: none;
   position: absolute;
-
   cursor: pointer;
   &:checked {
-    border-width: 0.2rem;
+    border-width: 0.125rem;
     border-color: black;
   }
 `;
+
