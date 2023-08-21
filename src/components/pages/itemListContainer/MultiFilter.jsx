@@ -26,10 +26,31 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     orderBy: "",
   });
 
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
+//////////           ////////////           ////////////           ///////////           ///////////
+//      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
 
-  //-------    COLOR MAPING   -------//
+//----------       CATEGORY MAPING      ---------//
+    const uniqueCategory = Array.from(
+      new Set(items.map((item) => item.category))
+    );
+//----------        SIZE MAPING       ----------//
+  const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
+    /*   const sizeMapping = {
+    xs: "xs",
+    s:"s",
+    m:"m",
+    l:"l",
+    xl:"xl",
+    xxl:"xxl",
+    39:"39",
+    40:"40",
+    41:"41",
+    42:"42",
+    43:"43",
+    44:"44"
+  } */
+
+//----------       COLOR MAPING      ----------//
   // Define a mapping of color names to CSS color values
   const colorMapping = {
     black: "#000000",
@@ -44,19 +65,13 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     green: "#24df13",
     brown: "#682f21",
   };
+  //function to find first color
   const getFirstColorWord = (color) => {
-    //function to find first color
     const words = color.split(" ");
     console.log(words);
     return words[0];
   };
 
-  //-------    SIZE MAPING   -------//
-  const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
-  //-------    CATEGORY MAPING   -------//
-  const uniqueCategory = Array.from(
-    new Set(items.map((item) => item.category))
-  );
 
   //////////           ////////////           ////////////           ///////////           ///////////
   //                             FILTERING LOGIC FOR ALL ITEMS                            //
