@@ -38,6 +38,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   //////////////////////////                    ////////////////////////////
   //-------------------    LOADING + currentPage    ---------------------//
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
 
