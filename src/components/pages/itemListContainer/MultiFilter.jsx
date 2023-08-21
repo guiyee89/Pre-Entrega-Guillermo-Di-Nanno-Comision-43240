@@ -26,16 +26,16 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     orderBy: "",
   });
 
-//////////           ////////////           ////////////           ///////////           ///////////
-//      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
+  //////////           ////////////           ////////////           ///////////           ///////////
+  //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
 
-//----------       CATEGORY MAPING      ---------//
-    const uniqueCategory = Array.from(
-      new Set(items.map((item) => item.category))
-    );
-//----------        SIZE MAPING       ----------//
+  //----------       CATEGORY MAPING      ---------//
+  const uniqueCategory = Array.from(
+    new Set(items.map((item) => item.category))
+  );
+  //----------        SIZE MAPING       ----------//
   const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
-    /*   const sizeMapping = {
+  /*   const sizeMapping = {
     xs: "xs",
     s:"s",
     m:"m",
@@ -50,7 +50,7 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     44:"44"
   } */
 
-//----------       COLOR MAPING      ----------//
+  //----------       COLOR MAPING      ----------//
   // Define a mapping of color names to CSS color values
   const colorMapping = {
     black: "#000000",
@@ -72,84 +72,83 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     return words[0];
   };
 
-
   //////////           ////////////           ////////////           ///////////           ///////////
   //                             FILTERING LOGIC FOR ALL ITEMS                            //
   const { categoryName } = useParams();
 
-// Fetch items from Firestore Database and filter accordingly on selection
-const fetchFilteredItems = async () => {
-  try {
-    const filteredCollection = collection(db, "products");
-    let queryFilters = [];
-    if (categoryName) {
-      queryFilters.push(where("category", "==", categoryName));
-    }
-    if (detailsFilters.category.length > 0) {
-      queryFilters.push(where("category", "in", detailsFilters.category));
-    }
-    if (detailsFilters.size.length > 0) {
-      queryFilters.push(where("size", "in", detailsFilters.size));
-    }
-    /* if (detailsFilters.color.length > 0) {
-       queryFilters.push(where("color", "in", detailsFilters.color));
-    }    */ 
-  
-
-    const filteredQuery = query(filteredCollection, ...queryFilters);
-    const querySnapshot = await getDocs(filteredQuery);
-
-    // Use a Set to track unique userId-color combinations
-    const uniqueItems = new Set();
-    const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
-      const item = doc.data();
-      const key = `${item.userId}-${item.color}`;
-
-      if (!uniqueItems.has(key)) {
-        uniqueItems.add(key);
-        // Check if any color filter matches with any word in the item's color
-        if (
-          detailsFilters.color.length === 0 ||
-          detailsFilters.color.some((colorFilter) =>
-            item.color.includes(colorFilter)
-          )
-        ) {
-          filtered.push({
-            id: doc.id,
-            ...item,
-          });
-        }
+  // Fetch items from Firestore Database and filter accordingly on selection
+  const fetchFilteredItems = async () => {
+    try {
+      const filteredCollection = collection(db, "products");
+      let queryFilters = [];
+      if (categoryName) {
+        queryFilters.push(where("category", "==", categoryName));
       }
-      return filtered;
-    }, []);
+      if (detailsFilters.category.length > 0) {
+        queryFilters.push(where("category", "in", detailsFilters.category));
+      }
+      if (detailsFilters.size.length > 0) {
+        queryFilters.push(where("size", "in", detailsFilters.size));
+      }
+      /* if (detailsFilters.color.length > 0) {
+       queryFilters.push(where("color", "in", detailsFilters.color));
+    }    */
 
-    let orderedItems = [...filteredItems];
+      const filteredQuery = query(filteredCollection, ...queryFilters);
+      const querySnapshot = await getDocs(filteredQuery);
 
-    // Apply the ordering logic
-    if (detailsFilters.orderBy === "discount") {
-      orderedItems = orderedItems.filter((item) => item.discount !== undefined);
-    } else if (detailsFilters.orderBy === "lowPrice") {
-      orderedItems.sort((a, b) => {
-        const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-        const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-        return priceA - priceB;
-      });
-    } else if (detailsFilters.orderBy === "highPrice") {
-      orderedItems.sort((a, b) => {
-        const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-        const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-        return priceB - priceA;
-      });
+      // Use a Set to track unique userId-color combinations
+      const uniqueItems = new Set();
+      const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
+        const item = doc.data();
+        const key = `${item.userId}-${item.color}`;
+
+        if (!uniqueItems.has(key)) {
+          uniqueItems.add(key);
+          // Check if any color filter matches with any word in the item's color
+          if (
+            detailsFilters.color.length === 0 ||
+            detailsFilters.color.some((colorFilter) =>
+              item.color.includes(colorFilter)
+            )
+          ) {
+            filtered.push({
+              id: doc.id,
+              ...item,
+            });
+          }
+        }
+        return filtered;
+      }, []);
+
+      let orderedItems = [...filteredItems];
+
+      // Apply the ordering logic
+      if (detailsFilters.orderBy === "discount") {
+        orderedItems = orderedItems.filter(
+          (item) => item.discount !== undefined
+        );
+      } else if (detailsFilters.orderBy === "lowPrice") {
+        orderedItems.sort((a, b) => {
+          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
+          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
+          return priceA - priceB;
+        });
+      } else if (detailsFilters.orderBy === "highPrice") {
+        orderedItems.sort((a, b) => {
+          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
+          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
+          return priceB - priceA;
+        });
+      }
+      console.log("fetching MultiFilter...");
+      console.log(orderedItems);
+
+      onFilterChange(orderedItems, detailsFilters);
+    } catch (error) {
+      console.error("Error fetching filtered items:", error);
     }
-    console.log("fetching MultiFilter...");
-    console.log(orderedItems);
-
-    onFilterChange(orderedItems, detailsFilters);
-  } catch (error) {
-    console.error("Error fetching filtered items:", error);
-  }
-};
-
+  };
 
   //ORDER BY - filtering logic according if filtered items or original items are being rendered
   useEffect(() => {
@@ -473,7 +472,15 @@ const fetchFilteredItems = async () => {
                             )
                           }
                         />
-                        {size}
+                        <Typography
+                          sx={{
+                            fontWeight:
+                              detailsFilters.size.includes(size) && "bold",
+                            fontSize: "0.9rem",
+                          }}
+                        >
+                          {size}
+                        </Typography>
                       </SizeCheckboxLabel>
                     </CheckboxWrapper>
                   </Grid>
@@ -534,9 +541,9 @@ const fetchFilteredItems = async () => {
                   <Grid item xs={6} key={index}>
                     <FormControlLabel
                       sx={{
-                        flexDirection:"column",
+                        flexDirection: "column",
                         alignItems: "flex-start",
-                        margin:"8px 0 10px 0",
+                        margin: "8px 0 10px 0",
                         textTransform: "capitalize",
                       }}
                       control={
@@ -560,16 +567,16 @@ const fetchFilteredItems = async () => {
                           }
                         />
                       }
-                      label={(
+                      label={
                         <Typography
                           sx={{
                             fontSize: "0.83rem", // Add the desired font size
-                            paddingTop:"3px"
+                            paddingTop: "3px",
                           }}
                         >
                           {colorKey}
                         </Typography>
-                      )}
+                      }
                     />
                   </Grid>
                 );
@@ -705,7 +712,8 @@ const ColorCheckbox = styled.input`
   width: ${({ checked }) => (checked ? "38px" : "24px")};
   height: ${({ checked }) => (checked ? "38px" : "24px")};
   background-color: ${({ color }) => color};
-  border: ${({ checked }) => (checked ? "1px solid black" : "1px solid#bfc2c6")};
+  border: ${({ checked }) =>
+    checked ? "1px solid black" : "1px solid#bfc2c6"};
 `;
 
 const CheckboxWrapper = styled.div`
@@ -721,7 +729,7 @@ const SizeCheckboxLabel = styled.label`
   text-transform: uppercase;
   justify-content: space-around;
   font-size: 0.88rem;
-  &:hover{
+  &:hover {
     color: grey;
   }
 `;
@@ -740,4 +748,3 @@ const SizeCheckboxInput = styled.input`
     border-color: black;
   }
 `;
-
