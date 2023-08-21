@@ -133,11 +133,16 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
           <Pagination
             size="large"
             variant="outlined"
-            count={totalPages} // Set the count to the total number of pages
+            count={totalPages}
             page={currentPage}
-            onChange={(event, value) => setCurrentPage(value)}
+            onChange={(event, value) => {
+              handlePageChange(value)
+            }}
             renderItem={(item) => <PaginationItem component="div" {...item} />}
           />
+          {isLoadingPageChange && ( 
+            <ClipLoaderTop color="#194f44" size={35} />
+          )}
         </PaginationWrapperTop>
         <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
       </HeaderWrapper>
