@@ -205,9 +205,14 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
           variant="outlined"
           count={totalPages} // Set the count to the total number of pages
           page={currentPage}
-          onChange={(event, value) => setCurrentPage(value)}
+          onChange={(event, value) => {
+            handlePageChange(value)
+          }}
           renderItem={(item) => <PaginationItem component="div" {...item} />}
         />
+        {isLoadingPageChange && ( // Display the loader when loading state is true
+          <ClipLoaderBottom color="#194f44" size={35} />
+        )}
       </PaginationWrapperBottom>
     </>
   );
