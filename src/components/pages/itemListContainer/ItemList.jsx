@@ -38,6 +38,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   //////////////////////////                    ////////////////////////////
   //-------------------    LOADING + currentPage    ---------------------//
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
 
@@ -60,6 +61,15 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
     setTimeout(() => {
       ref.current.complete();
     }, 1100);
+  };
+
+  //Pagination loader
+  const handlePageChange = (value) => {
+    setIsLoadingPageChange(true);
+    setTimeout(() => {
+      setIsLoadingPageChange(false); 
+      setCurrentPage(value);
+    }, 700);
   };
 
 
@@ -123,11 +133,16 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
           <Pagination
             size="large"
             variant="outlined"
-            count={totalPages} // Set the count to the total number of pages
+            count={totalPages}
             page={currentPage}
-            onChange={(event, value) => setCurrentPage(value)}
+            onChange={(event, value) => {
+              handlePageChange(value)
+            }}
             renderItem={(item) => <PaginationItem component="div" {...item} />}
           />
+          {isLoadingPageChange && ( 
+            <ClipLoaderTop color="#194f44" size={35} />
+          )}
         </PaginationWrapperTop>
         <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
       </HeaderWrapper>
@@ -190,9 +205,14 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
           variant="outlined"
           count={totalPages} // Set the count to the total number of pages
           page={currentPage}
-          onChange={(event, value) => setCurrentPage(value)}
+          onChange={(event, value) => {
+            handlePageChange(value)
+          }}
           renderItem={(item) => <PaginationItem component="div" {...item} />}
         />
+        {isLoadingPageChange && ( // Display the loader when loading state is true
+          <ClipLoaderBottom color="#194f44" size={35} />
+        )}
       </PaginationWrapperBottom>
     </>
   );
@@ -381,6 +401,15 @@ const HeaderWrapper = styled.div`
   -webkit-box-align: center;
   align-items: flex-start;
 `;
+
+const ClipLoaderTop = styled(ClipLoader)`
+  position: absolute;
+  top: 210px;
+`
+const ClipLoaderBottom = styled(ClipLoader)`
+  position: absolute;
+  bottom: -378%;
+`
 const PaginationWrapperTop = styled.div`
   display: flex;
   width: 50%;

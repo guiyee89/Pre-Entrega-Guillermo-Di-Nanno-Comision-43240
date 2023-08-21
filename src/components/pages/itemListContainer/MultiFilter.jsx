@@ -29,8 +29,31 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
 
-  //-------    COLOR MAPING   -------//
+  //----------       CATEGORY MAPING      ---------//
+  const uniqueCategory = Array.from(
+    new Set(items.map((item) => item.category))
+  );
+  //----------        SIZE MAPING       ----------//
+  /* const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
+  console.log(uniqueSizes) */
+  const sizeMapping = {
+    xs: "xs",
+    s: "s",
+    m: "m",
+    l: "l",
+    xl: "xl",
+    xxl: "xxl",
+    39: "39",
+    40: "40",
+    41: "41",
+    42: "42",
+    43: "43",
+    44: "44",
+  };
+
+  //----------       COLOR MAPING      ----------//
   // Define a mapping of color names to CSS color values
+
   const colorMapping = {
     black: "#000000",
     white: "#ffffff",
@@ -44,97 +67,90 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     green: "#24df13",
     brown: "#682f21",
   };
+  //function to find first color
   const getFirstColorWord = (color) => {
-    //function to find first color
     const words = color.split(" ");
     console.log(words);
     return words[0];
   };
 
-  //-------    SIZE MAPING   -------//
-  const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
-  //-------    CATEGORY MAPING   -------//
-  const uniqueCategory = Array.from(
-    new Set(items.map((item) => item.category))
-  );
-
   //////////           ////////////           ////////////           ///////////           ///////////
   //                             FILTERING LOGIC FOR ALL ITEMS                            //
   const { categoryName } = useParams();
 
-// Fetch items from Firestore Database and filter accordingly on selection
-const fetchFilteredItems = async () => {
-  try {
-    const filteredCollection = collection(db, "products");
-    let queryFilters = [];
-    if (categoryName) {
-      queryFilters.push(where("category", "==", categoryName));
-    }
-    if (detailsFilters.category.length > 0) {
-      queryFilters.push(where("category", "in", detailsFilters.category));
-    }
-    if (detailsFilters.size.length > 0) {
-      queryFilters.push(where("size", "in", detailsFilters.size));
-    }
-    /* if (detailsFilters.color.length > 0) {
-       queryFilters.push(where("color", "in", detailsFilters.color));
-    }    */ 
-  
-
-    const filteredQuery = query(filteredCollection, ...queryFilters);
-    const querySnapshot = await getDocs(filteredQuery);
-
-    // Use a Set to track unique userId-color combinations
-    const uniqueItems = new Set();
-    const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
-      const item = doc.data();
-      const key = `${item.userId}-${item.color}`;
-
-      if (!uniqueItems.has(key)) {
-        uniqueItems.add(key);
-        // Check if any color filter matches with any word in the item's color
-        if (
-          detailsFilters.color.length === 0 ||
-          detailsFilters.color.some((colorFilter) =>
-            item.color.includes(colorFilter)
-          )
-        ) {
-          filtered.push({
-            id: doc.id,
-            ...item,
-          });
-        }
+  // Fetch items from Firestore Database and filter accordingly on selection
+  const fetchFilteredItems = async () => {
+    try {
+      const filteredCollection = collection(db, "products");
+      let queryFilters = [];
+      if (categoryName) {
+        queryFilters.push(where("category", "==", categoryName));
       }
-      return filtered;
-    }, []);
+      if (detailsFilters.category.length > 0) {
+        queryFilters.push(where("category", "in", detailsFilters.category));
+      }
+      if (detailsFilters.size.length > 0) {
+        queryFilters.push(where("size", "in", detailsFilters.size));
+      }
+      /* if (detailsFilters.color.length > 0) {
+       queryFilters.push(where("color", "in", detailsFilters.color));
+    }    */
 
-    let orderedItems = [...filteredItems];
+      const filteredQuery = query(filteredCollection, ...queryFilters);
+      const querySnapshot = await getDocs(filteredQuery);
 
-    // Apply the ordering logic
-    if (detailsFilters.orderBy === "discount") {
-      orderedItems = orderedItems.filter((item) => item.discount !== undefined);
-    } else if (detailsFilters.orderBy === "lowPrice") {
-      orderedItems.sort((a, b) => {
-        const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-        const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-        return priceA - priceB;
-      });
-    } else if (detailsFilters.orderBy === "highPrice") {
-      orderedItems.sort((a, b) => {
-        const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-        const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-        return priceB - priceA;
-      });
+      // Use a Set to track unique userId-color combinations
+      const uniqueItems = new Set();
+      const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
+        const item = doc.data();
+        const key = `${item.userId}-${item.color}`;
+
+        if (!uniqueItems.has(key)) {
+          uniqueItems.add(key);
+          // Check if any color filter matches with any word in the item's color
+          if (
+            detailsFilters.color.length === 0 ||
+            detailsFilters.color.some((colorFilter) =>
+              item.color.includes(colorFilter)
+            )
+          ) {
+            filtered.push({
+              id: doc.id,
+              ...item,
+            });
+          }
+        }
+        return filtered;
+      }, []);
+
+      let orderedItems = [...filteredItems];
+
+      // Apply the ordering logic
+      if (detailsFilters.orderBy === "discount") {
+        orderedItems = orderedItems.filter(
+          (item) => item.discount !== undefined
+        );
+      } else if (detailsFilters.orderBy === "lowPrice") {
+        orderedItems.sort((a, b) => {
+          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
+          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
+          return priceA - priceB;
+        });
+      } else if (detailsFilters.orderBy === "highPrice") {
+        orderedItems.sort((a, b) => {
+          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
+          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
+          return priceB - priceA;
+        });
+      }
+      console.log("fetching MultiFilter...");
+      console.log(orderedItems);
+
+      onFilterChange(orderedItems, detailsFilters);
+    } catch (error) {
+      console.error("Error fetching filtered items:", error);
     }
-    console.log("fetching MultiFilter...");
-    console.log(orderedItems);
-
-    onFilterChange(orderedItems, detailsFilters);
-  } catch (error) {
-    console.error("Error fetching filtered items:", error);
-  }
-};
-
+  };
 
   //ORDER BY - filtering logic according if filtered items or original items are being rendered
   useEffect(() => {
@@ -429,20 +445,20 @@ const fetchFilteredItems = async () => {
           >
             Clear filters
           </ClearFilterBtn>
-          <AccordionDetails sx={{ paddingTop: "35px" }}>
+          <AccordionDetails sx={{ padding: "35px 37px 16px 16px" }}>
             <Grid container spacing={0}>
-              {uniqueSizes
-                .sort((a, b) => {
-                  const sizeOrder = { xs: 1, s: 2, m: 3, l: 4, xl: 5 };
-                  const aOrder = sizeOrder[a] || parseInt(a, 10) || 9999;
-                  const bOrder = sizeOrder[b] || parseInt(b, 10) || 9999;
+              {Object.keys(sizeMapping)
+                /* uniqueSizes */ .sort((a, b) => {
+                  const sizeOrder = { xs: 1, s: 2, m: 3, l: 4, xl: 5, xxl: 6 };
+                  const aOrder = sizeOrder[a] || parseInt(a, 12) || 9999;
+                  const bOrder = sizeOrder[b] || parseInt(b, 12) || 9999;
                   return aOrder - bOrder;
                 })
                 .map((size, index) => (
                   <Grid item xs={6} key={index}>
                     <CheckboxWrapper>
-                      <StyledCheckboxLabel>
-                        <StyledCheckboxInput
+                      <SizeCheckboxLabel>
+                        <SizeCheckboxInput
                           type="checkbox"
                           checked={detailsFilters.size.includes(size)}
                           onClick={() => handleLoadDetail()}
@@ -458,8 +474,16 @@ const fetchFilteredItems = async () => {
                             )
                           }
                         />
-                        {size}
-                      </StyledCheckboxLabel>
+                        <Typography
+                          sx={{
+                            fontWeight:
+                              detailsFilters.size.includes(size) && "bold",
+                            fontSize: "0.9rem",
+                          }}
+                        >
+                          {size}
+                        </Typography>
+                      </SizeCheckboxLabel>
                     </CheckboxWrapper>
                   </Grid>
                 ))}
@@ -519,9 +543,9 @@ const fetchFilteredItems = async () => {
                   <Grid item xs={6} key={index}>
                     <FormControlLabel
                       sx={{
-                        flexDirection:"column",
+                        flexDirection: "column",
                         alignItems: "flex-start",
-                        margin:"8px 0 10px 0",
+                        margin: "8px 0 10px 0",
                         textTransform: "capitalize",
                       }}
                       control={
@@ -545,16 +569,16 @@ const fetchFilteredItems = async () => {
                           }
                         />
                       }
-                      label={(
+                      label={
                         <Typography
                           sx={{
                             fontSize: "0.83rem", // Add the desired font size
-                            paddingTop:"3px"
+                            paddingTop: "3px",
                           }}
                         >
                           {colorKey}
                         </Typography>
-                      )}
+                      }
                     />
                   </Grid>
                 );
@@ -690,13 +714,14 @@ const ColorCheckbox = styled.input`
   width: ${({ checked }) => (checked ? "38px" : "24px")};
   height: ${({ checked }) => (checked ? "38px" : "24px")};
   background-color: ${({ color }) => color};
-  border: ${({ checked }) => (checked ? "1px solid black" : "1px solid#bfc2c6")};
+  border: ${({ checked }) =>
+    checked ? "1px solid black" : "1px solid#bfc2c6"};
 `;
 
 const CheckboxWrapper = styled.div`
   margin-left: 24px;
 `;
-const StyledCheckboxLabel = styled.label`
+const SizeCheckboxLabel = styled.label`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -705,20 +730,23 @@ const StyledCheckboxLabel = styled.label`
   margin-bottom: 25px;
   text-transform: uppercase;
   justify-content: space-around;
+  font-size: 0.88rem;
+  &:hover {
+    color: grey;
+  }
 `;
-const StyledCheckboxInput = styled.input`
+const SizeCheckboxInput = styled.input`
   width: 46px;
-  height: 36px;
+  height: 33px;
   border-radius: 13%;
   background-color: transparent;
   border: 2px solid rgb(191 194 198);
   appearance: none;
   outline: none;
   position: absolute;
-
   cursor: pointer;
   &:checked {
-    border-width: 0.2rem;
+    border-width: 0.125rem;
     border-color: black;
   }
 `;
