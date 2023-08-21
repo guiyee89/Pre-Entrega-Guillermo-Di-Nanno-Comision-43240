@@ -444,7 +444,7 @@ const fetchFilteredItems = async () => {
           >
             Clear filters
           </ClearFilterBtn>
-          <AccordionDetails sx={{ paddingTop: "35px" }}>
+          <AccordionDetails sx={{ padding: "35px 37px 16px 16px" }}>
             <Grid container spacing={0}>
               {uniqueSizes
                 .sort((a, b) => {
@@ -720,6 +720,7 @@ const SizeCheckboxLabel = styled.label`
   margin-bottom: 25px;
   text-transform: uppercase;
   justify-content: space-around;
+  font-size: 0.88rem;
   &:hover{
     color: grey;
   }
