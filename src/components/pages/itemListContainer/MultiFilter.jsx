@@ -61,13 +61,11 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   //                             FILTERING LOGIC FOR ALL ITEMS                            //
   const { categoryName } = useParams();
-  const [hasFilteredItems, setHasFilteredItems] = useState(true);
 
 // Fetch items from Firestore Database and filter accordingly on selection
 const fetchFilteredItems = async () => {
   try {
     const filteredCollection = collection(db, "products");
-    console.log("fetching MultiFilter...");
     let queryFilters = [];
     if (categoryName) {
       queryFilters.push(where("category", "==", categoryName));
@@ -82,7 +80,6 @@ const fetchFilteredItems = async () => {
        queryFilters.push(where("color", "in", detailsFilters.color));
     }    */ 
   
-
 
     const filteredQuery = query(filteredCollection, ...queryFilters);
     const querySnapshot = await getDocs(filteredQuery);
@@ -129,7 +126,7 @@ const fetchFilteredItems = async () => {
         return priceB - priceA;
       });
     }
-    
+    console.log("fetching MultiFilter...");
     console.log(orderedItems);
 
     onFilterChange(orderedItems, detailsFilters);

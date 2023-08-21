@@ -83,13 +83,13 @@ export const ItemListContainer = () => {
         .then((res) => {
           const products = res.docs.reduce((filtered, productDoc) => {
             const product = productDoc.data();
-            const { userId, color, colorSecondary } = product;
-            const key = `${userId}-${color}-${colorSecondary}`;
+            const { userId, color } = product;
+            const key = `${userId}-${color}`;
             // Check if the product's customId and color combination already exists
             if (
               !filtered.some(
                 (item) =>
-                  `${item.userId}-${item.color}-${item.colorSecondary}` === key
+                  `${item.userId}-${item.color}` === key
               )
             ) {
               filtered.push({
@@ -99,7 +99,7 @@ export const ItemListContainer = () => {
             }
             return filtered;
           }, []);
-
+          console.log("fetching itemList...")
           setItems(products);
           setLoading(false);
           console.log(products);
