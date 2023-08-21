@@ -210,7 +210,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
           }}
           renderItem={(item) => <PaginationItem component="div" {...item} />}
         />
-        {isLoadingPageChange && ( // Display the loader when loading state is true
+        {isLoadingPageChange && ( 
           <ClipLoaderBottom color="#194f44" size={35} />
         )}
       </PaginationWrapperBottom>
@@ -408,7 +408,7 @@ const ClipLoaderTop = styled(ClipLoader)`
 `
 const ClipLoaderBottom = styled(ClipLoader)`
   position: absolute;
-  bottom: -378%;
+  bottom: -299%;
 `
 const PaginationWrapperTop = styled.div`
   display: flex;

@@ -368,7 +368,7 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
           >
             Clear filters
           </ClearFilterBtn>
-          <AccordionDetails sx={{ paddingTop: "18px" }}>
+          <AccordionDetails sx={{ paddingTop: "18px", minWidth:"212px" }}>
             {uniqueCategory.map((category, index) => (
               <FormControlLabel
                 key={index}
@@ -737,7 +737,7 @@ const SizeCheckboxLabel = styled.label`
 `;
 const SizeCheckboxInput = styled.input`
   width: 46px;
-  height: 33px;
+  height: 32px;
   border-radius: 13%;
   background-color: transparent;
   border: 2px solid rgb(191 194 198);
