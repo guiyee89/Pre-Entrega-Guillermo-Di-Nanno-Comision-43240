@@ -17,8 +17,8 @@ import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
 export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                       STATE FOR DIFFERENT FILTERS                        //
+//////////           ////////////           ////////////           ///////////           ///////////
+//                       STATE FOR DIFFERENT FILTERS                        //
   const [detailsFilters, setDetailsFilters] = useState({
     category: "",
     size: "",
@@ -26,14 +26,15 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     orderBy: "",
   });
 
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
+//////////           ////////////           ////////////           ///////////           ///////////
+//      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
 
-  //----------       CATEGORY MAPING      ---------//
+//----------       CATEGORY MAPING      ---------//
   const uniqueCategory = Array.from(
     new Set(items.map((item) => item.category))
   );
-  //----------        SIZE MAPING       ----------//
+
+//----------        SIZE MAPING       ----------//
   /* const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
   console.log(uniqueSizes) */
   const sizeMapping = {
@@ -51,9 +52,8 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     44: "44",
   };
 
-  //----------       COLOR MAPING      ----------//
-  // Define a mapping of color names to CSS color values
-
+//----------       COLOR MAPING      ----------//
+// Define a mapping of color names to CSS color values
   const colorMapping = {
     black: "#000000",
     white: "#ffffff",
@@ -74,8 +74,8 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     return words[0];
   };
 
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                             FILTERING LOGIC FOR ALL ITEMS                            //
+//////////           ////////////           ////////////           ///////////           ///////////
+//                                FILTERING LOGIC FOR ALL ITEMS                                  //
   const { categoryName } = useParams();
 
   // Fetch items from Firestore Database and filter accordingly on selection
@@ -187,9 +187,11 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     }, 700);
   }, [detailsFilters]);
 
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                                 HANDLE FILTERED ITEMS                                //
+
+//////////           ////////////           ////////////           ///////////           ///////////
+//                    HANDLE FILTERED ITEMS & PASS VALUE TO ItemListContainer                    //
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const [itemsNotFound, setItemsNotFound] = useState(false)
 
   //Handle each filter change and pass the values
   const handleDetailsFilterChange = (filterName, value) => {
@@ -200,16 +202,16 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     setCurrentPage(1); //Set pagiination to 1 if filters changed
   };
 
-  // Helper function to update filter array
-  const updateFilterArray = (array, value, add) => {
+
+  const updateFilterArray = (array, value, add) => {// Helper function to update filter array
     if (add) {
       return [...array, value];
     }
     return array.filter((item) => item !== value);
   };
 
-  //////////        /////////       /////////
-  //------         LOADER           ------//
+//////////           ////////////           ////////////           ///////////           ///////////
+//           LOADER            //
   const handleLoadDetail = () => {
     setLoadingDetail(true);
     setTimeout(() => {
@@ -217,9 +219,10 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     }, 850);
   };
 
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                           MANAGING FILTERS BY localStorage                           //
-  // Load selected filters from localStorage when the component mounts
+
+//////////           ////////////           ////////////           ///////////           ///////////
+//                                MANAGING FILTERS BY localStorage                               //
+// Load selected filters from localStorage when the component mounts
   useEffect(() => {
     const storedFilters = localStorage.getItem("selectedFilters");
     if (storedFilters) {
@@ -232,7 +235,7 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
   }, [detailsFilters]);
 
-  //////////           ////////////           ////////////           ///////////           ///////////
+//////////           ////////////           ////////////           ///////////           ///////////
   return (
     <>
       <FilterHeader>
