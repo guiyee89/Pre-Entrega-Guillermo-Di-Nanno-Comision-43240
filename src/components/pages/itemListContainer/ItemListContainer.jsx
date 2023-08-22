@@ -5,10 +5,10 @@ import { db } from "../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BarLoader } from "react-spinners";
 import styled from "styled-components/macro";
 import { MultiFilter } from "./MultiFilter";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
+import { Ring } from "@uiball/loaders";
 // import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
 export const ScrollRestorationWrapper = ({ children }) => {
@@ -65,7 +65,7 @@ export const ItemListContainer = () => {
   useEffect(() => {
     setLoading(true);
 
-    const delay = 750;
+    const delay = 1050;
     const timer = setTimeout(() => {
       let itemsCollection = collection(db, "products");
       let filterCollection;
@@ -87,10 +87,7 @@ export const ItemListContainer = () => {
             const key = `${userId}-${color}`;
             // Check if the product's customId and color combination already exists
             if (
-              !filtered.some(
-                (item) =>
-                  `${item.userId}-${item.color}` === key
-              )
+              !filtered.some((item) => `${item.userId}-${item.color}` === key)
             ) {
               filtered.push({
                 ...product,
@@ -99,7 +96,7 @@ export const ItemListContainer = () => {
             }
             return filtered;
           }, []);
-          console.log("fetching itemList...")
+          console.log("fetching itemList...");
           setItems(products);
           setLoading(false);
         })
@@ -115,6 +112,7 @@ export const ItemListContainer = () => {
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); //Set currentPage and pass prop to ItemList
+  const [itemsNotFound, setItemsNotFound] = useState(false);//Set message for no items found on Filter
 
   const handleFilterChange = (filteredItems, detailsFilters) => {
     if (filteredItems.length > 0) {
@@ -125,11 +123,12 @@ export const ItemListContainer = () => {
     } else {
       setFilteredItems([]);
       setDetailsFilters([]);
+      setItemsNotFound(true);
     }
   };
 
   //////////////     //////////////    ////////////      ////////////      /////////////
-  //                               RENDERING                                         //
+  //                                    RENDERING                                    //
   return (
     <>
       <ScrollRestorationWrapper>
@@ -148,7 +147,7 @@ export const ItemListContainer = () => {
 
         {loading ? (
           <LoaderWrapper>
-            <BarLoader color="#12352e" width={250} />
+            <Ring size={60} lineWeight={8} speed={2} color="black" />
           </LoaderWrapper>
         ) : (
           <>
@@ -171,9 +170,11 @@ export const ItemListContainer = () => {
                     setCurrentPage={setCurrentPage}
                   />
                 ) : (
-                  <NoProductMessage>
-                    There are no products with this filter criteria.
-                  </NoProductMessage>
+                  itemsNotFound && (
+                    <NoProductMessage>
+                      No items found with this filter criteria
+                    </NoProductMessage>
+                  )
                 )}
               </ItemListWrapper>
             </ItemsFiltersWrapper>
@@ -184,6 +185,8 @@ export const ItemListContainer = () => {
     </>
   );
 };
+
+
 const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
