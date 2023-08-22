@@ -1,18 +1,23 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 
-export const NavBar = () => {
-  const { getTotalItems } = useContext(CartContext);
 
+
+export const NavBar = () => {
+
+//////////        ////////////        ////////////        ///////////
+//                       CartContext                      //
+  const { getTotalItems } = useContext(CartContext);
   const totalItems = getTotalItems();
 
-  //Almacenar scroll data
-  const [scroll, setScroll] = useState("not-scrolled");
 
+//////////        ////////////        ////////////        ///////////
+//                       Scroll Effect                      // 
+  const [scroll, setScroll] = useState("not-scrolled");
   //funcion para darle efecto al navbar al scrollear 12% de la pantalla
   useEffect(() => {
     const handleScroll = () => {
@@ -30,11 +35,16 @@ export const NavBar = () => {
     };
   }, []);
 
-  //Remove localStorage Filters and Pagination when accessing items from NavBar
+
+//////////        ////////////        ////////////        ///////////
+//                 Reset localStorage on nav links               //   
   const handleNavLinkClick = () => {
     localStorage.removeItem("selectedFilters");
     localStorage.removeItem("currentPage");
   };
+
+
+
 
   return (
     <>
@@ -99,6 +109,7 @@ export const NavBar = () => {
           </InsideNav>
         </Nav>
       </HeaderWrapper>
+    
     </>
   );
 };

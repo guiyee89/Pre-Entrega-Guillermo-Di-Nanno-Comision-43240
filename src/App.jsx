@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { menuRoutes } from "./components/routes/menuRoutes";
 import CartContextProvider from "./components/context/CartContext";
+import { createTheme } from '@mui/material/styles';
 
 
 function App() {
