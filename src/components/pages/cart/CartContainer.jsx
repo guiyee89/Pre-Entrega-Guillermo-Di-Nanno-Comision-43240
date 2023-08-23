@@ -61,11 +61,10 @@ export const CartContainer = () => {
         title:
           "<span style='font-size: 1rem; color: black'>Some items in your cart are no longer available :</span>",
         html: missingItemMessage(missingItems),
-        // icon: "warning",
       });
-      // clearCart();
     }
   };
+
 
   return (
     <Wrapper key="cart-wrapper">

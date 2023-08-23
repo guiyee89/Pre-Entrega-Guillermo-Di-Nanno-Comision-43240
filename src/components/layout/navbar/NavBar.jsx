@@ -5,18 +5,15 @@ import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 
-
-
 export const NavBar = () => {
-
-//////////        ////////////        ////////////        ///////////
-//                       CartContext                      //
+  //////////        ////////////        ////////////        ///////////
+  //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
   const totalItems = getTotalItems();
+  
 
-
-//////////        ////////////        ////////////        ///////////
-//                       Scroll Effect                      // 
+  //////////        ////////////        ////////////        ///////////
+  //                       Scroll Effect                      //
   const [scroll, setScroll] = useState("not-scrolled");
   //funcion para darle efecto al navbar al scrollear 12% de la pantalla
   useEffect(() => {
@@ -35,16 +32,12 @@ export const NavBar = () => {
     };
   }, []);
 
-
-//////////        ////////////        ////////////        ///////////
-//                 Reset localStorage on nav links               //   
+  //////////        ////////////        ////////////        ///////////
+  //                 Reset localStorage on nav links               //
   const handleNavLinkClick = () => {
     localStorage.removeItem("selectedFilters");
     localStorage.removeItem("currentPage");
   };
-
-
-
 
   return (
     <>
@@ -109,10 +102,10 @@ export const NavBar = () => {
           </InsideNav>
         </Nav>
       </HeaderWrapper>
-    
     </>
   );
 };
+
 const HeaderWrapper = styled.header`
   background-color: rgb(253 253 253);
   display: flex;
@@ -135,18 +128,6 @@ const Nav = styled.nav`
     props.scrolled === "scrolled"
       ? "1px solid rgb(133 132 132 / 25%)"
       : "none"};
-  /* background-color: ${(props) =>
-    props.scrolled === "scrolled" ? "white" : "block"}; */
-  /* &:before {
-    content: "";
-    position: absolute;
-    bottom: -3.5px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: black;
-    display: ${(props) => (props.scrolled === "scrolled" ? "none" : "block")};
-  } */
 `;
 const InsideNav = styled.div`
   width: 100vw;
@@ -217,7 +198,6 @@ const NavLink = styled(Link)`
     transition: transform 0.21s ease-in-out;
   }
 `;
-
 
 //El otro nav
 // const NavLink = styled(Link)`

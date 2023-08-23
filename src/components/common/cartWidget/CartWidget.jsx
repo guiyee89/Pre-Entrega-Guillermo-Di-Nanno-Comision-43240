@@ -2,11 +2,17 @@ import { Badge } from "@mui/material";
 import { BsFillCartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
+import { SideCartContext } from "../../context/SideCartContext";
+import { useContext } from "react";
 
 export const CartWidget = ({ scrolled, totalItems }) => {
+
+  const { togglecart } = useContext(SideCartContext);
+
   return (
     <>
-      <Link to="/cart">
+      <CartWidgetWrapper onClick={togglecart}>
+        {/*  <Link to="/cart"> */}
         <Contador
           badgeContent={totalItems}
           aria-label={totalItems}
@@ -21,10 +27,14 @@ export const CartWidget = ({ scrolled, totalItems }) => {
             <BsFillCartFill color="black" size={"28px"} />
           </CartWrapper>
         </Contador>
-      </Link>
+        {/* </Link> */}
+      </CartWidgetWrapper>
     </>
   );
 };
+const CartWidgetWrapper = styled.div`
+  cursor: pointer;
+`
 const Contador = styled(Badge)`
   padding-left: 8px;
   margin: 0 24px 0 0;
