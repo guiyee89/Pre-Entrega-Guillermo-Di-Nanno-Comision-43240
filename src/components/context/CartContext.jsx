@@ -265,6 +265,7 @@ const CartContextProvider = ({ children }) => {
     getTotalDiscount,
   };
 
+  
   //PROVEEMOS A LOS "CHILDREN" CON LA "DATA" DEL "CARTCONTEXT"
   return <CartContext.Provider value={data}>{children}</CartContext.Provider>;
 };

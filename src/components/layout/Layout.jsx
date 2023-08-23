@@ -8,29 +8,29 @@ import { NewsLetter } from "./newsletter/NewsLetter";
 import useScrollRestoration from "../hooks/useScrollRestoration";
 import { useGlobalLoader } from "../hooks/useGlobalLoader";
 import { HeroSmall } from "./hero/HeroSmall";
-
-
+import { SideCart } from "../pages/cart/SideCart";
+import { useContext, useState } from "react";
+import { SideCartContext } from "../context/SideCartContext";
 
 export const Layout = () => {
+  //Flash loading effect
+  const loading = useGlobalLoader();
 
-
-//Flash loading effect
-const loading = useGlobalLoader();
-
-//Restore scroll to top on navigation
+  //Restore scroll to top on navigation
   useScrollRestoration();
 
-//Find "Home" and "ItemDetail" locations
+  const { isOpen } = useContext(SideCartContext);//SideCart Context
+
+  //Find "Home" and "ItemDetail" locations
   const location = useLocation();
   const currentRoute = menuRoutes.find(
     (route) => route.path === location.pathname
   );
   const isHome = currentRoute?.id === "home";
-  const isItemDetail = useMatch("/item-details/:id");
+  /* const isItemDetail = useMatch("/item-details/:id"); */
 
 
-
-// useEffect(() => {
+  // useEffect(() => {
   //   const timeout = setTimeout(() => {
   //     setLoading(false);
   //   }, 1400);
@@ -39,33 +39,36 @@ const loading = useGlobalLoader();
   // }, []);
 
   return (
-    <Wrapper>
-    {loading ? (
-      <LoadingScreen />
-    ) : (
-      <>
-        <NavBar />
-        {!isHome && /* !isItemDetail && */ <HeroSmall />}
-        <HeroWrapper>{isHome && <HeroLanding />}</HeroWrapper>
+    <Wrapper isOpen={isOpen}>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <NavBar />
+          <SideCart />
+          {!isHome && <HeroSmall />}
+          <HeroWrapper>{isHome && <HeroLanding />}</HeroWrapper>
 
-        <OutletWrapper isHome={isHome}>
-          <Outlet />
-        </OutletWrapper>
+          <OutletWrapper isHome={isHome}>
+            <Outlet />
+          </OutletWrapper>
 
-        <NewsLetter />
-        <Footer />
-      </>
-    )}
-  </Wrapper>
+          <NewsLetter />
+          <Footer />
+        </>
+      )}
+    </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   min-height: 100%;
+  overflow-y: ${({ isOpen }) => (isOpen ? "inherit" : "hidden")};
+
 `;
 const LoadingScreen = styled.div`
   max-height: 100vh;
-`
+`;
 const OutletWrapper = styled.div`
   min-height: 100vh;
   display: flex;

@@ -258,7 +258,6 @@ const DiscountPrice = styled.span`
   &::after {
     content: ${(props) => (props.hasDiscount ? "''" : "none")};
     position: absolute;
-    z-index: 1;
     bottom: 50%;
     left: -2%;
     width: 103%;
