@@ -68,60 +68,66 @@ export const CartContainer = () => {
   return (
     <Wrapper key="cart-wrapper">
       {/* Boton para limpiar "cart" */}
-      {cart.map((product) => {
-        const itemPrice = getItemPrice(product.id); //Buscar item x id en la funcion getItemPrice
-        const hasDiscount = product.discountPrice; //Variable de Item con descuento
-        return (
-          <ItemWrapper key={product.id}>
-            <ImgWrapper>
-              <ItemImg src={product.img[0]} alt="" />
-            </ImgWrapper>
+      <CartItemsContainer>
+        {cart.map((product) => {
+          const itemPrice = getItemPrice(product.id); //Buscar item x id en la funcion getItemPrice
+          const hasDiscount = product.discountPrice; //Variable de Item con descuento
+          return (
+            <ItemWrapper key={product.id}>
+              <ImgWrapper>
+                <ItemImg src={product.img[0]} alt="" />
+              </ImgWrapper>
 
-            <ItemTitle>{product.title}</ItemTitle>
+              <ItemTitle>{product.title}</ItemTitle>
 
-            <PriceDeleteWrapper>
-              {hasDiscount ? (
-                <ItemPriceWrapper hasDiscount={hasDiscount}>
-                  {hasDiscount && (
-                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice>
-                  )}
-                  <Price hasDiscount={hasDiscount}>$ {product.price}</Price>
-                </ItemPriceWrapper>
-              ) : (
-                <Price>$ {product.price}</Price>
-              )}
-            </PriceDeleteWrapper>
-            <DetailsWrapper>
-              <Color>
-                Color: <Span>{product.color}</Span>
-              </Color>
-              <Size>
-                Size: <Span2>{product.size}</Span2>
-              </Size>
-            </DetailsWrapper>
-            <QuantityWrapper>
-              <BtnQuantity onClick={() => removeQuantity(product.id)}>
-                {" "}
-                -{" "}
-              </BtnQuantity>
-              <ItemQuantity>{product.quantity}</ItemQuantity>
-              <BtnQuantity
-                onClick={() => addQuantity(product.id)}
-                disabled={product.stock === product.quantity}
-              >
-                {" "}
-                +{" "}
-              </BtnQuantity>
-            </QuantityWrapper>
+              <PriceDeleteWrapper>
+                {hasDiscount ? (
+                  <ItemPriceWrapper hasDiscount={hasDiscount}>
+                    {hasDiscount && (
+                      <DiscountPrice>$ {product.discountPrice}</DiscountPrice>
+                    )}
+                    <Price hasDiscount={hasDiscount}>$ {product.price}</Price>
+                  </ItemPriceWrapper>
+                ) : (
+                  <Price>$ {product.price}</Price>
+                )}
+              </PriceDeleteWrapper>
+              <DetailsWrapper>
+                <Color>
+                  Color: <Span>{product.color}</Span>
+                </Color>
+                <Size>
+                  Size: <Span2>{product.size}</Span2>
+                </Size>
+              </DetailsWrapper>
+              <QuantityWrapper>
+                <BtnQuantity onClick={() => removeQuantity(product.id)}>
+                  {" "}
+                  -{" "}
+                </BtnQuantity>
+                <ItemQuantity>{product.quantity}</ItemQuantity>
+                <BtnQuantity
+                  onClick={() => addQuantity(product.id)}
+                  disabled={product.stock === product.quantity}
+                >
+                  {" "}
+                  +{" "}
+                </BtnQuantity>
+              </QuantityWrapper>
 
-            <BtnDelete onClick={() => removeById(product.id)}>Delete</BtnDelete>
-          </ItemWrapper>
-        );
-      })}
+              <BtnDelete onClick={() => removeById(product.id)}>
+                Delete
+              </BtnDelete>
+            </ItemWrapper>
+          );
+        })}
+      </CartItemsContainer>
       <CartInfo>
         {cart.length > 0 ? (
           <>
-            <ClearButton onClick={clearCart}>Clear all</ClearButton>
+            <CartTitle>order summary</CartTitle>
+            {/* <ClearButton onClick={clearCart}>Clear all</ClearButton> */}
+            {/* Clear Cart Button */}
             <TotalPriceInfo>
               <SubTotalWrapper>
                 <TotalText colSpan="1">Subtotal:</TotalText>
@@ -136,6 +142,7 @@ export const CartContainer = () => {
                 <TotalPrice>$ {totalPrice}</TotalPrice>
               </TotalWrapper>
             </TotalPriceInfo>
+
             <CheckoutButton onClick={realizarCompra}>Checkout</CheckoutButton>
           </>
         ) : (
@@ -163,19 +170,39 @@ const missingItemMessage = (missingItems) => {
 const Wrapper = styled.div`
   display: flex;
   width: 1100px;
-  flex-direction: column;
-  align-items: baseline;
   justify-content: center;
-  margin: 100px;
+  margin-top: 50px;
   gap: 1rem;
+`;
+const CartItemsContainer = styled.div`
+  width: 650px;
+  max-height: 400px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  } 
 `;
 const ItemWrapper = styled.div`
   display: flex;
-  height: 100px;
+  height: 115px;
   width: 100%;
   align-items: center;
   justify-content: space-evenly;
-  box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 5px;
+  border-bottom: 1px solid lightgray;
 `;
 const ImgWrapper = styled.div`
   height: 95%;
@@ -188,8 +215,7 @@ const QuantityWrapper = styled.div`
   gap: 1rem;
 `;
 const ItemImg = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 90%;
   object-fit: contain;
 `;
 const ItemQuantity = styled.h4`
@@ -205,16 +231,33 @@ const BtnDelete = styled.button`
   width: fit-content;
 `;
 const CartInfo = styled.div`
-  width: 100%;
+  width: 280px;
+  max-height: 300px;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   gap: 1.5rem;
+  margin-left: 20px;
+  padding: 24px 0;
+  background-color: #efeded;
 `;
-const ClearButton = styled.button`
-  height: max-content;
+const CartTitle = styled.h2`
+  font-weight: 600;
+  text-transform: capitalize;
+  text-align: center;
 `;
+
+// const ClearButton = styled.button`
+//   height: max-content;
+// `;
+
 const CheckoutButton = styled.button`
-  height: max-content;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  min-width: 140px;
+  border-radius: 20px;
 `;
 const PriceDeleteWrapper = styled.div`
   display: flex;
@@ -223,7 +266,6 @@ const PriceDeleteWrapper = styled.div`
   align-items: center;
   position: relative;
   height: 100%;
-
 `;
 const ItemPriceWrapper = styled.h4`
   display: flex;
@@ -258,18 +300,25 @@ const Price = styled.span`
 const TotalPriceInfo = styled.div`
   display: flex;
   flex-direction: column;
+  width: 80%;
   gap: 0.5rem;
+  padding: 15px 0 15px;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
 `;
 const TotalWrapper = styled.div`
-  font-weight: 500;
-  font-size: 1.4rem;
-  display: inherit;
+  font-weight: 600;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: space-between;
 `;
 const SubTotalWrapper = styled.div`
-  display: inherit;
+  display: flex;
+  justify-content: space-between;
 `;
 const DiscountWrapper = styled.div`
-  display: inherit;
+  display: flex;
+  justify-content: space-between;
 `;
 const TotalText = styled.h3`
   text-align: end;
@@ -302,10 +351,8 @@ const Span2 = styled.span`
 `;
 const SubTotal = styled.h3`
   font-weight: 500;
-  padding-left: 35px;
 `;
 const TotalPrice = styled.h3`
   font-weight: bold;
   font-size: 1.4rem;
-  padding-left: 46px;
 `;

@@ -168,6 +168,19 @@ const ItemsContainer = styled.div`
   flex-direction: column;
   overflow-y: auto;
   border-top: 1px solid lightgray;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  } 
 `;
 const ItemWrapper = styled.div`
   display: flex;
@@ -179,7 +192,7 @@ const ItemWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 2px;
 `;
 const ImgWrapper = styled.div`
-  margin: 20px 40px 20px 20px;
+  margin: 20px;
 `;
 const QuantityWrapper = styled.div`
   display: flex;
@@ -239,11 +252,10 @@ const PriceDeleteWrapper = styled.div`
   flex-direction: column-reverse;
   -webkit-box-align: center;
   align-items: center;
-  margin: 13px 12px 44px 0px;
+  margin: 13px 6px 44px 0px;
   position: relative;
-  height: 100%;
-  min-width: 45px;
-  width: inherit;
+  height: 94%;
+  min-width: 100px;
 `;
 const DiscountPrice = styled.span`
   color: #a83737;
@@ -273,7 +285,8 @@ const Price = styled.span`
 `;
 const ItemPriceWrapper = styled.h4`
   display: flex;
-  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.3rem;
 `;
 const TotalPriceInfo = styled.div`
   display: flex;
