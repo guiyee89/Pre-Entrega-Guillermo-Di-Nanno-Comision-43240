@@ -39,7 +39,6 @@ export const Layout = () => {
   /* const isItemDetail = useMatch("/item-details/:id"); */
 
 
-
   // useEffect(() => {
   //   const timeout = setTimeout(() => {
   //     setLoading(false);
