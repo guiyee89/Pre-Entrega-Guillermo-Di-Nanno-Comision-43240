@@ -317,7 +317,7 @@ const TotalDiscount = styled.h3`
   width: 100%;
   margin-right: 20px;
   font-weight: 500;
-  font-size: 1.1rem;
+  font-size: 1rem;
 `;
 const InsideContentWrapper = styled.div`
   width: auto;

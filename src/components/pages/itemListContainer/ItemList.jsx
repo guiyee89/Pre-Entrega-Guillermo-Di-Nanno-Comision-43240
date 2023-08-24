@@ -390,7 +390,7 @@ const ClipLoaderTop = styled(ClipLoader)`
 `
 const ClipLoaderBottom = styled(ClipLoader)`
   position: absolute;
-  bottom: -299%;
+  top: 106%;
 `
 const PaginationWrapperTop = styled.div`
   display: flex;
@@ -402,6 +402,7 @@ const PaginationWrapperBottom = styled.div`
   display: flex;
   width: 100%;
   margin: 20px 0 40px;
+  position: relative;
   justify-content: center;
 `;
 const ItemListTitle = styled.h1`
