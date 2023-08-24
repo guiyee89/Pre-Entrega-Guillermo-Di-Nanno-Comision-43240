@@ -93,7 +93,6 @@ const WrapperCarousel = styled.div`
 
 const Banner = styled.div`
   width: 100%;
-  max-width: 800px;
   line-height: 1.5;
   padding: 27px 0 11px;
   overflow-x: hidden;
