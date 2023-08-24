@@ -52,7 +52,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
     setTimeout(() => {
       setLoadingDetail(true);
       // navigate(`/item-details/${itemId}`);
-    }, 1600);
+    }, 1700);
   };
 
   const ref = useRef();
@@ -61,7 +61,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
     ref.current.continuousStart();
     setTimeout(() => {
       ref.current.complete();
-    }, 1100);
+    }, 1200);
   };
 
   //Pagination loader
@@ -107,25 +107,6 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   }, [items]);
 
   ///////////////////////////                  /////////////////////////////
-
-  //Algoritmo para randomear listado te Items
-  // const [shuffledItems, setShuffledItems] = useState([]);
-
-  // //Algoritmo de Fisher-Yates para renderizar los productos de manera aleatoria
-  // useEffect(() => {
-  //   const shuffleArray = (array) => {
-  //     const shuffledArray = [...array];
-  //     for (let i = shuffledArray.length - 1; i > 0; i--) {
-  //       const j = Math.floor(Math.random() * (i + 1));
-  //       [shuffledArray[i], shuffledArray[j]] = [
-  //         shuffledArray[j],
-  //         shuffledArray[i],
-  //       ];
-  //     }
-  //     return shuffledArray;
-  //   };
-  //   setShuffledItems(shuffleArray(items));
-  // }, [items]);
   return (
     <>
       <HeaderWrapper>
@@ -163,7 +144,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
                 handleLoadTop();
                 setTimeout(() => {
                   navigate(`/item-details/${product.id}`);
-                }, 1600); // Delay in milliseconds
+                }, 1700); // Delay in milliseconds
               }}
             >
               <Loader>

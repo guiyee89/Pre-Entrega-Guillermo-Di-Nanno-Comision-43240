@@ -65,7 +65,6 @@ export const CartContainer = () => {
     }
   };
 
-
   return (
     <Wrapper key="cart-wrapper">
       {/* Boton para limpiar "cart" */}
@@ -80,17 +79,18 @@ export const CartContainer = () => {
 
             <ItemTitle>{product.title}</ItemTitle>
 
-            {hasDiscount ? (
-              <ItemPrice hasDiscount={hasDiscount}>
-                <DiscountPrice>
-                  $ {product.discountPrice * product.quantity}{" "}
-                  {/* Precio con descuento */}
-                </DiscountPrice>{" "}
-                $ {itemPrice}
-              </ItemPrice>
-            ) : (
-              <ItemPrice>${itemPrice}</ItemPrice>
-            )}
+            <PriceDeleteWrapper>
+              {hasDiscount ? (
+                <ItemPriceWrapper hasDiscount={hasDiscount}>
+                  {hasDiscount && (
+                    <DiscountPrice>$ {product.discountPrice}</DiscountPrice>
+                  )}
+                  <Price hasDiscount={hasDiscount}>$ {product.price}</Price>
+                </ItemPriceWrapper>
+              ) : (
+                <Price>$ {product.price}</Price>
+              )}
+            </PriceDeleteWrapper>
             <DetailsWrapper>
               <Color>
                 Color: <Span>{product.color}</Span>
@@ -216,25 +216,43 @@ const ClearButton = styled.button`
 const CheckoutButton = styled.button`
   height: max-content;
 `;
-const ItemPrice = styled.h3`
-  vertical-align: middle;
+const PriceDeleteWrapper = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100%;
+
+`;
+const ItemPriceWrapper = styled.h4`
+  display: flex;
+  flex-direction: column-reverse;
 `;
 const DiscountPrice = styled.span`
-  position: relative;
-  display: flex;
-  flex-direction: column;
   color: #a83737;
   font-weight: 600;
   font-size: 1rem;
   font-style: italic;
-  padding: 10px 0px 0px;
-  &::before {
-    content: "";
+  position: relative;
+  display: inline-block;
+  text-align: center;
+`;
+const Price = styled.span`
+  font-weight: 600;
+  font-size: ${(props) => (props.hasDiscount ? "0.8rem" : "1rem")};
+  font-style: italic;
+  position: relative;
+  color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
+  /* Add the following styles to create the strike-through line if hasDiscount is true */
+  &::after {
+    content: ${(props) => (props.hasDiscount ? "''" : "none")};
     position: absolute;
-    top: 45px;
-    width: 90%;
-    left: 8%;
-    border-top: 0.13rem solid rgb(75, 73, 73);
+    bottom: 52%;
+    left: 0;
+    width: 102%;
+    height: 1px;
+    background-color: black;
   }
 `;
 const TotalPriceInfo = styled.div`
@@ -262,7 +280,7 @@ const TotalDiscount = styled.h3`
   padding-left: 24px;
 `;
 const DetailsWrapper = styled.div`
-  width: auto;
+  min-width: 150px;
 `;
 const Color = styled.p`
   font-size: 0.8rem;
