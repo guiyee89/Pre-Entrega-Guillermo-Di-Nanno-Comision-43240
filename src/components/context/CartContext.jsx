@@ -239,6 +239,7 @@ const CartContextProvider = ({ children }) => {
   
       return Math.abs(totalDiscount);
     }
+    return 0.00; // Return a string "0.00" if no discount is found
   };
   
 
