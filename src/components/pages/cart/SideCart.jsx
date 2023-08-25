@@ -113,7 +113,7 @@ export const SideCart = () => {
                   </SubTotalWrapper>
                   <DiscountWrapper>
                     <TotalText colSpan="1">Discount:</TotalText>
-                    <TotalDiscount>- $ {totalDiscount}</TotalDiscount>
+                    <TotalDiscount>- $ {totalDiscount.toFixed(2)}</TotalDiscount>
                   </DiscountWrapper>
                   <TotalWrapper>
                     <TotalText colSpan="1">Total:</TotalText>
