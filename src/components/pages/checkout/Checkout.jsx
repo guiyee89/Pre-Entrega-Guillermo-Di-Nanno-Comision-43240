@@ -71,17 +71,18 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
             </thead>
             <tbody>
               {cart.map((product) => {
-                const itemPrice = getItemPrice(product.id); //Buscar item x id en la funcion getItemPrice
-                const hasDiscount = product.discountPrice; //Variable de Item con descuento
-                // const totalDiscount = itemPrice - hasDiscount * product.quantity
+                const itemPrice = getItemPrice(product.id);
+                const hasDiscount = product.discountPrice;
                 return (
                   <tr key={product.id}>
                     <ItemWrapper>
                       <ImgWrapper>
-                        <ItemImg src={product.img} alt="" />
+                        <ItemImg src={product.img[0]} alt="" />
                       </ImgWrapper>
                       <ItemTitle>{product.title}</ItemTitle>
                     </ItemWrapper>
+                    {/* Switch the locations of ItemPriceWrapper and ItemQuantity */}
+
                     {hasDiscount ? (
                       <ItemPriceWrapper hasDiscount={hasDiscount}>
                         {hasDiscount && (
@@ -94,7 +95,11 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
                         </Price>
                       </ItemPriceWrapper>
                     ) : (
-                      <Price>$ {product.price.toFixed(2)}</Price>
+                      <>
+                        <PriceWrapper>
+                          <Price>$ {product.price.toFixed(2)}</Price>
+                        </PriceWrapper>
+                      </>
                     )}
                     <ItemQuantity>{product.quantity}</ItemQuantity>
                   </tr>
@@ -186,8 +191,11 @@ const ItemImg = styled.img`
   height: 100%;
   object-fit: contain;
 `;
+const PriceWrapper = styled.td`
+  vertical-align: middle;
+`;
 const ItemPriceWrapper = styled.td`
-  flex-direction: column-reverse;
+  vertical-align: middle;
 `;
 const DiscountPrice = styled.span`
   color: #a83737;
@@ -195,7 +203,7 @@ const DiscountPrice = styled.span`
   font-size: 1rem;
   font-style: italic;
   position: relative;
-  display: inline-block;
+  padding-right: 2px;
   text-align: center;
 `;
 const Price = styled.span`
