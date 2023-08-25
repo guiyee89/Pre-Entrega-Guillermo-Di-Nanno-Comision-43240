@@ -25,6 +25,7 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
         >
           <CarouselItem>
             <CarouselInner>
+              
               {discountProducts.slice(0, 4).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>

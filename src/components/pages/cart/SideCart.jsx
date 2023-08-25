@@ -109,7 +109,7 @@ export const SideCart = () => {
                 <TotalPriceInfo>
                   <SubTotalWrapper>
                     <TotalText colSpan="1">Subtotal:</TotalText>
-                    <SubTotal>$ {subTotal}</SubTotal>
+                    <SubTotal>$ {subTotal.toFixed(2)}</SubTotal>
                   </SubTotalWrapper>
                   <DiscountWrapper>
                     <TotalText colSpan="1">Discount:</TotalText>
@@ -117,7 +117,7 @@ export const SideCart = () => {
                   </DiscountWrapper>
                   <TotalWrapper>
                     <TotalText colSpan="1">Total:</TotalText>
-                    <TotalPrice>$ {totalPrice}</TotalPrice>
+                    <TotalPrice>$ {totalPrice.toFixed(2)}</TotalPrice>
                   </TotalWrapper>
                 </TotalPriceInfo>
 
@@ -180,7 +180,7 @@ const ItemsContainer = styled.div`
   }
   ::-webkit-scrollbar-track {
     background-color: #f1f1f1;
-  } 
+  }
 `;
 const ItemWrapper = styled.div`
   display: flex;
@@ -224,7 +224,8 @@ const BtnQuantity = styled.button`
 `;
 const DeleteIconBtn = styled(DeleteIcon)`
   position: absolute;
-  top: 30px;
+  top: 33px;
+  right: 33%;
   cursor: pointer;
 `;
 const CartInfo = styled.div`
@@ -252,7 +253,7 @@ const PriceDeleteWrapper = styled.div`
   flex-direction: column-reverse;
   -webkit-box-align: center;
   align-items: center;
-  margin: 13px 6px 44px 0px;
+  margin: 13px 0px 44px;
   position: relative;
   height: 94%;
   min-width: 100px;
@@ -286,7 +287,8 @@ const Price = styled.span`
 const ItemPriceWrapper = styled.h4`
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.1rem;
+  flex-direction: column-reverse;
 `;
 const TotalPriceInfo = styled.div`
   display: flex;

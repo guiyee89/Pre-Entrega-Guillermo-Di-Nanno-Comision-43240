@@ -208,7 +208,7 @@ const CartContextProvider = ({ children }) => {
     const total = cart.reduce((acc, item) => {
       return acc + item.quantity * item.price
     }, 0)
-    return total
+    return total;
   }
 
   //Calcular precio total de los elementos en cart con y sin descuento
@@ -237,7 +237,7 @@ const CartContextProvider = ({ children }) => {
         return acc + item.quantity * (itemDiscount - item.price); // Calculate the discount amount for each item
       }, 0);
   
-      return Math.abs(totalDiscount);
+      return Math.abs(totalDiscount).toFixed(2);
     }
   };
   
