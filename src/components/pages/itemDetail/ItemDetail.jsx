@@ -251,7 +251,7 @@ const FilterWrapper = styled.div`
 const DiscountPrice = styled.span`
   color: ${(props) => (props.hasDiscount ? "#6c757d;" : "#a83737")};
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;
@@ -275,7 +275,7 @@ const ItemPriceWrapper = styled.h4`
   display: flex;
   align-items: center;
   width: fit-content;
-  gap: 0.6rem;
+  flex-direction: column-reverse;
   justify-content: space-around;
 `;
 const StockPriceWrapper = styled.div`

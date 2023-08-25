@@ -5,6 +5,8 @@ import { useContext, useEffect } from "react";
 import { db } from "../../../firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
 import Swal from "sweetalert2";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 
 export const CartContainer = () => {
   useEffect(() => {
@@ -84,12 +86,12 @@ export const CartContainer = () => {
                 {hasDiscount ? (
                   <ItemPriceWrapper hasDiscount={hasDiscount}>
                     {hasDiscount && (
-                      <DiscountPrice>$ {product.discountPrice}</DiscountPrice>
+                      <DiscountPrice>$ {product.discountPrice.toFixed(2)}</DiscountPrice>
                     )}
-                    <Price hasDiscount={hasDiscount}>$ {product.price}</Price>
+                    <Price hasDiscount={hasDiscount}>$ {product.price.toFixed(2)}</Price>
                   </ItemPriceWrapper>
                 ) : (
-                  <Price>$ {product.price}</Price>
+                  <Price>$ {product.price.toFixed(2)}</Price>
                 )}
               </PriceDeleteWrapper>
               <DetailsWrapper>
@@ -115,9 +117,8 @@ export const CartContainer = () => {
                 </BtnQuantity>
               </QuantityWrapper>
 
-              <BtnDelete onClick={() => removeById(product.id)}>
-                Delete
-              </BtnDelete>
+              <DeleteIconBtn onClick={() => removeById(product.id)} />
+
             </ItemWrapper>
           );
         })}
@@ -130,16 +131,16 @@ export const CartContainer = () => {
             {/* Clear Cart Button */}
             <TotalPriceInfo>
               <SubTotalWrapper>
-                <TotalText colSpan="1">Subtotal:</TotalText>
-                <SubTotal>$ {subTotal}</SubTotal>
+                <SubDisText colSpan="1">Subtotal:</SubDisText>
+                <SubTotal>$ {subTotal.toFixed(2)}</SubTotal>
               </SubTotalWrapper>
               <DiscountWrapper>
-                <TotalText colSpan="1">Discount:</TotalText>
+                <SubDisText colSpan="1">Discount:</SubDisText>
                 <TotalDiscount>- $ {totalDiscount}</TotalDiscount>
               </DiscountWrapper>
               <TotalWrapper>
                 <TotalText colSpan="1">Total:</TotalText>
-                <TotalPrice>$ {totalPrice}</TotalPrice>
+                <TotalPrice>$ {totalPrice.toFixed(2)}</TotalPrice>
               </TotalWrapper>
             </TotalPriceInfo>
 
@@ -175,31 +176,14 @@ const Wrapper = styled.div`
   gap: 1rem;
 `;
 const CartItemsContainer = styled.div`
-  width: 650px;
-  max-height: 400px;
+  width: 700px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px;
-  overflow-y: auto;
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 5px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-  }
-
-  ::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-  } 
 `;
 const ItemWrapper = styled.div`
   display: flex;
   height: 115px;
   width: 100%;
+  padding: 20px;
   align-items: center;
   justify-content: space-evenly;
   border-bottom: 1px solid lightgray;
@@ -212,27 +196,37 @@ const ImgWrapper = styled.div`
 `;
 const QuantityWrapper = styled.div`
   display: flex;
-  gap: 1rem;
+  margin: 0 24px 0 0px;
+  border: 1px solid rgb(194, 191, 191);
+  border-radius: 5%;
+  width: 100px;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
 `;
 const ItemImg = styled.img`
   width: 90%;
   object-fit: contain;
 `;
 const ItemQuantity = styled.h4`
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.75rem;
 `;
 const ItemTitle = styled.h2`
   width: 100px;
 `;
 const BtnQuantity = styled.button`
-  width: 30px;
+  width: 32px;
+  border-radius: 5%;
+  border: none;
 `;
-const BtnDelete = styled.button`
-  width: fit-content;
+const DeleteIconBtn = styled(DeleteIcon)`
+  cursor: pointer;
 `;
 const CartInfo = styled.div`
-  width: 280px;
-  max-height: 300px;
+  width: 340px;
+  max-height: 320px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -263,13 +257,10 @@ const PriceDeleteWrapper = styled.div`
   display: flex;
   flex-direction: column-reverse;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
   height: 100%;
-`;
-const ItemPriceWrapper = styled.h4`
-  display: flex;
-  flex-direction: column-reverse;
+  min-width: 115px;
 `;
 const DiscountPrice = styled.span`
   color: #a83737;
@@ -297,12 +288,18 @@ const Price = styled.span`
     background-color: black;
   }
 `;
+const ItemPriceWrapper = styled.h4`
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  flex-direction: column-reverse;
+`;
 const TotalPriceInfo = styled.div`
   display: flex;
   flex-direction: column;
-  width: 80%;
-  gap: 0.5rem;
-  padding: 15px 0 15px;
+  width: 82%;
+  gap: 0.9rem;
+  padding: 20px 0 15px;
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
 `;
@@ -321,6 +318,10 @@ const DiscountWrapper = styled.div`
   justify-content: space-between;
 `;
 const TotalText = styled.h3`
+  text-align: end;
+  font-weight: bold;
+`;
+const SubDisText = styled.h3`
   text-align: end;
   font-weight: 500;
 `;
