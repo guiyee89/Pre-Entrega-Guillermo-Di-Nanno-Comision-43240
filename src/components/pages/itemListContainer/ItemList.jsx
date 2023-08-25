@@ -168,12 +168,12 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
                 {hasDiscount ? (
                   <ItemPriceWrapper hasDiscount={hasDiscount}>
                     {hasDiscount && (
-                      <DiscountPrice>$ {product.discountPrice}</DiscountPrice>
+                      <DiscountPrice>$ {product.discountPrice.toFixed(2)}</DiscountPrice>
                     )}
-                    <Price hasDiscount={hasDiscount}>$ {product.price}</Price>
+                    <Price hasDiscount={hasDiscount}>$ {product.price.toFixed(2)}</Price>
                   </ItemPriceWrapper>
                 ) : (
-                  <Price>$ {product.price}</Price>
+                  <Price>$ {product.price.toFixed(2)}</Price>
                 )}
               </InfoWrapper>
             </ItemWrapper>

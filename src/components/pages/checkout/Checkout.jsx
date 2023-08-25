@@ -3,9 +3,7 @@ import { useContext } from "react";
 import styled from "styled-components/macro";
 import { CartContext } from "../../context/CartContext";
 
-
 export const Checkout = ({ handleSubmit, handleChange, errors }) => {
-
   const { cart, getTotalPrice, getItemPrice, getTotalDiscount, getSubTotal } =
     useContext(CartContext);
 
@@ -73,27 +71,35 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
             </thead>
             <tbody>
               {cart.map((product) => {
-                const itemPrice = getItemPrice(product.id); //Buscar item x id en la funcion getItemPrice
-                const hasDiscount = product.discountPrice; //Variable de Item con descuento
-                // const totalDiscount = itemPrice - hasDiscount * product.quantity
+                const itemPrice = getItemPrice(product.id);
+                const hasDiscount = product.discountPrice;
                 return (
                   <tr key={product.id}>
                     <ItemWrapper>
                       <ImgWrapper>
-                        <ItemImg src={product.img} alt="" />
+                        <ItemImg src={product.img[0]} alt="" />
                       </ImgWrapper>
                       <ItemTitle>{product.title}</ItemTitle>
                     </ItemWrapper>
+                    {/* Switch the locations of ItemPriceWrapper and ItemQuantity */}
+
                     {hasDiscount ? (
-                      <ItemPrice hasDiscount={hasDiscount}>
-                        <DiscountPrice>
-                          $ {product.discountPrice * product.quantity}{" "}
-                          {/* Precio con descuento */}
-                        </DiscountPrice>{" "}
-                        $ {itemPrice}
-                      </ItemPrice>
+                      <ItemPriceWrapper hasDiscount={hasDiscount}>
+                        {hasDiscount && (
+                          <DiscountPrice>
+                            $ {product.discountPrice.toFixed(2)}
+                          </DiscountPrice>
+                        )}
+                        <Price hasDiscount={hasDiscount}>
+                          $ {product.price.toFixed(2)}
+                        </Price>
+                      </ItemPriceWrapper>
                     ) : (
-                      <ItemPrice>${itemPrice}</ItemPrice>
+                      <>
+                        <PriceWrapper>
+                          <Price>$ {product.price.toFixed(2)}</Price>
+                        </PriceWrapper>
+                      </>
                     )}
                     <ItemQuantity>{product.quantity}</ItemQuantity>
                   </tr>
@@ -106,18 +112,17 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
         <TotalPriceInfo>
           <SubTotalWrapper>
             <TotalText colSpan="1">Subtotal:</TotalText>
-            <SubTotal>$ {subTotal}</SubTotal>
+            <SubTotal>$ {subTotal.toFixed(2)}</SubTotal>
           </SubTotalWrapper>
           <DiscountWrapper>
             <TotalText colSpan="1">Discount:</TotalText>
-            <TotalDiscount>- $ {totalDiscount}</TotalDiscount>
+            <TotalDiscount>- $ {totalDiscount.toFixed(2)}</TotalDiscount>
           </DiscountWrapper>
           <TotalWrapper>
             <TotalText colSpan="1">Total:</TotalText>
-            <TotalPrice>$ {total}</TotalPrice>
+            <TotalPrice>$ {total.toFixed(2)}</TotalPrice>
           </TotalWrapper>
         </TotalPriceInfo>
-        
       </Wrapper>
     </>
   );
@@ -186,35 +191,46 @@ const ItemImg = styled.img`
   height: 100%;
   object-fit: contain;
 `;
-const ItemPrice = styled.td`
+const PriceWrapper = styled.td`
+  vertical-align: middle;
+`;
+const ItemPriceWrapper = styled.td`
   vertical-align: middle;
 `;
 const DiscountPrice = styled.span`
-  position: relative;
-  display: flex;
-  flex-direction: column;
   color: #a83737;
   font-weight: 600;
   font-size: 1rem;
   font-style: italic;
-  padding: 10px 0px 0px;
-  &::before {
-    content: "";
+  position: relative;
+  padding-right: 2px;
+  text-align: center;
+`;
+const Price = styled.span`
+  font-weight: 600;
+  font-size: ${(props) => (props.hasDiscount ? "0.8rem" : "1rem")};
+  font-style: italic;
+  position: relative;
+  color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
+  /* Add the following styles to create the strike-through line if hasDiscount is true */
+  &::after {
+    content: ${(props) => (props.hasDiscount ? "''" : "none")};
     position: absolute;
-    top: 45px;
-    width: 55%;
-    left: 23%;
-    border-top: 0.1rem solid rgb(75, 73, 73);
+    bottom: 52%;
+    left: 0;
+    width: 102%;
+    height: 1px;
+    background-color: black;
   }
 `;
 const TotalPriceInfo = styled.div`
   position: absolute;
-    width: 24%;
-    display: flex;
-    flex-direction: column;
-    bottom: -110px;
-    right: 14%;
-    gap: .5rem
+  width: 24%;
+  display: flex;
+  flex-direction: column;
+  bottom: -110px;
+  right: 14%;
+  gap: 0.5rem;
 `;
 
 const TotalWrapper = styled.div`

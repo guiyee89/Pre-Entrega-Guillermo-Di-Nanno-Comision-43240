@@ -114,22 +114,22 @@ export const ItemDetail = ({ selectedItem }) => {
                   <Price>
                     ${" "}
                     {Object.keys(filteredItem).length > 0
-                      ? filteredItem.discountPrice
-                      : selectedItem.discountPrice}
+                      ? filteredItem.discountPrice.toFixed(2)
+                      : selectedItem.discountPrice.toFixed(2)}
                   </Price>{" "}
                   <DiscountPrice hasDiscount={hasDiscount}>
                     ${" "}
                     {Object.keys(filteredItem).length > 0
-                      ? filteredItem.price
-                      : selectedItem.price}
+                      ? filteredItem.price.toFixed(2)
+                      : selectedItem.price.toFixed(2)}
                   </DiscountPrice>
                 </ItemPriceWrapper>
               ) : (
                 <Price>
                   ${" "}
                   {Object.keys(filteredItem).length > 0
-                    ? filteredItem.price
-                    : selectedItem.price}
+                    ? filteredItem.price.toFixed(2)
+                    : selectedItem.price.toFixed(2)}
                 </Price>
               )}
               <Stock>
@@ -251,7 +251,7 @@ const FilterWrapper = styled.div`
 const DiscountPrice = styled.span`
   color: ${(props) => (props.hasDiscount ? "#6c757d;" : "#a83737")};
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;
