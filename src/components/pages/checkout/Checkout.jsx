@@ -87,17 +87,17 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
                       <ItemPriceWrapper hasDiscount={hasDiscount}>
                         {hasDiscount && (
                           <DiscountPrice>
-                            $ {product.discountPrice.toFixed(2)}
+                            $ {(product.discountPrice * product.quantity).toFixed(2)}
                           </DiscountPrice>
                         )}
                         <Price hasDiscount={hasDiscount}>
-                          $ {product.price.toFixed(2)}
+                          $ {itemPrice.toFixed(2)}
                         </Price>
                       </ItemPriceWrapper>
                     ) : (
                       <>
                         <PriceWrapper>
-                          <Price>$ {product.price.toFixed(2)}</Price>
+                          <Price>$ {itemPrice.toFixed(2)}</Price>
                         </PriceWrapper>
                       </>
                     )}

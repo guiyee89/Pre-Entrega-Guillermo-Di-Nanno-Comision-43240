@@ -7,7 +7,6 @@ import { getDoc, doc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-
 export const CartContainer = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -86,12 +85,17 @@ export const CartContainer = () => {
                 {hasDiscount ? (
                   <ItemPriceWrapper hasDiscount={hasDiscount}>
                     {hasDiscount && (
-                      <DiscountPrice>$ {product.discountPrice.toFixed(2)}</DiscountPrice>
+                      <DiscountPrice>
+                        ${" "}
+                        {(product.discountPrice * product.quantity).toFixed(2)}
+                      </DiscountPrice>
                     )}
-                    <Price hasDiscount={hasDiscount}>$ {product.price.toFixed(2)}</Price>
+                    <Price hasDiscount={hasDiscount}>
+                      $ {itemPrice.toFixed(2)}
+                    </Price>
                   </ItemPriceWrapper>
                 ) : (
-                  <Price>$ {product.price.toFixed(2)}</Price>
+                  <Price>$ {itemPrice.toFixed(2)}</Price>
                 )}
               </PriceDeleteWrapper>
               <DetailsWrapper>
@@ -118,7 +122,6 @@ export const CartContainer = () => {
               </QuantityWrapper>
 
               <DeleteIconBtn onClick={() => removeById(product.id)} />
-
             </ItemWrapper>
           );
         })}

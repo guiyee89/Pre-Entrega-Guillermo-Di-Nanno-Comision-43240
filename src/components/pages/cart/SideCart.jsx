@@ -86,15 +86,15 @@ export const SideCart = () => {
                       <ItemPriceWrapper hasDiscount={hasDiscount}>
                         {hasDiscount && (
                           <DiscountPrice>
-                            $ {product.discountPrice.toFixed(2)}
+                            $ {(product.discountPrice * product.quantity).toFixed(2)}
                           </DiscountPrice>
                         )}
                         <Price hasDiscount={hasDiscount}>
-                          $ {product.price.toFixed(2)}
+                          $ {(itemPrice).toFixed(2)}
                         </Price>
                       </ItemPriceWrapper>
                     ) : (
-                      <Price>$ {product.price.toFixed(2)}</Price>
+                      <Price>$ {(itemPrice).toFixed(2)}</Price>
                     )}
 
                     <DeleteIconBtn onClick={() => removeById(product.id)} />
