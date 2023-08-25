@@ -187,9 +187,6 @@ const ItemImg = styled.img`
   object-fit: contain;
 `;
 const ItemPriceWrapper = styled.td`
-  display: flex;
-  align-items: center;
-  gap: 0.1rem;
   flex-direction: column-reverse;
 `;
 const DiscountPrice = styled.span`
