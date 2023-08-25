@@ -136,7 +136,7 @@ export const CartContainer = () => {
               </SubTotalWrapper>
               <DiscountWrapper>
                 <SubDisText colSpan="1">Discount:</SubDisText>
-                <TotalDiscount>- $ {totalDiscount}</TotalDiscount>
+                <TotalDiscount>- $ {totalDiscount.toFixed(2)}</TotalDiscount>
               </DiscountWrapper>
               <TotalWrapper>
                 <TotalText colSpan="1">Total:</TotalText>

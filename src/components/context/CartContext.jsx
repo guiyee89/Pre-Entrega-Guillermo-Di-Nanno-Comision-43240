@@ -237,7 +237,7 @@ const CartContextProvider = ({ children }) => {
         return acc + item.quantity * (itemDiscount - item.price); // Calculate the discount amount for each item
       }, 0);
   
-      return Math.abs(totalDiscount).toFixed(2);
+      return Math.abs(totalDiscount);
     }
   };
   
