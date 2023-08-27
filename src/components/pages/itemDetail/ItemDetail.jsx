@@ -251,7 +251,7 @@ const FilterWrapper = styled.div`
 const DiscountPrice = styled.span`
   color: ${(props) => (props.hasDiscount ? "#6c757d;" : "#a83737")};
   font-weight: 600;
-  font-size: 1.3rem;
+  font-size: 1.13rem;
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;

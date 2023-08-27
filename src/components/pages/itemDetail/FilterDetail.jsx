@@ -120,7 +120,7 @@ export const FilterDetail = ({
 
   //Render custom "size" for clothing or map existing "size" for shoes
   const renderSizes = () => {
-    const customSizes = ["xs", "s", "m", "l", "xl"];
+    const customSizes = ["xs", "s", "m", "l", "xl","xxl"];
     const uniqueSizesShoes = Array.from(
       new Set(relatedItems.map((item) => item.size))
     );
@@ -620,8 +620,9 @@ const SizeCheckbox = styled.input.attrs({ type: "checkbox" })`
 const SizeCheckboxLabel = styled.label`
   cursor: pointer;
   position: absolute;
-  top: 46%;
-  left: 42%;
+  top: 45.6%;
+  left: 41.4%;
+  font-size: 0.8rem;
   transform: translate(-50%, -50%);
   text-transform: uppercase;
   font-weight: bold;

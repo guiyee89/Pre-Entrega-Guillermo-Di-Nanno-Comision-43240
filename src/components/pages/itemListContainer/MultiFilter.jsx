@@ -17,8 +17,8 @@ import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
 export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
-//////////           ////////////           ////////////           ///////////           ///////////
-//                       STATE FOR DIFFERENT FILTERS                        //
+  //////////           ////////////           ////////////           ///////////           ///////////
+  //                       STATE FOR DIFFERENT FILTERS                        //
   const [detailsFilters, setDetailsFilters] = useState({
     category: "",
     size: "",
@@ -26,15 +26,15 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     orderBy: "",
   });
 
-//////////           ////////////           ////////////           ///////////           ///////////
-//      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
+  //////////           ////////////           ////////////           ///////////           ///////////
+  //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
 
-//----------       CATEGORY MAPING      ---------//
+  //----------       CATEGORY MAPING      ---------//
   const uniqueCategory = Array.from(
     new Set(items.map((item) => item.category))
   );
 
-//----------        SIZE MAPING       ----------//
+  //----------        SIZE MAPING       ----------//
   /* const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
   console.log(uniqueSizes) */
   const sizeMapping = {
@@ -52,8 +52,8 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     44: "44",
   };
 
-//----------       COLOR MAPING      ----------//
-// Define a mapping of color names to CSS color values
+  //----------       COLOR MAPING      ----------//
+  // Define a mapping of color names to CSS color values
   const colorMapping = {
     black: "#000000",
     white: "#ffffff",
@@ -74,8 +74,8 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     return words[0];
   };
 
-//////////           ////////////           ////////////           ///////////           ///////////
-//                                FILTERING LOGIC FOR ALL ITEMS                                  //
+  //////////           ////////////           ////////////           ///////////           ///////////
+  //                                FILTERING LOGIC FOR ALL ITEMS                                  //
   const { categoryName } = useParams();
 
   // Fetch items from Firestore Database and filter accordingly on selection
@@ -184,45 +184,46 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
         // If filters are applied, fetch and order filtered items
         fetchFilteredItems();
       }
-    }, 700);
+    }, 300);
   }, [detailsFilters]);
 
-
-//////////           ////////////           ////////////           ///////////           ///////////
-//                    HANDLE FILTERED ITEMS & PASS VALUE TO ItemListContainer                    //
+  //////////           ////////////           ////////////           ///////////           ///////////
+  //                    HANDLE FILTERED ITEMS & PASS VALUE TO ItemListContainer                    //
   const [loadingDetail, setLoadingDetail] = useState(false);
-  const [itemsNotFound, setItemsNotFound] = useState(false)
+  const [itemsNotFound, setItemsNotFound] = useState(false);
 
   //Handle each filter change and pass the values
   const handleDetailsFilterChange = (filterName, value) => {
-    setDetailsFilters((prevFilters) => ({
-      ...prevFilters,
-      [filterName]: value,
-    }));
-    setCurrentPage(1); //Set pagiination to 1 if filters changed
+    setTimeout(() => {
+      setDetailsFilters((prevFilters) => ({
+        ...prevFilters,
+        [filterName]: value,
+      }));
+      setCurrentPage(1); //Set pagiination to 1 if filters changed
+    }, 1550);
+   handleLoadDetail();
   };
 
-
-  const updateFilterArray = (array, value, add) => {// Helper function to update filter array
+  const updateFilterArray = (array, value, add) => {
+    // Helper function to update filter array
     if (add) {
       return [...array, value];
     }
     return array.filter((item) => item !== value);
   };
 
-//////////           ////////////           ////////////           ///////////           ///////////
-//           LOADER            //
+  //////////           ////////////           ////////////           ///////////           ///////////
+  //           LOADER            //
   const handleLoadDetail = () => {
     setLoadingDetail(true);
     setTimeout(() => {
       setLoadingDetail(false);
-    }, 850);
+    }, 1600);
   };
 
-
-//////////           ////////////           ////////////           ///////////           ///////////
-//                                MANAGING FILTERS BY localStorage                               //
-// Load selected filters from localStorage when the component mounts
+  //////////           ////////////           ////////////           ///////////           ///////////
+  //                                MANAGING FILTERS BY localStorage                               //
+  // Load selected filters from localStorage when the component mounts
   useEffect(() => {
     const storedFilters = localStorage.getItem("selectedFilters");
     if (storedFilters) {
@@ -235,7 +236,7 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
     localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
   }, [detailsFilters]);
 
-//////////           ////////////           ////////////           ///////////           ///////////
+  //////////           ////////////           ////////////           ///////////           ///////////
   return (
     <>
       <FilterHeader>
@@ -251,7 +252,7 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                 color: "",
                 orderBy: "",
               }));
-            }, 710);
+            }, 1500);
             handleLoadDetail();
           }}
         >
@@ -295,7 +296,6 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                     active={detailsFilters.orderBy === ""}
                     onClick={() => {
                       handleDetailsFilterChange("orderBy", "");
-                      handleLoadDetail();
                     }}
                   >
                     No order
@@ -304,7 +304,6 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                     active={detailsFilters.orderBy === "discount"}
                     onClick={() => {
                       handleDetailsFilterChange("orderBy", "discount");
-                      handleLoadDetail();
                     }}
                   >
                     Discount Only
@@ -313,7 +312,6 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                     active={detailsFilters.orderBy === "lowPrice"}
                     onClick={() => {
                       handleDetailsFilterChange("orderBy", "lowPrice");
-                      handleLoadDetail();
                     }}
                   >
                     Lower Price
@@ -322,7 +320,6 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                     active={detailsFilters.orderBy === "highPrice"}
                     onClick={() => {
                       handleDetailsFilterChange("orderBy", "highPrice");
-                      handleLoadDetail();
                     }}
                   >
                     Higher Price
@@ -365,13 +362,13 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                   ...prevFilters,
                   category: "",
                 }));
-              }, 710);
+              }, 1500);
               handleLoadDetail();
             }}
           >
             Clear filters
           </ClearFilterBtn>
-          <AccordionDetails sx={{ paddingTop: "18px", minWidth:"212px" }}>
+          <AccordionDetails sx={{ paddingTop: "18px", minWidth: "212px" }}>
             {uniqueCategory.map((category, index) => (
               <FormControlLabel
                 key={index}
@@ -388,7 +385,6 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                         color: "black",
                       },
                     }}
-                    onClick={() => handleLoadDetail()}
                     checked={detailsFilters.category.includes(category)}
                     onChange={(e) =>
                       handleDetailsFilterChange(
@@ -442,7 +438,7 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                   ...prevFilters,
                   size: "",
                 }));
-              }, 710);
+              }, 1500);
               handleLoadDetail();
             }}
           >
@@ -464,7 +460,6 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                         <SizeCheckboxInput
                           type="checkbox"
                           checked={detailsFilters.size.includes(size)}
-                          onClick={() => handleLoadDetail()}
                           onChange={(e) =>
                             handleDetailsFilterChange(
                               //Handle details function
@@ -526,7 +521,7 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                   ...prevFilters,
                   color: "",
                 }));
-              }, 710);
+              }, 1500);
               handleLoadDetail();
             }}
           >
@@ -558,7 +553,6 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
                             background: checkBoxStyle,
                           }}
                           checked={detailsFilters.color.includes(colorKey)}
-                          onClick={() => handleLoadDetail()}
                           onChange={(e) =>
                             handleDetailsFilterChange(
                               "color",

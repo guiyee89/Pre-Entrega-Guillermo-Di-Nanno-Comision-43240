@@ -173,14 +173,13 @@ const missingItemMessage = (missingItems) => {
 };
 const Wrapper = styled.div`
   display: flex;
-  width: 1100px;
+  width: 100%;
   justify-content: center;
   margin-top: 50px;
   gap: 1rem;
 `;
 const CartItemsContainer = styled.div`
   width: 700px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px;
 `;
 const ItemWrapper = styled.div`
   display: flex;

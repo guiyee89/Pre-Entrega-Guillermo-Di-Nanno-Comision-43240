@@ -47,6 +47,7 @@ export const Layout = () => {
   //   return () => clearTimeout(timeout);
   // }, []);
 
+
   return (
     <Wrapper isOpen={isOpen}>
       {loading ? (
@@ -72,7 +73,7 @@ export const Layout = () => {
 
 const Wrapper = styled.div`
   min-height: 100%;
-  /* overflow-y: ${({ isOpen }) => (isOpen ? "inherit" : "hidden")};  */
+  overflow-x: clip;
   ::-webkit-scrollbar {
     width: 10px;
   }
@@ -92,6 +93,7 @@ const LoadingScreen = styled.div`
 `;
 const OutletWrapper = styled.div`
   min-height: 100vh;
+  /* max-width: 1618px; */
   display: flex;
   flex-direction: column;
   align-items: center;
