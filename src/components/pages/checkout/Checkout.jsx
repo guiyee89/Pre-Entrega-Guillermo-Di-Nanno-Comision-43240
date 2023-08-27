@@ -81,18 +81,21 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
                       </ImgWrapper>
                       <ItemTitle>{product.title}</ItemTitle>
                     </ItemWrapper>
-                    {/* Switch the locations of ItemPriceWrapper and ItemQuantity */}
 
                     {hasDiscount ? (
                       <ItemPriceWrapper hasDiscount={hasDiscount}>
                         {hasDiscount && (
-                          <DiscountPrice>
-                            $ {(product.discountPrice * product.quantity).toFixed(2)}
-                          </DiscountPrice>
+                          <Price hasDiscount={hasDiscount}>
+                            $ {itemPrice.toFixed(2)}
+                          </Price>
                         )}
-                        <Price hasDiscount={hasDiscount}>
-                          $ {itemPrice.toFixed(2)}
-                        </Price>
+
+                        <DiscountPrice>
+                          ${" "}
+                          {(product.discountPrice * product.quantity).toFixed(
+                            2
+                          )}
+                        </DiscountPrice>
                       </ItemPriceWrapper>
                     ) : (
                       <>
@@ -205,6 +208,7 @@ const DiscountPrice = styled.span`
   position: relative;
   padding-right: 2px;
   text-align: center;
+  display: block;
 `;
 const Price = styled.span`
   font-weight: 600;

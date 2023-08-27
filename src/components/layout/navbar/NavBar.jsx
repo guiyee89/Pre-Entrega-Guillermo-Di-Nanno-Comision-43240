@@ -107,9 +107,9 @@ export const NavBar = () => {
 };
 
 const HeaderWrapper = styled.header`
-  background-color: rgb(253 253 253);
+ /*  background-color: rgb(253 253 253);
   display: flex;
-  justify-content: center;
+  justify-content: center; */
 `;
 const Nav = styled.nav`
   height: ${(props) => (props.scrolled === "scrolled" ? "65px" : "90px")};
@@ -139,6 +139,9 @@ const InsideNav = styled.div`
   align-items: center;
   -webkit-box-pack: justify;
   justify-content: space-between;
+  @media screen and (max-width: 50rem) {
+    padding: 0;
+  }
 `;
 const LogoDiv = styled.div`
   width: ${(props) => (props.scrolled === "scrolled" ? "90px" : "110px")};
@@ -156,6 +159,9 @@ const Logo = styled.img`
 const NavListWrapper = styled.ul`
   display: flex;
   list-style: none;
+  @media screen and (max-width: 50rem) {
+    display: none;
+  }
 `;
 const NavList = styled.li`
   padding: 0 20px;
