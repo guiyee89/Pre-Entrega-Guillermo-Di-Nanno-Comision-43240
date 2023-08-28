@@ -4,13 +4,18 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import { SideMenuContext } from "../../context/SideMenuContext";
+import CloseIcon from "@mui/icons-material/Close";
 
-export const NavBar = () => {
+export const NavMobile = () => {
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
   const totalItems = getTotalItems();
-  
+  //////////        ////////////        ////////////        ///////////
+  //                       SideMenuContext                      //
+  const { isMenuOpen, toggleSideMenu } = useContext(SideMenuContext);
 
   //////////        ////////////        ////////////        ///////////
   //                       Scroll Effect                      //
@@ -37,19 +42,40 @@ export const NavBar = () => {
   const handleNavLinkClick = () => {
     localStorage.removeItem("selectedFilters");
     localStorage.removeItem("currentPage");
+    if (!isMenuOpen) {
+        toggleSideMenu(); 
+      }
   };
 
   return (
     <>
-      <HeaderWrapper>
-        <Nav scrolled={scroll}>
-          <InsideNav>
-            <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
-              <LogoLink to="/">
-                <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
-              </LogoLink>
-            </LogoDiv>
-
+      <Nav scrolled={scroll}>
+        <InsideNav>
+          <MenuIcon
+            onClick={toggleSideMenu}
+            sx={{ fontSize: "40px", marginLeft: "24px", marginTop: "8px" }}
+          />
+          <TransparentDiv
+            isMenuOpen={isMenuOpen}
+            onClick={isMenuOpen ? null : toggleSideMenu}
+          />
+          <SideMenuWrapper isMenuOpen={isMenuOpen}>
+            <SideMenuHeader>
+              <LogoSideMenu onClick={handleNavLinkClick}>
+                <LogoLink to="/">
+                  <LogoMenu src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></LogoMenu>
+                </LogoLink>
+              </LogoSideMenu>
+              <CloseIcon
+                onClick={toggleSideMenu}
+                sx={{
+                  fontSize: "35px",
+                  marginTop: "15px",
+                  marginLeft: "36px",
+                  cursor: "pointer",
+                }}
+              />
+            </SideMenuHeader>
             <NavListWrapper>
               <NavList>
                 <NavLink to="/" scrolled={scroll} onClick={handleNavLinkClick}>
@@ -93,31 +119,64 @@ export const NavBar = () => {
                 </NavLink>
               </NavList>
             </NavListWrapper>
+          </SideMenuWrapper>
 
-            <CartWidget
-              scrolled={scroll}
-              sx={{ padding: "10px" }}
-              totalItems={totalItems}
-            />
-          </InsideNav>
-        </Nav>
-      </HeaderWrapper>
+          <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
+            <LogoLink to="/">
+              <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
+            </LogoLink>
+          </LogoDiv>
+
+          <CartWidget
+            scrolled={scroll}
+            sx={{ padding: "10px" }}
+            totalItems={totalItems}
+          />
+        </InsideNav>
+      </Nav>
     </>
   );
 };
-
-const HeaderWrapper = styled.header`
- /*  background-color: rgb(253 253 253);
-  display: flex;
-  justify-content: center; */
-  position: relative;
+const TransparentDiv = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ isMenuOpen }) =>
+    isMenuOpen ? "none" : "rgba(0, 0, 0, 0.2)"};
+  z-index: ${({ isMenuOpen }) => (isMenuOpen ? "-1" : "1")};
 `;
+const SideMenuWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: ${({ isMenuOpen }) => (isMenuOpen ? "-420px" : "0")};
+  width: ${({ isMenuOpen }) => (isMenuOpen ? "0" : "85%")};
+  transition: ${({ isMenuOpen }) =>
+    isMenuOpen ? "0.3s ease-in-out" : "0.3s ease-in-out"};
+  z-index: 2;
+  height: 100%;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  @media screen and (min-width: 500px) {
+    width: ${({ isMenuOpen }) => (isMenuOpen ? "0" : "60%")};
+  }
+`;
+const SideMenuHeader = styled.div`
+  display: flex;
+  width: 100%;
+  position: relative;
+  padding: 0px 15px 15px 65px;
+  margin-top: 15px;
+  justify-content: flex-end;
+  border-bottom: 1px solid lightgrey;
+`;
+
 const Nav = styled.nav`
   height: ${(props) => (props.scrolled === "scrolled" ? "65px" : "90px")};
   transition: height
     ${(props) => (props.scrolled === "scrolled" ? "0.16s" : "0.16s")}
     ease-in-out;
-  width: 100%;
   margin: 0 auto;
   display: flex;
   position: fixed;
@@ -140,9 +199,8 @@ const InsideNav = styled.div`
   align-items: center;
   -webkit-box-pack: justify;
   justify-content: space-between;
-  @media screen and (max-width: 50rem) {
+  @media screen and (max-width: 500px) {
     padding: 0;
-    justify-content: flex-end;
   }
 `;
 const LogoDiv = styled.div`
@@ -150,29 +208,27 @@ const LogoDiv = styled.div`
   transition: width
     ${(props) => (props.scrolled === "scrolled" ? "0.20s" : "0.16s")}
     ease-in-out;
-    @media screen and (max-width: 50rem) {
-    position: absolute;
-    left: 42%;
-  }
-  
 `;
 const LogoLink = styled(Link)`
   text-decoration: none;
 `;
 const Logo = styled.img`
-  width: 62%;
-  margin-left: 12px;
-  @media screen and (max-width: 50rem) {
-    width: 50%;
-
-  }
+  width: 52%;
+  margin-left: 20px;
+`;
+const LogoSideMenu = styled.div`
+  width: 100%;
+`;
+const LogoMenu = styled.img`
+  width: 50px;
+  margin: 5px auto;
 `;
 const NavListWrapper = styled.ul`
   display: flex;
+  flex-direction: column;
   list-style: none;
-  @media screen and (max-width: 50rem) {
-    display: none;
-  }
+  gap: 1.7rem;
+  margin-top: 40px;
 `;
 const NavList = styled.li`
   padding: 0 20px;
@@ -215,38 +271,3 @@ const NavLink = styled(Link)`
     transition: transform 0.21s ease-in-out;
   }
 `;
-
-//El otro nav
-// const NavLink = styled(Link)`
-//   text-decoration: none;
-//   color: black;
-//   font-weight: 700;
-//   text-transform: uppercase;
-//   position: relative;
-//   font-size: ${(props) => (props.scrolled === "scrolled" ? ".85rem" : "1rem")};
-//   transition: font-size
-//     ${(props) => (props.scrolled === "scrolled" ? "0.28s" : "0.16s")}
-//     ease-in-out;
-//   &:hover {
-//     color: #7c819b ;
-//     transition: ease-in-out 0.2s;
-//     transform: scaleX(1);
-//   }
-//   &::after {
-//     content: "";
-//     position: absolute;
-//     bottom: -4px;
-//     left: 0;
-//     width: 100%;
-//     height: 2px;
-//     background-color: black;
-//     transform: scaleX(0);
-//     transform-origin: left center;
-//     transition: transform 0.25s ease-in-out, padding-bottom 0.25s ease-in-out;
-//   }
-//   &:hover::after {
-//     background-color: #373a4a;
-//     transform: scaleX(1);
-//     padding-bottom: 3px;
-//   }
-// `;

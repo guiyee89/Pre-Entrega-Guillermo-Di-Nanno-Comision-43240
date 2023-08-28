@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import styled from "styled-components/macro";
-import { SideCartContext } from "../../context/SideCartContext";
 import { CartContext } from "../../context/CartContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link, useNavigate } from "react-router-dom";
+import { SideMenuContext } from "../../context/SideMenuContext";
 
 export const SideCart = () => {
-  const { isOpen, togglecart } = useContext(SideCartContext);
+
   const {
     cart,
     removeQuantity,
@@ -18,6 +18,9 @@ export const SideCart = () => {
     getTotalDiscount,
     getSubTotal,
   } = useContext(CartContext);
+
+  const { isOpen, toggleSideCart } = useContext(SideMenuContext);
+
 
   const totalPrice = getTotalPrice();
   const subTotal = getSubTotal();
@@ -30,15 +33,15 @@ export const SideCart = () => {
 
   const handleGoToCart = () => {
     goCart(); // Navigate to cart
-    togglecart(); // Toggle the cart
+    toggleSideCart(); // Toggle the cart
   };
 
   return (
     <>
-      <TransparentDiv isOpen={isOpen} onClick={isOpen ? null : togglecart} />
+      <TransparentDiv isOpen={isOpen} onClick={isOpen ? null : toggleSideCart} />
       <SideCartWrapper isOpen={isOpen}>
         <CloseIcon
-          onClick={togglecart}
+          onClick={toggleSideCart}
           sx={{
             fontSize: "35px",
             marginTop: "15px",
