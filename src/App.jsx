@@ -11,7 +11,7 @@ function App() {
     <>
       <BrowserRouter>
         <CartContextProvider>
-          <CarouselProvider>
+          {/* <CarouselProvider> */}
             <SideMenuProvider>
               <Routes>
                 <Route element={<Layout />}>
@@ -22,7 +22,7 @@ function App() {
                 <Route path="*" element={<h1>404 not found</h1>} />
               </Routes>
             </SideMenuProvider>
-          </CarouselProvider>
+          {/* </CarouselProvider> */}
         </CartContextProvider>
       </BrowserRouter>
 
