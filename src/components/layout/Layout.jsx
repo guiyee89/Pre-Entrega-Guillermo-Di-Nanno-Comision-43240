@@ -10,25 +10,55 @@ import { useGlobalLoader } from "../hooks/useGlobalLoader";
 import { HeroSmall } from "./hero/HeroSmall";
 import { SideCart } from "../pages/cart/SideCart";
 import { useContext, useEffect, useState } from "react";
-import { SideCartContext } from "../context/SideCartContext";
+import { SideMenuContext } from "../context/SideMenuContext";
+import { NavMobile } from "./navbar/NavMobile";
+////////////////////////////////////////////////////
+
 
 export const Layout = () => {
+////////////////////////////////////////////////////
+
   //Flash loading effect
   const loading = useGlobalLoader();
+
+////////////////////////////////////////////////////
 
   //Restore scroll to top on navigation
   useScrollRestoration();
 
-  const { isOpen } = useContext(SideCartContext);//SideCart Context
+////////////////////////////////////////////////////
 
+  //SideCart Context
+  const { isOpen } = useContext(SideMenuContext);
+
+////////////////////////////////////////////////////
+
+  //Manage Mobile - Desktop components by width
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
-    // Prevent scrolling when the SideCart is open
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+////////////////////////////////////////////////////
+
+  // Prevent scrolling when the SideCart is open
+  useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "inherit";
     } else {
       document.body.style.overflow = "hidden";
     }
   }, [isOpen]);
+
+////////////////////////////////////////////////////
 
   //Find "Home" and "ItemDetail" locations
   const location = useLocation();
@@ -46,15 +76,14 @@ export const Layout = () => {
 
   //   return () => clearTimeout(timeout);
   // }, []);
-
-
   return (
     <Wrapper isOpen={isOpen}>
       {loading ? (
         <LoadingScreen />
       ) : (
         <>
-          <NavBar />
+          {windowWidth > 900 && <NavBar />}
+          {windowWidth < 900 && <NavMobile />}
           <SideCart />
           {!isHome && <HeroSmall />}
           <HeroWrapper>{isHome && <HeroLanding />}</HeroWrapper>

@@ -113,8 +113,9 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
         <ItemListTitle>{categoryTitle}</ItemListTitle>
         <PaginationWrapperTop>
           <Pagination
-            size="large"
-            variant="outlined"
+            size="medium"
+            shape="rounded"
+            variant=""
             count={totalPages}
             page={currentPage}
             onChange={(event, value) => {
@@ -184,6 +185,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
       <PaginationWrapperBottom>
         <Pagination
           size="large"
+          shape="rounded"
           variant="outlined"
           count={totalPages} // Set the count to the total number of pages
           page={currentPage}

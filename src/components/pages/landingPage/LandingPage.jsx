@@ -5,8 +5,11 @@ import { CarouselMobile } from "./carousels/CarouselMobile";
 import { CarouselContainer } from "./carousels/CarouselContainer";
 import { ClipLoader } from "react-spinners";
 import { Link } from "react-router-dom";
+import { CarouselDesktop } from "./carousels/CarouselDesktop";
 
 export const LandingPage = () => {
+
+  
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
