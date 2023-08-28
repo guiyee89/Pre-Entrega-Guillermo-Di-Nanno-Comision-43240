@@ -6,12 +6,10 @@ import { ClipLoader } from "react-spinners";
 
 export const CarouselDesktop = ({ discountProducts, loading }) => {
 
-  // const {
-  //   discountProducts,
-  //   loading
-  // } = useContext(CarouselContext);
-
-  const products = discountProducts
+ /*  const {
+    discountProducts,
+    loading
+  } = useContext(CarouselContext); */
 
   const [index, setIndex] = useState(0);
 
@@ -34,7 +32,7 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
           <CarouselItem>
             <CarouselInner>
               
-              {products.slice(0, 4).map((product) => {
+              {discountProducts.slice(0, 4).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
                     <LinkWrapper to={`/item-details/${product.id}`}>
@@ -67,7 +65,7 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
 
           <CarouselItem>
             <CarouselInner>
-              {products.slice(4, 8).map((product) => {
+              {discountProducts.slice(4, 8).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
                     <LinkWrapper to={`/item-details/${product.id}`}>
@@ -100,7 +98,7 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
 
           <CarouselItem>
             <CarouselInner>
-              {products.slice(8, 12).map((product) => {
+              {discountProducts.slice(8, 12).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
                     <LinkWrapper to={`/item-details/${product.id}`}>

@@ -4,7 +4,7 @@ import { Layout } from "./components/layout/Layout";
 import { menuRoutes } from "./components/routes/menuRoutes";
 import CartContextProvider from "./components/context/CartContext";
 import SideMenuProvider from "./components/context/SideMenuContext";
-import CarouselProvider from "./components/context/CarouselContext";
+// import CarouselProvider from "./components/context/CarouselContext";
 
 function App() {
   return (
