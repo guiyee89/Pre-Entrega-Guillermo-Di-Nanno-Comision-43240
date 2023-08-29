@@ -14,24 +14,24 @@ import { SideMenuContext } from "../context/SideMenuContext";
 import { NavMobile } from "./navbar/NavMobile";
 ////////////////////////////////////////////////////
 
-
 export const Layout = () => {
-////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
 
   //Flash loading effect
   const loading = useGlobalLoader();
 
-////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
 
   //Restore scroll to top on navigation
   useScrollRestoration();
 
-////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
 
-  //SideCart Context
-  const { isOpen } = useContext(SideMenuContext);
+  //SideMenu Context
+  const { isOpen, isMenuOpen /* , toggleSideMenu, toggleSideCart */ } =
+    useContext(SideMenuContext);
 
-////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
 
   //Manage Mobile - Desktop components by width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -47,18 +47,18 @@ export const Layout = () => {
     };
   }, []);
 
-////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
 
   // Prevent scrolling when the SideCart is open
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && isMenuOpen) {
       document.body.style.overflow = "inherit";
     } else {
       document.body.style.overflow = "hidden";
     }
-  }, [isOpen]);
+  }, [isOpen, isMenuOpen]);
 
-////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
 
   //Find "Home" and "ItemDetail" locations
   const location = useLocation();
@@ -68,7 +68,6 @@ export const Layout = () => {
   const isHome = currentRoute?.id === "home";
   /* const isItemDetail = useMatch("/item-details/:id"); */
 
-
   // useEffect(() => {
   //   const timeout = setTimeout(() => {
   //     setLoading(false);
@@ -77,26 +76,28 @@ export const Layout = () => {
   //   return () => clearTimeout(timeout);
   // }, []);
   return (
-    <Wrapper isOpen={isOpen}>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <>
-          {windowWidth > 900 && <NavBar />}
-          {windowWidth < 900 && <NavMobile />}
-          <SideCart />
-          {!isHome && <HeroSmall />}
-          <HeroWrapper>{isHome && <HeroLanding />}</HeroWrapper>
+    <>
+      <Wrapper isOpen={isOpen} isMenuOpen={isMenuOpen}>
+        {loading ? (
+          <LoadingScreen />
+        ) : (
+          <>
+            {windowWidth > 900 && <NavBar />}
+            {windowWidth < 900 && <NavMobile />}
+            <SideCart />
+            {!isHome && <HeroSmall />}
+            <HeroWrapper>{isHome && <HeroLanding />}</HeroWrapper>
 
-          <OutletWrapper isHome={isHome}>
-            <Outlet />
-          </OutletWrapper>
+            <OutletWrapper isHome={isHome}>
+              <Outlet />
+            </OutletWrapper>
 
-          <NewsLetter />
-          <Footer />
-        </>
-      )}
-    </Wrapper>
+            <NewsLetter />
+            <Footer />
+          </>
+        )}
+      </Wrapper>
+    </>
   );
 };
 
@@ -117,6 +118,7 @@ const Wrapper = styled.div`
     background-color: #f1f1f1;
   }
 `;
+
 const LoadingScreen = styled.div`
   max-height: 100vh;
 `;
@@ -129,11 +131,13 @@ const OutletWrapper = styled.div`
   margin: 0 auto;
   background-color: rgb(253 253 253);
   padding-top: 35px;
-
+  @media (max-width: 68rem) {
+    padding-top: 0;
+  }
 `;
 const HeroWrapper = styled.div`
-  max-height: 800px;
+  background-color: white;
   @media (max-width: 68rem) {
-    margin-bottom: 60px;
+    margin-bottom: 25px;
   }
 `;
