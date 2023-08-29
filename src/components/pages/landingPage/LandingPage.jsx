@@ -2,7 +2,6 @@ import styled from "styled-components/macro";
 import { useEffect, useState } from "react";
 import { CarouselTablet } from "./carousels/CarouselTablet";
 import { CarouselMobile } from "./carousels/CarouselMobile";
-import { CarouselContainer } from "./carousels/CarouselContainer";
 import { ClipLoader } from "react-spinners";
 import { Link } from "react-router-dom";
 import { CarouselDesktop } from "./carousels/CarouselDesktop";
@@ -54,9 +53,9 @@ export const LandingPage = () => {
         )}
 
         <CarouselWrapper>
-          {windowWidth >= 900 && <CarouselContainer />}
-          {windowWidth < 900 && windowWidth >= 580 && <CarouselTablet />}
-          {windowWidth < 580 && <CarouselMobile />}
+          {windowWidth >= 900 && <CarouselDesktop />}
+          {windowWidth < 900 && windowWidth >= 650 && <CarouselTablet />}
+          {windowWidth < 650 && <CarouselMobile />} 
         </CarouselWrapper>
         <MiddleArticle>
           <ImgWrapper>
@@ -132,6 +131,9 @@ const Wrapper = styled.section`
   align-items: center;
   margin: 8px 20px 0;
   overflow: hidden;
+  @media (max-width:700px){
+    margin-top: 25px;
+  }
 `;
 const LoaderWrapper = styled.div`
   display: flex;
@@ -150,9 +152,15 @@ const Title = styled.h1`
 const CarouselWrapper = styled.div`
   display: flex;
   margin: -16px auto 0;
-  min-height: 570px;
-  @media (max-width: 68rem) {
+  min-height: 470px;
+  @media (max-width: 83.75rem) {
     max-width: 95%;
+  }
+  @media (max-width: 650px){
+    max-width:100%
+  }
+  @media (max-width: 500px){
+    min-height: 0;
   }
 `;
 const MiddleArticle = styled.article`
@@ -160,6 +168,9 @@ const MiddleArticle = styled.article`
   justify-content: center;
   justify-content: space-between;
   gap: 1rem;
+  @media (max-width:650px){
+    gap: .5rem;
+  }
 `;
 const MiddleItemsImg = styled.img`
   transition: transform 0.29s ease-in-out 0.1s;
@@ -182,6 +193,9 @@ const ImgWrapper = styled.div`
   &:hover {
     background-color: #fbfbfb;
   }
+  @media (max-width:650px){
+    height: 470px;
+  }
 `;
 const LinkImg = styled(Link)`
   text-decoration: none;
@@ -200,6 +214,9 @@ const TextWrapper = styled.div`
   -webkit-box-align: center;
   align-items: center;
   line-height: 1.15;
+  @media (max-width:700px){
+    bottom: 55px;
+  }
 `;
 const Arrows = styled.span`
   font-size: 2.8rem;

@@ -112,7 +112,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #eeeeee;
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

@@ -45,10 +45,18 @@ const Title = styled.h1`
   font-size: 1rem;
   letter-spacing: 2px;
   line-height: 12px;
+  @media (max-width:900px){
+    letter-spacing: 1;
+    font-size: 0.7rem;
+  }
 `;
 const Description = styled.h2`
   letter-spacing: 1.5px;
   font-size: 0.9rem;
+  @media (max-width:900px){
+    letter-spacing: 1;
+    font-size: 0.7rem;
+  }
 `;
 const Icon = styled.img`
   width: 55px;

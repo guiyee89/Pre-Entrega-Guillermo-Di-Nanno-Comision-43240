@@ -37,6 +37,7 @@ const CartWidgetWrapper = styled.div`
 const Contador = styled(Badge)`
   padding-left: 8px;
   margin: 0 24px 0 0;
+  z-index: 0;
   .css-16rm5dn-MuiBadge-badge {
     font-weight: 600;
     font-size: 0.85rem;

@@ -43,12 +43,16 @@ export const NavMobile = () => {
     localStorage.removeItem("selectedFilters");
     localStorage.removeItem("currentPage");
     if (!isMenuOpen) {
-        toggleSideMenu(); 
-      }
+      toggleSideMenu();
+    }
   };
 
   return (
     <>
+    {/*   <TransparentDiv
+        isMenuOpen={isMenuOpen}
+        onClick={isMenuOpen ? null : toggleSideMenu}
+      /> */}
       <Nav scrolled={scroll}>
         <InsideNav>
           <MenuIcon
@@ -142,7 +146,7 @@ const TransparentDiv = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: ${({ isMenuOpen }) => (isMenuOpen ? "0" : "100%")};
   background-color: ${({ isMenuOpen }) =>
     isMenuOpen ? "none" : "rgba(0, 0, 0, 0.2)"};
   z-index: ${({ isMenuOpen }) => (isMenuOpen ? "-1" : "1")};

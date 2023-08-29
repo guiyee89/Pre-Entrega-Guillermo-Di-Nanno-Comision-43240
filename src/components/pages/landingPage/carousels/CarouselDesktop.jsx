@@ -3,13 +3,17 @@ import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+import { useContext } from "react";
+import { CarouselContext } from "../../../context/CarouselContext";
 
-export const CarouselDesktop = ({ discountProducts, loading }) => {
+export const CarouselDesktop = () => {
+  
+  const { discountProducts, loading } = useContext(CarouselContext);
 
- /*  const {
-    discountProducts,
-    loading
-  } = useContext(CarouselContext); */
+  if (!discountProducts || !Array.isArray(discountProducts)) {
+    // Handle the case where discountProducts is not defined or not an array
+    return <div>No products available.</div>;
+  }
 
   const [index, setIndex] = useState(0);
 
@@ -31,7 +35,6 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
         >
           <CarouselItem>
             <CarouselInner>
-              
               {discountProducts.slice(0, 4).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
@@ -137,13 +140,8 @@ export const CarouselDesktop = ({ discountProducts, loading }) => {
 const Wrapper = styled.div`
   margin: 24px auto 110px;
   z-index: 0;
-  /* position: relative; */
   max-height: 520px;
 
-  @media (max-width: 48rem) {
-    max-height: 320px;
-    min-height: 200px;
-  }
 `;
 const LoaderWrapper = styled.div`
   display: flex;
@@ -184,8 +182,8 @@ const StyledCarousel = styled(Carousel)`
   .carousel-indicators [data-bs-target] {
     margin: 10px;
     border-radius: 50%;
-    width: 12px;
-    height: 12px;
+    width: 9px;
+    height: 9px;
     background-color: #000000;
   }
   .carousel-indicators {
@@ -288,7 +286,6 @@ const DiscountPrice = styled.span`
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;
-
 `;
 const Discount = styled.h4`
   position: absolute;
