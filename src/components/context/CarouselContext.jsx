@@ -13,7 +13,7 @@ const CarouselProvider = ({ children }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 1300);
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }, []);
