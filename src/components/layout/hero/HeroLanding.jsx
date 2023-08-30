@@ -76,7 +76,7 @@ export const HeroLanding = () => {
             />
             <CarouselImg
               className="d-block w-100"
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689955895/web%20access/samples%20for%20e-commerce/Hero/2023-07-21_12h32_14_uran3s.png"
+              src="https://res.cloudinary.com/derdim3m6/image/upload/v1690152844/web%20access/samples%20for%20e-commerce/Hero/2023-07-23_19h52_40_qfvfmd.png"
               alt="First slide"
             />
           </picture>
@@ -89,7 +89,7 @@ export const HeroLanding = () => {
             />
             <CarouselImg
               className="d-block w-100"
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689955895/web%20access/samples%20for%20e-commerce/Hero/2023-07-21_12h32_14_uran3s.png"
+              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771372/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h29_53_qtqorc600_gt3fsj.png"
               alt="First slide"
             />
           </picture>
