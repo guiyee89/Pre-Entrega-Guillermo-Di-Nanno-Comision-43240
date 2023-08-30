@@ -172,6 +172,9 @@ const MiddleArticle = styled.article`
   @media (max-width: 650px) {
     gap: 0.5rem;
   }
+  @media (max-width:550px){
+    flex-direction: column;
+  }
 `;
 const MiddleItemsImg = styled.img`
   transition: transform 0.29s ease-in-out 0.1s;
@@ -261,14 +264,12 @@ const TextDiv = styled.div`
   grid-column: 9/13;
   height: 100%;
   grid-row: 3;
-  /* width: 100%; */
   flex-direction: column;
-
   @media (max-width: 900px) {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    background-color: rgb(255 255 255 / 25%);
+    background-color: rgb(255 255 255 / 45%);
     grid-area: 5 / 1 / auto / 13;
     padding: 30px 0;
   }
@@ -319,6 +320,7 @@ const StrechedArticle = styled.article`
   }
   @media (max-width: 900px) {
     height: 450px;
+    background-color: rgb(208 205 205);
   }
 `;
 const LinkStreched = styled(Link)`

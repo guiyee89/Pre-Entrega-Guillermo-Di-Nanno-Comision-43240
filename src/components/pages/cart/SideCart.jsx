@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { SideMenuContext } from "../../context/SideMenuContext";
 
 export const SideCart = () => {
-
   const {
     cart,
     removeQuantity,
@@ -20,7 +19,6 @@ export const SideCart = () => {
   } = useContext(CartContext);
 
   const { isOpen, toggleSideCart } = useContext(SideMenuContext);
-
 
   const totalPrice = getTotalPrice();
   const subTotal = getSubTotal();
@@ -38,7 +36,10 @@ export const SideCart = () => {
 
   return (
     <>
-      <TransparentDiv isOpen={isOpen} onClick={isOpen ? null : toggleSideCart} />
+      <TransparentDiv
+        isOpen={isOpen}
+        onClick={isOpen ? null : toggleSideCart}
+      />
       <SideCartWrapper isOpen={isOpen}>
         <CloseIcon
           onClick={toggleSideCart}
@@ -89,15 +90,18 @@ export const SideCart = () => {
                       <ItemPriceWrapper hasDiscount={hasDiscount}>
                         {hasDiscount && (
                           <DiscountPrice>
-                            $ {(product.discountPrice * product.quantity).toFixed(2)}
+                            ${" "}
+                            {(product.discountPrice * product.quantity).toFixed(
+                              2
+                            )}
                           </DiscountPrice>
                         )}
                         <Price hasDiscount={hasDiscount}>
-                          $ {(itemPrice).toFixed(2)}
+                          $ {itemPrice.toFixed(2)}
                         </Price>
                       </ItemPriceWrapper>
                     ) : (
-                      <Price>$ {(itemPrice).toFixed(2)}</Price>
+                      <Price>$ {itemPrice.toFixed(2)}</Price>
                     )}
 
                     <DeleteIconBtn onClick={() => removeById(product.id)} />
@@ -116,7 +120,9 @@ export const SideCart = () => {
                   </SubTotalWrapper>
                   <DiscountWrapper>
                     <TotalText colSpan="1">Discount:</TotalText>
-                    <TotalDiscount>- $ {totalDiscount.toFixed(2)}</TotalDiscount>
+                    <TotalDiscount>
+                      - $ {totalDiscount.toFixed(2)}
+                    </TotalDiscount>
                   </DiscountWrapper>
                   <TotalWrapper>
                     <TotalText colSpan="1">Total:</TotalText>
@@ -152,7 +158,8 @@ const SideCartWrapper = styled.div`
   right: ${({ isOpen }) => (isOpen ? "-420px" : "0")};
   transition: right 0.3s ease-in-out;
   z-index: 1;
-  width: 420px;
+  min-width: 325px;
+  max-width: 420px;
   height: 100%;
   background-color: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -212,6 +219,9 @@ const ItemImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
+  @media (max-width:500px){
+    width: 95px;
+  }
 `;
 const ItemQuantity = styled.h4`
   font-weight: 600;
@@ -328,6 +338,9 @@ const InsideContentWrapper = styled.div`
   width: auto;
   padding: 12px 0px 0 0;
   height: 100%;
+  @media (max-width: 500px) {
+    width: 120px;
+  }
 `;
 const Color = styled.p`
   font-size: 0.8rem;

@@ -54,6 +54,7 @@ const Input = styled(TextField)`
   width: 280px;
   height: 50px;
   background-color: white;
+  z-index: 0;
 `;
 const Button = styled.button`
   width: 140px;
