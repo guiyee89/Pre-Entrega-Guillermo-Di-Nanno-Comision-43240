@@ -7,12 +7,10 @@ import { Link } from "react-router-dom";
 import { CarouselDesktop } from "./carousels/CarouselDesktop";
 
 export const LandingPage = () => {
-
-  
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
-  
+
   const [loading, setLoading] = useState(true);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -39,8 +37,6 @@ export const LandingPage = () => {
     };
   }, []);
 
-  
-
   return (
     <>
       <Wrapper>
@@ -55,7 +51,7 @@ export const LandingPage = () => {
         <CarouselWrapper>
           {windowWidth >= 900 && <CarouselDesktop />}
           {windowWidth < 900 && windowWidth >= 650 && <CarouselTablet />}
-          {windowWidth < 650 && <CarouselMobile />} 
+          {windowWidth < 650 && <CarouselMobile />}
         </CarouselWrapper>
         <MiddleArticle>
           <ImgWrapper>
@@ -96,29 +92,34 @@ export const LandingPage = () => {
             </LinkImg>
           </ImgWrapper>
         </MiddleArticle>
-          <StrechedArticle>
+        <StrechedArticle>
           <LinkStreched to="/category/shoes">
-            <ShoesImg
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_37-removebg-preview_g6ithw.png"
-              alt=""
-            />
-            <ShoesImg
-              src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_45-removebg-preview_s2bmvf.png"
-              alt=""
-            />
-
+            <ImgDiv>
+              <ShoesImg
+                src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_37-removebg-preview_g6ithw.png"
+                alt=""
+              />
+              <ShoesImg
+                src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771909/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-12_16h01_45-removebg-preview_s2bmvf.png"
+                alt=""
+              />
+            </ImgDiv>
             <TextDiv>
-              <TextTitle>All our Shoes</TextTitle>
-              <TextPromo>30%off</TextPromo>
-              <TextSub>On second unit </TextSub>
-              <TextSub2 style={{ whiteSpace: "pre-line" }}>
-                The best for your feet
-                {"\n"}
-                And your pocket
-              </TextSub2>
+              <TextDiv1>
+                <TextTitle>All our Shoes</TextTitle>
+                <TextPromo>30% off</TextPromo>
+              </TextDiv1>
+              <TextDiv2>
+                <TextSub>On second unit </TextSub>
+                <TextSub2 style={{ whiteSpace: "pre-line" }}>
+                  The best for your feet
+                  {"\n"}
+                  And your pocket
+                </TextSub2>
+              </TextDiv2>
             </TextDiv>
-            </LinkStreched>
-          </StrechedArticle>
+          </LinkStreched>
+        </StrechedArticle>
       </Wrapper>
     </>
   );
@@ -131,7 +132,7 @@ const Wrapper = styled.section`
   align-items: center;
   margin: 8px 20px 0;
   overflow: hidden;
-  @media (max-width:700px){
+  @media (max-width: 700px) {
     margin-top: 25px;
   }
 `;
@@ -156,10 +157,10 @@ const CarouselWrapper = styled.div`
   @media (max-width: 83.75rem) {
     max-width: 95%;
   }
-  @media (max-width: 650px){
-    max-width:100%
+  @media (max-width: 700px) {
+    max-width: 99%;
   }
-  @media (max-width: 500px){
+  @media (max-width: 500px) {
     min-height: 0;
   }
 `;
@@ -168,8 +169,8 @@ const MiddleArticle = styled.article`
   justify-content: center;
   justify-content: space-between;
   gap: 1rem;
-  @media (max-width:650px){
-    gap: .5rem;
+  @media (max-width: 650px) {
+    gap: 0.5rem;
   }
 `;
 const MiddleItemsImg = styled.img`
@@ -193,7 +194,7 @@ const ImgWrapper = styled.div`
   &:hover {
     background-color: #fbfbfb;
   }
-  @media (max-width:650px){
+  @media (max-width: 650px) {
     height: 470px;
   }
 `;
@@ -214,7 +215,7 @@ const TextWrapper = styled.div`
   -webkit-box-align: center;
   align-items: center;
   line-height: 1.15;
-  @media (max-width:700px){
+  @media (max-width: 700px) {
     bottom: 55px;
   }
 `;
@@ -226,7 +227,7 @@ const Arrows = styled.span`
 const MidImgText = styled.h2`
   color: white;
   text-align: center;
-  font-size: 2.4rem;
+  font-size: clamp(1.9rem, 4.4vw + 1rem, 2.5rem);
   font-weight: 600;
   text-transform: uppercase;
 `;
@@ -237,12 +238,69 @@ const MidSpan = styled.span`
 const ShoesImg = styled.img`
   object-fit: contain;
   overflow: hidden;
-  max-width: 33%;
   transition: transform 0.29s ease-in-out 0.1s;
 `;
+const ImgDiv = styled.div`
+  display: flex;
+  grid-column: 1/9;
+  grid-row: 1/7;
+  @media (max-width: 900px) {
+    grid-area: 2 / 1 / 5 / 13;
+  }
+  @media (max-width: 650px) {
+    grid-area: 1 / 1 / 5 / 13;
+    margin-bottom: -60px;
+  }
+  @media (max-width: 500px) {
+    grid-area: 2 / 1 / 4 / 13;
+    margin-bottom: -50px;
+  }
+`;
 const TextDiv = styled.div`
+  display: flex;
+  grid-column: 9/13;
+  height: 100%;
+  grid-row: 3;
+  /* width: 100%; */
+  flex-direction: column;
+
+  @media (max-width: 900px) {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    background-color: rgb(255 255 255 / 25%);
+    grid-area: 5 / 1 / auto / 13;
+    padding: 30px 0;
+  }
+`;
+const TextDiv1 = styled.div`
   padding-left: 16px;
   transition: transform 0.29s ease-in-out 0.1s;
+  grid-column: 9/13;
+  grid-row: 1/5;
+  @media (max-width: 900px) {
+    grid-area: 3 / 3 / auto / 8;
+    letter-spacing: 5px;
+    margin-bottom: -10px;
+  }
+  @media (max-width: 640px) {
+    grid-area: 6 / 2 / 3 / 10;
+  }
+`;
+const TextDiv2 = styled.div`
+  padding-left: 16px;
+  transition: transform 0.29s ease-in-out 0.1s;
+  grid-column: 9/13;
+  grid-row: 3/7;
+  @media (max-width: 900px) {
+    grid-area: 3 / 8 / 7 / 13;
+    letter-spacing: 2px;
+    padding-top: 10px;
+  }
+  @media (max-width: 640px) {
+    grid-area: 8 / 5 / auto / 13;
+    padding-top: 15px;
+  }
 `;
 const StrechedArticle = styled.article`
   cursor: pointer;
@@ -259,31 +317,44 @@ const StrechedArticle = styled.article`
   &:hover ${TextDiv} {
     transform: scale(1.08);
   }
+  @media (max-width: 900px) {
+    height: 450px;
+  }
 `;
 const LinkStreched = styled(Link)`
   text-decoration: none;
   color: black;
   height: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(6, 1fr);
   align-items: center;
   justify-content: center;
   transition: background-color 0.4s ease-in-out;
   &:hover {
     background-color: #f7f7f7;
   }
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+  }
 `;
 const TextTitle = styled.h3`
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 1.1vw + 1.3rem, 3.8rem);
 `;
 const TextPromo = styled.h3`
-  font-size: 5.6rem;
+  font-size: clamp(2.5rem, 4vw + 1rem, 5.3rem);
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 5px;
   color: #b60404;
 `;
 const TextSub = styled.h3`
-  font-size: 2rem;
+  font-size: clamp(1rem, 1.5vw + 1rem, 1.7rem);
 `;
 const TextSub2 = styled.p`
-  font-size: 1.15rem;
+  font-size: clamp(0.8rem, 1vw + 0.4rem, 1.15rem);
+  @media (max-width: 600px) {
+    margin-top: 4px;
+  }
 `;

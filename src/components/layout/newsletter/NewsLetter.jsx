@@ -43,6 +43,11 @@ const Form = styled.form`
   gap: 1rem;
   height: 100px;
   align-items: baseline;
+  @media (max-width:500px){
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+  }
 `;
 const Input = styled(TextField)`
   border-radius: 30px;
@@ -62,4 +67,7 @@ const Button = styled.button`
 `;
 const Text = styled.p`
   letter-spacing: 1px;
+  @media (max-width:500px){
+    text-align: center;
+  }
 `;
