@@ -285,7 +285,7 @@ const TextDiv1 = styled.div`
     margin-bottom: -10px;
   }
   @media (max-width: 640px) {
-    grid-area: 6 / 2 / 3 / 10;
+    grid-area: 6 / 2 / 3 / 12;
   }
 `;
 const TextDiv2 = styled.div`
@@ -345,7 +345,7 @@ const TextTitle = styled.h3`
   font-size: clamp(1.5rem, 1.1vw + 1.3rem, 3.8rem);
 `;
 const TextPromo = styled.h3`
-  font-size: clamp(2.5rem, 4vw + 1rem, 5.3rem);
+  font-size: clamp(3.1rem, 4vw + 1rem, 5.3rem);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 5px;
@@ -353,10 +353,16 @@ const TextPromo = styled.h3`
 `;
 const TextSub = styled.h3`
   font-size: clamp(1rem, 1.5vw + 1rem, 1.7rem);
+  @media (max-width:900px){
+    margin-top:-5px
+  }
 `;
 const TextSub2 = styled.p`
   font-size: clamp(0.8rem, 1vw + 0.4rem, 1.15rem);
   @media (max-width: 600px) {
     margin-top: 4px;
+  }
+  @media (max-width:900px){
+    margin-top:13px
   }
 `;
