@@ -212,7 +212,7 @@ const Wrapper = styled.div`
     grid-template-columns: repeat(2, 1fr);
   }
   @media (max-width: 500px) {
-    margin: 0px -14px 0px 5px;
+    margin: 0px -22px 0px 5px;
     gap: 0.4rem;
     row-gap: 1.2rem;
   }
@@ -423,11 +423,12 @@ const FilterContainer = styled.div`
 
 const FilterBtn = styled.div`
   font-weight: 600;
-  margin: 10px 0px 10px 67px;
+  margin: 10px -12px 10px 16px;
   word-spacing: 7px;
-  width: 78%;
+  width: 50%;
   border-right: 1px solid #aeacac;
   font-size: clamp(0.88rem, 2vw + 1px, 1.2rem);
+  text-align: center;
   @media (min-width: 901px) {
     display: none;
   }
@@ -442,9 +443,12 @@ const ClipLoaderBottom = styled(ClipLoader)`
 `;
 const PaginationWrapperTop = styled.div`
   display: flex;
-  width: 50%;
+  width: 45%;
   margin: 0 0 15px 0;
   justify-content: center;
+  @media (max-width:900px){
+    width: 50%;
+  }
 `;
 const PaginationWrapperBottom = styled.div`
   display: flex;
@@ -459,11 +463,13 @@ const ItemListTitle = styled.h1`
   font-size: clamp(0.8rem, 2vw + 1px, 1.6rem);
   font-weight: bold;
   text-transform: capitalize;
+  margin: 50px 0 -50px;
   @media (max-width: 900px) {
-    width: 100%;
+    width: 50%;
+    margin: auto;
   }
   @media (max-width: 600px) {
-    margin: 8px 0px 15px;
+    margin: 8px 0px 10px;
   }
 `;
 const ItemsQuantity = styled.p`
