@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import CloseIcon from "@mui/icons-material/Close";
 import { useContext } from "react";
-import { SideMenuContext } from "../../../context/SideMenuContext";
+import {GlobalToolsContext} from "../../../context/GlobalToolsContext";
 
 export const MobileMultiFilter = ({
   items,
@@ -26,7 +26,8 @@ export const MobileMultiFilter = ({
 }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   //                                 CONTEXT                                  //
-  const { isFilterOpen, toggleFilterMenu, isOpen } = useContext(SideMenuContext);
+  const { isFilterOpen, toggleFilterMenu, isOpen } =
+    useContext(GlobalToolsContext);
 
   //////////           ////////////           ////////////           ///////////           ///////////
   //                       STATE FOR DIFFERENT FILTERS                        //
@@ -630,7 +631,7 @@ const TransparentDiv = styled.div`
   height: 100%;
   background-color: ${({ isOpen }) => (isOpen ? "none" : "rgba(0, 0, 0, 0.2)")};
   z-index: ${({ isOpen }) => (isOpen ? "0" : "1")};
-  display: ${({ isOpen }) => (isOpen ? "none" : "block")};;
+  display: ${({ isOpen }) => (isOpen ? "none" : "block")};
 `;
 
 const SideFilterWrapper = styled.div`
@@ -725,7 +726,7 @@ const FilterWrapper = styled.div`
   ::-webkit-scrollbar-track {
     background-color: #f6f6f6;
   }
-  @media (max-width:900px) {
+  @media (max-width: 900px) {
     height: 85%;
   }
 `;

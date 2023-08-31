@@ -10,7 +10,7 @@ import { useGlobalLoader } from "../hooks/useGlobalLoader";
 import { HeroSmall } from "./hero/HeroSmall";
 import { SideCart } from "../pages/cart/SideCart";
 import { useContext, useEffect, useState } from "react";
-import { SideMenuContext } from "../context/SideMenuContext";
+import { GlobalToolsContext } from "../context/GlobalToolsContext";
 import { NavMobile } from "./navbar/NavMobile";
 ////////////////////////////////////////////////////
 
@@ -28,23 +28,8 @@ export const Layout = () => {
   ////////////////////////////////////////////////////
 
   //SideMenu Context
-  const { isOpen, isMenuOpen, isFilterOpen } = useContext(SideMenuContext);
-
-  ////////////////////////////////////////////////////
-
-  //Manage Mobile - Desktop components by width
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const { isOpen, isMenuOpen, isFilterOpen, windowWidth } =
+    useContext(GlobalToolsContext);
 
   ////////////////////////////////////////////////////
 

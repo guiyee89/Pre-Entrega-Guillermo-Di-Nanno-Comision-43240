@@ -9,7 +9,7 @@ import { Link, useParams } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useContext } from "react";
-import { SideMenuContext } from "../../context/SideMenuContext";
+import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 
 export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   useScrollRestoration();
@@ -20,8 +20,8 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
-  const { isMenuOpen, isFilterOpen, toggleFilterMenu } =
-    useContext(SideMenuContext);
+  const { isMenuOpen, isFilterOpen, toggleFilterMenu, windowWidth } =
+    useContext(GlobalToolsContext);
 
   //////////////////////////                    ////////////////////////////
   //-------------------         LOADERS          ---------------------//
@@ -90,12 +90,10 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   ///////////////////////////                  /////////////////////////////
   return (
     <>
-      {/* <HeaderWrapper> */}
       <HeaderContainer>
-        {/* <ItemListTitle>{categoryTitle}</ItemListTitle> */}
         <PaginationWrapperTop>
           <Pagination
-            size="medium"
+            size={windowWidth < 600 ? "small" : "medium"}
             shape="rounded"
             variant=""
             count={totalPages}
@@ -116,7 +114,6 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
         </FilterBtn>
         <ItemListTitle>{categoryTitle}</ItemListTitle>
       </FilterContainer>
-      {/*  </HeaderWrapper> */}
 
       <Wrapper key="cart-wrapper">
         <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
@@ -331,20 +328,20 @@ const Loader = styled.div`
   right: 40%;
 `;
 const ItemTitle = styled.h2`
-  font-size: clamp(0.70rem, 2vw + 1px, 0.9rem);
+  font-size: clamp(0.7rem, 2vw + 1px, 0.9rem);
   color: black;
   font-weight: 700;
   word-spacing: 3px;
   text-transform: uppercase;
 `;
 const ItemSubTitle = styled.h3`
-  font-size: clamp(0.70rem, 2vw + 1px, 0.8rem);
+  font-size: clamp(0.7rem, 2vw + 1px, 0.8rem);
   color: black;
 `;
 const DiscountPrice = styled.span`
   color: #a83737;
   font-weight: 600;
-  font-size: clamp(0.80rem, 2vw + 1px, 1rem);
+  font-size: clamp(0.8rem, 2vw + 1px, 1rem);
   font-style: italic;
   padding: 6px 0;
   position: relative;
@@ -353,7 +350,7 @@ const DiscountPrice = styled.span`
 `;
 const Price = styled.span`
   font-weight: 600;
-  font-size: clamp(0.80rem, 2vw + 1px, 1rem);
+  font-size: clamp(0.8rem, 2vw + 1px, 1rem);
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;
@@ -463,6 +460,9 @@ const ItemListTitle = styled.h1`
   @media (max-width: 900px) {
     width: 100%;
   }
+  @media (max-width:600px){
+    margin: 5px 0px 15px;
+  }
 `;
 const ItemsQuantity = styled.p`
   min-width: 25%;
@@ -474,6 +474,6 @@ const ItemsQuantity = styled.p`
     margin: 10px 35px 0px -43px;
   }
   @media (max-width: 500px) {
-    margin: 10px 6px 0px -17px;
+    margin: 10px 24px 0px -34px;
   }
 `;

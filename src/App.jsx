@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { menuRoutes } from "./components/routes/menuRoutes";
 import CartContextProvider from "./components/context/CartContext";
-import SideMenuProvider from "./components/context/SideMenuContext";
 import CarouselProvider from "./components/context/CarouselContext";
+import GlobalToolsProvider from "./components/context/GlobalToolsContext";
+
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       <BrowserRouter>
         <CartContextProvider>
           <CarouselProvider>
-            <SideMenuProvider>
+            <GlobalToolsProvider>
               <Routes>
                 <Route element={<Layout />}>
                   {menuRoutes.map(({ id, path, Element }) => (
@@ -21,7 +22,7 @@ function App() {
                 </Route>
                 <Route path="*" element={<h1>404 not found</h1>} />
               </Routes>
-            </SideMenuProvider>
+            </GlobalToolsProvider>
           </CarouselProvider>
         </CartContextProvider>
       </BrowserRouter>

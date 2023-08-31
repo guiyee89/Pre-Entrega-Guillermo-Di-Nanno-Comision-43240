@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import { SideMenuContext } from "../../context/SideMenuContext";
+import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import CloseIcon from "@mui/icons-material/Close";
 
 export const NavMobile = () => {
@@ -15,7 +15,7 @@ export const NavMobile = () => {
   const totalItems = getTotalItems();
   //////////        ////////////        ////////////        ///////////
   //                       SideMenuContext                      //
-  const { isMenuOpen, toggleSideMenu } = useContext(SideMenuContext);
+  const { isMenuOpen, toggleSideMenu } = useContext(GlobalToolsContext);
 
   //////////        ////////////        ////////////        ///////////
   //                       Scroll Effect                      //
@@ -49,7 +49,7 @@ export const NavMobile = () => {
 
   return (
     <>
-    {/*   <TransparentDiv
+      {/*   <TransparentDiv
         isMenuOpen={isMenuOpen}
         onClick={isMenuOpen ? null : toggleSideMenu}
       /> */}

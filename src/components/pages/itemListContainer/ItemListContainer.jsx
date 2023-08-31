@@ -11,8 +11,7 @@ import useScrollRestoration from "../../hooks/useScrollRestoration";
 import { Ring } from "@uiball/loaders";
 import { MobileMultiFilter } from "./filters/MobileMultiFilter";
 import { useContext } from "react";
-import { SideMenuContext } from "../../context/SideMenuContext";
-import TuneIcon from '@mui/icons-material/Tune';
+import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 // import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
 export const ScrollRestorationWrapper = ({ children }) => {
@@ -26,7 +25,7 @@ export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
-  const { isFilterOpen, toggleFilterMenu } = useContext(SideMenuContext);
+  const { isFilterOpen, toggleFilterMenu } = useContext(GlobalToolsContext);
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
@@ -156,7 +155,6 @@ export const ItemListContainer = () => {
           </LoaderWrapper>
         ) : (
           <>
-
             {/******  FILTER  ******/}
             <ItemsFiltersWrapper>
               <FilterWrapper scrolled={scroll}>
@@ -166,7 +164,7 @@ export const ItemListContainer = () => {
                   setCurrentPage={setCurrentPage}
                 />
               </FilterWrapper>
-              
+
               <MobileFilterWrapper
                 isFilterOpen={isFilterOpen}
                 onClick={toggleFilterMenu}
@@ -178,7 +176,6 @@ export const ItemListContainer = () => {
                 />
               </MobileFilterWrapper>
               <ItemListWrapper>
-              
                 {/* RENDERING ITEMS */}
                 {filteredItems.length > 0 ? (
                   <ItemList

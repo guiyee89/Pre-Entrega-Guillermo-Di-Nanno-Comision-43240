@@ -4,7 +4,7 @@ import { CartContext } from "../../context/CartContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link, useNavigate } from "react-router-dom";
-import { SideMenuContext } from "../../context/SideMenuContext";
+import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 
 export const SideCart = () => {
   const {
@@ -18,7 +18,7 @@ export const SideCart = () => {
     getSubTotal,
   } = useContext(CartContext);
 
-  const { isOpen, toggleSideCart } = useContext(SideMenuContext);
+  const { isOpen, toggleSideCart } = useContext(GlobalToolsContext);
 
   const totalPrice = getTotalPrice();
   const subTotal = getSubTotal();
@@ -219,7 +219,7 @@ const ItemImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
-  @media (max-width:500px){
+  @media (max-width: 500px) {
     width: 95px;
   }
 `;

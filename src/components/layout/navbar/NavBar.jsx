@@ -25,7 +25,6 @@ export const NavBar = () => {
         setScroll("not-scrolled");
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
