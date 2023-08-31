@@ -28,8 +28,7 @@ export const Layout = () => {
   ////////////////////////////////////////////////////
 
   //SideMenu Context
-  const { isOpen, isMenuOpen /* , toggleSideMenu, toggleSideCart */ } =
-    useContext(SideMenuContext);
+  const { isOpen, isMenuOpen, isFilterOpen } = useContext(SideMenuContext);
 
   ////////////////////////////////////////////////////
 
@@ -51,12 +50,12 @@ export const Layout = () => {
 
   // Prevent scrolling when the SideCart is open
   useEffect(() => {
-    if (isOpen && isMenuOpen) {
+    if (isOpen && isMenuOpen && isFilterOpen) {
       document.body.style.overflow = "inherit";
     } else {
       document.body.style.overflow = "hidden";
     }
-  }, [isOpen, isMenuOpen]);
+  }, [isOpen, isMenuOpen, isFilterOpen]);
 
   ////////////////////////////////////////////////////
 
@@ -77,13 +76,17 @@ export const Layout = () => {
   // }, []);
   return (
     <>
-      <Wrapper isOpen={isOpen} isMenuOpen={isMenuOpen}>
+      <Wrapper
+        isOpen={isOpen}
+        isMenuOpen={isMenuOpen}
+        isFilterOpen={isFilterOpen}
+      >
         {loading ? (
           <LoadingScreen />
         ) : (
           <>
             {windowWidth > 900 && <NavBar />}
-            {windowWidth < 900 && <NavMobile />}
+            {windowWidth <= 900 && <NavMobile />}
             <SideCart />
             {!isHome && <HeroSmall />}
             <HeroWrapper>{isHome && <HeroLanding />}</HeroWrapper>

@@ -725,6 +725,9 @@ const FilterWrapper = styled.div`
   ::-webkit-scrollbar-track {
     background-color: #f6f6f6;
   }
+  @media (max-width:900px) {
+    height: 85%;
+  }
 `;
 
 const Loader = styled.div`

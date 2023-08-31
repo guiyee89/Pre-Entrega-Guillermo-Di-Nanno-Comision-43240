@@ -107,9 +107,6 @@ export const NavBar = () => {
 };
 
 const HeaderWrapper = styled.header`
- /*  background-color: rgb(253 253 253);
-  display: flex;
-  justify-content: center; */
   position: relative;
 `;
 const Nav = styled.nav`
@@ -184,7 +181,7 @@ const NavLink = styled(Link)`
   text-transform: uppercase;
   position: relative;
   font-size: ${(props) =>
-    props.scrolled === "scrolled" ? ".75rem" : "0.82rem"};
+    props.scrolled === "scrolled" ? ".68rem" : "clamp(0.62rem, 2vw + 1px, 0.72rem);"};
   background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
   background-repeat: no-repeat;
   background-size: 0% 100%;

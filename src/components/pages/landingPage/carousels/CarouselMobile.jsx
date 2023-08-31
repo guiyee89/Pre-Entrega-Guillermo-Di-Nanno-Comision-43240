@@ -316,7 +316,7 @@ const CarouselImg = styled.img`
   mix-blend-mode: darken;
 
   @media (max-width: 68.75rem) {
-    height: 78%;
+    height: 85%;
   }
 `;
 const CarouselInner = styled.div`
@@ -352,9 +352,10 @@ const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   width: 100%;
-  height: 110px;
-  padding-top: 8px;
+  height: 140px;
+    margin-top: -22px;
   background-color: rgb(239 237 237);
 `;
 const CarouselItemPrice = styled.h4`
