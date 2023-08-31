@@ -623,9 +623,9 @@ const SideFilterWrapper = styled.div`
   top: 0;
   right: ${({ isFilterOpen }) => (isFilterOpen ? "-420px" : "0")};
   transition: right 0.3s ease-in-out;
-  z-index: 1;
+  z-index: 2;
   min-width: 225px;
-  max-width: 320px;
+  max-width: 260px;
   height: 100%;
   background-color: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -637,10 +637,17 @@ const FilterHeader = styled.div`
   justify-content: center;
   padding-bottom: 10px;
   border-bottom: 1px solid lightgray;
+  @media (max-width:900px){
+    justify-content: space-between;
+    align-items: flex-end;
+  }
 `;
 const FilterBy = styled.p`
   font-weight: bold;
   margin-right: 25px;
+  @media (max-width:900px){
+    display: none;
+  }
 `;
 const ResetAllBtn = styled.button`
   font-size: 0.8rem;

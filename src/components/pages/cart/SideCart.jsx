@@ -150,14 +150,14 @@ const TransparentDiv = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${({ isOpen }) => (isOpen ? "none" : "rgba(0, 0, 0, 0.2)")};
-  z-index: ${({ isOpen }) => (isOpen ? "-1" : "1")};
+  z-index: ${({ isOpen }) => (isOpen ? "-1" : "2")};
 `;
 const SideCartWrapper = styled.div`
   position: fixed;
   top: 0;
   right: ${({ isOpen }) => (isOpen ? "-420px" : "0")};
   transition: right 0.3s ease-in-out;
-  z-index: 1;
+  z-index: 2;
   min-width: 325px;
   max-width: 420px;
   height: 100%;

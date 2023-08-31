@@ -43,7 +43,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
-  const { isFilterOpen, toggleFilterMenu } = useContext(SideMenuContext);
+  const { isMenuOpen, toggleFilterMenu } = useContext(SideMenuContext);
 
   //////////////////////////                    ////////////////////////////
   //-------------------         LOADERS          ---------------------//
@@ -112,31 +112,34 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   ///////////////////////////                  /////////////////////////////
   return (
     <>
-      <HeaderWrapper>
+      {/* <HeaderWrapper> */}
+      <HeaderContainer>
+        {/* <ItemListTitle>{categoryTitle}</ItemListTitle> */}
+        <PaginationWrapperTop>
+          <Pagination
+            size="medium"
+            shape="rounded"
+            variant=""
+            count={totalPages}
+            page={currentPage}
+            onChange={(event, value) => {
+              handlePageChange(value);
+            }}
+            renderItem={(item) => <PaginationItem component="div" {...item} />}
+          />
+          {isLoadingPageChange && <ClipLoaderTop color="#194f44" size={35} />}
+        </PaginationWrapperTop>
+        <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
+      </HeaderContainer>
+
+      <FilterContainer isMenuOpen={isMenuOpen}>
         <FilterBtn>
           Filters: <TuneIcon onClick={toggleFilterMenu} />
         </FilterBtn>
-        <HeaderContainer>
-          <ItemListTitle>{categoryTitle}</ItemListTitle>
-          <PaginationWrapperTop>
-            <Pagination
-              size="medium"
-              shape="rounded"
-              variant=""
-              count={totalPages}
-              page={currentPage}
-              onChange={(event, value) => {
-                handlePageChange(value);
-              }}
-              renderItem={(item) => (
-                <PaginationItem component="div" {...item} />
-              )}
-            />
-            {isLoadingPageChange && <ClipLoaderTop color="#194f44" size={35} />}
-          </PaginationWrapperTop>
-          <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
-        </HeaderContainer>
-      </HeaderWrapper>
+        <ItemListTitle>{categoryTitle}</ItemListTitle>
+      </FilterContainer>
+      {/*  </HeaderWrapper> */}
+
       <Wrapper key="cart-wrapper">
         <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
         {/* Map products list */}
@@ -231,6 +234,11 @@ const Wrapper = styled.div`
     grid-template-columns: repeat(2, 1fr);
     /* margin: 0px 15px 0px -40px; */
   }
+  @media (max-width:500px){
+    margin: 0px -14px 0px 5px;
+    gap: 0.4rem;
+    row-gap: 1.2rem;
+  }
 `;
 const ButtonsWrapper = styled.div`
   position: absolute;
@@ -305,6 +313,7 @@ const ItemWrapper = styled(Link)`
   position: relative;
   cursor: pointer;
   max-width: 430px;
+  height: 100%;
   background-color: rgb(239, 237, 237);
   &:hover {
     ${ButtonsWrapper} {
@@ -396,26 +405,35 @@ const Discount = styled.h4`
   line-height: 2.8;
   cursor: pointer;
 `;
-const HeaderWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  padding: 0px 25px 15px 30px;
-  -webkit-box-align: center;
-  align-items: flex-start;
-  @media (max-width: 900px) {
-    flex-direction: column-reverse;
-  }
-  @media (max-width: 600px) {
-    align-items: center;
-  }
-`;
 const HeaderContainer = styled.div`
   display: flex;
-  width: 100%;
+  width: 94%;
+  justify-content: flex-end;
+  @media (max-width: 900px) {
+    width: 100%;
+    justify-content: flex-end;
+  }
 `;
+const FilterContainer = styled.div`
+  width: 28%;
+  background-color: white;
+  margin-top: -45px;
+  margin-bottom: 19px;
+  @media (max-width: 900px) {
+    display: flex;
+    width: 100%;
+    position: sticky;
+    margin: 0 auto 15px;
+    top: 67px;
+    align-items: center;
+    z-index: ${({ isMenuOpen }) => (isMenuOpen ? "1" : "0")};
+    transition: z-index 0.3s ease-out;
+  }
+`;
+
 const FilterBtn = styled.div`
   font-weight: 600;
-  margin: 10px 0 10px 23px;
+  margin: 10px 0 10px 33px;
   word-spacing: 25px;
   width: 100%;
   @media (min-width: 900px) {
@@ -444,7 +462,6 @@ const PaginationWrapperBottom = styled.div`
   justify-content: center;
 `;
 const ItemListTitle = styled.h1`
-  width: 25%;
   color: #2b2929;
   text-align: center;
   font-size: clamp(0.8rem, 2vw + 1px, 1.6rem);
@@ -453,6 +470,9 @@ const ItemListTitle = styled.h1`
   @media (max-width: 1050px) {
     margin-top: 5px;
   }
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 const ItemsQuantity = styled.p`
   min-width: 25%;
@@ -460,4 +480,10 @@ const ItemsQuantity = styled.p`
   font-size: 0.9rem;
   margin: 11px 10px 0 -20px;
   word-spacing: 5px;
+  @media (max-width: 900px) {
+    margin: 10px 35px 0px -43px;
+  }
+  @media (max-width: 500px) {
+    margin: 10px 6px 0px -17px;
+  }
 `;
