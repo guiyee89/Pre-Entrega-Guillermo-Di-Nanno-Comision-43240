@@ -447,7 +447,7 @@ const PaginationWrapperTop = styled.div`
   margin: 0 0 15px 0;
   justify-content: center;
   @media (max-width:900px){
-    width: 50%;
+    width: 49%;
   }
 `;
 const PaginationWrapperBottom = styled.div`
