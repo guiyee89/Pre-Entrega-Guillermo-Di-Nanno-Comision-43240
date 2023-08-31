@@ -101,7 +101,7 @@ const Banner = styled.div`
 
 const BannerText = styled.p`
   text-transform: uppercase;
-  font-size: 1.2rem;
+  font-size: clamp(0.9rem, 2vw + 1px, 1.2rem);
   font-weight: 500;
   letter-spacing: 3px;
   word-spacing: 5px;

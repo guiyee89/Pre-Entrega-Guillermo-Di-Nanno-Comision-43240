@@ -413,6 +413,7 @@ const FilterBtn = styled.div`
   margin: 10px 0 10px 33px;
   word-spacing: 25px;
   width: 100%;
+  font-size: clamp(0.88rem, 2vw + 1px, 1.2rem);
   @media (min-width: 900px) {
     display: none;
   }
@@ -444,9 +445,6 @@ const ItemListTitle = styled.h1`
   font-size: clamp(0.8rem, 2vw + 1px, 1.6rem);
   font-weight: bold;
   text-transform: capitalize;
-  @media (max-width: 1050px) {
-    margin-top: 5px;
-  }
   @media (max-width: 900px) {
     width: 100%;
   }
@@ -454,7 +452,7 @@ const ItemListTitle = styled.h1`
 const ItemsQuantity = styled.p`
   min-width: 25%;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 2vw + 1px, 0.9rem);
   margin: 11px 10px 0 -20px;
   word-spacing: 5px;
   @media (max-width: 900px) {
