@@ -20,7 +20,8 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
-  const { isMenuOpen, isFilterOpen, toggleFilterMenu } = useContext(SideMenuContext);
+  const { isMenuOpen, isFilterOpen, toggleFilterMenu } =
+    useContext(SideMenuContext);
 
   //////////////////////////                    ////////////////////////////
   //-------------------         LOADERS          ---------------------//
@@ -203,15 +204,17 @@ const Wrapper = styled.div`
   justify-items: center;
   align-items: center;
   background-color: rgb(253 253 253);
-  @media (max-width: 1050px) {
-    margin: 0px -8px 0 13px;
+  @media (max-width: 1150px) {
+    margin: 0 -8px 0 0;
     gap: 0.7rem;
+  }
+  @media (max-width: 1050px) {
+    margin-left: 13px;
   }
   @media (max-width: 990px) {
     grid-template-columns: repeat(2, 1fr);
-    /* margin: 0px 15px 0px -40px; */
   }
-  @media (max-width:500px){
+  @media (max-width: 500px) {
     margin: 0px -14px 0px 5px;
     gap: 0.4rem;
     row-gap: 1.2rem;
@@ -282,6 +285,9 @@ const InfoWrapper = styled.div`
   width: 100%;
   padding: 1px 0px 13px 33px;
   background-color: rgb(239 237 237);
+  @media (max-width: 600px) {
+    padding: 0px 0px 0px 5px;
+  }
 `;
 const ItemWrapper = styled(Link)`
   text-decoration: none;
@@ -325,20 +331,20 @@ const Loader = styled.div`
   right: 40%;
 `;
 const ItemTitle = styled.h2`
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 2vw + 1px, 0.9rem);
   color: black;
   font-weight: 700;
   word-spacing: 3px;
   text-transform: uppercase;
 `;
 const ItemSubTitle = styled.h3`
-  font-size: 0.8rem;
+  font-size: clamp(0.74rem, 2vw + 1px, 0.8rem);
   color: black;
 `;
 const DiscountPrice = styled.span`
   color: #a83737;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: clamp(0.88rem, 2vw + 1px, 1rem);
   font-style: italic;
   padding: 6px 0;
   position: relative;
@@ -347,7 +353,7 @@ const DiscountPrice = styled.span`
 `;
 const Price = styled.span`
   font-weight: 600;
-  font-size: 1rem;
+  font-size: clamp(0.88rem, 2vw + 1px, 1rem);
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;
@@ -381,6 +387,14 @@ const Discount = styled.h4`
   font-size: 1.1rem;
   line-height: 2.8;
   cursor: pointer;
+  @media (max-width: 600px) {
+    top: 4px;
+    left: 3%;
+    width: 38px;
+    height: 38px;
+    font-size: 0.8rem;
+    line-height: 3.1;
+  }
 `;
 const HeaderContainer = styled.div`
   display: flex;
@@ -403,7 +417,8 @@ const FilterContainer = styled.div`
     margin: 0 auto 15px;
     top: 56px;
     align-items: center;
-    z-index: ${({ isMenuOpen, isFilterOpen }) => (isMenuOpen && isFilterOpen ? "1" : "-1")};
+    z-index: ${({ isMenuOpen, isFilterOpen }) =>
+      isMenuOpen && isFilterOpen ? "1" : "-1"};
     transition: z-index 0.3s ease-out;
   }
 `;
@@ -414,7 +429,7 @@ const FilterBtn = styled.div`
   word-spacing: 25px;
   width: 100%;
   font-size: clamp(0.88rem, 2vw + 1px, 1.2rem);
-  @media (min-width: 900px) {
+  @media (min-width: 901px) {
     display: none;
   }
 `;
