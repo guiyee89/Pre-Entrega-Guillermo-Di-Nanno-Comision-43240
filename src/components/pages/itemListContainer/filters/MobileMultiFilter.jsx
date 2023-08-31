@@ -262,7 +262,6 @@ export const MobileMultiFilter = ({
             sx={{
               fontSize: "35px",
               marginTop: "15px",
-              marginLeft: "15px",
               cursor: "pointer",
             }}
           />
@@ -432,7 +431,7 @@ export const MobileMultiFilter = ({
           </Accordion>
 
           {/****************      SIZE FILTER       ****************/}
-          <Accordion defaultExpanded sx={styles.expandedAccordion}>
+          <Accordion >
             <AccordionSummary
               sx={{
                 "&.Mui-expanded": {
@@ -523,7 +522,7 @@ export const MobileMultiFilter = ({
           </Accordion>
 
           {/****************      COLOR FILTER       ****************/}
-          <Accordion defaultExpanded sx={styles.expandedAccordion}>
+          <Accordion >
             <AccordionSummary
               sx={{
                 "&.Mui-expanded": {
@@ -640,21 +639,20 @@ const SideFilterWrapper = styled.div`
   right: ${({ isFilterOpen }) => (isFilterOpen ? "-420px" : "0")};
   transition: right 0.3s ease-in-out;
   z-index: 2;
-  min-width: 225px;
-  max-width: 260px;
+  max-width: 225px;
   height: 100%;
   background-color: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 `;
 const FilterHeader = styled.div`
   display: flex;
-  width: 90%;
+  width: 100%;
   -webkit-box-pack: center;
   justify-content: center;
   padding-bottom: 10px;
   border-bottom: 1px solid lightgray;
   @media (max-width: 900px) {
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: flex-end;
   }
 `;
@@ -666,8 +664,8 @@ const FilterBy = styled.p`
   }
 `;
 const ResetAllBtn = styled.button`
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.7rem;
+  font-weight: 500;
   border: none;
   background-color: transparent;
   margin-right: -25px;
@@ -675,10 +673,10 @@ const ResetAllBtn = styled.button`
   &::after {
     content: "";
     position: absolute;
-    bottom: 2px;
+    bottom: 1px;
     left: 7%;
-    width: 90%;
-    height: 2px;
+    width: 87%;
+    height: 1.6px;
     background-color: black;
   }
   &:hover {
@@ -686,8 +684,8 @@ const ResetAllBtn = styled.button`
   }
 `;
 const ClearFilterBtn = styled.button`
-  font-size: 0.76rem;
-  font-weight: 600;
+  font-size: 0.7rem;
+  font-weight: 500;
   border: none;
   background-color: transparent;
   margin: 24px 0 0 32px;
@@ -696,8 +694,8 @@ const ClearFilterBtn = styled.button`
     content: "";
     position: absolute;
     bottom: 2px;
-    left: 7%;
-    width: 90%;
+    left: 8.5%;
+    width: 85.5%;
     height: 1px;
     background-color: black;
   }
@@ -739,7 +737,7 @@ const Loader = styled.div`
 `;
 const styles = {
   expandedAccordion: css`
-    margin: 0px 14px 0 24px !important;
+    /* margin: 0px 14px 0 24px !important; */
     border-top: 1px solid lightgray;
     box-shadow: none;
     padding: 16px 0;
