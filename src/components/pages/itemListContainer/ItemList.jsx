@@ -461,7 +461,7 @@ const ItemListTitle = styled.h1`
     width: 100%;
   }
   @media (max-width:600px){
-    margin: 5px 0px 15px;
+    margin: 8px 0px 15px;
   }
 `;
 const ItemsQuantity = styled.p`
@@ -474,6 +474,6 @@ const ItemsQuantity = styled.p`
     margin: 10px 35px 0px -43px;
   }
   @media (max-width: 500px) {
-    margin: 10px 24px 0px -34px;
+    margin: 6px 24px 0px -34px;
   }
 `;
