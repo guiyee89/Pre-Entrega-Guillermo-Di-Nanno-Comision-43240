@@ -13,29 +13,6 @@ import { SideMenuContext } from "../../context/SideMenuContext";
 
 export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   useScrollRestoration();
-  //////////////////////////                    ////////////////////////////
-  //-------------------     FILTER DUPLICATED ITEM    -------------------//
-  // Function to filter products based on their customId and color to avoid duplicates
-  // const filterProducts = () => {
-  //   const productMap = new Map();
-
-  //   items.forEach((product) => {
-  //     const { userId, color } = product;
-  //     const key = `${userId}-${color}`;
-
-  //     // Check if the product's customId and color combination already exists in the productMap
-  //     if (!productMap.has(key)) {
-  //       // If not, add the product to the productMap
-  //       productMap.set(key, product);
-  //     }
-  //   });
-
-  //   // Convert the Map values to an array of filtered products
-  //   return Array.from(productMap.values());
-  // };
-
-  // // FILTER THE PRODUCTS WITH THE FUNCTION
-  // const filteredItems = filterProducts();
 
   //////////////////////////                    ////////////////////////////
   //-------------------    LOADING + currentPage    ---------------------//
@@ -43,7 +20,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
-  const { isMenuOpen, toggleFilterMenu } = useContext(SideMenuContext);
+  const { isMenuOpen, isFilterOpen, toggleFilterMenu } = useContext(SideMenuContext);
 
   //////////////////////////                    ////////////////////////////
   //-------------------         LOADERS          ---------------------//
@@ -132,7 +109,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
         <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
       </HeaderContainer>
 
-      <FilterContainer isMenuOpen={isMenuOpen}>
+      <FilterContainer isMenuOpen={isMenuOpen} isFilterOpen={isFilterOpen}>
         <FilterBtn>
           Filters: <TuneIcon onClick={toggleFilterMenu} />
         </FilterBtn>
@@ -426,7 +403,7 @@ const FilterContainer = styled.div`
     margin: 0 auto 15px;
     top: 67px;
     align-items: center;
-    z-index: ${({ isMenuOpen }) => (isMenuOpen ? "1" : "0")};
+    z-index: ${({ isMenuOpen, isFilterOpen }) => (isMenuOpen && isFilterOpen ? "1" : "0")};
     transition: z-index 0.3s ease-out;
   }
 `;

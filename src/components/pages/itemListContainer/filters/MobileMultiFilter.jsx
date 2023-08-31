@@ -26,7 +26,7 @@ export const MobileMultiFilter = ({
 }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   //                                 CONTEXT                                  //
-  const { isFilterOpen, toggleFilterMenu } = useContext(SideMenuContext);
+  const { isFilterOpen, toggleFilterMenu, isOpen } = useContext(SideMenuContext);
 
   //////////           ////////////           ////////////           ///////////           ///////////
   //                       STATE FOR DIFFERENT FILTERS                        //
@@ -250,6 +250,10 @@ export const MobileMultiFilter = ({
   //////////           ////////////           ////////////           ///////////           ///////////
   return (
     <>
+      <TransparentDiv
+        isOpen={isFilterOpen}
+        onClick={isFilterOpen ? toggleFilterMenu : null}
+      />
       <SideFilterWrapper isFilterOpen={isFilterOpen} onClick={toggleFilterMenu}>
         <FilterHeader>
           <CloseIcon
@@ -618,6 +622,17 @@ export const MobileMultiFilter = ({
 };
 
 //MATERIAL UI STYLES
+const TransparentDiv = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ isOpen }) => (isOpen ? "none" : "rgba(0, 0, 0, 0.2)")};
+  z-index: ${({ isOpen }) => (isOpen ? "0" : "1")};
+  display: ${({ isOpen }) => (isOpen ? "none" : "block")};;
+`;
+
 const SideFilterWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -637,7 +652,7 @@ const FilterHeader = styled.div`
   justify-content: center;
   padding-bottom: 10px;
   border-bottom: 1px solid lightgray;
-  @media (max-width:900px){
+  @media (max-width: 900px) {
     justify-content: space-between;
     align-items: flex-end;
   }
@@ -645,7 +660,7 @@ const FilterHeader = styled.div`
 const FilterBy = styled.p`
   font-weight: bold;
   margin-right: 25px;
-  @media (max-width:900px){
+  @media (max-width: 900px) {
     display: none;
   }
 `;
