@@ -331,20 +331,20 @@ const Loader = styled.div`
   right: 40%;
 `;
 const ItemTitle = styled.h2`
-  font-size: clamp(0.75rem, 2vw + 1px, 0.9rem);
+  font-size: clamp(0.70rem, 2vw + 1px, 0.9rem);
   color: black;
   font-weight: 700;
   word-spacing: 3px;
   text-transform: uppercase;
 `;
 const ItemSubTitle = styled.h3`
-  font-size: clamp(0.74rem, 2vw + 1px, 0.8rem);
+  font-size: clamp(0.70rem, 2vw + 1px, 0.8rem);
   color: black;
 `;
 const DiscountPrice = styled.span`
   color: #a83737;
   font-weight: 600;
-  font-size: clamp(0.88rem, 2vw + 1px, 1rem);
+  font-size: clamp(0.80rem, 2vw + 1px, 1rem);
   font-style: italic;
   padding: 6px 0;
   position: relative;
@@ -353,7 +353,7 @@ const DiscountPrice = styled.span`
 `;
 const Price = styled.span`
   font-weight: 600;
-  font-size: clamp(0.88rem, 2vw + 1px, 1rem);
+  font-size: clamp(0.80rem, 2vw + 1px, 1rem);
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;
