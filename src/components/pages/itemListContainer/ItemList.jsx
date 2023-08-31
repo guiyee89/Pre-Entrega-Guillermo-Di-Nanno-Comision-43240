@@ -90,6 +90,13 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   ///////////////////////////                  /////////////////////////////
   return (
     <>
+      <FilterContainer isMenuOpen={isMenuOpen} isFilterOpen={isFilterOpen}>
+        <FilterBtn>
+          Filters: <TuneIcon onClick={toggleFilterMenu} />
+        </FilterBtn>
+        <ItemListTitle>{categoryTitle}</ItemListTitle>
+      </FilterContainer>
+
       <HeaderContainer>
         <PaginationWrapperTop>
           <Pagination
@@ -107,13 +114,6 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
         </PaginationWrapperTop>
         <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
       </HeaderContainer>
-
-      <FilterContainer isMenuOpen={isMenuOpen} isFilterOpen={isFilterOpen}>
-        <FilterBtn>
-          Filters: <TuneIcon onClick={toggleFilterMenu} />
-        </FilterBtn>
-        <ItemListTitle>{categoryTitle}</ItemListTitle>
-      </FilterContainer>
 
       <Wrapper key="cart-wrapper">
         <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
@@ -341,7 +341,7 @@ const ItemSubTitle = styled.h3`
 const DiscountPrice = styled.span`
   color: #a83737;
   font-weight: 600;
-  font-size: clamp(0.8rem, 2vw + 1px, 1rem);
+  font-size: clamp(0.8rem, 2vw + 1px, 0.92rem);
   font-style: italic;
   padding: 6px 0;
   position: relative;
@@ -350,7 +350,7 @@ const DiscountPrice = styled.span`
 `;
 const Price = styled.span`
   font-weight: 600;
-  font-size: clamp(0.8rem, 2vw + 1px, 1rem);
+  font-size: clamp(0.8rem, 2vw + 1px, 0.92rem);
   font-style: italic;
   padding: 6px 0 8px 0;
   position: relative;
@@ -411,7 +411,8 @@ const FilterContainer = styled.div`
     display: flex;
     width: 100%;
     position: sticky;
-    margin: 0 auto 15px;
+    margin: 0 auto 6px;
+    border-bottom: 1px solid lightgray;
     top: 56px;
     align-items: center;
     z-index: ${({ isMenuOpen, isFilterOpen }) =>
@@ -422,9 +423,10 @@ const FilterContainer = styled.div`
 
 const FilterBtn = styled.div`
   font-weight: 600;
-  margin: 10px 0 10px 33px;
-  word-spacing: 25px;
-  width: 100%;
+  margin: 10px 0px 10px 67px;
+  word-spacing: 7px;
+  width: 78%;
+  border-right: 1px solid #aeacac;
   font-size: clamp(0.88rem, 2vw + 1px, 1.2rem);
   @media (min-width: 901px) {
     display: none;
@@ -460,7 +462,7 @@ const ItemListTitle = styled.h1`
   @media (max-width: 900px) {
     width: 100%;
   }
-  @media (max-width:600px){
+  @media (max-width: 600px) {
     margin: 8px 0px 15px;
   }
 `;
