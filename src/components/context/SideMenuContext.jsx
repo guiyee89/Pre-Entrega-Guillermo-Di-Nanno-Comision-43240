@@ -16,11 +16,19 @@ const SideMenuProvider = ({ children }) => {
     setIsMenuOpen((prevIsOpen) => !prevIsOpen);
   }
  
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
+
+  const toggleFilterMenu = () => {
+    setIsFilterOpen((prevIsOpen) => !prevIsOpen);
+  }
+
   const value = {
     isOpen,
     toggleSideCart,
     isMenuOpen,
-    toggleSideMenu
+    toggleSideMenu,
+    isFilterOpen,
+    toggleFilterMenu
   };
 
 

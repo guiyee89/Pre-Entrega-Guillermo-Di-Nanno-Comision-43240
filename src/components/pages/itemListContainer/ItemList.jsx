@@ -7,8 +7,9 @@ import LoadingBar from "react-top-loading-bar";
 import { Pagination, PaginationItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
-
-
+import TuneIcon from "@mui/icons-material/Tune";
+import { useContext } from "react";
+import { SideMenuContext } from "../../context/SideMenuContext";
 
 export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   useScrollRestoration();
@@ -42,10 +43,12 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
+  const { isFilterOpen, toggleFilterMenu } = useContext(SideMenuContext);
 
   //////////////////////////                    ////////////////////////////
   //-------------------         LOADERS          ---------------------//
-  const handleLoadDetail = (itemId) => {   // Circle Loader
+  const handleLoadDetail = (itemId) => {
+    // Circle Loader
     localStorage.setItem("currentPage", currentPage); //save currentPage in localStorage
 
     setLoadingDetail(itemId);
@@ -57,7 +60,8 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
 
   const ref = useRef();
 
-  const handleLoadTop = () => {  // TOP LOADING
+  const handleLoadTop = () => {
+    // TOP LOADING
     ref.current.continuousStart();
     setTimeout(() => {
       ref.current.complete();
@@ -68,11 +72,10 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   const handlePageChange = (value) => {
     setIsLoadingPageChange(true);
     setTimeout(() => {
-      setIsLoadingPageChange(false); 
+      setIsLoadingPageChange(false);
       setCurrentPage(value);
     }, 700);
   };
-
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
@@ -96,13 +99,13 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
     // localStorage.removeItem("currentPage");
   }, []);
 
-
-  const [productsQuantity, setProductsQuantity] = useState()
+  const [productsQuantity, setProductsQuantity] = useState();
   const showProductsQuantity = () => {
     setProductsQuantity(items.length); // Update the state with the number of items
   };
-  
-  useEffect(() => {   // Call the showProductsQuantity function to update the productsQuantity state
+
+  useEffect(() => {
+    // Call the showProductsQuantity function to update the productsQuantity state
     showProductsQuantity();
   }, [items]);
 
@@ -110,24 +113,29 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   return (
     <>
       <HeaderWrapper>
-        <ItemListTitle>{categoryTitle}</ItemListTitle>
-        <PaginationWrapperTop>
-          <Pagination
-            size="medium"
-            shape="rounded"
-            variant=""
-            count={totalPages}
-            page={currentPage}
-            onChange={(event, value) => {
-              handlePageChange(value)
-            }}
-            renderItem={(item) => <PaginationItem component="div" {...item} />}
-          />
-          {isLoadingPageChange && ( 
-            <ClipLoaderTop color="#194f44" size={35} />
-          )}
-        </PaginationWrapperTop>
-        <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
+        <FilterBtn>
+          Filters: <TuneIcon onClick={toggleFilterMenu} />
+        </FilterBtn>
+        <HeaderContainer>
+          <ItemListTitle>{categoryTitle}</ItemListTitle>
+          <PaginationWrapperTop>
+            <Pagination
+              size="medium"
+              shape="rounded"
+              variant=""
+              count={totalPages}
+              page={currentPage}
+              onChange={(event, value) => {
+                handlePageChange(value);
+              }}
+              renderItem={(item) => (
+                <PaginationItem component="div" {...item} />
+              )}
+            />
+            {isLoadingPageChange && <ClipLoaderTop color="#194f44" size={35} />}
+          </PaginationWrapperTop>
+          <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
+        </HeaderContainer>
       </HeaderWrapper>
       <Wrapper key="cart-wrapper">
         <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
@@ -169,9 +177,13 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
                 {hasDiscount ? (
                   <ItemPriceWrapper hasDiscount={hasDiscount}>
                     {hasDiscount && (
-                      <DiscountPrice>$ {product.discountPrice.toFixed(2)}</DiscountPrice>
+                      <DiscountPrice>
+                        $ {product.discountPrice.toFixed(2)}
+                      </DiscountPrice>
                     )}
-                    <Price hasDiscount={hasDiscount}>$ {product.price.toFixed(2)}</Price>
+                    <Price hasDiscount={hasDiscount}>
+                      $ {product.price.toFixed(2)}
+                    </Price>
                   </ItemPriceWrapper>
                 ) : (
                   <Price>$ {product.price.toFixed(2)}</Price>
@@ -190,13 +202,11 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
           count={totalPages} // Set the count to the total number of pages
           page={currentPage}
           onChange={(event, value) => {
-            handlePageChange(value)
+            handlePageChange(value);
           }}
           renderItem={(item) => <PaginationItem component="div" {...item} />}
         />
-        {isLoadingPageChange && ( 
-          <ClipLoaderBottom color="#194f44" size={35} />
-        )}
+        {isLoadingPageChange && <ClipLoaderBottom color="#194f44" size={35} />}
       </PaginationWrapperBottom>
     </>
   );
@@ -213,6 +223,14 @@ const Wrapper = styled.div`
   justify-items: center;
   align-items: center;
   background-color: rgb(253 253 253);
+  @media (max-width: 1050px) {
+    margin: 0px -8px 0 13px;
+    gap: 0.7rem;
+  }
+  @media (max-width: 990px) {
+    grid-template-columns: repeat(2, 1fr);
+    /* margin: 0px 15px 0px -40px; */
+  }
 `;
 const ButtonsWrapper = styled.div`
   position: absolute;
@@ -384,16 +402,34 @@ const HeaderWrapper = styled.div`
   padding: 0px 25px 15px 30px;
   -webkit-box-align: center;
   align-items: flex-start;
+  @media (max-width: 900px) {
+    flex-direction: column-reverse;
+  }
+  @media (max-width: 600px) {
+    align-items: center;
+  }
 `;
-
+const HeaderContainer = styled.div`
+  display: flex;
+  width: 100%;
+`;
+const FilterBtn = styled.div`
+  font-weight: 600;
+  margin: 10px 0 10px 23px;
+  word-spacing: 25px;
+  width: 100%;
+  @media (min-width: 900px) {
+    display: none;
+  }
+`;
 const ClipLoaderTop = styled(ClipLoader)`
   position: absolute;
   top: 210px;
-`
+`;
 const ClipLoaderBottom = styled(ClipLoader)`
   position: absolute;
   top: 106%;
-`
+`;
 const PaginationWrapperTop = styled.div`
   display: flex;
   width: 50%;
@@ -408,18 +444,20 @@ const PaginationWrapperBottom = styled.div`
   justify-content: center;
 `;
 const ItemListTitle = styled.h1`
-  /* min-width: 240px; */
   width: 25%;
   color: #2b2929;
   text-align: center;
-  font-size: 1.6rem;
+  font-size: clamp(0.8rem, 2vw + 1px, 1.6rem);
   font-weight: bold;
   text-transform: capitalize;
+  @media (max-width: 1050px) {
+    margin-top: 5px;
+  }
 `;
 const ItemsQuantity = styled.p`
   min-width: 25%;
   font-weight: 600;
-  font-size: .9rem;
+  font-size: 0.9rem;
   margin: 11px 10px 0 -20px;
   word-spacing: 5px;
-`
+`;

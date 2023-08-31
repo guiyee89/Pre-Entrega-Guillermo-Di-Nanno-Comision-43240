@@ -6,9 +6,13 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components/macro";
-import { MultiFilter } from "./MultiFilter";
+import { MultiFilter } from "./filters/MultiFilter";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 import { Ring } from "@uiball/loaders";
+import { MobileMultiFilter } from "./filters/MobileMultiFilter";
+import { useContext } from "react";
+import { SideMenuContext } from "../../context/SideMenuContext";
+import TuneIcon from '@mui/icons-material/Tune';
 // import { AgregarDocs } from "../../dashboard/AgregarDocs";
 
 export const ScrollRestorationWrapper = ({ children }) => {
@@ -22,6 +26,7 @@ export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
+  const { isFilterOpen, toggleFilterMenu } = useContext(SideMenuContext);
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
@@ -112,7 +117,7 @@ export const ItemListContainer = () => {
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); //Set currentPage and pass prop to ItemList
-  const [itemsNotFound, setItemsNotFound] = useState(false);//Set message for no items found on Filter
+  const [itemsNotFound, setItemsNotFound] = useState(false); //Set message for no items found on Filter
 
   const handleFilterChange = (filteredItems, detailsFilters) => {
     if (filteredItems.length > 0) {
@@ -151,6 +156,7 @@ export const ItemListContainer = () => {
           </LoaderWrapper>
         ) : (
           <>
+
             {/******  FILTER  ******/}
             <ItemsFiltersWrapper>
               <FilterWrapper scrolled={scroll}>
@@ -160,7 +166,19 @@ export const ItemListContainer = () => {
                   setCurrentPage={setCurrentPage}
                 />
               </FilterWrapper>
+              
+              <MobileFilterWrapper
+                isFilterOpen={isFilterOpen}
+                onClick={toggleFilterMenu}
+              >
+                <MobileMultiFilter
+                  items={items}
+                  onFilterChange={handleFilterChange}
+                  setCurrentPage={setCurrentPage}
+                />
+              </MobileFilterWrapper>
               <ItemListWrapper>
+              
                 {/* RENDERING ITEMS */}
                 {filteredItems.length > 0 ? (
                   <ItemList
@@ -185,7 +203,6 @@ export const ItemListContainer = () => {
     </>
   );
 };
-
 
 const LoaderWrapper = styled.div`
   display: flex;
@@ -219,9 +236,35 @@ const FilterWrapper = styled.aside`
   position: sticky;
   top: 110px;
   background-color: rgb(253, 253, 253);
+  @media (max-width: 1050px) {
+    min-width: 200px;
+    padding-left: 5px;
+  }
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
+const MobileFilterWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  right: ${({ isFilterOpen }) => (isFilterOpen ? "-420px" : "0")};
+  transition: right 0.3s ease-in-out;
+  z-index: 1;
+  min-width: 225px;
+  max-width: 320px;
+  height: 100%;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 `;
 const ItemListWrapper = styled.div`
   grid-column: 2/13;
+  @media (max-width: 900px) {
+    grid-column: 1/13;
+    margin: 0 15px;
+  }
+  @media (max-width: 650px) {
+    margin: 0;
+  }
 `;
 const ItemsFiltersWrapper = styled.div`
   display: grid;

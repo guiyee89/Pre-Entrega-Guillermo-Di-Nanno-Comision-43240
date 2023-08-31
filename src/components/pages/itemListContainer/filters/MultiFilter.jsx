@@ -12,7 +12,7 @@ import {
 import { css } from "@emotion/react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
+import { db } from "../../../../firebaseConfig";
 import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
@@ -201,7 +201,7 @@ export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
       }));
       setCurrentPage(1); //Set pagiination to 1 if filters changed
     }, 1550);
-   handleLoadDetail();
+    handleLoadDetail();
   };
 
   const updateFilterArray = (array, value, add) => {

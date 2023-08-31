@@ -208,11 +208,12 @@ const LinkImg = styled(Link)`
 const TextWrapper = styled.div`
   position: absolute;
   width: 80%;
-  height: 155px;
+  /* height: 155px; */
+  padding: 5px 0;
   bottom: 200px;
   display: flex;
   right: 10%;
-  background-color: rgba(190, 14.3, 40, 0.67);
+  background-color: rgb(126 4 22 / 62%);
   -webkit-box-pack: center;
   justify-content: center;
   -webkit-box-align: center;
