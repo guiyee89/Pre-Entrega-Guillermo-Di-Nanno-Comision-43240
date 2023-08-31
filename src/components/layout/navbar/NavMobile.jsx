@@ -177,7 +177,7 @@ const SideMenuHeader = styled.div`
 `;
 
 const Nav = styled.nav`
-  height: ${(props) => (props.scrolled === "scrolled" ? "65px" : "90px")};
+  height: ${(props) => (props.scrolled === "scrolled" ? "55px" : "90px")};
   transition: height
     ${(props) => (props.scrolled === "scrolled" ? "0.16s" : "0.16s")}
     ease-in-out;

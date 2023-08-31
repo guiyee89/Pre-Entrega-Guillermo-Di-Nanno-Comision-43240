@@ -401,7 +401,7 @@ const FilterContainer = styled.div`
     width: 100%;
     position: sticky;
     margin: 0 auto 15px;
-    top: 67px;
+    top: 56px;
     align-items: center;
     z-index: ${({ isMenuOpen, isFilterOpen }) => (isMenuOpen && isFilterOpen ? "1" : "0")};
     transition: z-index 0.3s ease-out;
