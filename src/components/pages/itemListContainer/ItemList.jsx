@@ -403,7 +403,7 @@ const FilterContainer = styled.div`
     margin: 0 auto 15px;
     top: 56px;
     align-items: center;
-    z-index: ${({ isMenuOpen, isFilterOpen }) => (isMenuOpen && isFilterOpen ? "1" : "0")};
+    z-index: ${({ isMenuOpen, isFilterOpen }) => (isMenuOpen && isFilterOpen ? "1" : "-1")};
     transition: z-index 0.3s ease-out;
   }
 `;
