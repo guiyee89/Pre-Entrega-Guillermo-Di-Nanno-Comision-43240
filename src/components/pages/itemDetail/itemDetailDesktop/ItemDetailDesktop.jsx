@@ -1,9 +1,9 @@
 import styled from "styled-components/macro";
-import { ItemCount } from "../../common/itemCount/ItemCount";
-import { FilterDetail } from "./filters-images/FilterDetail";
+import { ItemCount } from "../../../common/itemCount/ItemCount";
+import { FilterDetail } from "../filters-images/FilterDetail";
 import { useState, useContext } from "react";
-import { CartContext } from "../../context/CartContext";
-import { ImageDetail } from "./filters-images/ImageDetail";
+import { CartContext } from "../../../context/CartContext";
+import { ImageDesktop } from "./ImageDesktop";
 import { ClipLoader } from "react-spinners";
 
 export const ItemDetailDesktop = ({ selectedItem }) => {
@@ -68,7 +68,7 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
           {/* Rendering Images */}
-          <ImageDetail
+          <ImageDesktop
             filteredItem={filteredItem}
             selectedItem={selectedItem}
             handleImageChange={handleImageChange}

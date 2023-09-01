@@ -1,10 +1,10 @@
 import styled from "styled-components/macro";
-import { ItemCount } from "../../common/itemCount/ItemCount";
-import { FilterDetail } from "./filters-images/FilterDetail";
+import { ItemCount } from "../../../common/itemCount/ItemCount";
+import { FilterDetail } from "../filters-images/FilterDetail";
 import { useState, useContext } from "react";
-import { CartContext } from "../../context/CartContext";
-import { ImageDetail } from "./filters-images/ImageDetail";
+import { CartContext } from "../../../context/CartContext";
 import { ClipLoader } from "react-spinners";
+import { ImageMobile } from "./imageMobile";
 
 export const ItemDetailMobile = ({ selectedItem }) => {
   ///////////////////////////////////////////////////////////////////////////////////
@@ -67,20 +67,19 @@ export const ItemDetailMobile = ({ selectedItem }) => {
       {/* Check if either selectedItem or filteredItem exists */}
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
-          {/* Rendering Images */}
-          <ImageDetail
+          {hasDiscount && <Discount>-{selectedItem.discount}%</Discount>}
+
+          <Title>
+            {Object.keys(filteredItem).length > 0
+              ? filteredItem.title
+              : selectedItem.title}
+          </Title>
+          <ImageMobile
             filteredItem={filteredItem}
             selectedItem={selectedItem}
             handleImageChange={handleImageChange}
           />
-          {hasDiscount && <Discount>-{selectedItem.discount}%</Discount>}
           <InsideWrapper>
-            <Title>
-              {Object.keys(filteredItem).length > 0
-                ? filteredItem.title
-                : selectedItem.title}
-            </Title>
-
             <SubTitle>
               {Object.keys(filteredItem).length > 0
                 ? filteredItem.subtitle
@@ -178,21 +177,20 @@ export const ItemDetailMobile = ({ selectedItem }) => {
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   position: relative;
-  -webkit-box-align: center;
-  align-items: flex-start;
-  -webkit-box-pack: center;
-  justify-content: flex-end;
-  height: 700px;
-  width: 100%;
-  max-width: 1300px;
-  margin: 95px auto 95px;
-  padding-left: 65px;
+  align-items: center;
+  justify-content: center;
+  width: 85%;
+  margin-bottom: 30px;
+  @media (max-width:650px){
+    width:98%
+  }
 `;
 const Discount = styled.h4`
   position: absolute;
   display: flex;
-  top: 10px;
+  top: 95px;
   right: 81.6%;
   width: 60px;
   height: 60px;
@@ -202,6 +200,7 @@ const Discount = styled.h4`
   font-weight: bold;
   font-size: 1.1rem;
   line-height: 2.8;
+  z-index: 1;
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -209,25 +208,27 @@ const Discount = styled.h4`
 const InsideWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 85%;
-  width: 450px;
-  gap: 1.4rem;
+  width: 68%;
+  gap: 1rem;
   margin-left: 12px;
-  -webkit-box-pack: justify;
-  align-items: flex-start;
-  justify-content: flex-start;
+  @media (max-width:550px){
+    width: 100%;
+  }
 `;
 const Title = styled.h1`
   font-size: 2.4rem;
   font-weight: bold;
   letter-spacing: -2px;
-  margin-top: -11px;
-  margin-bottom: -32px;
-  text-align: center;
+  margin: 0px -8px 15px 0px;
 `;
 const SubTitle = styled.h2`
   font-size: 1.3rem;
   text-align: center;
+  margin-left: 105px;
+  @media (max-width:550px){
+    margin-left: 0;
+    text-align: inherit;
+  }
 `;
 const ColorText = styled.p`
   text-transform: capitalize;
@@ -293,6 +294,7 @@ const Num = styled.span`
 const ItemCountWrapper = styled.div`
   position: relative;
   margin: 0 0;
+  margin: 4px 0px 15px;
 `;
 const Loader = styled.div`
   height: 70px;
