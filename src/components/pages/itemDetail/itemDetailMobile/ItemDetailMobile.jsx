@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../../common/itemCount/ItemCount";
-import { FilterDetail } from "../filters-images/FilterDetail";
+import { FilterDetail } from "../filterDetails/FilterDetail";
 import { useState, useContext } from "react";
 import { CartContext } from "../../../context/CartContext";
 import { ClipLoader } from "react-spinners";
