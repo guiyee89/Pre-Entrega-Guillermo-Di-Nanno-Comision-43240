@@ -212,7 +212,7 @@ const Wrapper = styled.div`
     grid-template-columns: repeat(2, 1fr);
   }
   @media (max-width: 500px) {
-    margin: 0px -19px 0px 4px;
+    margin: 0px -16px 0px 4px;
     gap: 0.4rem;
     row-gap: 1.2rem;
   }
@@ -425,7 +425,7 @@ const FilterContainer = styled.div`
 
 const FilterBtn = styled.div`
   font-weight: 600;
-  margin: 10px -12px 10px 16px;
+  margin: 10px -13px 10px 15px;
   word-spacing: 7px;
   width: 49.1%;
   border-right: 1px solid #aeacac;
