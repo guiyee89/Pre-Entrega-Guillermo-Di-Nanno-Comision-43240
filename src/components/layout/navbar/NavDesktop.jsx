@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 
-export const NavBar = () => {
+export const NavDesktop = () => {
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);

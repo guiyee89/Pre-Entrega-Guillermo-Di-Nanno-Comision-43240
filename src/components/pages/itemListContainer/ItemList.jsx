@@ -57,7 +57,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
-  const itemsPerPage = 27;
+  const itemsPerPage = 18;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = items.slice(startIndex, endIndex);
@@ -174,7 +174,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
       {/* Pagination */}
       <PaginationWrapperBottom>
         <Pagination
-          size="large"
+          size={windowWidth < 600 ? "medium" : "large"}
           shape="rounded"
           variant="outlined"
           count={totalPages} // Set the count to the total number of pages
@@ -212,7 +212,7 @@ const Wrapper = styled.div`
     grid-template-columns: repeat(2, 1fr);
   }
   @media (max-width: 500px) {
-    margin: 0px -20px 0px 6px;
+    margin: 0px -19px 0px 4px;
     gap: 0.4rem;
     row-gap: 1.2rem;
   }
@@ -397,9 +397,11 @@ const HeaderContainer = styled.div`
   display: flex;
   width: 94%;
   justify-content: flex-end;
+  margin-bottom: 5px;
   @media (max-width: 900px) {
     width: 100%;
-    justify-content: flex-end;
+    flex-direction: column-reverse;
+    align-items: center;
   }
 `;
 const FilterContainer = styled.div`
@@ -416,7 +418,7 @@ const FilterContainer = styled.div`
     top: 56px;
     align-items: center;
     z-index: ${({ isMenuOpen, isFilterOpen }) =>
-      isMenuOpen && isFilterOpen ? "1" : "-1"};
+      isMenuOpen && isFilterOpen ? "1" : "0"};
     transition: z-index 0.3s ease-out;
   }
 `;
@@ -425,7 +427,7 @@ const FilterBtn = styled.div`
   font-weight: 600;
   margin: 10px -12px 10px 16px;
   word-spacing: 7px;
-  width: 50%;
+  width: 49.1%;
   border-right: 1px solid #aeacac;
   font-size: clamp(0.88rem, 2vw + 1px, 1.2rem);
   text-align: center;
@@ -444,7 +446,7 @@ const ClipLoaderBottom = styled(ClipLoader)`
 const PaginationWrapperTop = styled.div`
   display: flex;
   width: 45%;
-  margin: 0 0 15px 0;
+  margin: 0 0 15px 20px;
   justify-content: center;
   @media (max-width:900px){
     width: 49%;
@@ -456,6 +458,9 @@ const PaginationWrapperBottom = styled.div`
   margin: 20px 0 40px;
   position: relative;
   justify-content: center;
+  @media (max-width:900px){
+    width:104%
+  }
 `;
 const ItemListTitle = styled.h1`
   color: #2b2929;
@@ -469,19 +474,17 @@ const ItemListTitle = styled.h1`
     margin: auto;
   }
   @media (max-width: 600px) {
-    margin: 8px 0px 10px;
+    margin: 8px 0px 9px;
   }
 `;
 const ItemsQuantity = styled.p`
-  min-width: 25%;
+  width: 25%;
+  text-align: center;
   font-weight: 600;
-  font-size: clamp(0.7rem, 2vw + 1px, 0.9rem);
-  margin: 11px 10px 0 -20px;
+  font-size: clamp(0.7rem, 1.7vw + 1px, 0.9rem);
+  margin: 6px 10px 0 -20px;
   word-spacing: 5px;
   @media (max-width: 900px) {
-    margin: 10px 35px 0px -43px;
-  }
-  @media (max-width: 500px) {
-    margin: 6px 24px 0px -34px;
+    margin: 2px 0px 5px 17px;
   }
 `;

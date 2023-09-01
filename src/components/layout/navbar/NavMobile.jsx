@@ -15,7 +15,7 @@ export const NavMobile = () => {
   const totalItems = getTotalItems();
   //////////        ////////////        ////////////        ///////////
   //                       SideMenuContext                      //
-  const { isMenuOpen, toggleSideMenu } = useContext(GlobalToolsContext);
+  const { isMenuOpen, toggleSideMenu, isFilterOpen } = useContext(GlobalToolsContext);
 
   //////////        ////////////        ////////////        ///////////
   //                       Scroll Effect                      //
@@ -49,11 +49,7 @@ export const NavMobile = () => {
 
   return (
     <>
-      {/*   <TransparentDiv
-        isMenuOpen={isMenuOpen}
-        onClick={isMenuOpen ? null : toggleSideMenu}
-      /> */}
-      <Nav scrolled={scroll}>
+      <Nav scrolled={scroll} isFilterOpen={isFilterOpen}>
         <InsideNav>
           <MenuIcon
             onClick={toggleSideMenu}
@@ -184,7 +180,7 @@ const Nav = styled.nav`
   margin: 0 auto;
   display: flex;
   position: fixed;
-  z-index: 1;
+  z-index: ${({ isFilterOpen }) => (isFilterOpen ? "2" : "1")};
   background-color: rgb(253 253 253);
   box-shadow: ${(props) =>
     props.scrolled === "scrolled" ? "none" : "rgba(0, 0, 0, 0.55) 0px 0px 3px"};
@@ -217,8 +213,8 @@ const LogoLink = styled(Link)`
   text-decoration: none;
 `;
 const Logo = styled.img`
-  width: 52%;
-  margin-left: 20px;
+  width: 51%;
+  margin-left: 17.3px;
 `;
 const LogoSideMenu = styled.div`
   width: 100%;

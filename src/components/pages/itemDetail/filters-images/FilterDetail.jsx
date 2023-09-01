@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 import styled from "styled-components/macro";
-import { db } from "../../../firebaseConfig";
+import { db } from "../../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import LoadingBar from "react-top-loading-bar";
 
@@ -120,7 +120,7 @@ export const FilterDetail = ({
 
   //Render custom "size" for clothing or map existing "size" for shoes
   const renderSizes = () => {
-    const customSizes = ["xs", "s", "m", "l", "xl","xxl"];
+    const customSizes = ["xs", "s", "m", "l", "xl", "xxl"];
     const uniqueSizesShoes = Array.from(
       new Set(relatedItems.map((item) => item.size))
     );
