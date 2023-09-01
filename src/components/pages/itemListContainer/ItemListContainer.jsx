@@ -1,3 +1,4 @@
+// import { AgregarDocs } from "../../dashboard/AgregarDocs";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ItemList } from "./ItemList";
@@ -6,18 +7,20 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components/macro";
-import { MultiFilter } from "./filters/MultiFilter";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 import { Ring } from "@uiball/loaders";
-import { MobileMultiFilter } from "./filters/MobileMultiFilter";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
-// import { AgregarDocs } from "../../dashboard/AgregarDocs";
+import { DesktopFilter } from "./filters/DesktopFilter";
+import { MobileFilter } from "./filters/MobileFilter";
 
+
+//////////////     //////////////    ////////////      ////////////      /////////////
 export const ScrollRestorationWrapper = ({ children }) => {
   useScrollRestoration(); // Apply the scroll restoration hook
   return <>{children}</>; // Render the children content
 };
+
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
@@ -101,6 +104,7 @@ export const ItemListContainer = () => {
             return filtered;
           }, []);
           console.log("fetching itemList...");
+          console.log(products);
           setItems(products);
           setLoading(false);
         })
@@ -158,7 +162,7 @@ export const ItemListContainer = () => {
             {/******  FILTER  ******/}
             <ItemsFiltersWrapper>
               <FilterWrapper scrolled={scroll}>
-                <MultiFilter
+                <DesktopFilter
                   items={items}
                   onFilterChange={handleFilterChange}
                   setCurrentPage={setCurrentPage}
@@ -169,7 +173,7 @@ export const ItemListContainer = () => {
                 isFilterOpen={isFilterOpen}
                 onClick={toggleFilterMenu}
               >
-                <MobileMultiFilter
+                <MobileFilter
                   items={items}
                   onFilterChange={handleFilterChange}
                   setCurrentPage={setCurrentPage}
@@ -255,6 +259,7 @@ const MobileFilterWrapper = styled.div`
 `;
 const ItemListWrapper = styled.div`
   grid-column: 2/13;
+  margin-top: -3px;
   @media (max-width: 900px) {
     grid-column: 1/13;
     margin: 0 15px;

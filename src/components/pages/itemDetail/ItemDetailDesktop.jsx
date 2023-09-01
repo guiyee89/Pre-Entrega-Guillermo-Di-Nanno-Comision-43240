@@ -1,14 +1,12 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../common/itemCount/ItemCount";
-import { FilterDetail } from "./FilterDetail";
+import { FilterDetail } from "./filters-images/FilterDetail";
 import { useState, useContext } from "react";
 import { CartContext } from "../../context/CartContext";
-import { ImageDetail } from "./ImageDetail";
+import { ImageDetail } from "./filters-images/ImageDetail";
 import { ClipLoader } from "react-spinners";
 
-
-
-export const ItemDetail = ({ selectedItem }) => {
+export const ItemDetailDesktop = ({ selectedItem }) => {
   ///////////////////////////////////////////////////////////////////////////////////
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
@@ -61,8 +59,6 @@ export const ItemDetail = ({ selectedItem }) => {
   const handleImageChange = (image, index) => {
     setSelectedImage(image, index);
   };
-
-  
 
   ///////////////////////////////////////////////////////////////////////////////////
   /* Render item details based on the existence of selectedItem or filteredItem */
@@ -179,7 +175,6 @@ export const ItemDetail = ({ selectedItem }) => {
     </Wrapper>
   );
 };
-
 
 const Wrapper = styled.div`
   display: flex;

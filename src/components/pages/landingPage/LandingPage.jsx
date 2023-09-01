@@ -219,6 +219,7 @@ const TextWrapper = styled.div`
   -webkit-box-align: center;
   align-items: center;
   line-height: 1.15;
+  letter-spacing: 3px;
   @media (max-width: 700px) {
     bottom: 55px;
   }
@@ -272,7 +273,10 @@ const TextDiv = styled.div`
     grid-template-rows: repeat(2, 1fr);
     background-color: rgb(255 255 255 / 45%);
     grid-area: 5 / 1 / auto / 13;
-    padding: 30px 0;
+    padding: 21px 0;
+  }
+  @media (max-width:470px){
+    padding: 17px 0;
   }
 `;
 const TextDiv1 = styled.div`
@@ -288,6 +292,9 @@ const TextDiv1 = styled.div`
   @media (max-width: 640px) {
     grid-area: 6 / 2 / 3 / 12;
   }
+  @media (max-width:470px){
+    grid-area: 6 / 1 / 3 / 12;
+  }
 `;
 const TextDiv2 = styled.div`
   padding-left: 16px;
@@ -300,8 +307,11 @@ const TextDiv2 = styled.div`
     padding-top: 10px;
   }
   @media (max-width: 640px) {
-    grid-area: 8 / 5 / auto / 13;
+    grid-area: 8 / 6 / auto / 13;
     padding-top: 15px;
+  }
+  @media (max-width:470px){
+    grid-area: 8 / 6 / auto / 13;
   }
 `;
 const StrechedArticle = styled.article`
@@ -351,9 +361,10 @@ const TextPromo = styled.h3`
   text-transform: uppercase;
   letter-spacing: 5px;
   color: #b60404;
+  margin-top: -8px;
 `;
 const TextSub = styled.h3`
-  font-size: clamp(1rem, 1.5vw + 1rem, 1.7rem);
+  font-size: clamp(1rem, 1.3vw + 1rem, 1.7rem);
   @media (max-width:900px){
     margin-top:-5px
   }

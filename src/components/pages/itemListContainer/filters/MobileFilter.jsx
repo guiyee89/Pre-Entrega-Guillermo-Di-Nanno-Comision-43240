@@ -19,7 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useContext } from "react";
 import {GlobalToolsContext} from "../../../context/GlobalToolsContext";
 
-export const MobileMultiFilter = ({
+export const MobileFilter = ({
   items,
   onFilterChange,
   setCurrentPage,
@@ -92,6 +92,7 @@ export const MobileMultiFilter = ({
 
   // Fetch items from Firestore Database and filter accordingly on selection
   const fetchFilteredItems = async () => {
+    console.log("fetching MultiFilter...");
     try {
       const filteredCollection = collection(db, "products");
       let queryFilters = [];
@@ -155,7 +156,7 @@ export const MobileMultiFilter = ({
           return priceB - priceA;
         });
       }
-      console.log("fetching MultiFilter...");
+     
       console.log(orderedItems);
 
       onFilterChange(orderedItems, detailsFilters);
@@ -668,7 +669,7 @@ const ResetAllBtn = styled.button`
   font-weight: 500;
   border: none;
   background-color: transparent;
-  margin-right: -25px;
+  margin: 0px -5px 6px 20px;
   position: relative;
   &::after {
     content: "";

@@ -1,20 +1,23 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ItemDetail } from "./ItemDetail";
+import { ItemDetailDesktop } from "./ItemDetailDesktop";
+import { ItemDetailMobile } from "./ItemDetailMobile";
 import { db } from "../../../firebaseConfig";
 import { collection, getDoc, doc } from "firebase/firestore";
 import styled from "styled-components/macro";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useContext } from "react";
+import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 // import { BarLoader } from "react-spinners";
 
 
-export const ItemDetailContainer = () => {
 
+export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
   const [selectedItem, setSelectedItem] = useState({});
-
   const { id } = useParams();
+  const { windowWidth } = useContext(GlobalToolsContext);
 
   //ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
@@ -31,8 +34,6 @@ export const ItemDetailContainer = () => {
     }, 600);
   }, [id]);
 
-
-
   return (
     <>
       <ToastContainer
@@ -48,7 +49,13 @@ export const ItemDetailContainer = () => {
         theme="dark"
       />
       {selectedItem.id ? (
-        <ItemDetail selectedItem={selectedItem} />
+        <>
+          {windowWidth > 850 ? (
+            <ItemDetailDesktop selectedItem={selectedItem} />
+          ) : (
+            <ItemDetailMobile selectedItem={selectedItem} />
+          )}
+        </>
       ) : (
         <LoaderWrapper>
           {/* <BarLoader color="#12352e" width={250} /> */}

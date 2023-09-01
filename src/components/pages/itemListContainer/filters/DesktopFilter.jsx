@@ -16,7 +16,7 @@ import { db } from "../../../../firebaseConfig";
 import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
-export const MultiFilter = ({ items, onFilterChange, setCurrentPage }) => {
+export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   //                       STATE FOR DIFFERENT FILTERS                        //
   const [detailsFilters, setDetailsFilters] = useState({

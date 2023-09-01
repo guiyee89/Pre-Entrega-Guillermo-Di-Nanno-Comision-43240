@@ -1,5 +1,4 @@
 import { Outlet, useLocation, useMatch } from "react-router-dom";
-import { NavBar } from "./navbar/NavBar";
 import { menuRoutes } from "../routes/menuRoutes";
 import { Footer } from "./footer/Footer";
 import styled from "styled-components/macro";
@@ -12,6 +11,7 @@ import { SideCart } from "../pages/cart/SideCart";
 import { useContext, useEffect, useState } from "react";
 import { GlobalToolsContext } from "../context/GlobalToolsContext";
 import { NavMobile } from "./navbar/NavMobile";
+import { NavDesktop } from "./navbar/NavDesktop";
 ////////////////////////////////////////////////////
 
 export const Layout = () => {
@@ -70,7 +70,7 @@ export const Layout = () => {
           <LoadingScreen />
         ) : (
           <>
-            {windowWidth > 900 && <NavBar />}
+            {windowWidth > 900 && <NavDesktop />}
             {windowWidth <= 900 && <NavMobile />}
             <SideCart />
             {!isHome && <HeroSmall />}
