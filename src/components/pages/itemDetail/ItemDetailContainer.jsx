@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ItemDetailDesktop } from "./ItemDetailDesktop";
-import { ItemDetailMobile } from "./ItemDetailMobile";
+import { ItemDetailDesktop } from "./itemDetailDesktop/ItemDetailDesktop";
+import { ItemDetailMobile } from "./itemDetailMobile/ItemDetailMobile";
 import { db } from "../../../firebaseConfig";
 import { collection, getDoc, doc } from "firebase/firestore";
 import styled from "styled-components/macro";
@@ -10,8 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 // import { BarLoader } from "react-spinners";
-
-
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
@@ -50,7 +48,7 @@ export const ItemDetailContainer = () => {
       />
       {selectedItem.id ? (
         <>
-          {windowWidth > 850 ? (
+          {windowWidth > 950 ? (
             <ItemDetailDesktop selectedItem={selectedItem} />
           ) : (
             <ItemDetailMobile selectedItem={selectedItem} />

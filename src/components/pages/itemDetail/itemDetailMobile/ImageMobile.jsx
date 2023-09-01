@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components/macro";
 
-export const ImageDetail = ({
+export const ImageMobile = ({
   filteredItem,
   selectedItem,
   handleImageChange,
@@ -49,6 +49,7 @@ export const ImageDetail = ({
             key={index}
             src={image}
             id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
+            position={index === 0 ? "none" : "absolute"}
             translationDirection={
               selectedImage.index === index
                 ? "none"
@@ -66,9 +67,11 @@ export const ImageDetail = ({
 
 const Wrapper = styled.div`
   display: flex;
-  width: 85%;
-  margin-left: -35px;
-  margin-right: 20px;
+  width: 95%;
+  @media (max-width:550px){
+    flex-direction: column-reverse;
+    margin-bottom: 28px;
+  }
 `;
 const ImgAsideWrapper = styled.aside`
   width: 18.8%;
@@ -76,20 +79,24 @@ const ImgAsideWrapper = styled.aside`
   flex-direction: column;
   gap: 1rem;
   margin-top: 1.5px;
+  @media (max-width: 550px) {
+    flex-direction: row;
+    margin-top: 7.5px;
+  }
 `;
 
 const ImgAside = styled.img`
-cursor: pointer;
+  cursor: pointer;
   box-shadow: ${({ isSelected }) =>
     isSelected
       ? "rgba(0, 0, 0, 0.55) 0px 0px 3.5px"
       : "rgba(0, 0, 0, 0.65) 0px 0px 3px"};
   border: ${({ isSelected }) => (isSelected ? "1px solid black" : "none")};
-  width: ${({ isSelected }) => (isSelected ? "81%" : "75%")};
+  width: ${({ isSelected }) => (isSelected ? "90%" : "84%")};
+  height: ${({ isSelected }) => (isSelected ? "86%" : "81%")};
 `;
 const MainImgWrapper = styled.div`
   width: 100%;
-  height: 700px;
   top: 0;
   left: 0;
   display: flex;
@@ -100,10 +107,10 @@ const MainImgWrapper = styled.div`
 const MainImg = styled.img`
   width: 100%;
   max-height: 100%;
-  position: absolute;
   overflow: hidden;
   border: 1px solid lightgray;
   object-fit: cover;
+  position: ${({ position }) => position};
   transform: ${({ translationDirection }) => translationDirection};
   opacity: ${({ isVisible }) => (isVisible ? "1" : "0")};
   transition: transform 0.18s ease, opacity 0.2s ease;
