@@ -184,7 +184,7 @@ const Wrapper = styled.div`
   width: 85%;
   margin-bottom: 30px;
   @media (max-width:650px){
-    width:98%
+    width:100%
   }
 `;
 const Discount = styled.h4`
