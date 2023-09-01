@@ -4,7 +4,7 @@ import { FilterDetail } from "../filters-images/FilterDetail";
 import { useState, useContext } from "react";
 import { CartContext } from "../../../context/CartContext";
 import { ClipLoader } from "react-spinners";
-import { ImageMobile } from "./imageMobile";
+import { ItemImageMobile } from "./ItemImageMobile";
 
 export const ItemDetailMobile = ({ selectedItem }) => {
   ///////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
               ? filteredItem.title
               : selectedItem.title}
           </Title>
-          <ImageMobile
+          <ItemImageMobile
             filteredItem={filteredItem}
             selectedItem={selectedItem}
             handleImageChange={handleImageChange}
@@ -183,15 +183,15 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 85%;
   margin-bottom: 30px;
-  @media (max-width:650px){
-    width:100%
+  @media (max-width: 650px) {
+    width: 100%;
   }
 `;
 const Discount = styled.h4`
   position: absolute;
   display: flex;
   top: 95px;
-  right: 81.6%;
+  right: 69.6%;
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -204,6 +204,15 @@ const Discount = styled.h4`
   cursor: pointer;
   align-items: center;
   justify-content: center;
+  @media (max-width: 550px) {
+    right: 81.6%;
+  }
+  @media (max-width: 450px) {
+    width: 50px;
+    height: 50px;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
 `;
 const InsideWrapper = styled.div`
   display: flex;
@@ -211,7 +220,7 @@ const InsideWrapper = styled.div`
   width: 68%;
   gap: 1rem;
   margin-left: 12px;
-  @media (max-width:550px){
+  @media (max-width: 550px) {
     width: 100%;
   }
 `;
@@ -225,7 +234,7 @@ const SubTitle = styled.h2`
   font-size: 1.3rem;
   text-align: center;
   margin-left: 105px;
-  @media (max-width:550px){
+  @media (max-width: 550px) {
     margin-left: 0;
     text-align: inherit;
   }
