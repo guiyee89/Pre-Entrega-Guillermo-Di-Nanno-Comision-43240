@@ -3,8 +3,9 @@ import { ItemCount } from "../../../common/itemCount/ItemCount";
 import { FilterDetail } from "../filters-images/FilterDetail";
 import { useState, useContext } from "react";
 import { CartContext } from "../../../context/CartContext";
-import { ImageDesktop } from "./ImageDesktop";
+
 import { ClipLoader } from "react-spinners";
+import { ItemImageDesktop } from "./ItemImageDesktop";
 
 export const ItemDetailDesktop = ({ selectedItem }) => {
   ///////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +69,7 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
           {/* Rendering Images */}
-          <ImageDesktop
+          <ItemImageDesktop
             filteredItem={filteredItem}
             selectedItem={selectedItem}
             handleImageChange={handleImageChange}
@@ -193,7 +194,7 @@ const Discount = styled.h4`
   position: absolute;
   display: flex;
   top: 10px;
-  right: 81.6%;
+  right: 79.6%;
   width: 60px;
   height: 60px;
   border-radius: 50%;
