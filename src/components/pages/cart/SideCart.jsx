@@ -158,7 +158,7 @@ const SideCartWrapper = styled.div`
   right: ${({ isOpen }) => (isOpen ? "-420px" : "0")};
   transition: right 0.3s ease-in-out;
   z-index: 2;
-  min-width: 325px;
+  min-width: 295px;
   max-width: 420px;
   height: 100%;
   background-color: white;
