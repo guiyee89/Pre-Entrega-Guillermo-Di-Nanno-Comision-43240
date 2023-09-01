@@ -75,6 +75,7 @@ const Wrapper = styled.div`
 `;
 const ImgAsideWrapper = styled.aside`
   width: 18.8%;
+  height: 18.8%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
