@@ -36,14 +36,11 @@ const Contador = styled(Badge)`
   margin: 0 24px 0 0;
   z-index: 0;
   .css-16rm5dn-MuiBadge-badge {
-    font-weight: 600;
-    font-size: 0.85rem;
-    height: 23px;
+    font-size: 0.75rem; 
+    height: 25px;
     border-radius: 50%;
-    min-width: 23px;
+    min-width: 25px;
     @media screen and (max-width: 50rem) {
-      min-width: 10px;
-      height: 1.16rem;
       border-radius: 50%;
     }
   }
