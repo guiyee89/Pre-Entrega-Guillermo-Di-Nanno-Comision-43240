@@ -57,7 +57,15 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
-  const itemsPerPage = 18;
+  const [itemsPerPage, setItemsPerPage] = useState(0);
+  useEffect(() => {
+    if (windowWidth < 991) {
+      setItemsPerPage(18);
+    } else {
+      setItemsPerPage(24);
+    }
+  }, [windowWidth, itemsPerPage]);
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = items.slice(startIndex, endIndex);
@@ -448,7 +456,7 @@ const PaginationWrapperTop = styled.div`
   width: 45%;
   margin: 0 0 15px 20px;
   justify-content: center;
-  @media (max-width:900px){
+  @media (max-width: 900px) {
     width: 49%;
   }
 `;
@@ -458,8 +466,8 @@ const PaginationWrapperBottom = styled.div`
   margin: 20px 0 40px;
   position: relative;
   justify-content: center;
-  @media (max-width:900px){
-    width:104%
+  @media (max-width: 900px) {
+    width: 104%;
   }
 `;
 const ItemListTitle = styled.h1`

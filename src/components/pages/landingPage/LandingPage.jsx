@@ -60,16 +60,19 @@ export const LandingPage = () => {
                 src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881568/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_15h11_03-removebg-preview_px49rf.png"
                 alt=""
               />
-              <TextWrapper>
-                <MidImgText>
-                  <Arrows>&#8594;</Arrows>
-                  Shirts
-                  <br />
-                  <MidSpan>from</MidSpan>
-                  <br />
-                  $70
-                </MidImgText>
-              </TextWrapper>
+              <TextButtonContainer>
+                <TextWrapper>
+                  <MidImgText>
+                    <Arrows>&#8594;</Arrows>
+                    Shirts
+                    <br />
+                    <MidSpan>from</MidSpan>
+                    <br />
+                    $70
+                  </MidImgText>
+                </TextWrapper>
+                <FakeButton>Buy</FakeButton>
+              </TextButtonContainer>
             </LinkImg>
           </ImgWrapper>
           <ImgWrapper>
@@ -78,17 +81,19 @@ export const LandingPage = () => {
                 src="https://res.cloudinary.com/derdim3m6/image/upload/v1689881569/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-07-17_14h54_34-removebg-preview_p51ljr.png"
                 alt=""
               />
-              <TextWrapper>
-                <MidImgText>
-                  <Arrows>&#8594;</Arrows>
-                  Pants
-                  <br />
-                  <MidSpan>from</MidSpan>
-                  <br />
-                  $80
-                </MidImgText>
-                ;
-              </TextWrapper>
+              <TextButtonContainer>
+                <TextWrapper>
+                  <MidImgText>
+                    <Arrows>&#8594;</Arrows>
+                    Pants
+                    <br />
+                    <MidSpan>from</MidSpan>
+                    <br />
+                    $80
+                  </MidImgText>
+                </TextWrapper>
+                <FakeButton>Buy</FakeButton>
+              </TextButtonContainer>
             </LinkImg>
           </ImgWrapper>
         </MiddleArticle>
@@ -118,6 +123,7 @@ export const LandingPage = () => {
                 </TextSub2>
               </TextDiv2>
             </TextDiv>
+            <FakeButtonStreched>Buy</FakeButtonStreched>
           </LinkStreched>
         </StrechedArticle>
       </Wrapper>
@@ -172,7 +178,7 @@ const MiddleArticle = styled.article`
   @media (max-width: 650px) {
     gap: 0.5rem;
   }
-  @media (max-width:550px){
+  @media (max-width: 550px) {
     flex-direction: column;
   }
 `;
@@ -205,11 +211,14 @@ const LinkImg = styled(Link)`
   text-decoration: none;
   color: black;
 `;
+const TextButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const TextWrapper = styled.div`
   position: absolute;
   width: 80%;
-  /* height: 155px; */
-  padding: 5px 0;
   bottom: 200px;
   display: flex;
   right: 10%;
@@ -220,8 +229,8 @@ const TextWrapper = styled.div`
   align-items: center;
   line-height: 1.15;
   letter-spacing: 3px;
-  @media (max-width: 700px) {
-    bottom: 55px;
+  @media (max-width: 900px) {
+    bottom: 115px;
   }
 `;
 const Arrows = styled.span`
@@ -234,11 +243,39 @@ const MidImgText = styled.h2`
   text-align: center;
   font-size: clamp(1.9rem, 4.4vw + 1rem, 2.5rem);
   font-weight: 600;
+  line-height: 0.9;
   text-transform: uppercase;
+  margin: 9px 0px 14px;
+  font-family: "Playfair Display", serif;
+  @media (max-width: 900px) {
+    margin: 2px 0px 11px;
+  }
 `;
+const FakeButton = styled.span`
+  width: 160px;
+  height: 32px;
+  top: 74%;
+  position: absolute;
+  border-radius: 3px;
+  background-color: #acabab;
+  display: flex;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  font-weight: 500;
+  @media (max-width: 900px) {
+    top: 85%;
+  }
+  @media (max-width: 650px) {
+    top: 77%;
+  }
+`;
+
 const MidSpan = styled.span`
   text-transform: lowercase;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-family: "Playfair Display", serif;
 `;
 const ShoesImg = styled.img`
   object-fit: contain;
@@ -275,7 +312,7 @@ const TextDiv = styled.div`
     grid-area: 5 / 1 / auto / 13;
     padding: 21px 0;
   }
-  @media (max-width:470px){
+  @media (max-width: 470px) {
     padding: 17px 0;
   }
 `;
@@ -285,14 +322,14 @@ const TextDiv1 = styled.div`
   grid-column: 9/13;
   grid-row: 1/5;
   @media (max-width: 900px) {
-    grid-area: 3 / 3 / auto / 8;
+    grid-area: 3 / 2 / auto / 8;
     letter-spacing: 5px;
     margin-bottom: -10px;
   }
   @media (max-width: 640px) {
     grid-area: 6 / 2 / 3 / 12;
   }
-  @media (max-width:470px){
+  @media (max-width: 470px) {
     grid-area: 6 / 1 / 3 / 12;
   }
 `;
@@ -310,13 +347,14 @@ const TextDiv2 = styled.div`
     grid-area: 8 / 6 / auto / 13;
     padding-top: 15px;
   }
-  @media (max-width:470px){
+  @media (max-width: 470px) {
     grid-area: 8 / 6 / auto / 13;
   }
 `;
 const StrechedArticle = styled.article`
   cursor: pointer;
   overflow: hidden;
+  position: relative;
   width: 100%;
   height: 460px;
   max-width: 1330px;
@@ -356,7 +394,7 @@ const TextTitle = styled.h3`
   font-size: clamp(1.5rem, 1.1vw + 1.3rem, 3.8rem);
 `;
 const TextPromo = styled.h3`
-  font-size: clamp(3.1rem, 4vw + 1rem, 5.3rem);
+  font-size: clamp(2.9rem, 4vw + 1rem, 5.3rem);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 5px;
@@ -365,8 +403,8 @@ const TextPromo = styled.h3`
 `;
 const TextSub = styled.h3`
   font-size: clamp(1rem, 1.3vw + 1rem, 1.7rem);
-  @media (max-width:900px){
-    margin-top:-5px
+  @media (max-width: 900px) {
+    margin-top: -5px;
   }
 `;
 const TextSub2 = styled.p`
@@ -374,7 +412,32 @@ const TextSub2 = styled.p`
   @media (max-width: 600px) {
     margin-top: 4px;
   }
-  @media (max-width:900px){
-    margin-top:13px
+  @media (max-width: 900px) {
+    margin-top: 13px;
+  }
+`;
+const FakeButtonStreched = styled.span`
+  width: 190px;
+  height: 32px;
+  bottom: 10.2%;
+  right: 12.8%;
+  position: absolute;
+  border-radius: 3px;
+  background-color: rgb(244 240 240);
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  font-weight: 500;
+  @media (max-width: 900px) {
+    bottom: 4.2%;
+    right: 36.8%;
+  }
+  @media (max-width: 640px) {
+    bottom: 15.7%;
+    right: 60%;
+    width: 134px;
+    background-color: rgb(208, 205, 205);
   }
 `;
