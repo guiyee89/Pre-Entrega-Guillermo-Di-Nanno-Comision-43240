@@ -1,60 +1,13 @@
-// import { useState } from "react";
-// import Carousel from "react-bootstrap/Carousel";
-// import styled from "styled-components/macro";
-// import { InfoIcons } from "../../common/infoIcons/InfoIcons";
-
-// export const HeroLanding = () => {
-//   const [index, setIndex] = useState(0);
-
-//   const handleSelect = (selectedIndex) => {
-//     setIndex(selectedIndex);
-//   };
-
-//   return (
-//     <Wrapper>
-//       <StyledCarousel
-//         activeIndex={index}
-//         onSelect={handleSelect}
-//         interval={11114200}
-//       >
-//         <CarouselItem>
-//           <CarouselImg
-//             className="d-block w-100"
-//             src="https://res.cloudinary.com/derdim3m6/image/upload/v1689955895/web%20access/samples%20for%20e-commerce/Hero/2023-07-21_12h32_14_uran3s.png"
-//             alt="First slide"
-//           />
-//         </CarouselItem>
-//         <CarouselItem>
-//           <CarouselImg
-//             className="d-block w-100"
-//             src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771372/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h29_53_qtqorc600_gt3fsj.png"
-//             alt="Second slide"
-//           />
-//         </CarouselItem>
-//         <CarouselItem>
-//           <CarouselImg
-//             className="d-block w-100"
-//             src="https://res.cloudinary.com/derdim3m6/image/upload/v1690152844/web%20access/samples%20for%20e-commerce/Hero/2023-07-23_19h52_40_qfvfmd.png"
-//             alt="Third slide"
-//           />
-//         </CarouselItem>
-//       </StyledCarousel>
-
-//       <MarginWrapper>
-//         <IconsWrapper>
-//           <InfoIcons />
-//         </IconsWrapper>
-//       </MarginWrapper>
-//     </Wrapper>
-//   );
-// };
-
 import { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
 import { InfoIcons } from "../../common/infoIcons/InfoIcons";
+import { useContext } from "react";
+import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 
 export const HeroLanding = () => {
+  const { windowWidth } = useContext(GlobalToolsContext);
+
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
@@ -66,7 +19,7 @@ export const HeroLanding = () => {
       <StyledCarousel
         activeIndex={index}
         onSelect={handleSelect}
-        interval={4200}
+        interval={6664200}
       >
         <CarouselItem>
           <picture>
@@ -98,8 +51,15 @@ export const HeroLanding = () => {
           <picture>
             <source
               media="(max-width: 800px)"
-              srcSet="https://res.cloudinary.com/derdim3m6/image/upload/v1693260737/web%20access/samples%20for%20e-commerce/Hero/2023-08-28_19h09_00_u5lsyj.png"
+              srcSet="https://res.cloudinary.com/derdim3m6/image/upload/v1693658488/web%20access/samples%20for%20e-commerce/Hero/2023-09-02_09h40_54_oldgfe.png"
             />
+            {windowWidth < 801 && (
+              <BannerTextContainer>
+                <BannerTitle>conscious</BannerTitle>
+                <BannerSub>Sustainable Collection</BannerSub>
+                <FakeButton>Buy</FakeButton>
+              </BannerTextContainer>
+            )}
             <CarouselImg
               className="d-block w-100"
               src="https://res.cloudinary.com/derdim3m6/image/upload/v1689955895/web%20access/samples%20for%20e-commerce/Hero/2023-07-21_12h32_14_uran3s.png"
@@ -127,7 +87,10 @@ const Wrapper = styled.div`
 `;
 const StyledCarousel = styled(Carousel)`
   @media (max-width: 1100px) {
-    margin-bottom: 30px;
+    margin: -17px 40px 30px;
+  }
+  @media (max-width: 500px) {
+    margin: -12px 21px 30px;
   }
   .carousel-slide {
     min-height: 300px;
@@ -141,8 +104,23 @@ const StyledCarousel = styled(Carousel)`
   .carousel-control-prev-icon {
     width: 2rem;
     height: 3rem;
-
     background-color: rgba(0, 0, 0, 0.55);
+    @media (max-width: 450px) {
+      width: 1.6rem;
+      height: 2.6rem;
+    }
+  }
+  .carousel-control-prev {
+    left: -9.9%;
+    @media (max-width: 450px) {
+      left: -10.7%;
+    }
+  }
+  .carousel-control-next {
+    right: -9.9%;
+    @media (max-width: 450px) {
+      right: -10.7%;
+    }
   }
   .carousel-indicators [data-bs-target] {
     margin-right: 15px;
@@ -154,7 +132,7 @@ const StyledCarousel = styled(Carousel)`
       width: 9px;
       height: 9px;
     }
-    @media (max-width:500px){
+    @media (max-width: 500px) {
       width: 6px;
       height: 6px;
     }
@@ -181,9 +159,6 @@ const CarouselImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  @media screen and (max-width: 800px) {
-    object-fit: contain;
-  }
 `;
 const MarginWrapper = styled.div`
   margin: 0 36px;
@@ -206,4 +181,36 @@ const IconsWrapper = styled.div`
   @media (max-width: 700px) {
     display: none;
   }
+`;
+const BannerTextContainer = styled.div`
+  z-index: 1;
+  position: absolute;
+  top: 60%;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+`;
+const BannerTitle = styled.p`
+  color: rgb(0 124 0);
+  text-transform: uppercase;
+  font-size: clamp(3.4rem, 10vw + 1rem, 5.4rem);
+  font-family: "Playfair Display", serif;
+`;
+const BannerSub = styled.p`
+  font-size: clamp(0.9rem, 1.3vw + 0.9rem, 3rem);
+  color: rgb(8 150 8);
+  font-family: "Playfair Display", serif;
+  color: rgb(11 182 11);
+  margin: -18px 0 20px;
+`;
+const FakeButton = styled.span`
+  width: 142px;
+  height: 32px;
+  border-radius: 3px;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
 `;

@@ -27,7 +27,6 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   font-family: 'Montserrat', sans-serif;
-  
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
