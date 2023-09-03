@@ -74,27 +74,19 @@ export const ItemDetailMobile = ({ selectedItem }) => {
               ? filteredItem.title
               : selectedItem.title}
           </Title>
+
+          <SubTitle>
+            {Object.keys(filteredItem).length > 0
+              ? filteredItem.subtitle
+              : selectedItem.subtitle}
+          </SubTitle>
+
           <ItemImageMobile
             filteredItem={filteredItem}
             selectedItem={selectedItem}
             handleImageChange={handleImageChange}
           />
           <InsideWrapper>
-            <SubTitle>
-              {Object.keys(filteredItem).length > 0
-                ? filteredItem.subtitle
-                : selectedItem.subtitle}
-            </SubTitle>
-
-            <ColorText>
-              Color:{" "}
-              <ColorSpan>
-                {Object.keys(filteredItem).length > 0
-                  ? filteredItem.color
-                  : selectedItem.color}
-              </ColorSpan>
-            </ColorText>
-
             <FilterWrapper>
               <FilterDetail
                 selectedItem={selectedItem}
@@ -181,8 +173,14 @@ const Wrapper = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  width: 85%;
+  width: 65%;
   margin-bottom: 30px;
+  @media (max-width: 820px) {
+    width: 75%;
+  }
+  @media (max-width: 720px) {
+    width: 85%;
+  }
   @media (max-width: 650px) {
     width: 100%;
   }
@@ -190,8 +188,8 @@ const Wrapper = styled.div`
 const Discount = styled.h4`
   position: absolute;
   display: flex;
-  top: 95px;
-  right: 69.6%;
+  top: 86px;
+  right: 84.6%;
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -217,40 +215,31 @@ const Discount = styled.h4`
 const InsideWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 68%;
-  gap: 1rem;
-  margin-left: 12px;
-  @media (max-width: 550px) {
-    width: 100%;
-  }
+  width: 98%;
+  gap: 0.3rem;
+  align-items: flex-start;
+  padding: 0px 65px 0px 0px;
 `;
 const Title = styled.h1`
   font-size: 2.4rem;
   font-weight: bold;
   letter-spacing: -2px;
-  margin: 0px -8px 15px 0px;
 `;
 const SubTitle = styled.h2`
   font-size: 1.3rem;
   text-align: center;
-  margin-left: 105px;
   @media (max-width: 550px) {
     margin-left: 0;
-    text-align: inherit;
+    margin-top: -15px;
   }
 `;
-const ColorText = styled.p`
-  text-transform: capitalize;
-  font-weight: 500;
-`;
-const ColorSpan = styled.span`
-  font-weight: bold;
-`;
+
 const FilterWrapper = styled.div`
-  height: 150px;
-  width: 95%;
+  width: 100%;
+  margin: 23px 0 5px;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const DiscountPrice = styled.span`
@@ -258,7 +247,6 @@ const DiscountPrice = styled.span`
   font-weight: 600;
   font-size: 1.13rem;
   font-style: italic;
-  padding: 6px 0 8px 0;
   position: relative;
   &::after {
     content: ${(props) => (props.hasDiscount ? "''" : "none")};
@@ -282,12 +270,14 @@ const ItemPriceWrapper = styled.h4`
   width: fit-content;
   flex-direction: column-reverse;
   justify-content: space-around;
+  justify-content: center;
 `;
 const StockPriceWrapper = styled.div`
   display: flex;
   align-items: center;
-  width: 95%;
-  padding: 8px 11px;
+  width: 98%;
+  padding: 10px 4px;
+  justify-content: flex-start;
 `;
 
 const Stock = styled.p`
@@ -316,7 +306,7 @@ const Description = styled.p`
   font-size: 0.9rem;
   margin-top: -24px;
   line-height: 1.5;
-  padding-right: 30px;
+  padding: 12px 12px 12px 0px;
 `;
 const ReferenceWrapper = styled.div`
   display: flex;
@@ -324,4 +314,5 @@ const ReferenceWrapper = styled.div`
 `;
 const SizeReference = styled.p`
   text-transform: uppercase;
+  text-align: center;
 `;

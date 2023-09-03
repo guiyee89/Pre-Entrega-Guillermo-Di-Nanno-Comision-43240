@@ -19,7 +19,7 @@ export const HeroLanding = () => {
       <StyledCarousel
         activeIndex={index}
         onSelect={handleSelect}
-        interval={6664200}
+        interval={4200}
       >
         <CarouselItem>
           <picture>
@@ -87,6 +87,9 @@ const Wrapper = styled.div`
 `;
 const StyledCarousel = styled(Carousel)`
   @media (max-width: 1100px) {
+    margin: -17px 0 30px;
+  }
+  @media (max-width: 800px) {
     margin: -17px 40px 30px;
   }
   @media (max-width: 500px) {
@@ -111,13 +114,19 @@ const StyledCarousel = styled(Carousel)`
     }
   }
   .carousel-control-prev {
-    left: -9.9%;
+    left: 1.9%;
+    @media (max-width: 800px) {
+      left: -9.9%;
+    }
     @media (max-width: 450px) {
       left: -10.7%;
     }
   }
   .carousel-control-next {
-    right: -9.9%;
+    right: 1.9%;
+    @media (max-width: 800px) {
+      right: -9.9%;
+    }
     @media (max-width: 450px) {
       right: -10.7%;
     }

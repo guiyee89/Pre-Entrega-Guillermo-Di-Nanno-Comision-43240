@@ -230,7 +230,10 @@ const TextWrapper = styled.div`
   line-height: 1.15;
   letter-spacing: 3px;
   @media (max-width: 900px) {
-    bottom: 115px;
+    bottom: 180px;
+  } 
+  @media (max-width:650px){
+    bottom: 115px
   }
 `;
 const Arrows = styled.span`
@@ -264,7 +267,7 @@ const FakeButton = styled.span`
   align-items: center;
   font-weight: 500;
   @media (max-width: 900px) {
-    top: 85%;
+    top: 76%;
   }
   @media (max-width: 650px) {
     top: 77%;
@@ -344,7 +347,7 @@ const TextDiv2 = styled.div`
     padding-top: 10px;
   }
   @media (max-width: 640px) {
-    grid-area: 8 / 6 / auto / 13;
+    grid-area: 8 / 7 / auto / 13;
     padding-top: 15px;
   }
   @media (max-width: 470px) {

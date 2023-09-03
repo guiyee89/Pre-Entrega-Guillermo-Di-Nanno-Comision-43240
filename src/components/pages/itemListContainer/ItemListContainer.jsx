@@ -14,13 +14,11 @@ import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import { DesktopFilter } from "./filters/DesktopFilter";
 import { MobileFilter } from "./filters/MobileFilter";
 
-
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ScrollRestorationWrapper = ({ children }) => {
   useScrollRestoration(); // Apply the scroll restoration hook
   return <>{children}</>; // Render the children content
 };
-
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
@@ -134,6 +132,8 @@ export const ItemListContainer = () => {
       setItemsNotFound(true);
     }
   };
+
+
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //                                    RENDERING                                    //

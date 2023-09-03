@@ -166,6 +166,7 @@ const Logo = styled.img`
 const NavListWrapper = styled.ul`
   display: flex;
   list-style: none;
+  margin-bottom: -21px;
   @media screen and (max-width: 50rem) {
     display: none;
   }

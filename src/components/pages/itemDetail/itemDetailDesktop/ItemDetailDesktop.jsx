@@ -88,15 +88,6 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
                 : selectedItem.subtitle}
             </SubTitle>
 
-            <ColorText>
-              Color:{" "}
-              <ColorSpan>
-                {Object.keys(filteredItem).length > 0
-                  ? filteredItem.color
-                  : selectedItem.color}
-              </ColorSpan>
-            </ColorText>
-
             <FilterWrapper>
               <FilterDetail
                 selectedItem={selectedItem}
@@ -230,20 +221,11 @@ const SubTitle = styled.h2`
   font-size: 1.3rem;
   text-align: center;
 `;
-const ColorText = styled.p`
-  text-transform: capitalize;
-  font-weight: 500;
-`;
-const ColorSpan = styled.span`
-  font-weight: bold;
-`;
 const FilterWrapper = styled.div`
-  height: 150px;
   width: 95%;
   display: flex;
   align-items: center;
 `;
-
 const DiscountPrice = styled.span`
   color: ${(props) => (props.hasDiscount ? "#6c757d;" : "#a83737")};
   font-weight: 600;

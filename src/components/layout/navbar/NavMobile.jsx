@@ -151,7 +151,7 @@ const SideMenuWrapper = styled.div`
   position: fixed;
   top: 0;
   left: ${({ isMenuOpen }) => (isMenuOpen ? "-420px" : "0")};
-  width: ${({ isMenuOpen }) => (isMenuOpen ? "0" : "85%")};
+  width: ${({ isMenuOpen }) => (isMenuOpen ? "0" : "70%")};
   transition: ${({ isMenuOpen }) =>
     isMenuOpen ? "0.3s ease-in-out" : "0.3s ease-in-out"};
   z-index: 2;
