@@ -155,76 +155,96 @@ export const FilterDetail = ({
       <Wrapper>
         {/* Color filter */}
         <ColorContainer>
-          {uniqueColors.map((color) => {
-            const itemsWithCurrentColor = relatedItems.filter(
-              (item) => item.color === color
-            );
+          <ColorText>
+            Color:{" "}
+            <ColorSpan>
+              {Object.keys(filteredItem).length > 0
+                ? filteredItem.color
+                : selectedItem.color}
+            </ColorSpan>
+          </ColorText>
+          <ColorImagesContainer>
+            {uniqueColors.map((color) => {
+              const itemsWithCurrentColor = relatedItems.filter(
+                (item) => item.color === color
+              );
 
-            if (itemsWithCurrentColor.length > 0) {
-              return (
-                <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
-                  <LoadingBar
-                    color="#cf6c2a"
-                    ref={ref}
-                    height={2}
-                    shadow={false}
-                  />
-                  <ColorCheckbox
-                    id={`color-${color}`}
-                    checked={selectedFilters.color === color}
-                    onChange={() => handleColorChange(color)}
-                  />
-                  <ColorImage
-                    src={itemsWithCurrentColor[0].img[0]}
-                    alt={color}
-                  />
-                </ColorCheckboxWrapper>
-              );
-            } else {
-              return (
-                <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
-                  <LoadingBar
-                    color="#cf6c2a"
-                    ref={ref}
-                    height={4}
-                    shadow={true}
-                  />
-                  <ColorCheckbox
-                    id={`color-${color}`}
-                    checked={selectedFilters.color === color}
-                    onChange={() => handleColorChange(color)}
-                  />
-                  {/* Placeholder representation when there are no related items with the current color */}
-                  <ColorRepresentation color={color} />
-                </ColorCheckboxWrapper>
-              );
-            }
-          })}
+              if (itemsWithCurrentColor.length > 0) {
+                return (
+                  <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
+                    <LoadingBar
+                      color="#cf6c2a"
+                      ref={ref}
+                      height={2}
+                      shadow={false}
+                    />
+                    <ColorCheckbox
+                      id={`color-${color}`}
+                      checked={selectedFilters.color === color}
+                      onChange={() => handleColorChange(color)}
+                    />
+                    <ColorImage
+                      src={itemsWithCurrentColor[0].img[0]}
+                      alt={color}
+                    />
+                  </ColorCheckboxWrapper>
+                );
+              } else {
+                return (
+                  <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
+                    <LoadingBar
+                      color="#cf6c2a"
+                      ref={ref}
+                      height={4}
+                      shadow={true}
+                    />
+                    <ColorCheckbox
+                      id={`color-${color}`}
+                      checked={selectedFilters.color === color}
+                      onChange={() => handleColorChange(color)}
+                    />
+                    {/* Placeholder representation when there are no related items with the current color */}
+                    <ColorRepresentation color={color} />
+                  </ColorCheckboxWrapper>
+                );
+              }
+            })}
+          </ColorImagesContainer>
         </ColorContainer>
 
         {/* Size filter */}
         <SizeContainer>
-          {renderSizes().map((size) => {
-            const isSizeAvailable =
-              !selectedFilters.color || availableSizesForColor.includes(size);
-            return (
-              <SizeCheckboxWrapper key={size}>
-                <SizeCheckbox
-                  id={`size-${size}`}
-                  checked={selectedFilters.size === size}
-                  onChange={() => handleSizeChange(size)}
-                  disabled={!isSizeAvailable}
-                />
-                <SizeCheckboxLabel
-                  htmlFor={`size-${size}`}
-                  checked={SizeCheckboxLabel && "white"}
-                  isSizeAvailable={isSizeAvailable}
-                >
-                  {size}
-                </SizeCheckboxLabel>
-              </SizeCheckboxWrapper>
-            );
-          })}
+          <SizeText>
+            Size:{" "}
+            <SizeSpan>
+              {Object.keys(filteredItem).length > 0
+                ? filteredItem.size
+                : selectedItem.size}
+            </SizeSpan>
+          </SizeText>
+          <SizeImagesContainer>
+            {renderSizes().map((size) => {
+              const isSizeAvailable =
+                !selectedFilters.color || availableSizesForColor.includes(size);
+              return (
+                <SizeCheckboxWrapper key={size}>
+                  <SizeCheckbox
+                    id={`size-${size}`}
+                    checked={selectedFilters.size === size}
+                    onChange={() => handleSizeChange(size)}
+                    disabled={!isSizeAvailable}
+                  />
+                  <SizeCheckboxLabel
+                    htmlFor={`size-${size}`}
+                    checked={SizeCheckboxLabel && "white"}
+                    isSizeAvailable={isSizeAvailable}
+                  >
+                    {size}
+                  </SizeCheckboxLabel>
+                </SizeCheckboxWrapper>
+              );
+            })}
+          </SizeImagesContainer>
         </SizeContainer>
       </Wrapper>
     </>
@@ -554,14 +574,34 @@ export const FilterDetail = ({
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  @media (max-width: 950px) {
+    align-items: flex-start;
+    width: 100%;
+  }
 `;
 
 const ColorContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
   margin-bottom: 16px;
+  width: 100%;
+  gap: 0.4rem;
+  @media (max-width: 950px) {
+    justify-content: center;
+    gap: 0.2rem;
+  }
 `;
-
+const ColorImagesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+const SizeImagesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
 const ColorCheckboxWrapper = styled.label`
   display: flex;
   align-items: center;
@@ -595,7 +635,29 @@ const ColorRepresentation = styled.div``;
 
 const SizeContainer = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 0.4rem;
+  @media (max-width: 950px) {
+    gap: 0.2rem
+  }
+`;
+const ColorText = styled.p`
+  text-transform: capitalize;
+  font-weight: 500;
+`;
+const ColorSpan = styled.span`
+  font-weight: bold;
+`;
+
+const SizeText = styled.p`
+  text-transform: capitalize;
+  font-weight: 500;
+`;
+const SizeSpan = styled.span`
+  font-weight: bold;
+  text-transform: uppercase;
 `;
 
 const SizeCheckboxWrapper = styled.div`

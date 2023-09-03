@@ -32,6 +32,9 @@ const Wrapper = styled.div`
   gap: 1.2rem;
   align-items: flex-start;
   height: 70px;
+  @media (max-width:950px){
+    justify-content: center;
+  }
 `;
 
 const CountButton = styled.button`

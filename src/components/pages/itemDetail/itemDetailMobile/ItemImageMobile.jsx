@@ -67,21 +67,23 @@ export const ItemImageMobile = ({
 
 const Wrapper = styled.div`
   display: flex;
-  width: 95%;
-  @media (max-width:550px){
-    flex-direction: column-reverse;
-    margin-bottom: 28px;
+  width: 100%;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  @media (max-width: 550px) {
+    margin-bottom: 10px;
+    width: 95%;
   }
 `;
 const ImgAsideWrapper = styled.aside`
   width: 18.8%;
   height: 18.8%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: flex-start;
   gap: 1rem;
   margin-top: 1.5px;
   @media (max-width: 550px) {
-    flex-direction: row;
     margin-top: 7.5px;
   }
 `;

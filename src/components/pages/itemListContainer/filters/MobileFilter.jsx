@@ -244,10 +244,14 @@ export const MobileFilter = ({
     }
   }, []);
 
-  // Update localStorage when the detailsFilters state changes
-  useEffect(() => {
-    localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
+   // Update localStorage when the detailsFilters state changes
+   useEffect(() => {
+    // Check if detailsFilters object has at least one property set
+    if (Object.values(detailsFilters).some(value => value !== '')) {
+      localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
+    }
   }, [detailsFilters]);
+  
 
   //////////           ////////////           ////////////           ///////////           ///////////
   return (
@@ -278,6 +282,7 @@ export const MobileFilter = ({
                   color: "",
                   orderBy: "",
                 }));
+                localStorage.removeItem("selectedFilters");
               }, 1500);
               handleLoadDetail();
             }}
@@ -321,7 +326,14 @@ export const MobileFilter = ({
                     <OrderByBtn
                       active={detailsFilters.orderBy === ""}
                       onClick={() => {
-                        handleDetailsFilterChange("orderBy", "");
+                        setTimeout(() => {
+                          setDetailsFilters((prevFilters) => ({
+                            ...prevFilters,
+                            orderBy: "",
+                          }));
+                          localStorage.removeItem("selectedFilters");
+                        }, 1500);
+                        handleLoadDetail();
                       }}
                     >
                       No order
@@ -388,6 +400,7 @@ export const MobileFilter = ({
                     ...prevFilters,
                     category: "",
                   }));
+                  localStorage.removeItem("selectedFilters");
                 }, 1500);
                 handleLoadDetail();
               }}
@@ -464,6 +477,7 @@ export const MobileFilter = ({
                     ...prevFilters,
                     size: "",
                   }));
+                  localStorage.removeItem("selectedFilters");
                 }, 1500);
                 handleLoadDetail();
               }}
@@ -554,6 +568,7 @@ export const MobileFilter = ({
                     ...prevFilters,
                     color: "",
                   }));
+                  localStorage.removeItem("selectedFilters");
                 }, 1500);
                 handleLoadDetail();
               }}
