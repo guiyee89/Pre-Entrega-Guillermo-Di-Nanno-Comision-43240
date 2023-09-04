@@ -148,15 +148,16 @@ export const ItemDetailMobile = ({ selectedItem }) => {
               )}
             </ItemCountWrapper>
 
+            <ReferenceWrapper>
+              <SizeReference>Reference Size Model</SizeReference>
+            </ReferenceWrapper>
+            
             <Description>
               {Object.keys(filteredItem).length > 0
                 ? filteredItem.description
                 : selectedItem.description}
             </Description>
 
-            <ReferenceWrapper>
-              <SizeReference>Reference Size Model</SizeReference>
-            </ReferenceWrapper>
           </InsideWrapper>
         </>
       ) : (
@@ -215,7 +216,7 @@ const Discount = styled.h4`
 const InsideWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 98%;
+  width: 95%;
   gap: 0.3rem;
   align-items: flex-start;
   padding: 0px 65px 0px 0px;
@@ -306,7 +307,7 @@ const Description = styled.p`
   font-size: 0.9rem;
   margin-top: -24px;
   line-height: 1.5;
-  padding: 12px 12px 12px 0px;
+  padding: 31px 12px 12px 0px;
 `;
 const ReferenceWrapper = styled.div`
   display: flex;

@@ -229,6 +229,7 @@ const ItemQuantity = styled.h4`
 `;
 const ItemTitle = styled.h2`
   padding-bottom: 2px;
+  font-size: clamp(0.6rem, 3.1vw + 1px, 1rem);
 `;
 const BtnQuantity = styled.button`
   width: 32px;
