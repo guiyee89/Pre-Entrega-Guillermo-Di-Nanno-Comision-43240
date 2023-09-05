@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import { CartDesktop } from "./CartDesktop";
 import { CartMobile } from "./CartMobile";
-
+import { CartContext } from "../../context/CartContext";
 
 //Swal Sweet Alert Message - NO AVAILABLE STOCK
 const missingItemMessage = (missingItems) => {
@@ -22,15 +22,13 @@ const missingItemMessage = (missingItems) => {
   return message;
 };
 
-
 export const CartContainer = () => {
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
   const { windowWidth } = useContext(GlobalToolsContext);
-
+  const { cart } = useContext(CartContext);
   const navigate = useNavigate();
 
   const realizarCompra = async () => {
@@ -77,4 +75,3 @@ export const CartContainer = () => {
     </>
   );
 };
-

@@ -3,7 +3,7 @@ import { CartContext } from "../../context/CartContext";
 import { useContext, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export const CartDesktop = ( {realizarCompra} ) => {
+export const CartDesktop = ({ realizarCompra }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
@@ -146,15 +146,14 @@ export const CartDesktop = ( {realizarCompra} ) => {
   );
 };
 
-
 const Wrapper = styled.div`
   display: flex;
   margin: 0 10px;
   @media (max-width: 1100px) {
     flex-direction: column;
-    width: 85%; 
+    width: 85%;
   }
-  @media (max-width:800px){
+  @media (max-width: 800px) {
     width: 100%;
   }
 `;
@@ -190,7 +189,6 @@ const CartTable = styled.table`
     text-align: center;
     font-weight: 600;
   }
-
 `;
 const ProductHead = styled.th`
   width: 190px;
@@ -224,11 +222,9 @@ const Quantity = styled.td`
 `;
 const TotalPricePerItemHead = styled.th`
   width: 90px;
-
 `;
 const TotalPricePerItem = styled.td`
   width: 90px;
-
 `;
 const DeleteHead = styled.th`
   width: 50px;
@@ -253,6 +249,7 @@ const ItemImg = styled.img`
   width: 80%;
   display: initial;
   object-fit: contain;
+  border: 1px solid lightgray;
 `;
 const ItemQuantity = styled.h4`
   font-weight: 600;
@@ -372,6 +369,7 @@ const DetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: min-content;
 `;
 
 const Color = styled.p`
@@ -381,12 +379,11 @@ const Size = styled.p`
   font-size: 0.8rem;
 `;
 const Span = styled.span`
-  font-weight: 500;
+  font-weight: 600;
   text-transform: capitalize;
 `;
 const Span2 = styled.span`
-  font-weight: 500;
-  width: 100%;
+  font-weight: 600;
   text-transform: uppercase;
   text-align: center;
 `;
