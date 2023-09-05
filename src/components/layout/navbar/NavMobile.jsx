@@ -123,7 +123,7 @@ export const NavMobile = () => {
 
           <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
             <LogoLink to="/">
-              <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
+              <Logo scrolled={scroll} src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
             </LogoLink>
           </LogoDiv>
 
@@ -214,7 +214,8 @@ const LogoLink = styled(Link)`
 `;
 const Logo = styled.img`
   width: 51%;
-  margin-left: 17.3px;
+  margin-left: ${(props) => (props.scrolled === "scrolled" ? "10.9px" : "20.3px")};
+  transition: margin-left 0.2s ease-in-out; 
 `;
 const LogoSideMenu = styled.div`
   width: 100%;

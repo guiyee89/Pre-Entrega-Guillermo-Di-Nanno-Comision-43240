@@ -68,7 +68,7 @@ export const LandingPage = () => {
                     <br />
                     <MidSpan>from</MidSpan>
                     <br />
-                    $70
+                    <PriceSpan>$70</PriceSpan>
                   </MidImgText>
                 </TextWrapper>
                 <FakeButton>Buy</FakeButton>
@@ -89,7 +89,7 @@ export const LandingPage = () => {
                     <br />
                     <MidSpan>from</MidSpan>
                     <br />
-                    $80
+                    <PriceSpan>$80</PriceSpan>
                   </MidImgText>
                 </TextWrapper>
                 <FakeButton>Buy</FakeButton>
@@ -275,13 +275,14 @@ const FakeButton = styled.span`
     top: 77%;
   }
 `;
-
 const MidSpan = styled.span`
   text-transform: lowercase;
   font-size: 1.2rem;
   line-height: 2;
   font-family: "Playfair Display", serif;
 `;
+const PriceSpan = styled.span`
+`
 const ShoesImg = styled.img`
   object-fit: contain;
   overflow: hidden;
@@ -335,7 +336,8 @@ const TextDiv1 = styled.div`
     grid-area: 6 / 2 / 3 / 12;
   }
   @media (max-width: 470px) {
-    grid-area: 6 / 1 / 3 / 12;
+    grid-area: 6 / 2 / 3 / 12;
+    padding: 0;
   }
 `;
 const TextDiv2 = styled.div`
@@ -382,6 +384,10 @@ const FakeButtonStreched = styled.span`
     font-size: 0.8rem;
     width: 134px;
     background-color: rgb(208, 205, 205);
+  }
+  @media (max-width:410px){
+    bottom: 14.7%;
+    right: 57.3%;
   }
 `;
 

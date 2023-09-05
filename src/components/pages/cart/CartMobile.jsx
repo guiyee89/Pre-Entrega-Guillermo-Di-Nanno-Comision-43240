@@ -263,7 +263,7 @@ const CartInfo = styled.div`
   align-items: center;
   gap: 1.5rem;
   margin-left: 20px;
-  padding: 24px 0;
+  padding: 24px 0 44px;
   background-color: #efeded;
   @media (max-width: 1100px) {
     width: 100%;

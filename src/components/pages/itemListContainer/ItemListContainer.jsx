@@ -262,7 +262,7 @@ const ItemListWrapper = styled.div`
   margin-top: -3px;
   @media (max-width: 900px) {
     grid-column: 1/13;
-    margin: 0 15px;
+    margin: 0 auto;
   }
   @media (max-width: 650px) {
     margin: 0;
