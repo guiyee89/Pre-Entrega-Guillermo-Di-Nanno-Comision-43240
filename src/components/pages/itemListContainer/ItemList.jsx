@@ -57,8 +57,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage, details
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
-  /* const itemsPerPage = Math.max(1, windowWidth < 991 ? 18 : 24); *///Render 18 items per page on 991px screen width
-  const itemsPerPage = 18
+  const itemsPerPage = Math.max(1, windowWidth < 991 ? 18 : 24); //Render 18 items per page on 991px screen width
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = items.slice(startIndex, endIndex);
@@ -78,13 +77,6 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage, details
     // localStorage.removeItem("currentPage");
   }, []);
 
-  //set selectedFilters to previous filters when navigating to ItemDetail
-  // useEffect(() => {
-  //   const storedDetails = localStorage.getItem("selectedFilters");
-  //   if (storedDetails) {
-  //     setDetailsFilters(parseInt(storedDetails));
-  //   }
-  // }, []);
 
   const [productsQuantity, setProductsQuantity] = useState();
   const showProductsQuantity = () => {
