@@ -414,7 +414,7 @@ const FilterContainer = styled.div`
     display: flex;
     width: 100%;
     position: sticky;
-    margin: 0 auto 6px;
+    margin: 0px auto 6px 5px;
     border-bottom: 1px solid lightgray;
     top: 56px;
     align-items: center;
