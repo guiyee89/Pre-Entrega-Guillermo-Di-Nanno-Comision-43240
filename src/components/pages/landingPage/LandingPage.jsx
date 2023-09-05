@@ -340,7 +340,6 @@ const TextDiv1 = styled.div`
 `;
 const TextDiv2 = styled.div`
   padding-left: 16px;
-  transition: transform 0.29s ease-in-out 0.1s;
   grid-column: 9/13;
   grid-row: 3/7;
   @media (max-width: 900px) {
@@ -356,6 +355,36 @@ const TextDiv2 = styled.div`
     grid-area: 8 / 6 / auto / 13;
   }
 `;
+const FakeButtonStreched = styled.span`
+  width: 190px;
+  height: 32px;
+  bottom: 10.2%;
+  right: 12.8%;
+  position: absolute;
+  border-radius: 1px;
+  background-color: rgb(244 240 240);
+  background-color: rgb(244, 240, 240); /* Initial background color */
+  transition: transform 0.4s ease-in-out 0.1s, background-color 0.4s ease-in-out; /* Removed delay on background-color transition */
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  @media (max-width: 900px) {
+    bottom: 4.2%;
+    right: 36.8%;
+  }
+  @media (max-width: 640px) {
+    bottom: 15.7%;
+    right: 60%;
+    font-size: 0.8rem;
+    width: 134px;
+    background-color: rgb(208, 205, 205);
+  }
+`;
+
 const StrechedArticle = styled.article`
   cursor: pointer;
   overflow: hidden;
@@ -369,8 +398,12 @@ const StrechedArticle = styled.article`
   &:hover ${ShoesImg} {
     transform: scale(1.08);
   }
-  &:hover ${TextDiv} {
+  &:hover ${TextDiv1} {
     transform: scale(1.08);
+  }
+  &:hover ${FakeButtonStreched} {
+    transform: scale(1.08) ;
+    background-color: rgb(208, 205, 205)
   }
   @media (max-width: 900px) {
     height: 450px;
@@ -422,32 +455,5 @@ const TextSub2 = styled.p`
   }
   @media (max-width: 900px) {
     margin-top: 13px;
-  }
-`;
-const FakeButtonStreched = styled.span`
-  width: 190px;
-  height: 32px;
-  bottom: 10.2%;
-  right: 12.8%;
-  position: absolute;
-  border-radius: 1px;
-  background-color: rgb(244 240 240);
-  display: flex;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  align-items: center;
-  font-weight: 600;
-  text-transform: uppercase;
-  @media (max-width: 900px) {
-    bottom: 4.2%;
-    right: 36.8%;
-  }
-  @media (max-width: 640px) {
-    bottom: 15.7%;
-    right: 60%;
-    font-size: 0.8rem;
-    width: 134px;
-    background-color: rgb(208, 205, 205);
   }
 `;

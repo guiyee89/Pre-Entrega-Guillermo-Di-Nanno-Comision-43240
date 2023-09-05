@@ -43,10 +43,10 @@ export const CartMobile = ({ realizarCompra }) => {
                     <ProductInfo>
                       <DetailsWrapper>
                         <Color>
-                          <Span>Color: {product.color}</Span>
+                          Color: <Span>{product.color}</Span>
                         </Color>
                         <Size>
-                          <Span2>Size: {product.size}</Span2>
+                          Size: <Span2>{product.size}</Span2>
                         </Size>
                       </DetailsWrapper>
 
@@ -144,6 +144,7 @@ const CartTable = styled.table`
   tr {
     border: 1px solid rgb(221, 221, 221);
     display: flex;
+    height: 135px;
     -webkit-box-align: stretch;
     align-items: center;
     -webkit-box-pack: justify;
@@ -151,13 +152,16 @@ const CartTable = styled.table`
     @media (max-width: 768px) {
       align-items: center;
     }
+    @media (max-width: 680px) {
+      justify-content: space-around;
+    }
   }
   td {
     padding: 8px;
     flex: 1 1 1 0%;
     font-weight: 500;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
   }
   th {
     background-color: #f2f2f2;
@@ -175,34 +179,47 @@ const Product = styled.td`
   align-items: center;
 `;
 
-const PricePerItem = styled.td`
+const PricePerItem = styled.div`
   width: 130px;
   min-width: 90px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 `;
 
 const QuantityDeleteContainer = styled.td`
   width: 120px;
+  height: 135px;
   min-width: 100px;
   display: flex;
   flex-direction: column;
 `;
-const Delete = styled.td`
+
+const Delete = styled.div`
   width: 50px;
+  margin: 0px auto;
+  text-align: center;
 `;
 const ImageInfoContainer = styled.div`
   display: flex;
+  justify-content: space-around;
 `;
 const ItemTitle = styled.div`
   width: 100%;
   padding: 0 0 5px 6px;
+  font-weight: 600;
 `;
 const ProductInfo = styled.div`
   width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
+  margin-left: 20px;
+  margin-right: -40px;
+  @media (max-width: 500px) {
+    margin-left: 10px;
+    margin-right: -20px;
+  }
 `;
 const QuantityWrapper = styled.div`
   display: flex;
@@ -214,12 +231,14 @@ const QuantityWrapper = styled.div`
   justify-content: space-between;
 `;
 const ImgWrapper = styled.div`
-  width: 25%;
+  width: 35%;
+  height: 100%;
 `;
 const ItemImg = styled.img`
   width: 100%;
   display: initial;
   object-fit: contain;
+  border: 1px solid lightgray;
 `;
 const ItemQuantity = styled.h4`
   font-weight: 600;
@@ -273,12 +292,14 @@ const DiscountPrice = styled.span`
   position: relative;
   display: inline-block;
   text-align: center;
+  margin-left: -8px;
 `;
 const Price = styled.span`
   font-weight: 600;
   font-size: ${(props) => (props.hasDiscount ? "0.8rem" : "1rem")};
   font-style: italic;
   position: relative;
+  margin-left: -8px;
   color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
   /* Add the following styles to create the strike-through line if hasDiscount is true */
   &::after {
@@ -308,6 +329,15 @@ const TotalPriceInfo = styled.div`
   @media (max-width: 1100px) {
     padding: 20px 100px 15px;
   }
+  @media (max-width: 700px) {
+    padding: 20px 70px 15px;
+  }
+  @media (max-width: 530px) {
+    padding: 20px 40px 15px;
+  }
+  @media (max-width: 430px) {
+    padding: 20px 20px 15px;
+  }
 `;
 const TotalWrapper = styled.div`
   font-weight: 600;
@@ -335,10 +365,14 @@ const TotalDiscount = styled.h3`
   font-weight: 500;
   padding-left: 24px;
 `;
+
 const DetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: max-content;
+  margin-top: -9px;
+  margin-bottom: 5px;
   padding: 4px 0 0px 8px;
 `;
 
@@ -349,14 +383,15 @@ const Size = styled.p`
   font-size: 0.8rem;
 `;
 const Span = styled.span`
-  font-weight: 500;
+  font-weight: 600;
   text-transform: capitalize;
 `;
 const Span2 = styled.span`
-  font-weight: 500;
+  font-weight: 600;
   width: 100%;
   text-transform: uppercase;
   text-align: center;
+  padding-left: 9px;
 `;
 const SubTotal = styled.h3`
   font-weight: 500;
