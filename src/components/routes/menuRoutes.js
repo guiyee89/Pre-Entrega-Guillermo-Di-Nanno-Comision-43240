@@ -1,7 +1,6 @@
 import { LoginContainer } from "../dashboard/authentication/login/LoginContainer";
 import { SignUpContainer } from "../dashboard/authentication/signup/SignUpContainer";
 import { CartContainer } from "../pages/cart/CartContainer";
-import { SideCart } from "../pages/cart/SideCart";
 import { CheckoutContainer } from "../pages/checkout/CheckoutContainer";
 import { ItemDetailContainer } from "../pages/itemDetail/ItemDetailContainer";
 import { ItemListContainer } from "../pages/itemListContainer/ItemListContainer";

@@ -189,7 +189,7 @@ const Wrapper = styled.div`
 const Discount = styled.h4`
   position: absolute;
   display: flex;
-  top: 86px;
+  top: 105px;
   right: 84.6%;
   width: 60px;
   height: 60px;
@@ -204,7 +204,7 @@ const Discount = styled.h4`
   align-items: center;
   justify-content: center;
   @media (max-width: 550px) {
-    right: 81.6%;
+    right: 82.6%;
   }
   @media (max-width: 450px) {
     width: 50px;
@@ -220,6 +220,9 @@ const InsideWrapper = styled.div`
   gap: 0.3rem;
   align-items: flex-start;
   padding: 0px 65px 0px 0px;
+  @media (max-width:500px){
+    padding: 0;
+  }
 `;
 const Title = styled.h1`
   font-size: 2.4rem;
@@ -229,10 +232,8 @@ const Title = styled.h1`
 const SubTitle = styled.h2`
   font-size: 1.3rem;
   text-align: center;
-  @media (max-width: 550px) {
-    margin-left: 0;
-    margin-top: -15px;
-  }
+  margin: 0 0 8px;
+
 `;
 
 const FilterWrapper = styled.div`

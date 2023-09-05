@@ -231,9 +231,9 @@ const TextWrapper = styled.div`
   letter-spacing: 3px;
   @media (max-width: 900px) {
     bottom: 180px;
-  } 
-  @media (max-width:650px){
-    bottom: 115px
+  }
+  @media (max-width: 650px) {
+    bottom: 115px;
   }
 `;
 const Arrows = styled.span`
@@ -259,13 +259,15 @@ const FakeButton = styled.span`
   height: 32px;
   top: 74%;
   position: absolute;
-  border-radius: 3px;
+  border-radius: 1px;
   background-color: #acabab;
   display: flex;
   justify-content: center;
   -webkit-box-align: center;
   align-items: center;
-  font-weight: 500;
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: uppercase;
   @media (max-width: 900px) {
     top: 76%;
   }
@@ -395,6 +397,7 @@ const LinkStreched = styled(Link)`
 `;
 const TextTitle = styled.h3`
   font-size: clamp(1.5rem, 1.1vw + 1.3rem, 3.8rem);
+  font-family: "Playfair Display", serif;
 `;
 const TextPromo = styled.h3`
   font-size: clamp(2.9rem, 4vw + 1rem, 5.3rem);
@@ -406,12 +409,14 @@ const TextPromo = styled.h3`
 `;
 const TextSub = styled.h3`
   font-size: clamp(1rem, 1.3vw + 1rem, 1.7rem);
+  font-family: "Playfair Display", serif;
   @media (max-width: 900px) {
     margin-top: -5px;
   }
 `;
 const TextSub2 = styled.p`
   font-size: clamp(0.8rem, 1vw + 0.4rem, 1.15rem);
+  font-family: "Playfair Display", serif;
   @media (max-width: 600px) {
     margin-top: 4px;
   }
@@ -425,14 +430,15 @@ const FakeButtonStreched = styled.span`
   bottom: 10.2%;
   right: 12.8%;
   position: absolute;
-  border-radius: 3px;
+  border-radius: 1px;
   background-color: rgb(244 240 240);
   display: flex;
   -webkit-box-pack: center;
   justify-content: center;
   -webkit-box-align: center;
   align-items: center;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
   @media (max-width: 900px) {
     bottom: 4.2%;
     right: 36.8%;
@@ -440,6 +446,7 @@ const FakeButtonStreched = styled.span`
   @media (max-width: 640px) {
     bottom: 15.7%;
     right: 60%;
+    font-size: 0.8rem;
     width: 134px;
     background-color: rgb(208, 205, 205);
   }

@@ -216,10 +216,12 @@ const BannerSub = styled.p`
 const FakeButton = styled.span`
   width: 142px;
   height: 32px;
-  border-radius: 3px;
+  border-radius: 1px;
   background-color: lightgray;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
 `;
