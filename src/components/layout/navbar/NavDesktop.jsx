@@ -1,16 +1,16 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
+import { menuRoutes } from "../../routes/menuRoutes";
 
 export const NavDesktop = () => {
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
   const totalItems = getTotalItems();
-  
 
   //////////        ////////////        ////////////        ///////////
   //                       Scroll Effect                      //
@@ -38,66 +38,81 @@ export const NavDesktop = () => {
     localStorage.removeItem("currentPage");
   };
 
+  //Find "Home" and "ItemDetail" locations
+  const location = useLocation();
+  const currentRoute = menuRoutes.find(
+    (route) => route.path === location.pathname
+  );
+  const isCart = currentRoute?.id === "cart";
+
   return (
     <>
       <HeaderWrapper>
         <Nav scrolled={scroll}>
-          <InsideNav>
+          <InsideNav isCart={isCart}>
             <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
               <LogoLink to="/">
                 <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
               </LogoLink>
             </LogoDiv>
 
-            <NavListWrapper>
-              <NavList>
-                <NavLink to="/" scrolled={scroll} onClick={handleNavLinkClick}>
-                  home
-                </NavLink>
-              </NavList>
-              <NavList>
-                <NavLink
-                  to="/all-products"
-                  scrolled={scroll}
-                  onClick={handleNavLinkClick}
-                >
-                  products
-                </NavLink>
-              </NavList>
-              <NavList>
-                <NavLink
-                  to="/category/shoes"
-                  scrolled={scroll}
-                  onClick={handleNavLinkClick}
-                >
-                  shoes
-                </NavLink>
-              </NavList>
-              <NavList>
-                <NavLink
-                  to="/category/pants"
-                  scrolled={scroll}
-                  onClick={handleNavLinkClick}
-                >
-                  pants
-                </NavLink>
-              </NavList>
-              <NavList>
-                <NavLink
-                  to="/category/shirts"
-                  scrolled={scroll}
-                  onClick={handleNavLinkClick}
-                >
-                  shirts
-                </NavLink>
-              </NavList>
-            </NavListWrapper>
+            {!isCart && (
+              <>
+                <NavListWrapper>
+                  <NavList>
+                    <NavLink
+                      to="/"
+                      scrolled={scroll}
+                      onClick={handleNavLinkClick}
+                    >
+                      home
+                    </NavLink>
+                  </NavList>
+                  <NavList>
+                    <NavLink
+                      to="/all-products"
+                      scrolled={scroll}
+                      onClick={handleNavLinkClick}
+                    >
+                      products
+                    </NavLink>
+                  </NavList>
+                  <NavList>
+                    <NavLink
+                      to="/category/shoes"
+                      scrolled={scroll}
+                      onClick={handleNavLinkClick}
+                    >
+                      shoes
+                    </NavLink>
+                  </NavList>
+                  <NavList>
+                    <NavLink
+                      to="/category/pants"
+                      scrolled={scroll}
+                      onClick={handleNavLinkClick}
+                    >
+                      pants
+                    </NavLink>
+                  </NavList>
+                  <NavList>
+                    <NavLink
+                      to="/category/shirts"
+                      scrolled={scroll}
+                      onClick={handleNavLinkClick}
+                    >
+                      shirts
+                    </NavLink>
+                  </NavList>
+                </NavListWrapper>
 
-            <CartWidget
-              scrolled={scroll}
-              sx={{ padding: "10px" }}
-              totalItems={totalItems}
-            />
+                <CartWidget
+                  scrolled={scroll}
+                  sx={{ padding: "10px" }}
+                  totalItems={totalItems}
+                />
+              </>
+            )}
           </InsideNav>
         </Nav>
       </HeaderWrapper>
@@ -135,7 +150,7 @@ const InsideNav = styled.div`
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: justify;
-  justify-content: space-between;
+  justify-content: ${({ isCart }) => (isCart ? "center" : "space-between")};
   @media screen and (max-width: 50rem) {
     padding: 0;
     justify-content: flex-end;
@@ -146,11 +161,10 @@ const LogoDiv = styled.div`
   transition: width
     ${(props) => (props.scrolled === "scrolled" ? "0.20s" : "0.16s")}
     ease-in-out;
-    @media screen and (max-width: 50rem) {
+  @media screen and (max-width: 50rem) {
     position: absolute;
     left: 42%;
   }
-  
 `;
 const LogoLink = styled(Link)`
   text-decoration: none;
@@ -160,7 +174,6 @@ const Logo = styled.img`
   margin-left: 12px;
   @media screen and (max-width: 50rem) {
     width: 50%;
-
   }
 `;
 const NavListWrapper = styled.ul`
@@ -181,7 +194,9 @@ const NavLink = styled(Link)`
   text-transform: uppercase;
   position: relative;
   font-size: ${(props) =>
-    props.scrolled === "scrolled" ? ".68rem" : "clamp(0.62rem, 2vw + 1px, 0.72rem);"};
+    props.scrolled === "scrolled"
+      ? ".68rem"
+      : "clamp(0.62rem, 2vw + 1px, 0.72rem);"};
   background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
   background-repeat: no-repeat;
   background-size: 0% 100%;

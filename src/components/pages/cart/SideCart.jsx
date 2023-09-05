@@ -219,6 +219,7 @@ const ItemImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
+  border: 1px solid lightgrey;
   @media (max-width: 500px) {
     width: 95px;
   }

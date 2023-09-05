@@ -1,12 +1,13 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import CloseIcon from "@mui/icons-material/Close";
+import { menuRoutes } from "../../routes/menuRoutes";
 
 export const NavMobile = () => {
   //////////        ////////////        ////////////        ///////////
@@ -15,7 +16,8 @@ export const NavMobile = () => {
   const totalItems = getTotalItems();
   //////////        ////////////        ////////////        ///////////
   //                       SideMenuContext                      //
-  const { isMenuOpen, toggleSideMenu, isFilterOpen } = useContext(GlobalToolsContext);
+  const { isMenuOpen, toggleSideMenu, isFilterOpen } =
+    useContext(GlobalToolsContext);
 
   //////////        ////////////        ////////////        ///////////
   //                       Scroll Effect                      //
@@ -47,14 +49,23 @@ export const NavMobile = () => {
     }
   };
 
+  //Find "Home" and "ItemDetail" locations
+  const location = useLocation();
+  const currentRoute = menuRoutes.find(
+    (route) => route.path === location.pathname
+  );
+  const isCart = currentRoute?.id === "cart";
+
   return (
     <>
       <Nav scrolled={scroll} isFilterOpen={isFilterOpen}>
-        <InsideNav>
-          <MenuIcon
-            onClick={toggleSideMenu}
-            sx={{ fontSize: "40px", marginLeft: "24px", marginTop: "8px" }}
-          />
+        <InsideNav isCart={isCart}>
+          {!isCart && (
+            <MenuIcon
+              onClick={toggleSideMenu}
+              sx={{ fontSize: "40px", marginLeft: "24px", marginTop: "8px" }}
+            />
+          )}
           <TransparentDiv
             isMenuOpen={isMenuOpen}
             onClick={isMenuOpen ? null : toggleSideMenu}
@@ -123,15 +134,19 @@ export const NavMobile = () => {
 
           <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
             <LogoLink to="/">
-              <Logo scrolled={scroll} src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
+              <Logo
+                scrolled={scroll}
+                src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"
+              ></Logo>
             </LogoLink>
           </LogoDiv>
-
-          <CartWidget
-            scrolled={scroll}
-            sx={{ padding: "10px" }}
-            totalItems={totalItems}
-          />
+          {!isCart && (
+            <CartWidget
+              scrolled={scroll}
+              sx={{ padding: "10px" }}
+              totalItems={totalItems}
+            />
+          )}
         </InsideNav>
       </Nav>
     </>
@@ -198,7 +213,7 @@ const InsideNav = styled.div`
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: justify;
-  justify-content: space-between;
+  justify-content: ${({ isCart }) => (isCart ? "center" : "space-between")};
   @media screen and (max-width: 500px) {
     padding: 0;
   }
@@ -214,8 +229,9 @@ const LogoLink = styled(Link)`
 `;
 const Logo = styled.img`
   width: 51%;
-  margin-left: ${(props) => (props.scrolled === "scrolled" ? "10.9px" : "20.3px")};
-  transition: margin-left 0.2s ease-in-out; 
+  margin-left: ${(props) =>
+    props.scrolled === "scrolled" ? "10.9px" : "20.3px"};
+  transition: margin-left 0.2s ease-in-out;
 `;
 const LogoSideMenu = styled.div`
   width: 100%;

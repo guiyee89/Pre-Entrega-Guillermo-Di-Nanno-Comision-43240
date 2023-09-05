@@ -52,13 +52,6 @@ export const Layout = () => {
   const isHome = currentRoute?.id === "home";
   /* const isItemDetail = useMatch("/item-details/:id"); */
 
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     setLoading(false);
-  //   }, 1400);
-
-  //   return () => clearTimeout(timeout);
-  // }, []);
   return (
     <>
       <Wrapper
