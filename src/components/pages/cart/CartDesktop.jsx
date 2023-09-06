@@ -240,6 +240,7 @@ const QuantityWrapper = styled.div`
   display: flex;
   border: 1px solid rgb(194, 191, 191);
   border-radius: 5%;
+  width: 90px;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: justify;

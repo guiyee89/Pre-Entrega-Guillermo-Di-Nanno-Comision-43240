@@ -188,7 +188,8 @@ const PricePerItem = styled.div`
 
 const QuantityDeleteContainer = styled.td`
   width: 120px;
-  height: 135px;
+  height: 120px;
+  margin-top: 20px;
   min-width: 100px;
   display: flex;
   flex-direction: column;
@@ -205,7 +206,7 @@ const ImageInfoContainer = styled.div`
 `;
 const ItemTitle = styled.div`
   width: 100%;
-  padding: 0 0 5px 6px;
+  padding: 0 0 7px 6px;
   font-weight: 600;
 `;
 const ProductInfo = styled.div`
@@ -225,6 +226,7 @@ const QuantityWrapper = styled.div`
   display: flex;
   border: 1px solid rgb(194, 191, 191);
   border-radius: 5%;
+  width: 90px;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: justify;
@@ -288,6 +290,7 @@ const DiscountPrice = styled.span`
   color: #a83737;
   font-weight: 600;
   font-size: 1rem;
+  width: max-content;
   font-style: italic;
   position: relative;
   display: inline-block;
@@ -299,6 +302,7 @@ const Price = styled.span`
   font-size: ${(props) => (props.hasDiscount ? "0.8rem" : "1rem")};
   font-style: italic;
   position: relative;
+  width: max-content;
   margin-left: -8px;
   color: ${(props) => (props.hasDiscount ? "rgb(149 146 146)" : "#a83737")};
   /* Add the following styles to create the strike-through line if hasDiscount is true */
