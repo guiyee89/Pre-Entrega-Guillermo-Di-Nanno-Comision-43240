@@ -14,7 +14,7 @@ const missingItemMessage = (missingItems) => {
 
   missingItems.forEach((item) => {
     message += `<li style='display: flex; align-items: center; margin-bottom: 10px;'>
-                  <img src="${item.img}" alt="${item.title}" style='width: 100px; height: 100px; object-fit:contain; padding-right: 20px' />
+                  <img src="${item.img[0]}" alt="${item.title}" style='width: 100px; height: 100px; object-fit:contain; padding-right: 20px' />
                   <span style='font-weight: bold; color: black; padding-right: 20px'>${item.title}</span style ='color: black'> - <span> No stock </span>
                 </li>`;
   });
