@@ -445,7 +445,7 @@ export const MobileFilter = ({
           </Accordion>
 
           {/****************      SIZE FILTER       ****************/}
-          <Accordion >
+          <Accordion defaultExpanded sx={styles.expandedAccordion}>
             <AccordionSummary
               sx={{
                 "&.Mui-expanded": {
@@ -537,7 +537,7 @@ export const MobileFilter = ({
           </Accordion>
 
           {/****************      COLOR FILTER       ****************/}
-          <Accordion >
+          <Accordion defaultExpanded sx={styles.expandedAccordion}>
             <AccordionSummary
               sx={{
                 "&.Mui-expanded": {
