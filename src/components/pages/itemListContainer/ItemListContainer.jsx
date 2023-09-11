@@ -26,7 +26,8 @@ export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
-  const { isFilterOpen, toggleFilterMenu } = useContext(GlobalToolsContext);
+  const { isFilterOpen, toggleFilterMenu, windowWidth } =
+    useContext(GlobalToolsContext);
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
@@ -133,8 +134,6 @@ export const ItemListContainer = () => {
     }
   };
 
-
-
   //////////////     //////////////    ////////////      ////////////      /////////////
   //                                    RENDERING                                    //
   return (
@@ -161,24 +160,27 @@ export const ItemListContainer = () => {
           <>
             {/******  FILTER  ******/}
             <ItemsFiltersWrapper>
-              <FilterWrapper scrolled={scroll}>
-                <DesktopFilter
-                  items={items}
-                  onFilterChange={handleFilterChange}
-                  setCurrentPage={setCurrentPage}
-                />
-              </FilterWrapper>
-
-              <MobileFilterWrapper
-                isFilterOpen={isFilterOpen}
-                onClick={toggleFilterMenu}
-              >
-                <MobileFilter
-                  items={items}
-                  onFilterChange={handleFilterChange}
-                  setCurrentPage={setCurrentPage}
-                />
-              </MobileFilterWrapper>
+              {windowWidth > 900 && (
+                <DesktopFilterWrapper scrolled={scroll}>
+                  <DesktopFilter
+                    items={items}
+                    onFilterChange={handleFilterChange}
+                    setCurrentPage={setCurrentPage}
+                  />
+                </DesktopFilterWrapper>
+              )}
+              {windowWidth <= 900 && (
+                <MobileFilterWrapper
+                  isFilterOpen={isFilterOpen}
+                  onClick={toggleFilterMenu}
+                >
+                  <MobileFilter
+                    items={items}
+                    onFilterChange={handleFilterChange}
+                    setCurrentPage={setCurrentPage}
+                  />
+                </MobileFilterWrapper>
+              )}
               <ItemListWrapper>
                 {/* RENDERING ITEMS */}
                 {filteredItems.length > 0 ? (
@@ -222,7 +224,7 @@ const NoProductMessage = styled.h2`
   height: 500px;
   color: black;
 `;
-const FilterWrapper = styled.aside`
+const DesktopFilterWrapper = styled.aside`
   display: flex;
   grid-column: 1 / 2;
   gap: 0.5rem;
