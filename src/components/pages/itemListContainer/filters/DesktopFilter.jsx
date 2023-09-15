@@ -80,6 +80,7 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
 
   // Fetch items from Firestore Database and filter accordingly on selection
   const fetchFilteredItems = async () => {
+    console.log("fetching DesktopFilter...");
     try {
       const filteredCollection = collection(db, "products");
       let queryFilters = [];
@@ -143,7 +144,7 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
           return priceB - priceA;
         });
       }
-      console.log("fetching MultiFilter...");
+
       console.log(orderedItems);
 
       onFilterChange(orderedItems, detailsFilters);

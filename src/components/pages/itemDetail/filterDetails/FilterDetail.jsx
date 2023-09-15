@@ -51,6 +51,8 @@ export const FilterDetail = ({
       size: selectedItem.size,
     });
   }, [selectedItem]);
+  
+  
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //              HANDLING OF COLOR AND SIZE SELECTION ON-CHANGE                      //

@@ -3,7 +3,6 @@ import { ItemCount } from "../../../common/itemCount/ItemCount";
 import { FilterDetail } from "../filterDetails/FilterDetail";
 import { useState, useContext } from "react";
 import { CartContext } from "../../../context/CartContext";
-
 import { ClipLoader } from "react-spinners";
 import { ItemImageDesktop } from "./ItemImageDesktop";
 

@@ -92,7 +92,7 @@ export const MobileFilter = ({
 
   // Fetch items from Firestore Database and filter accordingly on selection
   const fetchFilteredItems = async () => {
-    console.log("fetching MultiFilter...");
+    console.log("fetching MobileFilter...");
     try {
       const filteredCollection = collection(db, "products");
       let queryFilters = [];

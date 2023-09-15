@@ -11,7 +11,7 @@ import TuneIcon from "@mui/icons-material/Tune";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 
-export const ItemList = ({ items, navigate, currentPage, setCurrentPage, detailsFilters , setDetailsFilters }) => {
+export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
   useScrollRestoration();
 
   //////////////////////////                    ////////////////////////////
