@@ -6,14 +6,13 @@ import CartContextProvider from "./components/context/CartContext";
 import CarouselProvider from "./components/context/CarouselContext";
 import GlobalToolsProvider from "./components/context/GlobalToolsContext";
 
-
 function App() {
   return (
     <>
       <BrowserRouter>
         <CartContextProvider>
-          <CarouselProvider>
-            <GlobalToolsProvider>
+          <GlobalToolsProvider>
+            <CarouselProvider>
               <Routes>
                 <Route element={<Layout />}>
                   {menuRoutes.map(({ id, path, Element }) => (
@@ -22,8 +21,8 @@ function App() {
                 </Route>
                 <Route path="*" element={<h1>404 not found</h1>} />
               </Routes>
-            </GlobalToolsProvider>
-          </CarouselProvider>
+            </CarouselProvider>
+          </GlobalToolsProvider>
         </CartContextProvider>
       </BrowserRouter>
 

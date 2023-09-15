@@ -70,12 +70,11 @@ export const ItemListContainer = () => {
 
   useEffect(() => {
     setLoading(true);
-
     const delay = 1050;
     const timer = setTimeout(() => {
       let itemsCollection = collection(db, "products");
       let filterCollection;
-
+      console.log("fetching ItemListContainer")
       if (!categoryName) {
         filterCollection = itemsCollection;
       } else {

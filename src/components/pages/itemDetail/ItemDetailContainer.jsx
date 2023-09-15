@@ -31,6 +31,7 @@ export const ItemDetailContainer = () => {
       });
     }, 600);
   }, [id]);
+  
 
   return (
     <>
