@@ -154,7 +154,11 @@ export const ItemListContainer = () => {
 
         {loading ? (
           <LoaderWrapper>
-            <Ring size={60} lineWeight={8} speed={2} color="black" />
+            {windowWidth > 600 ? (
+              <Ring size={60} lineWeight={8} speed={2} color="black" />
+            ) : (
+              <Ring size={40} lineWeight={6} speed={2} color="black" />
+            )}
           </LoaderWrapper>
         ) : (
           <>
@@ -183,7 +187,7 @@ export const ItemListContainer = () => {
                   />
                 </MobileFilterWrapper>
               )}
-            
+
               <ItemListWrapper>
                 {/* RENDERING ITEMS */}
                 {filteredItems.length > 0 ? (
@@ -216,7 +220,6 @@ const LoaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 550px;
-  margin-left: 35px;
 `;
 
 const NoProductMessage = styled.h2`

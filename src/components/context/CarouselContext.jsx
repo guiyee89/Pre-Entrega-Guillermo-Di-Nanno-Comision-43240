@@ -13,7 +13,7 @@ const CarouselProvider = ({ children }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 51000);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -58,6 +58,7 @@ const CarouselProvider = ({ children }) => {
   const value = {
     discountProducts,
     loading,
+    setLoading
   };
 
   return (

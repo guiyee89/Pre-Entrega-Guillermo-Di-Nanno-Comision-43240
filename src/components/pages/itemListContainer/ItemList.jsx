@@ -452,7 +452,7 @@ const FilterContainer = styled.div`
 
 const FilterBtn = styled.div`
   font-weight: 600;
-  margin: 10px -13px 10px 15px;
+  margin: 10px -13px 10px 10px;
   word-spacing: 7px;
   width: 49.1%;
   border-right: 1px solid #aeacac;

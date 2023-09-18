@@ -132,7 +132,7 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
             <ItemCountWrapper>
               {loadingSize ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
                 <Loader>
-                  <ClipLoader color="#194f44" size={50} />
+                  <ClipLoader color="#194f44" size={35} />
                 </Loader>
               ) : (
                 <ItemCount
