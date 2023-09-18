@@ -70,11 +70,11 @@ export const ItemListContainer = () => {
 
   useEffect(() => {
     setLoading(true);
-    const delay = 1050;
+    const delay = 650;
     const timer = setTimeout(() => {
       let itemsCollection = collection(db, "products");
       let filterCollection;
-      console.log("fetching ItemListContainer")
+      console.log("fetching ItemListContainer");
       if (!categoryName) {
         filterCollection = itemsCollection;
       } else {
@@ -119,13 +119,14 @@ export const ItemListContainer = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); //Set currentPage and pass prop to ItemList
   const [itemsNotFound, setItemsNotFound] = useState(false); //Set message for no items found on Filter
+  const [itemLoader, setItemLoader] = useState(false); // State to control the filtering loader
 
   const handleFilterChange = (filteredItems, detailsFilters) => {
     if (filteredItems.length > 0) {
       setFilteredItems(filteredItems);
       setDetailsFilters(detailsFilters); //Set detailsFilters to the selected filters from MultiFilter
-      /* setCurrentPage(); */ //Set filters on filterChanged to automatically change currentPage in ItemList
       window.scrollTo({ /* top: 0, */ behavior: "instant" });
+      /* setCurrentPage(); */ //Set filters on filterChanged to automatically change currentPage in ItemList
     } else {
       setFilteredItems([]);
       setDetailsFilters([]);
@@ -165,6 +166,7 @@ export const ItemListContainer = () => {
                     items={items}
                     onFilterChange={handleFilterChange}
                     setCurrentPage={setCurrentPage}
+                    setItemLoader={setItemLoader}
                   />
                 </DesktopFilterWrapper>
               )}
@@ -177,9 +179,11 @@ export const ItemListContainer = () => {
                     items={items}
                     onFilterChange={handleFilterChange}
                     setCurrentPage={setCurrentPage}
+                    setItemLoader={setItemLoader}
                   />
                 </MobileFilterWrapper>
               )}
+            
               <ItemListWrapper>
                 {/* RENDERING ITEMS */}
                 {filteredItems.length > 0 ? (
@@ -188,6 +192,7 @@ export const ItemListContainer = () => {
                     navigate={navigate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
+                    itemLoader={itemLoader}
                   />
                 ) : (
                   itemsNotFound && (
