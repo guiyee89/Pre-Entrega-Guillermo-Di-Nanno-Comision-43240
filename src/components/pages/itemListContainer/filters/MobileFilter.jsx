@@ -14,19 +14,16 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 import { useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import CloseIcon from "@mui/icons-material/Close";
 import { useContext } from "react";
-import {GlobalToolsContext} from "../../../context/GlobalToolsContext";
+import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
+import { Ring } from "@uiball/loaders";
 
-export const MobileFilter = ({
-  items,
-  onFilterChange,
-  setCurrentPage,
-}) => {
+
+export const MobileFilter = ({ items, onFilterChange, setCurrentPage, setItemLoader }) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   //                                 CONTEXT                                  //
-  const { isFilterOpen, toggleFilterMenu, isOpen } =
+  const { isFilterOpen, toggleFilterMenu } =
     useContext(GlobalToolsContext);
 
   //////////           ////////////           ////////////           ///////////           ///////////
@@ -156,10 +153,10 @@ export const MobileFilter = ({
           return priceB - priceA;
         });
       }
-     
+
       console.log(orderedItems);
 
-      onFilterChange(orderedItems, detailsFilters);
+      onFilterChange(orderedItems, detailsFilters, setItemLoader(false));
     } catch (error) {
       console.error("Error fetching filtered items:", error);
     }
@@ -192,7 +189,7 @@ export const MobileFilter = ({
             return priceB - priceA;
           });
         }
-        onFilterChange(orderedItems, detailsFilters);
+        onFilterChange(orderedItems, detailsFilters, setItemLoader(false));
       } else {
         // If filters are applied, fetch and order filtered items
         fetchFilteredItems();
@@ -202,8 +199,6 @@ export const MobileFilter = ({
 
   //////////           ////////////           ////////////           ///////////           ///////////
   //                    HANDLE FILTERED ITEMS & PASS VALUE TO ItemListContainer                    //
-  const [loadingDetail, setLoadingDetail] = useState(false);
-  const [itemsNotFound, setItemsNotFound] = useState(false);
 
   //Handle each filter change and pass the values
   const handleDetailsFilterChange = (filterName, value) => {
@@ -213,8 +208,8 @@ export const MobileFilter = ({
         [filterName]: value,
       }));
       setCurrentPage(1); //Set pagiination to 1 if filters changed
-    }, 1550);
-    handleLoadDetail();
+    }, 750);
+    setItemLoader(true); //Activate Loader for filters
   };
 
   const updateFilterArray = (array, value, add) => {
@@ -227,10 +222,12 @@ export const MobileFilter = ({
 
   //////////           ////////////           ////////////           ///////////           ///////////
   //           LOADER            //
-  const handleLoadDetail = () => {
-    setLoadingDetail(true);
+  const [loadingReset, setLoadingReset] = useState(false);
+
+  const handleResetFilters = () => {
+    setLoadingReset(true);
     setTimeout(() => {
-      setLoadingDetail(false);
+      setLoadingReset(false);
     }, 1600);
   };
 
@@ -244,14 +241,13 @@ export const MobileFilter = ({
     }
   }, []);
 
-   // Update localStorage when the detailsFilters state changes
-   useEffect(() => {
+  // Update localStorage when the detailsFilters state changes
+  useEffect(() => {
     // Check if detailsFilters object has at least one property set
-    if (Object.values(detailsFilters).some(value => value !== '')) {
+    if (Object.values(detailsFilters).some((value) => value !== "")) {
       localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
     }
   }, [detailsFilters]);
-  
 
   //////////           ////////////           ////////////           ///////////           ///////////
   return (
@@ -284,7 +280,7 @@ export const MobileFilter = ({
                 }));
                 localStorage.removeItem("selectedFilters");
               }, 1500);
-              handleLoadDetail();
+              handleResetFilters();
             }}
           >
             Reset all filters
@@ -293,7 +289,9 @@ export const MobileFilter = ({
         <FilterWrapper>
           {/*      Loader Circle      */}
           <Loader>
-            {loadingDetail && <ClipLoader color="#194f44" size={60} />}
+            {loadingReset && (
+              <Ring size={40} lineWeight={6} speed={1} color="black" />
+            )}
           </Loader>
 
           {/****************      GENERAL FILTER       ****************/}
@@ -333,7 +331,7 @@ export const MobileFilter = ({
                           }));
                           localStorage.removeItem("selectedFilters");
                         }, 1500);
-                        handleLoadDetail();
+                        handleResetFilters();
                       }}
                     >
                       No order
@@ -402,7 +400,7 @@ export const MobileFilter = ({
                   }));
                   localStorage.removeItem("selectedFilters");
                 }, 1500);
-                handleLoadDetail();
+                handleResetFilters();
               }}
             >
               Clear filters
@@ -479,7 +477,7 @@ export const MobileFilter = ({
                   }));
                   localStorage.removeItem("selectedFilters");
                 }, 1500);
-                handleLoadDetail();
+                handleResetFilters();
               }}
             >
               Clear filters
@@ -570,7 +568,7 @@ export const MobileFilter = ({
                   }));
                   localStorage.removeItem("selectedFilters");
                 }, 1500);
-                handleLoadDetail();
+                handleResetFilters();
               }}
             >
               Clear filters
@@ -747,8 +745,8 @@ const FilterWrapper = styled.div`
 
 const Loader = styled.div`
   position: absolute;
-  top: 25%;
-  left: 71%;
+  top: 48%;
+  right: 85%;
   z-index: 1;
 `;
 const styles = {

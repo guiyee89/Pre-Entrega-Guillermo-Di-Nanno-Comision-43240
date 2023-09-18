@@ -5,19 +5,19 @@ export const GlobalToolsContext = createContext();
 
 const GlobalToolsProvider = ({ children }) => {
 
-
+  //Manage side cart
   const [isOpen, setIsOpen] = useState(true);
   const toggleSideCart = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-
+  //Manage side menu for Mobile
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const toggleSideMenu = () => {
     setIsMenuOpen((prevIsOpen) => !prevIsOpen);
   }
  
-
+  //Manage side filters for Mobile
   const [isFilterOpen, setIsFilterOpen] = useState(true);
   const toggleFilterMenu = () => {
     setIsFilterOpen((prevIsOpen) => !prevIsOpen);
@@ -36,11 +36,7 @@ const GlobalToolsProvider = ({ children }) => {
     };
   }, []);
 
-  const [itemLoader, setItemLoader] = useState()
-  const loadingItems = () => {
-    
-  }
-
+  const [itemLoader, setItemLoader] = useState(false); // State to control the filtering loader
   
   const value = {
     isOpen,
@@ -49,7 +45,9 @@ const GlobalToolsProvider = ({ children }) => {
     toggleSideMenu,
     isFilterOpen,
     toggleFilterMenu,
-    windowWidth
+    windowWidth,
+    itemLoader,
+    setItemLoader
   };
 
 

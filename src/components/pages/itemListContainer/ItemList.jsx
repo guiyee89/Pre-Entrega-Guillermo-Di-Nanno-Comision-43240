@@ -10,8 +10,15 @@ import useScrollRestoration from "../../hooks/useScrollRestoration";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
+import { Ring } from "@uiball/loaders";
 
-export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
+export const ItemList = ({
+  items,
+  navigate,
+  currentPage,
+  setCurrentPage,
+  itemLoader,
+}) => {
   useScrollRestoration();
 
   //////////////////////////                    ////////////////////////////
@@ -77,7 +84,6 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
     // localStorage.removeItem("currentPage");
   }, []);
 
-
   const [productsQuantity, setProductsQuantity] = useState();
   const showProductsQuantity = () => {
     setProductsQuantity(items.length); // Update the state with the number of items
@@ -116,6 +122,11 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
         <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
       </HeaderContainer>
 
+      {itemLoader && ( //Loader for filters
+        <LoaderOverlay>
+          <Ring size={40} lineWeight={7} speed={1} color="black" />
+        </LoaderOverlay>
+      )}
       <Wrapper key="cart-wrapper">
         <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
         {/* Map products list */}
@@ -136,7 +147,7 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
               }}
             >
               <Loader>
-                {isLoadingDetail && <ClipLoader color="#194f44" size={60} />}
+                {isLoadingDetail && <Ring size={40} lineWeight={7} speed={1} color="black" />}
               </Loader>
               <ItemCard>
                 <ImgWrapperLink>
@@ -172,6 +183,8 @@ export const ItemList = ({ items, navigate, currentPage, setCurrentPage }) => {
           );
         })}
       </Wrapper>
+
+      {/* )} */}
       {/* Pagination */}
       <PaginationWrapperBottom>
         <Pagination
@@ -218,6 +231,19 @@ const Wrapper = styled.div`
     row-gap: 1.2rem;
   }
 `;
+const LoaderOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Higher z-index to cover other elements */
+`;
+
 const ButtonsWrapper = styled.div`
   position: absolute;
   top: 15px;

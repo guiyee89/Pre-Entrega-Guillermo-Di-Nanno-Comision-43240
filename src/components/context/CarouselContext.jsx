@@ -20,11 +20,11 @@ const CarouselProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
-      console.log("fetching discount");
       try {
         const queryAllProducts = collection(db, "products");
         const querySnapshot = await getDocs(queryAllProducts);
-
+        console.log("fetching discount");
+        
         const filteredDiscountProducts = [];
         const filteredProductsMap = new Map();
 
@@ -46,6 +46,7 @@ const CarouselProvider = ({ children }) => {
             }
           }
         }
+        console.log(filteredDiscountProducts);
         setDiscountedProducts(filteredDiscountProducts);
       } catch (error) {
         console.error("Error fetching discounted products:", error);

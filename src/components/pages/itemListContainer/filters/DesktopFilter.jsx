@@ -14,9 +14,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 import { useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
+import { Ring } from "@uiball/loaders";
 
-export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
+export const DesktopFilter = ({
+  items,
+  onFilterChange,
+  setCurrentPage,
+  setItemLoader,
+}) => {
   //////////           ////////////           ////////////           ///////////           ///////////
   //                       STATE FOR DIFFERENT FILTERS                        //
   const [detailsFilters, setDetailsFilters] = useState({
@@ -68,11 +73,11 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
     brown: "#682f21",
   };
   //function to find first color
-  const getFirstColorWord = (color) => {
-    const words = color.split(" ");
-    console.log(words);
-    return words[0];
-  };
+  // const getFirstColorWord = (color) => {
+  //   const words = color.split(" ");
+  //   console.log(words);
+  //   return words[0];
+  // };
 
   //////////           ////////////           ////////////           ///////////           ///////////
   //                                FILTERING LOGIC FOR ALL ITEMS                                  //
@@ -147,7 +152,7 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
 
       console.log(orderedItems);
 
-      onFilterChange(orderedItems, detailsFilters);
+      onFilterChange(orderedItems, detailsFilters, setItemLoader(false));
     } catch (error) {
       console.error("Error fetching filtered items:", error);
     }
@@ -180,7 +185,7 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
             return priceB - priceA;
           });
         }
-        onFilterChange(orderedItems, detailsFilters);
+        onFilterChange(orderedItems, detailsFilters, setItemLoader(false));
       } else {
         // If filters are applied, fetch and order filtered items
         fetchFilteredItems();
@@ -190,8 +195,6 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
 
   //////////           ////////////           ////////////           ///////////           ///////////
   //                    HANDLE FILTERED ITEMS & PASS VALUE TO ItemListContainer                    //
-  const [loadingDetail, setLoadingDetail] = useState(false);
-  const [itemsNotFound, setItemsNotFound] = useState(false);
 
   //Handle each filter change and pass the values
   const handleDetailsFilterChange = (filterName, value) => {
@@ -201,8 +204,8 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
         [filterName]: value,
       }));
       setCurrentPage(1); //Set pagiination to 1 if filters changed
-    }, 1550);
-    handleLoadDetail();
+    }, 750);
+    setItemLoader(true); //Activate Loader for filters
   };
 
   const updateFilterArray = (array, value, add) => {
@@ -215,11 +218,13 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
 
   //////////           ////////////           ////////////           ///////////           ///////////
   //           LOADER            //
-  const handleLoadDetail = () => {
-    setLoadingDetail(true);
+  const [loadingReset, setLoadingReset] = useState(false);
+
+  const handleResetFilters = () => {
+    setLoadingReset(true);
     setTimeout(() => {
-      setLoadingDetail(false);
-    }, 1600);
+      setLoadingReset(false);
+    }, 51600);
   };
 
   //////////           ////////////           ////////////           ///////////           ///////////
@@ -235,12 +240,10 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
   // Update localStorage when the detailsFilters state changes
   useEffect(() => {
     // Check if detailsFilters object has at least one property set
-    if (Object.values(detailsFilters).some(value => value !== '')) {
+    if (Object.values(detailsFilters).some((value) => value !== "")) {
       localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
     }
   }, [detailsFilters]);
-  
-
 
   //////////           ////////////           ////////////           ///////////           ///////////
   return (
@@ -260,7 +263,7 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
               }));
               localStorage.removeItem("selectedFilters");
             }, 1500);
-            handleLoadDetail();
+            handleResetFilters();
           }}
         >
           Reset all filters
@@ -269,7 +272,9 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
       <FilterWrapper>
         {/*      Loader Circle      */}
         <Loader>
-          {loadingDetail && <ClipLoader color="#194f44" size={60} />}
+          {loadingReset && (
+            <Ring size={40} lineWeight={6} speed={1} color="black" />
+          )}
         </Loader>
 
         {/****************      GENERAL FILTER       ****************/}
@@ -309,7 +314,7 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
                         }));
                         localStorage.removeItem("selectedFilters");
                       }, 1500);
-                      handleLoadDetail();
+                      handleResetFilters();
                     }}
                   >
                     No order
@@ -378,7 +383,7 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
                 }));
                 localStorage.removeItem("selectedFilters");
               }, 1500);
-              handleLoadDetail();
+              handleResetFilters();
             }}
           >
             Clear filters
@@ -455,7 +460,7 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
                 }));
                 localStorage.removeItem("selectedFilters");
               }, 1500);
-              handleLoadDetail();
+              handleResetFilters();
             }}
           >
             Clear filters
@@ -539,7 +544,7 @@ export const DesktopFilter = ({ items, onFilterChange, setCurrentPage }) => {
                 }));
                 localStorage.removeItem("selectedFilters");
               }, 1500);
-              handleLoadDetail();
+              handleResetFilters();
             }}
           >
             Clear filters
@@ -685,7 +690,7 @@ const FilterWrapper = styled.div`
 const Loader = styled.div`
   position: absolute;
   top: 25%;
-  left: 71%;
+  left: 77%;
   z-index: 1;
 `;
 const styles = {

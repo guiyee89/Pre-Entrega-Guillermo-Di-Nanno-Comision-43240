@@ -177,7 +177,7 @@ export const FilterDetail = ({
                     <LoadingBar
                       color="#cf6c2a"
                       ref={ref}
-                      height={2}
+                      height={4}
                       shadow={false}
                     />
                     <ColorCheckbox
