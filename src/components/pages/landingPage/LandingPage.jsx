@@ -2,9 +2,9 @@ import styled from "styled-components/macro";
 import { useEffect, useState } from "react";
 import { CarouselTablet } from "./carousels/CarouselTablet";
 import { CarouselMobile } from "./carousels/CarouselMobile";
-import { ClipLoader } from "react-spinners";
 import { Link } from "react-router-dom";
 import { CarouselDesktop } from "./carousels/CarouselDesktop";
+import { Ring } from "@uiball/loaders";
 
 export const LandingPage = () => {
   useEffect(() => {
@@ -42,7 +42,7 @@ export const LandingPage = () => {
       <Wrapper>
         {loading ? (
           <LoaderWrapper>
-            <ClipLoader color="#194f44" size={30} />
+            <Ring size={20} lineWeight={7} speed={1} color="black" />
           </LoaderWrapper>
         ) : (
           <Title>¡on sale!</Title>

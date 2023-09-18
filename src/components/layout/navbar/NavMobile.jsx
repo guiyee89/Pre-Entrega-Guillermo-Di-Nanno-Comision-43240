@@ -230,8 +230,12 @@ const LogoLink = styled(Link)`
 const Logo = styled.img`
   width: 51%;
   margin-left: ${(props) =>
-    props.scrolled === "scrolled" ? "10.9px" : "20.3px"};
+    props.scrolled === "scrolled" ? "11.9px;" : "20.3px"};
   transition: margin-left 0.2s ease-in-out;
+  @media (max-width:550px){
+    margin-left: ${(props) =>
+    props.scrolled === "scrolled" ? "16.9px;" : "20.3px"};
+  }
 `;
 const LogoSideMenu = styled.div`
   width: 100%;

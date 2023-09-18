@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import { useContext } from "react";
 import { CarouselContext } from "../../../context/CarouselContext";
+import { Ring } from "@uiball/loaders";
 
 export const CarouselDesktop = () => {
-  
-  const { discountProducts, loading } = useContext(CarouselContext);
+  const { discountProducts, loading, setLoading } = useContext(CarouselContext);
 
   if (!discountProducts || !Array.isArray(discountProducts)) {
     // Handle the case where discountProducts is not defined or not an array
@@ -21,11 +20,18 @@ export const CarouselDesktop = () => {
     setIndex(selectedIndex);
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 51000);
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <Wrapper>
       {loading ? (
         <LoaderWrapper>
-          <ClipLoader color="#194f44" size={80} />
+          <Ring size={40} lineWeight={7} speed={1} color="black" />
         </LoaderWrapper>
       ) : (
         <StyledCarousel
@@ -141,7 +147,6 @@ const Wrapper = styled.div`
   margin: 24px auto 110px;
   z-index: 0;
   max-height: 520px;
-
 `;
 const LoaderWrapper = styled.div`
   display: flex;

@@ -132,7 +132,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
             <ItemCountWrapper>
               {loadingSize ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
                 <Loader>
-                  <ClipLoader color="#194f44" size={50} />
+                  <ClipLoader color="#194f44" size={30} />
                 </Loader>
               ) : (
                 <ItemCount
