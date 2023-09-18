@@ -224,7 +224,7 @@ export const DesktopFilter = ({
     setLoadingReset(true);
     setTimeout(() => {
       setLoadingReset(false);
-    }, 51600);
+    }, 1600);
   };
 
   //////////           ////////////           ////////////           ///////////           ///////////
