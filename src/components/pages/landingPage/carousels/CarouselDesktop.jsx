@@ -20,13 +20,6 @@ export const CarouselDesktop = () => {
     setIndex(selectedIndex);
   };
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 51000);
-    return () => clearTimeout(timeout);
-  }, []);
-
   return (
     <Wrapper>
       {loading ? (

@@ -11,11 +11,10 @@ const CarouselProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    // const timeout = setTimeout(() => {
       setLoading(false);
-    }, 51000);
-
-    return () => clearTimeout(timeout);
+    // }, 500);
+    // return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {
