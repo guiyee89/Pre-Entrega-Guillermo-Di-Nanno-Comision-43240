@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { CarouselDesktop } from "./carousels/CarouselDesktop";
 import { Ring } from "@uiball/loaders";
 
+
 export const LandingPage = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -265,7 +266,7 @@ const FakeButton = styled.span`
   justify-content: center;
   -webkit-box-align: center;
   align-items: center;
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
   @media (max-width: 900px) {
@@ -281,8 +282,7 @@ const MidSpan = styled.span`
   line-height: 2;
   font-family: "Playfair Display", serif;
 `;
-const PriceSpan = styled.span`
-`
+const PriceSpan = styled.span``;
 const ShoesImg = styled.img`
   object-fit: contain;
   overflow: hidden;
@@ -385,7 +385,7 @@ const FakeButtonStreched = styled.span`
     width: 134px;
     background-color: rgb(208, 205, 205);
   }
-  @media (max-width:410px){
+  @media (max-width: 410px) {
     bottom: 14.7%;
     right: 57.3%;
   }
@@ -408,8 +408,8 @@ const StrechedArticle = styled.article`
     transform: scale(1.08);
   }
   &:hover ${FakeButtonStreched} {
-    transform: scale(1.08) ;
-    background-color: rgb(208, 205, 205)
+    transform: scale(1.08);
+    background-color: rgb(208, 205, 205);
   }
   @media (max-width: 900px) {
     height: 450px;

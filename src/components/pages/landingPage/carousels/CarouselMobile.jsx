@@ -1,13 +1,61 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
-import { useContext } from "react";
-import { CarouselContext } from "../../../context/CarouselContext";
+import { Ring } from "@uiball/loaders";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../../firebaseConfig";
+
 
 export const CarouselMobile = () => {
-  const { discountProducts, loading } = useContext(CarouselContext);
+
+  const [discountProducts, setDiscountedProducts] = useState([]);
+ 
+  useEffect(() => {
+    const fetchDiscountedProducts = async () => {
+      try {
+        const queryAllProducts = collection(db, "products");
+        const querySnapshot = await getDocs(queryAllProducts);
+        console.log("fetching discount");
+
+        const filteredDiscountProducts = [];
+        const filteredProductsMap = new Map();
+
+        for (const doc of querySnapshot.docs) {
+          const product = doc.data();
+          if (product.discount) {
+            const { userId, color } = product;
+            const key = `${userId}-${color}`;
+
+            // Check if the product's userId and color combination already exists in the filteredProductsMap
+            if (!filteredProductsMap.has(key)) {
+              // If not, add the product to the filteredProductsMap
+              filteredProductsMap.set(key, product);
+              filteredDiscountProducts.push({ ...product, id: doc.id });
+            }
+            // Stop adding items to the filteredDiscountProducts once you reach 12
+            if (filteredDiscountProducts.length === 12) {
+              break;
+            }
+          }
+        }
+        console.log(filteredDiscountProducts);
+        setDiscountedProducts(filteredDiscountProducts);
+      } catch (error) {
+        console.error("Error fetching discounted products:", error);
+      }
+    };
+    fetchDiscountedProducts();
+  }, []);
+
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1850);
+  }, []);
 
   if (!discountProducts || !Array.isArray(discountProducts)) {
     // Handle the case where discountProducts is not defined or not an array
@@ -24,7 +72,7 @@ export const CarouselMobile = () => {
     <Wrapper>
       {loading ? (
         <LoaderWrapper>
-          <ClipLoader color="#194f44" size={80} />
+           <Ring size={40} lineWeight={7} speed={1} color="black" />
         </LoaderWrapper>
       ) : (
         <StyledCarousel
@@ -235,7 +283,7 @@ const Wrapper = styled.div`
   margin: 24px auto 110px;
   z-index: 0;
   max-height: 520px;
-  @media (max-width:800px){
+  @media (max-width: 800px) {
     margin: 24px auto 80px;
   }
 `;
@@ -355,7 +403,7 @@ const InfoWrapper = styled.div`
   justify-content: flex-end;
   width: 100%;
   height: 140px;
-    margin-top: -22px;
+  margin-top: -22px;
   background-color: rgb(239 237 237);
 `;
 const CarouselItemPrice = styled.h4`
