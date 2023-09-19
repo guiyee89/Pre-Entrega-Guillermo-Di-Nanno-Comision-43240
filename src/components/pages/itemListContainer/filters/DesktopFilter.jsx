@@ -218,13 +218,10 @@ export const DesktopFilter = ({
 
   //////////           ////////////           ////////////           ///////////           ///////////
   //           LOADER            //
-  const [loadingReset, setLoadingReset] = useState(false);
+  const loadingReset = false;
 
   const handleResetFilters = () => {
-    setLoadingReset(true);
-    setTimeout(() => {
-      setLoadingReset(false);
-    }, 1600);
+    setItemLoader(true); //Activate Loader for filters
   };
 
   //////////           ////////////           ////////////           ///////////           ///////////
@@ -253,7 +250,6 @@ export const DesktopFilter = ({
         <ResetAllBtn
           onClick={() => {
             //Reset General Filters
-            setTimeout(() => {
               setDetailsFilters((prevFilters) => ({
                 ...prevFilters,
                 category: "",
@@ -262,7 +258,6 @@ export const DesktopFilter = ({
                 orderBy: "",
               }));
               localStorage.removeItem("selectedFilters");
-            }, 1500);
             handleResetFilters();
           }}
         >
@@ -307,13 +302,11 @@ export const DesktopFilter = ({
                   <OrderByBtn
                     active={detailsFilters.orderBy === ""}
                     onClick={() => {
-                      setTimeout(() => {
                         setDetailsFilters((prevFilters) => ({
                           ...prevFilters,
                           orderBy: "",
                         }));
                         localStorage.removeItem("selectedFilters");
-                      }, 1500);
                       handleResetFilters();
                     }}
                   >
@@ -376,13 +369,11 @@ export const DesktopFilter = ({
           <ClearFilterBtn
             onClick={() => {
               //Reset section filters
-              setTimeout(() => {
                 setDetailsFilters((prevFilters) => ({
                   ...prevFilters,
                   category: "",
                 }));
                 localStorage.removeItem("selectedFilters");
-              }, 1500);
               handleResetFilters();
             }}
           >
@@ -452,14 +443,12 @@ export const DesktopFilter = ({
           </AccordionSummary>
           <ClearFilterBtn
             onClick={() => {
-              setTimeout(() => {
                 setDetailsFilters((prevFilters) => ({
                   //Reset section filters
                   ...prevFilters,
                   size: "",
                 }));
-                localStorage.removeItem("selectedFilters");
-              }, 1500);
+                localStorage.removeItem("selectedFilters");            
               handleResetFilters();
             }}
           >
@@ -537,13 +526,11 @@ export const DesktopFilter = ({
           <ClearFilterBtn
             onClick={() => {
               //Reset section filters
-              setTimeout(() => {
-                setDetailsFilters((prevFilters) => ({
-                  ...prevFilters,
-                  color: "",
-                }));
-                localStorage.removeItem("selectedFilters");
-              }, 1500);
+              setDetailsFilters((prevFilters) => ({
+                ...prevFilters,
+                color: "",
+              }));
+              localStorage.removeItem("selectedFilters");
               handleResetFilters();
             }}
           >

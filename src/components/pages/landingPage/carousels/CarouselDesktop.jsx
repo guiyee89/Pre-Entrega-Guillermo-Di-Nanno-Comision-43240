@@ -2,12 +2,60 @@ import { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { CarouselContext } from "../../../context/CarouselContext";
 import { Ring } from "@uiball/loaders";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../../firebaseConfig";
+
 
 export const CarouselDesktop = () => {
-  const { discountProducts, loading, setLoading } = useContext(CarouselContext);
+  // const { discountProducts, loading, setLoading } = useContext(CarouselContext);
+
+  const [discountProducts, setDiscountedProducts] = useState([]);
+ 
+  useEffect(() => {
+    const fetchDiscountedProducts = async () => {
+      try {
+        const queryAllProducts = collection(db, "products");
+        const querySnapshot = await getDocs(queryAllProducts);
+        console.log("fetching discount");
+
+        const filteredDiscountProducts = [];
+        const filteredProductsMap = new Map();
+
+        for (const doc of querySnapshot.docs) {
+          const product = doc.data();
+          if (product.discount) {
+            const { userId, color } = product;
+            const key = `${userId}-${color}`;
+
+            // Check if the product's userId and color combination already exists in the filteredProductsMap
+            if (!filteredProductsMap.has(key)) {
+              // If not, add the product to the filteredProductsMap
+              filteredProductsMap.set(key, product);
+              filteredDiscountProducts.push({ ...product, id: doc.id });
+            }
+            // Stop adding items to the filteredDiscountProducts once you reach 12
+            if (filteredDiscountProducts.length === 12) {
+              break;
+            }
+          }
+        }
+        console.log(filteredDiscountProducts);
+        setDiscountedProducts(filteredDiscountProducts);
+      } catch (error) {
+        console.error("Error fetching discounted products:", error);
+      }
+    };
+    fetchDiscountedProducts();
+  }, []);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1850);
+  }, []);
 
   if (!discountProducts || !Array.isArray(discountProducts)) {
     // Handle the case where discountProducts is not defined or not an array

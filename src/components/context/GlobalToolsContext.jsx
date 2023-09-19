@@ -36,7 +36,6 @@ const GlobalToolsProvider = ({ children }) => {
     };
   }, []);
 
-  const [itemLoader, setItemLoader] = useState(false); // State to control the filtering loader
   
   const value = {
     isOpen,
@@ -46,8 +45,6 @@ const GlobalToolsProvider = ({ children }) => {
     isFilterOpen,
     toggleFilterMenu,
     windowWidth,
-    itemLoader,
-    setItemLoader
   };
 
 
