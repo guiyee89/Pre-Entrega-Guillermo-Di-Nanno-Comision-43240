@@ -9,13 +9,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
-
+import { Ring } from "@uiball/loaders";
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
   const [selectedItem, setSelectedItem] = useState({});
   const { id } = useParams();
   const { windowWidth, setProgress } = useContext(GlobalToolsContext);
+  const [loading, setLoading] = useState(true); //Loader
 
   //ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
@@ -34,6 +35,13 @@ export const ItemDetailContainer = () => {
     }, 600);
   }, [id]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+      setProgress(100); // Move this here to set progress to 100 after rendering
+    }, 700);
+  }, [loading, setProgress]);
+
   return (
     <>
       <ToastContainer
@@ -48,7 +56,15 @@ export const ItemDetailContainer = () => {
         pauseOnHover
         theme="dark"
       />
-      {selectedItem.id ? (
+      {loading ? (
+        <LoaderWrapper>
+          {windowWidth > 600 ? (
+            <Ring size={60} lineWeight={8} speed={2} color="black" />
+          ) : (
+            <Ring size={40} lineWeight={6} speed={2} color="black" />
+          )}
+        </LoaderWrapper>
+      ) : selectedItem.id ? (
         <>
           {windowWidth > 950 ? (
             <ItemDetailDesktop selectedItem={selectedItem} />
