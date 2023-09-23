@@ -1,10 +1,9 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useRef, useState } from "react";
 import { useEffect } from "react";
 
 export const GlobalToolsContext = createContext();
 
 const GlobalToolsProvider = ({ children }) => {
-
   //Manage side cart
   const [isOpen, setIsOpen] = useState(true);
   const toggleSideCart = () => {
@@ -15,14 +14,13 @@ const GlobalToolsProvider = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const toggleSideMenu = () => {
     setIsMenuOpen((prevIsOpen) => !prevIsOpen);
-  }
- 
+  };
+
   //Manage side filters for Mobile
   const [isFilterOpen, setIsFilterOpen] = useState(true);
   const toggleFilterMenu = () => {
     setIsFilterOpen((prevIsOpen) => !prevIsOpen);
-  }
-
+  };
 
   //Manage Mobile - Desktop components by width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -36,7 +34,11 @@ const GlobalToolsProvider = ({ children }) => {
     };
   }, []);
 
-  
+  //Manage states for Loading Top Bar component
+  const [progress, setProgress] = useState(0);
+  const [buffer, setBuffer] = useState(12);
+  const [visible, setVisible] = useState(false);
+
   const value = {
     isOpen,
     toggleSideCart,
@@ -45,11 +47,18 @@ const GlobalToolsProvider = ({ children }) => {
     isFilterOpen,
     toggleFilterMenu,
     windowWidth,
+    progress,
+    setProgress,
+    buffer,
+    setBuffer,
+    visible,
+    setVisible,
   };
 
-
   return (
-    <GlobalToolsContext.Provider value={value}>{children}</GlobalToolsContext.Provider>
+    <GlobalToolsContext.Provider value={value}>
+      {children}
+    </GlobalToolsContext.Provider>
   );
 };
 

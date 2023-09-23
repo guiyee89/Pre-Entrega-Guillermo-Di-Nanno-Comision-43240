@@ -9,16 +9,17 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
-// import { BarLoader } from "react-spinners";
+import LoadingBar from "react-top-loading-bar";
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
   const [selectedItem, setSelectedItem] = useState({});
   const { id } = useParams();
-  const { windowWidth } = useContext(GlobalToolsContext);
+  const { windowWidth, setProgress } = useContext(GlobalToolsContext);
 
   //ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
+    setProgress(45);
     const itemCollection = collection(db, "products");
     const refDoc = doc(itemCollection, id);
 
@@ -28,10 +29,13 @@ export const ItemDetailContainer = () => {
           ...response.data(),
           id: response.id,
         });
+        if (response) {
+          setProgress(100);
+        }
       });
+      
     }, 600);
   }, [id]);
-  
 
   return (
     <>

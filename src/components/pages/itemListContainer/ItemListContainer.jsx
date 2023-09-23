@@ -26,7 +26,7 @@ export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
-  const { isFilterOpen, toggleFilterMenu, windowWidth } =
+  const { isFilterOpen, toggleFilterMenu, windowWidth, setProgress } =
     useContext(GlobalToolsContext);
 
   //////////////     //////////////    ////////////      ////////////      /////////////
@@ -68,8 +68,11 @@ export const ItemListContainer = () => {
 
   // }, [categoryName]);
 
+
   useEffect(() => {
     setLoading(true);
+    setProgress(15);  // Start with 0% progress
+
     const delay = 650;
     const timer = setTimeout(() => {
       let itemsCollection = collection(db, "products");
@@ -83,7 +86,7 @@ export const ItemListContainer = () => {
           where("category", "==", categoryName)
         );
       }
-
+     setProgress(65);
       getDocs(filterCollection)
         .then((res) => {
           const products = res.docs.reduce((filtered, productDoc) => {
@@ -91,25 +94,27 @@ export const ItemListContainer = () => {
             const { userId, color } = product;
             const key = `${userId}-${color}`;
             // Check if the product's customId and color combination already exists
-            if (
-              !filtered.some((item) => `${item.userId}-${item.color}` === key)
-            ) {
+            if (!filtered.some((item) => `${item.userId}-${item.color}` === key)) {
               filtered.push({
                 ...product,
                 id: productDoc.id,
               });
             }
+       
             return filtered;
           }, []);
           console.log("fetching itemList...");
           console.log(products);
           setItems(products);
           setLoading(false);
+          setProgress(100);
         })
         .catch((err) => console.log(err));
     }, delay);
+  
     return () => clearTimeout(timer); // Clear the timeout if the component unmounts
   }, []);
+  
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //

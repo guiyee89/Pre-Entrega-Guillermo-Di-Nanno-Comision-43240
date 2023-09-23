@@ -6,6 +6,7 @@ import CartContextProvider from "./components/context/CartContext";
 import GlobalToolsProvider from "./components/context/GlobalToolsContext";
 
 function App() {
+
   return (
     <>
       <BrowserRouter>
@@ -22,7 +23,6 @@ function App() {
           </GlobalToolsProvider>
         </CartContextProvider>
       </BrowserRouter>
-
       <GlobalStyles />
     </>
   );

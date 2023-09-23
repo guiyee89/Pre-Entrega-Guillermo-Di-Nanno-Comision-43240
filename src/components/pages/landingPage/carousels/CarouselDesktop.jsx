@@ -6,12 +6,11 @@ import { Ring } from "@uiball/loaders";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 
-
 export const CarouselDesktop = () => {
   // const { discountProducts, loading, setLoading } = useContext(CarouselContext);
 
   const [discountProducts, setDiscountedProducts] = useState([]);
- 
+
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
       try {

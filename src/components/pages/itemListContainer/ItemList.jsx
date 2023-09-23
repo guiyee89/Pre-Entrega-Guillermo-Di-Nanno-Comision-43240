@@ -2,8 +2,6 @@ import styled from "styled-components/macro";
 import { BsEyeFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import { useRef } from "react";
-import LoadingBar from "react-top-loading-bar";
 import { Pagination, PaginationItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
@@ -27,8 +25,14 @@ export const ItemList = ({
   const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
-  const { isMenuOpen, isFilterOpen, toggleFilterMenu, windowWidth } =
-    useContext(GlobalToolsContext);
+  const {
+    isMenuOpen,
+    isFilterOpen,
+    toggleFilterMenu,
+    windowWidth,
+    setProgress,
+    setVisible,
+  } = useContext(GlobalToolsContext);
 
   //////////////////////////                    ////////////////////////////
   //-------------------         LOADERS          ---------------------//
@@ -43,14 +47,9 @@ export const ItemList = ({
     }, 1700);
   };
 
-  const ref = useRef();
-
   const handleLoadTop = () => {
-    // TOP LOADING
-    ref.current.continuousStart();
-    setTimeout(() => {
-      ref.current.complete();
-    }, 1200);
+    setVisible(true);
+    setProgress(15); //set Top Loading bar to 30% after clicking on Item
   };
 
   //Pagination loader
@@ -128,7 +127,6 @@ export const ItemList = ({
         </LoaderOverlay>
       )}
       <Wrapper key="cart-wrapper">
-        <LoadingBar color="#c85f2f" shadow={true} ref={ref} height={4} />
         {/* Map products list */}
         {itemsToDisplay.map((product) => {
           const isLoadingDetail = loadingDetail === product.id;
@@ -139,15 +137,17 @@ export const ItemList = ({
               key={product.id}
               onClick={(event) => {
                 event.preventDefault(); // Prevent immediate navigation
-                handleLoadDetail(product.id);
                 handleLoadTop();
+                handleLoadDetail(product.id);
                 setTimeout(() => {
                   navigate(`/item-details/${product.id}`);
                 }, 1700); // Delay in milliseconds
               }}
             >
               <Loader>
-                {isLoadingDetail && <Ring size={40} lineWeight={7} speed={1} color="black" />}
+                {isLoadingDetail && (
+                  <Ring size={40} lineWeight={7} speed={1} color="black" />
+                )}
               </Loader>
               <ItemCard>
                 <ImgWrapperLink>

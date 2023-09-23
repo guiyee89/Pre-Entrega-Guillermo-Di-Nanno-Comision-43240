@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useMatch } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { menuRoutes } from "../routes/menuRoutes";
 import { Footer } from "./footer/Footer";
 import styled from "styled-components/macro";
@@ -12,6 +12,11 @@ import { useContext, useEffect, useState } from "react";
 import { GlobalToolsContext } from "../context/GlobalToolsContext";
 import { NavMobile } from "./navbar/NavMobile";
 import { NavDesktop } from "./navbar/NavDesktop";
+import LoadingBar from "react-top-loading-bar";
+import { LoadingTopBar } from "../common/loadingTopBar/LoadingTopBar";
+
+// import { TopLoadingBar } from "../common/topLoadingBar/TopLoadingBar";
+
 ////////////////////////////////////////////////////
 
 export const Layout = () => {
@@ -28,8 +33,15 @@ export const Layout = () => {
   ////////////////////////////////////////////////////
 
   //SideMenu Context
-  const { isOpen, isMenuOpen, isFilterOpen, windowWidth } =
-    useContext(GlobalToolsContext);
+  const {
+    isOpen,
+    isMenuOpen,
+    isFilterOpen,
+    windowWidth,
+    progress,
+    setProgress,
+    buffer,
+  } = useContext(GlobalToolsContext);
 
   ////////////////////////////////////////////////////
 
@@ -59,6 +71,7 @@ export const Layout = () => {
         isMenuOpen={isMenuOpen}
         isFilterOpen={isFilterOpen}
       >
+        {!isHome && <LoadingTopBar />}
         {loading ? (
           <LoadingScreen />
         ) : (
