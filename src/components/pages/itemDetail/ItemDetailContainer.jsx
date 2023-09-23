@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
-import LoadingBar from "react-top-loading-bar";
+
 
 export const ItemDetailContainer = () => {
   //Guardamos los items (objetos)
@@ -29,11 +29,8 @@ export const ItemDetailContainer = () => {
           ...response.data(),
           id: response.id,
         });
-        if (response) {
-          setProgress(100);
-        }
       });
-      
+      setProgress(100);
     }, 600);
   }, [id]);
 

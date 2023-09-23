@@ -49,9 +49,9 @@ export const LoadingTopBar = () => {
   }, [location]);
 
   return (
-    <BoxLoader sx={{ width: "100%" }}>
+    <BoxLoader sx={{ width: "100%"}}>
       {visible && ( // Render the progress bar only if it's visible
-        <LinearProgress variant="buffer" value={progress} valueBuffer={buffer} color='inherit'/>
+        <LinearProgress variant="buffer" value={progress} valueBuffer={buffer} color='inherit'  sx={{ height: "6px", color:"#333" }} />
       )}
     </BoxLoader>
   );
