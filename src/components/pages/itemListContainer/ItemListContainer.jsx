@@ -108,10 +108,10 @@ export const ItemListContainer = () => {
           console.log(products);
           setItems(products);
           setLoading(false);
-          
+          setProgress(100);
         })
         .catch((err) => console.log(err));
-        setProgress(100);
+       
     }, delay);
 
     return () => clearTimeout(timer); // Clear the timeout if the component unmounts

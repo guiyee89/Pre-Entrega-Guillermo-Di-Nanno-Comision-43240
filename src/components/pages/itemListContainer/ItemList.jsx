@@ -59,7 +59,7 @@ export const ItemList = ({
     setTimeout(() => {
       setIsLoadingPageChange(false);
       setCurrentPage(value);
-    }, 700);
+    }, 500);
   };
 
   //////////////////////////                    ////////////////////////////
