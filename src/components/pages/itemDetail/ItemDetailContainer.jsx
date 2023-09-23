@@ -20,7 +20,7 @@ export const ItemDetailContainer = () => {
 
   //ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
-    setProgress(45);
+    setProgress(20);
     const itemCollection = collection(db, "products");
     const refDoc = doc(itemCollection, id);
 

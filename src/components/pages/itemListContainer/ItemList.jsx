@@ -49,7 +49,7 @@ export const ItemList = ({
 
   const handleLoadTop = () => {
     setVisible(true);
-    setProgress(15); //set Top Loading bar to 30% after clicking on Item
+    setProgress(2); //set Top Loading bar to 30% after clicking on Item
   };
 
   //Pagination loader
