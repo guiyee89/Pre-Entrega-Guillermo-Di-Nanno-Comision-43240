@@ -35,7 +35,7 @@ const GlobalToolsProvider = ({ children }) => {
   }, []);
 
   //Manage states for Loading Top Bar component
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(5);
   const [buffer, setBuffer] = useState(12);
   const [visible, setVisible] = useState(false);
 

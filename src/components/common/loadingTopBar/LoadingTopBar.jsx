@@ -19,7 +19,7 @@ export const LoadingTopBar = () => {
         clearInterval(timer); 
 
         setTimeout(() => {
-          setProgress(0);
+          setProgress(5);
           setBuffer(12);
           setVisible(false); // Hide the progress bar
         }, 250); 

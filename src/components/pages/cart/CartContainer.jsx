@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { db } from "../../../firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
 import Swal from "sweetalert2";
@@ -7,6 +7,8 @@ import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import { CartDesktop } from "./CartDesktop";
 import { CartMobile } from "./CartMobile";
 import { CartContext } from "../../context/CartContext";
+import styled from "styled-components/macro";
+import { Ring } from "@uiball/loaders";
 
 //Swal Sweet Alert Message - NO AVAILABLE STOCK
 const missingItemMessage = (missingItems) => {
@@ -23,13 +25,26 @@ const missingItemMessage = (missingItems) => {
 };
 
 export const CartContainer = () => {
+  const { windowWidth, setProgress } = useContext(GlobalToolsContext);
+  const { cart } = useContext(CartContext);
+  const [loading, setLoading] = useState(true); //Loader
+  const navigate = useNavigate();
+
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
-  const { windowWidth } = useContext(GlobalToolsContext);
-  const { cart } = useContext(CartContext);
-  const navigate = useNavigate();
+  useEffect(() => {
+    setProgress(10)
+    setTimeout(() => {
+      setLoading(false);
+    }, 750);
+    if (loading === false) {
+      setProgress(100);
+    }
+  }, [loading, setProgress]);
+
 
   const realizarCompra = async () => {
     let isValid = true;
@@ -67,7 +82,15 @@ export const CartContainer = () => {
 
   return (
     <>
-      {windowWidth > 680 ? (
+      {loading ? (
+        <LoaderWrapper>
+          {windowWidth > 600 ? (
+            <Ring size={60} lineWeight={8} speed={2} color="black" />
+          ) : (
+            <Ring size={40} lineWeight={6} speed={2} color="black" />
+          )}
+        </LoaderWrapper>
+      ) : windowWidth > 680 ? (
         <CartDesktop realizarCompra={realizarCompra} />
       ) : (
         <CartMobile realizarCompra={realizarCompra} />
@@ -75,3 +98,9 @@ export const CartContainer = () => {
     </>
   );
 };
+const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 550px;
+`;

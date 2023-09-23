@@ -70,7 +70,7 @@ export const ItemListContainer = () => {
 
   useEffect(() => {
     setLoading(true);
-    setProgress(15); // Start with 0% progress
+    setProgress(20); 
 
     const delay = 650;
     const timer = setTimeout(() => {
@@ -108,13 +108,14 @@ export const ItemListContainer = () => {
           console.log(products);
           setItems(products);
           setLoading(false);
+          setProgress(100);
         })
         .catch((err) => console.log(err));
-        setProgress(100);
     }, delay);
 
     return () => clearTimeout(timer); // Clear the timeout if the component unmounts
   }, []);
+
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //
