@@ -30,6 +30,7 @@ export const ItemList = ({
     isFilterOpen,
     toggleFilterMenu,
     windowWidth,
+    progress,
     setProgress,
     setVisible,
   } = useContext(GlobalToolsContext);
@@ -49,7 +50,7 @@ export const ItemList = ({
 
   const handleLoadTop = () => {
     setVisible(true);
-    setProgress(2); //set Top Loading bar to 30% after clicking on Item
+    setProgress(5); //set Top Loading bar to 30% after clicking on Item
   };
 
   //Pagination loader
