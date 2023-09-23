@@ -12,35 +12,31 @@ import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import { Ring } from "@uiball/loaders";
 
 export const ItemDetailContainer = () => {
-  //Guardamos los items (objetos)
+  // Guardamos los items (objetos)
   const [selectedItem, setSelectedItem] = useState({});
   const { id } = useParams();
   const { windowWidth, setProgress } = useContext(GlobalToolsContext);
-  const [loading, setLoading] = useState(true); //Loader
+  const [loading, setLoading] = useState(true); // Loader
 
-  //ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
+  // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
-    setProgress(20);
+    setProgress(45);
     const itemCollection = collection(db, "products");
     const refDoc = doc(itemCollection, id);
 
     setTimeout(() => {
-      getDoc(refDoc).then((response) => {
-        setSelectedItem({
-          ...response.data(),
-          id: response.id,
-        });
-      });
-      setProgress(100);
+      getDoc(refDoc)
+        .then((response) => {
+          setSelectedItem({
+            ...response.data(),
+            id: response.id,
+          });
+          setLoading(false);
+          setProgress(100); // Move this here to set progress to 100 after rendering
+        })
+        .catch((err) => console.log(err));
     }, 600);
   }, [id]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-      setProgress(100); // Move this here to set progress to 100 after rendering
-    }, 700);
-  }, [loading, setProgress]);
 
   return (
     <>
@@ -64,22 +60,21 @@ export const ItemDetailContainer = () => {
             <Ring size={40} lineWeight={6} speed={2} color="black" />
           )}
         </LoaderWrapper>
-      ) : selectedItem.id ? (
-        <>
-          {windowWidth > 950 ? (
-            <ItemDetailDesktop selectedItem={selectedItem} />
-          ) : (
-            <ItemDetailMobile selectedItem={selectedItem} />
-          )}
-        </>
       ) : (
-        <LoaderWrapper>
-          {/* <BarLoader color="#12352e" width={250} /> */}
-        </LoaderWrapper>
+        selectedItem.id && (
+          <>
+            {windowWidth > 950 ? (
+              <ItemDetailDesktop selectedItem={selectedItem} />
+            ) : (
+              <ItemDetailMobile selectedItem={selectedItem} />
+            )}
+          </>
+        )
       )}
     </>
   );
 };
+
 const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
