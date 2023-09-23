@@ -70,7 +70,7 @@ export const ItemListContainer = () => {
 
   useEffect(() => {
     setLoading(true);
-    setProgress(20); 
+    setProgress(2); 
 
     const delay = 650;
     const timer = setTimeout(() => {
