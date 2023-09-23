@@ -36,7 +36,7 @@ export const CartContainer = () => {
   }, []);
 
   useEffect(() => {
-    setProgress(10)
+    setProgress(2)
     setTimeout(() => {
       setLoading(false);
     }, 750);
