@@ -23,8 +23,8 @@ export const FilterDetail = ({
   //           FETCH ITEMS RELATED TO "selectedItem" BY userId PROPERTY              //           (Firestore database)
 
   useEffect(() => {
-    // console.log("Fetching related items from Firestore...");
     const fetchRelatedItems = () => {
+      console.log("Fetching related items from Firestore...");
       const userId = selectedItem.userId;
       const relatedItemsQuery = query(
         collection(db, "products"),
@@ -77,7 +77,6 @@ export const FilterDetail = ({
 
   // Function to handle size and color filter selection change
   useEffect(() => {
-    // console.log("Filtering related items...");
     const { color, size } = selectedFilters;
     if (color && size) {
       let filterSelection = relatedItems.find(
@@ -97,7 +96,6 @@ export const FilterDetail = ({
           }));
         }
       }
-
       onFilterItemChange(filterSelection); //responible to set new item by color or sizes and render it
       setFilteredItem(filterSelection || {});
     }

@@ -16,27 +16,31 @@ export const ItemDetailContainer = () => {
   const [selectedItem, setSelectedItem] = useState({});
   const { id } = useParams();
   const { windowWidth, setProgress } = useContext(GlobalToolsContext);
-  const [loading, setLoading] = useState(true); // Loader
+  const [loading, setLoading] = useState(true);
+  const [progressComplete, setProgressComplete] = useState(false);
 
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
-    setProgress(45);
+    // setProgress(20);
     const itemCollection = collection(db, "products");
     const refDoc = doc(itemCollection, id);
-
-    setTimeout(() => {
-      getDoc(refDoc)
-        .then((response) => {
-          setSelectedItem({
-            ...response.data(),
-            id: response.id,
-          });
+    console.log("fetching from ItemDetailContainer");
+    getDoc(refDoc)
+      .then((response) => {
+        setSelectedItem({
+          ...response.data(),
+          id: response.id,
+        });
+        setTimeout(() => {
           setLoading(false);
-          setProgress(100); // Move this here to set progress to 100 after rendering
-        })
-        .catch((err) => console.log(err));
-    }, 600);
-  }, [id]);
+          setProgressComplete(true);
+          if (!progressComplete) {
+            setProgress(100);
+          }
+        }, 400); // Set loading to false, progress to 100, and progressComplete to true after a delay
+      })
+      .catch((err) => console.log(err));
+  }, [id, setProgress]);
 
   return (
     <>
@@ -61,7 +65,7 @@ export const ItemDetailContainer = () => {
           )}
         </LoaderWrapper>
       ) : (
-        selectedItem.id && (
+        progressComplete && (
           <>
             {windowWidth > 950 ? (
               <ItemDetailDesktop selectedItem={selectedItem} />

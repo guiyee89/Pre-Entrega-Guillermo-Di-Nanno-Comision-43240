@@ -7,9 +7,9 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 
 export const CarouselDesktop = () => {
-  // const { discountProducts, loading, setLoading } = useContext(CarouselContext);
 
   const [discountProducts, setDiscountedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
@@ -17,16 +17,16 @@ export const CarouselDesktop = () => {
         const queryAllProducts = collection(db, "products");
         const querySnapshot = await getDocs(queryAllProducts);
         console.log("fetching discount");
-
+  
         const filteredDiscountProducts = [];
         const filteredProductsMap = new Map();
-
+  
         for (const doc of querySnapshot.docs) {
           const product = doc.data();
           if (product.discount) {
             const { userId, color } = product;
             const key = `${userId}-${color}`;
-
+  
             // Check if the product's userId and color combination already exists in the filteredProductsMap
             if (!filteredProductsMap.has(key)) {
               // If not, add the product to the filteredProductsMap
@@ -41,20 +41,16 @@ export const CarouselDesktop = () => {
         }
         console.log(filteredDiscountProducts);
         setDiscountedProducts(filteredDiscountProducts);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching discounted products:", error);
       }
     };
     fetchDiscountedProducts();
+    
   }, []);
 
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1850);
-  }, []);
+  
 
   if (!discountProducts || !Array.isArray(discountProducts)) {
     // Handle the case where discountProducts is not defined or not an array
