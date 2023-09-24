@@ -1,4 +1,4 @@
-import React, { createContext, useRef, useState } from "react";
+import React, { createContext, useState } from "react";
 import { useEffect } from "react";
 
 export const GlobalToolsContext = createContext();
@@ -24,6 +24,7 @@ const GlobalToolsProvider = ({ children }) => {
 
   //Manage Mobile - Desktop components by width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -33,6 +34,9 @@ const GlobalToolsProvider = ({ children }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  //Manage state for Loading spinner
+  const [loading, setLoading] = useState(false)
 
   //Manage states for Loading Top Bar component
   const [progress, setProgress] = useState(0);
@@ -47,6 +51,8 @@ const GlobalToolsProvider = ({ children }) => {
     isFilterOpen,
     toggleFilterMenu,
     windowWidth,
+    loading,
+    setLoading,
     progress,
     setProgress,
     buffer,

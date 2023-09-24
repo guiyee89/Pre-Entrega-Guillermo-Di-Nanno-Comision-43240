@@ -1,10 +1,11 @@
 import styled from "styled-components/macro";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CarouselTablet } from "./carousels/CarouselTablet";
 import { CarouselMobile } from "./carousels/CarouselMobile";
 import { Link } from "react-router-dom";
 import { CarouselDesktop } from "./carousels/CarouselDesktop";
 import { Ring } from "@uiball/loaders";
+import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 
 
 export const LandingPage = () => {
@@ -14,19 +15,7 @@ export const LandingPage = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const { windowWidth } = useContext(GlobalToolsContext);
 
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components/macro";
 
 export const LoadingTopBar = () => {
-  const { progress, buffer, setProgress, setBuffer, visible, setVisible } = useContext(GlobalToolsContext);
+  const { progress, buffer, setProgress, setBuffer, visible, setVisible, loading, setLoading } = useContext(GlobalToolsContext);
 
   const progressRef = useRef(() => {});
   let timer = 0;
@@ -20,12 +20,12 @@ export const LoadingTopBar = () => {
 
         setTimeout(() => {
           setProgress(0);
-          setBuffer(12);
+          setBuffer(10);
           setVisible(false); // Hide the progress bar
         }, 250); 
       } else {
         const diff = Math.random() * 10;
-        const diff2 = Math.random() * 12;
+        const diff2 = Math.random() * 10;
         const newProgress = Math.min(progress + diff, 100); // Ensure progress doesn't exceed 100
         setProgress(newProgress);
         setBuffer(newProgress + diff2); // Update the buffer progress
@@ -36,7 +36,7 @@ export const LoadingTopBar = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       progressRef.current();
-    }, 400);
+    }, 300);
 
     return () => {
       clearInterval(timer); // Clear the timer when the component unmounts

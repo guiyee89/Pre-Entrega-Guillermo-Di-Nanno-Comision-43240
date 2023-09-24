@@ -22,13 +22,13 @@ export const ScrollRestorationWrapper = ({ children }) => {
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
-  const [loading, setLoading] = useState(true); //Loader
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
   const { isFilterOpen, toggleFilterMenu, windowWidth, setProgress } =
     useContext(GlobalToolsContext);
-
+  const [loading, setLoading] = useState(false);
+  const [progressComplete, setProgressComplete] = useState(false);
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
   // useEffect(() => {
@@ -70,7 +70,7 @@ export const ItemListContainer = () => {
 
   useEffect(() => {
     setLoading(true);
-    setProgress(2); 
+    // setProgress(15);
 
     const delay = 650;
     const timer = setTimeout(() => {
@@ -107,16 +107,19 @@ export const ItemListContainer = () => {
           console.log("fetching itemList...");
           console.log(products);
           setItems(products);
-          setLoading(false);
-          setProgress(100);
+          setTimeout(() => {
+            setLoading(false);
+            setProgressComplete(true);
+            if (!progressComplete) {
+              setProgress(100);
+            }
+          }, 400); // Set loading to false, progress to 100, and progressComplete to true after a delay
         })
         .catch((err) => console.log(err));
-        
     }, delay);
 
     return () => clearTimeout(timer); // Clear the timeout if the component unmounts
-  }, []);
-
+  }, [categoryName]);
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //
@@ -170,50 +173,52 @@ export const ItemListContainer = () => {
         ) : (
           <>
             {/******  FILTER  ******/}
-            <ItemsFiltersWrapper>
-              {windowWidth > 900 && (
-                <DesktopFilterWrapper scrolled={scroll}>
-                  <DesktopFilter
-                    items={items}
-                    onFilterChange={handleFilterChange}
-                    setCurrentPage={setCurrentPage}
-                    setItemLoader={setItemLoader}
-                  />
-                </DesktopFilterWrapper>
-              )}
-              {windowWidth <= 900 && (
-                <MobileFilterWrapper
-                  isFilterOpen={isFilterOpen}
-                  onClick={toggleFilterMenu}
-                >
-                  <MobileFilter
-                    items={items}
-                    onFilterChange={handleFilterChange}
-                    setCurrentPage={setCurrentPage}
-                    setItemLoader={setItemLoader}
-                  />
-                </MobileFilterWrapper>
-              )}
-
-              <ItemListWrapper>
-                {/* RENDERING ITEMS */}
-                {filteredItems.length > 0 ? (
-                  <ItemList
-                    items={filteredItems}
-                    navigate={navigate}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    itemLoader={itemLoader}
-                  />
-                ) : (
-                  itemsNotFound && (
-                    <NoProductMessage>
-                      No items found with this filter criteria
-                    </NoProductMessage>
-                  )
+            {progressComplete && (
+              <ItemsFiltersWrapper>
+                {windowWidth > 900 && (
+                  <DesktopFilterWrapper scrolled={scroll}>
+                    <DesktopFilter
+                      items={items}
+                      onFilterChange={handleFilterChange}
+                      setCurrentPage={setCurrentPage}
+                      setItemLoader={setItemLoader}
+                    />
+                  </DesktopFilterWrapper>
                 )}
-              </ItemListWrapper>
-            </ItemsFiltersWrapper>
+                {windowWidth <= 900 && (
+                  <MobileFilterWrapper
+                    isFilterOpen={isFilterOpen}
+                    onClick={toggleFilterMenu}
+                  >
+                    <MobileFilter
+                      items={items}
+                      onFilterChange={handleFilterChange}
+                      setCurrentPage={setCurrentPage}
+                      setItemLoader={setItemLoader}
+                    />
+                  </MobileFilterWrapper>
+                )}
+
+                <ItemListWrapper>
+                  {/* RENDERING ITEMS */}
+                  {filteredItems.length > 0 ? (
+                    <ItemList
+                      items={filteredItems}
+                      navigate={navigate}
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                      itemLoader={itemLoader}
+                    />
+                  ) : (
+                    itemsNotFound && (
+                      <NoProductMessage>
+                        No items found with this filter criteria
+                      </NoProductMessage>
+                    )
+                  )}
+                </ItemListWrapper>
+              </ItemsFiltersWrapper>
+            )}
           </>
         )}
         {/* <AgregarDocs /> */}
