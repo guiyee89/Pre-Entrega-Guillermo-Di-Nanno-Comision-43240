@@ -26,7 +26,7 @@ export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
-  const { isFilterOpen, toggleFilterMenu, windowWidth, setProgress, loading, setLoading, setVisible } =
+  const { isFilterOpen, toggleFilterMenu, windowWidth, progress, setProgress, loading, setLoading, setVisible } =
     useContext(GlobalToolsContext);
   // const [loading, setLoading] = useState(false);
   const [progressComplete, setProgressComplete] = useState(false);
@@ -34,7 +34,7 @@ export const ItemListContainer = () => {
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
   useEffect(() => {
-    setProgress(10);
+    setProgress(1)
     setLoading(true);
     setVisible(true)
     const delay = 550;
@@ -76,7 +76,10 @@ export const ItemListContainer = () => {
             setLoading(false);
             setProgressComplete(true);
             if (!progressComplete === true) {
-              setProgress(100);
+              setProgress(100)
+            }
+            if(loading === false && progress === 100){
+              setVisible(false)
             }
           }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
         })

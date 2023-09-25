@@ -15,7 +15,7 @@ export const ItemDetailContainer = () => {
   // Guardamos los items (objetos)
   const [selectedItem, setSelectedItem] = useState({});
   const { id } = useParams();
-  const { windowWidth, setProgress, loading, setLoading, setVisible } = useContext(GlobalToolsContext);
+  const { windowWidth, setProgress, loading, setLoading, setVisible, progress } = useContext(GlobalToolsContext);
   // const [loading, setLoading] = useState(true);
   const [progressComplete, setProgressComplete] = useState(false);
 
@@ -37,6 +37,9 @@ export const ItemDetailContainer = () => {
           setProgressComplete(true);
           if (!progressComplete === true) {
             setProgress(100); 
+          }
+          if(loading === false && progress === 100){
+            setVisible(false)
           }
         }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
       })
