@@ -622,9 +622,9 @@ const ResetAllBtn = styled.button`
     content: "";
     position: absolute;
     bottom: 2px;
-    left: 7%;
+    left: 5.5%;
     width: 90%;
-    height: 2px;
+    height: 1.6px;
     background-color: black;
   }
   &:hover {

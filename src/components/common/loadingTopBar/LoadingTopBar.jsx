@@ -54,10 +54,12 @@ export const LoadingTopBar = () => {
 
  // Listen for navigation changes and show the progress bar
  useEffect(() => {
-  if (loading === true) {
+  if (loading === false && progress === 100) {
+    setVisible(false);
+  } else if(loading === true){
     setVisible(true);
   } else {
-    setVisible(false);
+    setVisible(false)
   }
 }, [location]);
 
@@ -69,7 +71,7 @@ export const LoadingTopBar = () => {
           value={progress}
           valueBuffer={buffer}
           color="inherit"
-          sx={{ height: "6px", color: "#333" }}
+          sx={{ height: "4px", color: "#333" }}
         />
       )}
     </BoxLoader>
