@@ -22,21 +22,30 @@ export const ScrollRestorationWrapper = ({ children }) => {
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
-
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
-  const { isFilterOpen, toggleFilterMenu, windowWidth, progress, setProgress, loading, setLoading, setVisible } =
-    useContext(GlobalToolsContext);
+  const {
+    isFilterOpen,
+    toggleFilterMenu,
+    windowWidth,
+    progress,
+    setProgress,
+    loading,
+    setLoading,
+    setVisible,
+    progressComplete, 
+    setProgressComplete
+  } = useContext(GlobalToolsContext);
   // const [loading, setLoading] = useState(false);
-  const [progressComplete, setProgressComplete] = useState(false);
+  // const [progressComplete, setProgressComplete] = useState(false);
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
   useEffect(() => {
-    setProgress(1)
+    setProgress(1);
     setLoading(true);
-    setVisible(true)
+    setVisible(true);
     const delay = 550;
     const timer = setTimeout(() => {
       let itemsCollection = collection(db, "products");
@@ -75,11 +84,11 @@ export const ItemListContainer = () => {
           setTimeout(() => {
             setLoading(false);
             setProgressComplete(true);
-            if (!progressComplete === true) {
-              setProgress(100)
-            }
-            if(loading === false && progress === 100){
-              setVisible(false)
+            // if (!progressComplete === true && loading === false) {
+            //   setProgress(100);
+            // }
+            if (loading === false && progress === 100) {
+              setVisible(false);
             }
           }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
         })
@@ -87,7 +96,7 @@ export const ItemListContainer = () => {
     }, delay);
 
     return () => clearTimeout(timer); // Clear the timeout if the component unmounts
-  }, [categoryName, setProgress]);
+  }, [categoryName]);
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //

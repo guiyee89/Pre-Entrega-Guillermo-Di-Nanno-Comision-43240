@@ -15,14 +15,22 @@ export const ItemDetailContainer = () => {
   // Guardamos los items (objetos)
   const [selectedItem, setSelectedItem] = useState({});
   const { id } = useParams();
-  const { windowWidth, setProgress, loading, setLoading, setVisible, progress } = useContext(GlobalToolsContext);
-  // const [loading, setLoading] = useState(true);
-  const [progressComplete, setProgressComplete] = useState(false);
+  const {
+    windowWidth,
+    setProgress,
+    loading,
+    setLoading,
+    setVisible,
+    progress,
+    progressComplete, 
+    setProgressComplete
+  } = useContext(GlobalToolsContext);
+  // const [progressComplete, setProgressComplete] = useState(false);
 
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
-    setLoading(true)
-    setVisible(true)
+    setLoading(true);
+    setVisible(true);
     const itemCollection = collection(db, "products");
     const refDoc = doc(itemCollection, id);
     console.log("fetching from ItemDetailContainer");
@@ -35,16 +43,16 @@ export const ItemDetailContainer = () => {
         setTimeout(() => {
           setLoading(false);
           setProgressComplete(true);
-          if (!progressComplete === true) {
-            setProgress(100); 
-          }
-          if(loading === false && progress === 100){
-            setVisible(false)
+          // if (!progressComplete === true && loading === false) {
+          //   setProgress(100);
+          // }
+          if (loading === false && progress === 100) {
+            setVisible(false);
           }
         }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
       })
       .catch((err) => console.log(err));
-  }, [id, setProgress]);
+  }, [id]);
 
   return (
     <>

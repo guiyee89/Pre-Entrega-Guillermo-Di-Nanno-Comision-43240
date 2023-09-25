@@ -42,6 +42,7 @@ const GlobalToolsProvider = ({ children }) => {
   const [progress, setProgress] = useState(0);
   const [buffer, setBuffer] = useState(10);
   const [visible, setVisible] = useState(false);
+  const [progressComplete, setProgressComplete] = useState(false);
 
   const value = {
     isOpen,
@@ -59,6 +60,8 @@ const GlobalToolsProvider = ({ children }) => {
     setBuffer,
     visible,
     setVisible,
+    progressComplete, 
+    setProgressComplete
   };
 
   return (

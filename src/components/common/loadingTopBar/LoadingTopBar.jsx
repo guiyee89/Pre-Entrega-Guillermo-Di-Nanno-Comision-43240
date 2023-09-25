@@ -13,13 +13,14 @@ export const LoadingTopBar = () => {
     setBuffer,
     visible,
     setVisible,
-    loading,
+    loading
   } = useContext(GlobalToolsContext);
 
+
   const progressRef = useRef(() => {});
+
   let timer = 0;
-  // Control the visibility of the progress bar
-  const location = useLocation();
+
 
   useEffect(() => {
     progressRef.current = () => {
@@ -34,24 +35,38 @@ export const LoadingTopBar = () => {
         }, 300);
       } else {
         const diff = Math.random() * 12;
-        const diff2 = Math.random() * 15;
-        const newProgress = Math.min(progress + diff, 100); // Ensure progress doesn't exceed 100
+        // const diff2 = Math.random() * 15;
+        let newProgress; /* = Math.min(progress + diff, 100); */ // Ensure progress doesn't exceed 100
+
+        if (loading) {
+          // Cap the progress at 90 when loading is true
+          newProgress = Math.min(progress + diff, 90);
+        } else {
+          // Allow progress to reach 100 when loading becomes false
+          newProgress = Math.min(progress + diff, 100);
+        }
         setProgress(newProgress);
-        setBuffer(newProgress + diff2); // Update the buffer progress
+        // setBuffer(newProgress + diff2); // Update the buffer progress
       }
     };
-  }, [progress, setProgress, setBuffer, visible]);
+  }, [progress, setProgress, visible, /* setBuffer */]);
+
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const timer = setInterval(() => { //Set a time progress of the bar
       progressRef.current();
     }, 200);
-
     return () => {
       clearInterval(timer); // Clear the timer when the component unmounts
     };
   }, []);
 
+
+  useEffect(() => {
+    if(loading === false){ //Set bar to 100% after loading is falsy
+      setProgress(100)
+    }
+  },[loading])
 
   return (
     <BoxLoader sx={{ width: "100%" }}>
