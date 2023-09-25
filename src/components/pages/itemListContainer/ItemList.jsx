@@ -141,7 +141,7 @@ export const ItemList = ({
                 handleLoadDetail(product.id);
                 setTimeout(() => {
                   navigate(`/item-details/${product.id}`);
-                }, 1700); // Delay in milliseconds
+                }, 700); // Delay in milliseconds
               }}
             >
               <Loader>

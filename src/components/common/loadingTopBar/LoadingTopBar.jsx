@@ -33,33 +33,25 @@ export const LoadingTopBar = () => {
           }
         }, 300);
       } else {
-        const diff = Math.random() * 7;
-        const diff2 = Math.random() * 8;
+        const diff = Math.random() * 12;
+        const diff2 = Math.random() * 15;
         const newProgress = Math.min(progress + diff, 100); // Ensure progress doesn't exceed 100
         setProgress(newProgress);
         setBuffer(newProgress + diff2); // Update the buffer progress
       }
     };
-  }, [progress, setProgress, setBuffer]);
+  }, [progress, setProgress, setBuffer, visible]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       progressRef.current();
-    }, 250);
+    }, 200);
 
     return () => {
       clearInterval(timer); // Clear the timer when the component unmounts
     };
   }, []);
 
- // Listen for navigation changes and show the progress bar
- useEffect(() => {
-  if (loading === true) {
-    setVisible(true);
-  } else {
-    setVisible(false);
-  }
-}, [location]);
 
   return (
     <BoxLoader sx={{ width: "100%" }}>
@@ -69,7 +61,7 @@ export const LoadingTopBar = () => {
           value={progress}
           valueBuffer={buffer}
           color="inherit"
-          sx={{ height: "6px", color: "#333" }}
+          sx={{ height: "4px", color: "#333" }}
         />
       )}
     </BoxLoader>
