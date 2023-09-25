@@ -218,9 +218,9 @@ const NavLink = styled(Link)`
     content: "";
     position: absolute;
     bottom: -4px;
-    left: 0;
+    left: -1px;
     width: 100%;
-    height: 2px;
+    height: 1.38px;
     background-color: black;
     transform: scaleX(0);
     transform-origin: left center;
@@ -228,37 +228,3 @@ const NavLink = styled(Link)`
   }
 `;
 
-//El otro nav
-// const NavLink = styled(Link)`
-//   text-decoration: none;
-//   color: black;
-//   font-weight: 700;
-//   text-transform: uppercase;
-//   position: relative;
-//   font-size: ${(props) => (props.scrolled === "scrolled" ? ".85rem" : "1rem")};
-//   transition: font-size
-//     ${(props) => (props.scrolled === "scrolled" ? "0.28s" : "0.16s")}
-//     ease-in-out;
-//   &:hover {
-//     color: #7c819b ;
-//     transition: ease-in-out 0.2s;
-//     transform: scaleX(1);
-//   }
-//   &::after {
-//     content: "";
-//     position: absolute;
-//     bottom: -4px;
-//     left: 0;
-//     width: 100%;
-//     height: 2px;
-//     background-color: black;
-//     transform: scaleX(0);
-//     transform-origin: left center;
-//     transition: transform 0.25s ease-in-out, padding-bottom 0.25s ease-in-out;
-//   }
-//   &:hover::after {
-//     background-color: #373a4a;
-//     transform: scaleX(1);
-//     padding-bottom: 3px;
-//   }
-// `;

@@ -31,7 +31,7 @@ export const LoadingTopBar = () => {
             setBuffer(10);
             setVisible(false); // Hide the progress bar
           }
-        }, 250);
+        }, 300);
       } else {
         const diff = Math.random() * 7;
         const diff2 = Math.random() * 8;
