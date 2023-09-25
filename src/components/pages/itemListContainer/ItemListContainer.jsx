@@ -37,13 +37,12 @@ export const ItemListContainer = () => {
     progressComplete, 
     setProgressComplete
   } = useContext(GlobalToolsContext);
-  // const [loading, setLoading] = useState(false);
-  // const [progressComplete, setProgressComplete] = useState(false);
+
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
   useEffect(() => {
-    setProgress(1);
+    setProgress(0)
     setLoading(true);
     setVisible(true);
     const delay = 550;

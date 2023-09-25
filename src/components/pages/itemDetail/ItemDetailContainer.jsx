@@ -25,7 +25,7 @@ export const ItemDetailContainer = () => {
     progressComplete, 
     setProgressComplete
   } = useContext(GlobalToolsContext);
-  // const [progressComplete, setProgressComplete] = useState(false);
+
 
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
