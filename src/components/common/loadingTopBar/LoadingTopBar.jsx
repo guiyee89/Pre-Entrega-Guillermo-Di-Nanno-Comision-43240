@@ -39,7 +39,7 @@ export const LoadingTopBar = () => {
         let newProgress // Ensure progress doesn't exceed 100
 
         if (loading) { // Cap the progress at 90 when loading is true
-          newProgress = Math.min(progress + diff, 90);
+          newProgress = Math.min(progress + diff, 85);
           
         } else {  // Allow progress to reach 100 when loading becomes false
           newProgress = Math.min(progress + diff, 100);

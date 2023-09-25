@@ -146,7 +146,7 @@ export const ItemList = ({
             >
               <Loader>
                 {isLoadingDetail && (
-                  <Ring size={40} lineWeight={7} speed={1} color="black" />
+                  <Ring size={32} lineWeight={7} speed={1} color="black" />
                 )}
               </Loader>
               <ItemCard>
