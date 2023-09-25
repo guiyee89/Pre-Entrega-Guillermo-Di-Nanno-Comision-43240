@@ -35,12 +35,12 @@ const GlobalToolsProvider = ({ children }) => {
     };
   }, []);
 
-  //Manage state for Loading spinner
+  //Manage state for Loading Spinner
   const [loading, setLoading] = useState(false)
 
   //Manage states for Loading Top Bar component
   const [progress, setProgress] = useState(0);
-  const [buffer, setBuffer] = useState(12);
+  const [buffer, setBuffer] = useState(10);
   const [visible, setVisible] = useState(false);
 
   const value = {

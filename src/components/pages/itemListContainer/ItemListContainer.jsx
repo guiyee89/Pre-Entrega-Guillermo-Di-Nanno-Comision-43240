@@ -22,57 +22,22 @@ export const ScrollRestorationWrapper = ({ children }) => {
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
+
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
-  const { isFilterOpen, toggleFilterMenu, windowWidth, setProgress } =
+  const { isFilterOpen, toggleFilterMenu, windowWidth, setProgress, loading, setLoading, setVisible } =
     useContext(GlobalToolsContext);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [progressComplete, setProgressComplete] = useState(false);
+
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
-  // useEffect(() => {
-  //   console.log("fetching...");
-  //   setLoading(true);
-  //   let itemsCollection = collection(db, "products");
-  //   let filterCollection;
-  //   if (!categoryName) {
-  //     //If there is no categoryName, fetch all products
-  //     filterCollection = itemsCollection;
-  //   } else {
-  //     //if there is categoryName, filter that category
-  //     filterCollection = query(
-  //       itemsCollection,
-  //       where("category", "==", categoryName)
-  //     );
-  //   }
-
-  //   setTimeout(() => {
-  //     //getDocs to resolve the promise and fetch the products
-  //     getDocs(filterCollection)
-  //       .then((res) => {
-  //         let products = res.docs.map((product) => {
-  //           return {
-  //             ...product.data(),
-  //             id: product.id,
-  //           };
-
-  //         });
-  //         console.log(products)
-  //         setItems(products);
-  //         setLoading(false);
-  //       })
-
-  //       .catch((err) => console.log(err));
-  //   }, 0);
-
-  // }, [categoryName]);
-
   useEffect(() => {
+    setProgress(10);
     setLoading(true);
-    // setProgress(15);
-
-    const delay = 650;
+    setVisible(true)
+    const delay = 550;
     const timer = setTimeout(() => {
       let itemsCollection = collection(db, "products");
       let filterCollection;
@@ -85,7 +50,7 @@ export const ItemListContainer = () => {
           where("category", "==", categoryName)
         );
       }
-      setProgress(55);
+
       getDocs(filterCollection)
         .then((res) => {
           const products = res.docs.reduce((filtered, productDoc) => {
@@ -110,16 +75,16 @@ export const ItemListContainer = () => {
           setTimeout(() => {
             setLoading(false);
             setProgressComplete(true);
-            if (!progressComplete) {
+            if (!progressComplete === true) {
               setProgress(100);
             }
-          }, 400); // Set loading to false, progress to 100, and progressComplete to true after a delay
+          }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
         })
         .catch((err) => console.log(err));
     }, delay);
 
     return () => clearTimeout(timer); // Clear the timeout if the component unmounts
-  }, [categoryName]);
+  }, [categoryName, setProgress]);
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //

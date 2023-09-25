@@ -25,9 +25,8 @@ const missingItemMessage = (missingItems) => {
 };
 
 export const CartContainer = () => {
-  const { windowWidth, setProgress } = useContext(GlobalToolsContext);
+  const { windowWidth, setProgress, loading, setLoading, setVisible } = useContext(GlobalToolsContext);
   const { cart } = useContext(CartContext);
-  const [loading, setLoading] = useState(true); //Loader
   const navigate = useNavigate();
 
 
@@ -36,14 +35,16 @@ export const CartContainer = () => {
   }, []);
 
   useEffect(() => {
+    setVisible(true)
+    setLoading(true)
     setProgress(2)
     setTimeout(() => {
       setLoading(false);
+      if (loading === false) {
+        setProgress(100);
+      }
     }, 750);
-    if (loading === false) {
-      setProgress(100);
-    }
-  }, [loading, setProgress]);
+  }, []);
 
 
   const realizarCompra = async () => {
