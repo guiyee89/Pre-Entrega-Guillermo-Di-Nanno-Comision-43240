@@ -53,13 +53,6 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
     }, 990);
   };
 
-  //------      HANDLE IMAGES FOR RENDERING       -------//
-  // const [selectedImage, setSelectedImage] = useState({});
-
-  // const handleImageChange = (image, index) => {
-  //   setSelectedImage(image, index);
-  // };
-  
 
   ///////////////////////////////////////////////////////////////////////////////////
   /* Render item details based on the existence of selectedItem or filteredItem */
@@ -72,7 +65,6 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
           <ItemImageDesktop
             filteredItem={filteredItem}
             selectedItem={selectedItem}
-            // handleImageChange={handleImageChange}
           />
           {hasDiscount && <Discount>-{selectedItem.discount}%</Discount>}
           <InsideWrapper>

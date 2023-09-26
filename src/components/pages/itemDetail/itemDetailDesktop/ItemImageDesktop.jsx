@@ -4,7 +4,6 @@ import styled from "styled-components/macro";
 export const ItemImageDesktop = ({
   filteredItem,
   selectedItem,
-  // handleImageChange,
 }) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
@@ -28,7 +27,6 @@ export const ItemImageDesktop = ({
 
   const handleImageClick = (image, index) => {
     setSelectedImage({ image, index });
-    // handleImageChange(image, index); // Call the handleImageChange function with the selected image
   };
 
   return (
