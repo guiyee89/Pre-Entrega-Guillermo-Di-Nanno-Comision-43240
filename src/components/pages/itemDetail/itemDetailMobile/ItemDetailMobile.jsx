@@ -54,12 +54,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
    };
  
 
-  //------      HANDLE IMAGES FOR RENDERING       -------//
-  // const [selectedImage, setSelectedImage] = useState({});
 
-  // const handleImageChange = (image, index) => {
-  //   setSelectedImage(image, index);
-  // };
 
   ///////////////////////////////////////////////////////////////////////////////////
   /* Render item details based on the existence of selectedItem or filteredItem */
@@ -85,7 +80,6 @@ export const ItemDetailMobile = ({ selectedItem }) => {
           <ItemImageMobile
             filteredItem={filteredItem}
             selectedItem={selectedItem}
-            // handleImageChange={handleImageChange}
           />
           <InsideWrapper>
             <FilterWrapper>
