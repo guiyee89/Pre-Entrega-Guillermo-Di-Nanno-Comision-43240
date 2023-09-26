@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useContext, useEffect, useRef, useState } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
-import { useLocation } from "react-router-dom";
 import styled from "styled-components/macro";
 
 export const LoadingTopBar = () => {

@@ -1,11 +1,76 @@
+// import { useState, useEffect } from "react";
+// import styled from "styled-components/macro";
+
+// export const ItemImageMobile = ({
+//   filteredItem,
+//   selectedItem,
+//   // handleImageChange,
+// }) => {
+//   const [selectedImage, setSelectedImage] = useState({});
+//   const [imagesToRender, setImagesToRender] = useState([]);
+
+//   useEffect(() => {
+//     // When the selectedItem changes, update the imagesToRender state with the selectedItem images
+//     if (selectedItem) {
+//       setImagesToRender(selectedItem.img.slice(0, 5));
+//       setSelectedImage({ image: selectedItem.img[0], index: 0 }); // Set the first image as selected by default
+//     }
+//   }, [selectedItem]);
+
+//   useEffect(() => {
+//     // When the filteredItem changes, update the imagesToRender state with the filteredItem images
+//     if (filteredItem && Object.keys(filteredItem).length > 0) {
+//       setImagesToRender(filteredItem.img.slice(0, 5));
+//       setSelectedImage({ image: selectedItem.img[0], index: 0 }); // Set the first image as selected by default
+//     }
+//   }, [filteredItem]);
+
+//   const handleImageClick = (image, index) => {
+//     setSelectedImage({ image, index });
+//     // handleImageChange(image, index); // Call the handleImageChange function with the selected image
+//   };
+
+//   return (
+//     <Wrapper>
+//       <ImgAsideWrapper>
+//         {imagesToRender.map((image, index) => (
+//           <ImgAside
+//             key={index}
+//             src={image}
+//             alt=""
+//             isSelected={selectedImage.index === index}
+//             onClick={() => handleImageClick(image, index)}
+//           />
+//         ))}
+//       </ImgAsideWrapper>
+//       <MainImgWrapper>
+//         {imagesToRender.map((image, index) => (
+//           <MainImg
+//             key={index}
+//             src={image}
+//             id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
+//             position={index === 0 ? "none" : "absolute"}
+//             translationDirection={
+//               selectedImage.index === index
+//                 ? "none"
+//                 : selectedImage.index < index
+//                 ? "translateX(-100%)"
+//                 : "translateX(100%)"
+//             }
+//             isVisible={selectedImage.index === index}
+//           />
+//         ))}
+//       </MainImgWrapper>
+//     </Wrapper>
+//   );
+// };
 import { useState, useEffect } from "react";
 import styled from "styled-components/macro";
+import Carousel from "react-bootstrap/Carousel"; // Import the Carousel component
+import NextButtonSVG from "../../../../assets/arrow-right-336-svgrepo-com.svg"; // Import your custom next button SVG
+import PrevButtonSVG from "../../../../assets/arrow-left-335-svgrepo-com.svg";
 
-export const ItemImageMobile = ({
-  filteredItem,
-  selectedItem,
-  handleImageChange,
-}) => {
+export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
 
@@ -25,41 +90,27 @@ export const ItemImageMobile = ({
     }
   }, [filteredItem]);
 
-  const handleImageClick = (image, index) => {
-    setSelectedImage({ image, index });
-    handleImageChange(image, index); // Call the handleImageChange function with the selected image
+  const handleImageSwitch = (newIndex) => {
+    setSelectedImage({ image: imagesToRender[newIndex], index: newIndex });
   };
 
   return (
     <Wrapper>
-      <ImgAsideWrapper>
-        {imagesToRender.map((image, index) => (
-          <ImgAside
-            key={index}
-            src={image}
-            alt=""
-            isSelected={selectedImage.index === index}
-            onClick={() => handleImageClick(image, index)}
-          />
-        ))}
-      </ImgAsideWrapper>
       <MainImgWrapper>
-        {imagesToRender.map((image, index) => (
-          <MainImg
-            key={index}
-            src={image}
-            id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
-            position={index === 0 ? "none" : "absolute"}
-            translationDirection={
-              selectedImage.index === index
-                ? "none"
-                : selectedImage.index < index
-                ? "translateX(-100%)"
-                : "translateX(100%)"
-            }
-            isVisible={selectedImage.index === index}
-          />
-        ))}
+        <StyledCarousel
+          interval={null}
+          activeIndex={selectedImage.index}
+          onSelect={handleImageSwitch}
+        >
+          {imagesToRender.map((image, index) => (
+            <Carousel.Item key={index}>
+              <MainImg
+                src={image}
+                id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
+              />
+            </Carousel.Item>
+          ))}
+        </StyledCarousel>
       </MainImgWrapper>
     </Wrapper>
   );
@@ -70,33 +121,46 @@ const Wrapper = styled.div`
   width: 100%;
   flex-direction: column-reverse;
   align-items: flex-start;
+  position: relative;
   @media (max-width: 550px) {
     margin-bottom: 10px;
     width: 95%;
   }
 `;
-const ImgAsideWrapper = styled.aside`
-  width: 18.8%;
-  height: 18.8%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  gap: 1rem;
-  margin-top: 1.5px;
-  @media (max-width: 550px) {
-    margin-top: 7.5px;
+const StyledCarousel = styled(Carousel)`
+  .carousel-indicators [data-bs-target] {
+    box-sizing: content-box;
+    flex: 0 1 auto;
+    width: 25px;
+    height: 3px;
+    padding: 0px;
+    margin-right: 8px;
+    margin-left: 7px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: #000;
+    background-clip: padding-box;
+    border: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 10px solid transparent;
+    opacity: 0.3;
+    transition: opacity 0.6s ease;
   }
-`;
-
-const ImgAside = styled.img`
-  cursor: pointer;
-  box-shadow: ${({ isSelected }) =>
-    isSelected
-      ? "rgba(0, 0, 0, 0.55) 0px 0px 3.5px"
-      : "rgba(0, 0, 0, 0.65) 0px 0px 3px"};
-  border: ${({ isSelected }) => (isSelected ? "1px solid black" : "none")};
-  width: ${({ isSelected }) => (isSelected ? "90%" : "84%")};
-  height: ${({ isSelected }) => (isSelected ? "86%" : "81%")};
+  .carousel-indicators .active {
+    opacity: 1;
+  }
+  .carousel-control-next {
+    right: -10px;
+  }
+  .carousel-control-next-icon {
+    background-image: url(${NextButtonSVG});
+  }
+  .carousel-control-prev {
+    left: -10px;
+  }
+  .carousel-control-prev-icon {
+    background-image: url(${PrevButtonSVG});
+  }
 `;
 const MainImgWrapper = styled.div`
   width: 100%;
@@ -112,9 +176,5 @@ const MainImg = styled.img`
   max-height: 100%;
   overflow: hidden;
   border: 1px solid lightgray;
-  object-fit: cover;
-  position: ${({ position }) => position};
-  transform: ${({ translationDirection }) => translationDirection};
-  opacity: ${({ isVisible }) => (isVisible ? "1" : "0")};
-  transition: transform 0.18s ease, opacity 0.2s ease;
+  object-fit: contain;
 `;

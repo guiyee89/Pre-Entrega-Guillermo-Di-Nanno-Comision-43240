@@ -3,8 +3,8 @@ import { ItemCount } from "../../../common/itemCount/ItemCount";
 import { FilterDetail } from "../filterDetails/FilterDetail";
 import { useState, useContext } from "react";
 import { CartContext } from "../../../context/CartContext";
-import { ClipLoader } from "react-spinners";
 import { ItemImageMobile } from "./ItemImageMobile";
+import { Ring } from "@uiball/loaders";
 
 export const ItemDetailMobile = ({ selectedItem }) => {
   ///////////////////////////////////////////////////////////////////////////////////
@@ -43,22 +43,23 @@ export const ItemDetailMobile = ({ selectedItem }) => {
     }
   };
 
-  // Loader for Size filter
-  const [loadingSize, setLoadingSize] = useState(false);
+   // Loader spinner for filters change
+   const [loadingFilter, setLoadingFilter] = useState(false);
 
-  const handleSizeLoading = () => {
-    setLoadingSize(true);
-    setTimeout(() => {
-      setLoadingSize(false);
-    }, 700);
-  };
+   const handleLoading = () => {
+     setLoadingFilter(true);
+     setTimeout(() => {
+       setLoadingFilter(false);
+     }, 990);
+   };
+ 
 
   //------      HANDLE IMAGES FOR RENDERING       -------//
-  const [selectedImage, setSelectedImage] = useState({});
+  // const [selectedImage, setSelectedImage] = useState({});
 
-  const handleImageChange = (image, index) => {
-    setSelectedImage(image, index);
-  };
+  // const handleImageChange = (image, index) => {
+  //   setSelectedImage(image, index);
+  // };
 
   ///////////////////////////////////////////////////////////////////////////////////
   /* Render item details based on the existence of selectedItem or filteredItem */
@@ -84,14 +85,14 @@ export const ItemDetailMobile = ({ selectedItem }) => {
           <ItemImageMobile
             filteredItem={filteredItem}
             selectedItem={selectedItem}
-            handleImageChange={handleImageChange}
+            // handleImageChange={handleImageChange}
           />
           <InsideWrapper>
             <FilterWrapper>
               <FilterDetail
                 selectedItem={selectedItem}
                 onFilterItemChange={handleFilterItemChange}
-                handleSizeLoading={handleSizeLoading}
+                handleLoading={handleLoading}
               />
             </FilterWrapper>
 
@@ -130,9 +131,9 @@ export const ItemDetailMobile = ({ selectedItem }) => {
             </StockPriceWrapper>
 
             <ItemCountWrapper>
-              {loadingSize ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
+              {loadingFilter ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
                 <Loader>
-                  <ClipLoader color="#194f44" size={30} />
+                   <Ring size={32} lineWeight={6} speed={2} color="black" />
                 </Loader>
               ) : (
                 <ItemCount
@@ -143,7 +144,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
                   }
                   initial={1}
                   onAddToCart={onAddToCart}
-                  disabled={loadingSize}
+                  disabled={loadingFilter}
                 />
               )}
             </ItemCountWrapper>

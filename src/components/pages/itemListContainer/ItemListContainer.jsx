@@ -83,13 +83,10 @@ export const ItemListContainer = () => {
           setTimeout(() => {
             setLoading(false);
             setProgressComplete(true);
-            // if (!progressComplete === true && loading === false) {
-            //   setProgress(100);
-            // }
-            if (loading === false && progress === 100) {
-              setVisible(false);
+            if(progressComplete === true){
+              setProgress(100)
             }
-          }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
+          }, 250); // Set loading to false and progressComplete true after a delay to avoid "No items found" message
         })
         .catch((err) => console.log(err));
     }, delay);

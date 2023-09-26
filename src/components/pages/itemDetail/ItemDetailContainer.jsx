@@ -11,17 +11,17 @@ import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import { Ring } from "@uiball/loaders";
 
+
 export const ItemDetailContainer = () => {
+
   // Guardamos los items (objetos)
   const [selectedItem, setSelectedItem] = useState({});
   const { id } = useParams();
   const {
     windowWidth,
-    setProgress,
     loading,
     setLoading,
     setVisible,
-    progress,
     progressComplete, 
     setProgressComplete
   } = useContext(GlobalToolsContext);
@@ -43,12 +43,6 @@ export const ItemDetailContainer = () => {
         setTimeout(() => {
           setLoading(false);
           setProgressComplete(true);
-          // if (!progressComplete === true && loading === false) {
-          //   setProgress(100);
-          // }
-          if (loading === false && progress === 100) {
-            setVisible(false);
-          }
         }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
       })
       .catch((err) => console.log(err));
