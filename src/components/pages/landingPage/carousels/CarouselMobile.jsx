@@ -68,6 +68,7 @@ export const CarouselMobile = () => {
     setIndex(selectedIndex);
   };
 
+
   return (
     <Wrapper>
       {loading ? (

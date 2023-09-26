@@ -294,8 +294,6 @@ export const DesktopFilter = ({
             <FormControlLabel
               sx={{
                 justifyContent: "flex-end",
-                marginLeft: "-37px",
-                marginRight: "50px",
               }}
               control={
                 <OrderByWrapper>
@@ -694,21 +692,21 @@ const selectStyle = {
   width: 100,
 };
 const OrderByWrapper = styled.div`
-  width: 69%;
-  margin-left: 18px;
+  width: 88%;
 `;
 const OrderByBtn = styled.button`
   width: 100%;
   text-align: inherit;
   border-radius: 3%;
   margin-bottom: 5px;
-  padding: 5px;
-  color: black;
+  padding: 4px;
+  color:${(props) =>
+    props.active ? "#fefefe" : "black"};
   font-size: 0.85rem;
   background-color: ${(props) =>
-    props.active ? "#dbe4f5" : "rgb(244, 244, 244);"};
+    props.active ? "#52575d" : "rgb(244 244 244 / 30%);"};
   border: ${(props) =>
-    props.active ? "1px solid #857a7a" : "1px solid lightgrey"};
+    props.active ? "1px solid #857a7a" : "1px solid #d3d3d38c;"};
   font-weight: ${(props) => (props.active ? "600" : "normal")};
 `;
 const ColorCheckbox = styled.input`

@@ -299,11 +299,17 @@ export const MobileFilter = ({
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
+              sx={{
+                "&.Mui-expanded": {
+                  minHeight: "0px",
+                  height: "45px",
+                },
+              }}
             >
               <Typography
                 sx={{
                   fontWeight: "bold",
-                  marginLeft: "22px",
+                  marginLeft: "11px",
                   fontSize: "1.1rem",
                   color: "#555454",
                 }}
@@ -311,12 +317,10 @@ export const MobileFilter = ({
                 Order by
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails sx={{ padding: "18px 20px 18px 13px;"}}>
               <FormControlLabel
                 sx={{
                   justifyContent: "flex-end",
-                  marginLeft: "-37px",
-                  marginRight: "50px",
                 }}
                 control={
                   <OrderByWrapper>
@@ -379,7 +383,7 @@ export const MobileFilter = ({
               <Typography
                 sx={{
                   fontWeight: "bold",
-                  marginLeft: "22px",
+                  marginLeft: "12px",
                   fontSize: "1.1rem",
                   color: "#555454",
                 }}
@@ -397,10 +401,11 @@ export const MobileFilter = ({
                 localStorage.removeItem("selectedFilters");
                 handleResetFilters();
               }}
+              style={{ marginLeft: "25px" }}
             >
               Clear filters
             </ClearFilterBtn>
-            <AccordionDetails sx={{ paddingTop: "18px", minWidth: "212px" }}>
+            <AccordionDetails sx={{ padding: "18px 20px 18px 10px;"}}>
               {uniqueCategory.map((category, index) => (
                 <FormControlLabel
                   key={index}
@@ -454,7 +459,7 @@ export const MobileFilter = ({
                 sx={{
                   minWidth: "112px",
                   fontWeight: "bold",
-                  marginLeft: "22px",
+                  marginLeft: "12px",
                   fontSize: "1.1rem",
                   color: "#555454",
                 }}
@@ -475,7 +480,7 @@ export const MobileFilter = ({
             >
               Clear filters
             </ClearFilterBtn>
-            <AccordionDetails sx={{ padding: "35px 37px 16px 16px" }}>
+            <AccordionDetails  sx={{ padding: "30px 36px 18px 7px;"}}>
               <Grid container spacing={0}>
                 {Object.keys(sizeMapping)
                   /* uniqueSizes */ .sort((a, b) => {
@@ -543,7 +548,7 @@ export const MobileFilter = ({
               <Typography
                 sx={{
                   fontWeight: "bold",
-                  marginLeft: "22px",
+                  marginLeft: "12px",
                   fontSize: "1.1rem",
                   color: "#555454",
                 }}
@@ -564,7 +569,7 @@ export const MobileFilter = ({
             >
               Clear filters
             </ClearFilterBtn>
-            <AccordionDetails sx={{ padding: "20px 26px 20px 37px" }}>
+            <AccordionDetails sx={{ padding: "20px 35px 20px 24px" }}>
               <Grid container spacing={1}>
                 {/* Use the Grid container */}
                 {Object.keys(colorMapping).map((colorKey, index) => {
@@ -679,9 +684,9 @@ const ResetAllBtn = styled.button`
     content: "";
     position: absolute;
     bottom: 1px;
-    left: 7%;
-    width: 87%;
-    height: 1.6px;
+    left: 6.4%;
+    width: 88%;
+    height: 1.5px;
     background-color: black;
   }
   &:hover {
@@ -693,7 +698,7 @@ const ClearFilterBtn = styled.button`
   font-weight: 500;
   border: none;
   background-color: transparent;
-  margin: 24px 0 0 32px;
+  margin: 24px 0 0 21px;
   position: relative;
   &::after {
     content: "";
@@ -742,10 +747,13 @@ const Loader = styled.div`
 `;
 const styles = {
   expandedAccordion: css`
-    /* margin: 0px 14px 0 24px !important; */
     border-top: 1px solid lightgray;
     box-shadow: none;
     padding: 16px 0;
+
+    &.Mui-expanded {
+      margin: 5px 11px 0px 8px;
+    }
   `,
 };
 const selectStyle = {
@@ -754,21 +762,22 @@ const selectStyle = {
   width: 100,
 };
 const OrderByWrapper = styled.div`
-  width: 69%;
-  margin-left: 18px;
+  width: 88%;
+  
 `;
 const OrderByBtn = styled.button`
   width: 100%;
   text-align: inherit;
   border-radius: 3%;
   margin-bottom: 5px;
-  padding: 5px;
-  color: black;
+  padding: 4px;
+  color:${(props) =>
+    props.active ? "#fefefe" : "black"};
   font-size: 0.85rem;
   background-color: ${(props) =>
-    props.active ? "#dbe4f5" : "rgb(244, 244, 244);"};
+    props.active ? "#52575d" : "rgb(244 244 244 / 30%);"};
   border: ${(props) =>
-    props.active ? "1px solid #857a7a" : "1px solid lightgrey"};
+    props.active ? "1px solid #857a7a" : "1px solid #d3d3d38c;"};
   font-weight: ${(props) => (props.active ? "600" : "normal")};
 `;
 const ColorCheckbox = styled.input`

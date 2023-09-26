@@ -316,7 +316,7 @@ const InfoWrapper = styled.div`
 const ItemWrapper = styled(Link)`
   text-decoration: none;
   margin-bottom: 10px;
-  box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 3px;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 1px;
   position: relative;
   cursor: pointer;
   max-width: 430px;
@@ -460,6 +460,9 @@ const FilterBtn = styled.div`
   text-align: center;
   @media (min-width: 901px) {
     display: none;
+  }
+  @media (min-width:550px){
+    margin: 10px -13px 10px 13px;
   }
 `;
 const ClipLoaderTop = styled(ClipLoader)`

@@ -5,10 +5,11 @@ import { db } from "../../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import LoadingBar from "react-top-loading-bar";
 
+
 export const FilterDetail = ({
   selectedItem,
   onFilterItemChange,
-  handleSizeLoading,
+  handleLoading,
 }) => {
   //////////////     //////////////    ////////////      ////////////      /////////////
   const [selectedFilters, setSelectedFilters] = useState({
@@ -65,6 +66,7 @@ export const FilterDetail = ({
         color: color,
       }));
     }, 1200);
+    handleLoading();
   };
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
@@ -72,7 +74,7 @@ export const FilterDetail = ({
       ...prevFilters,
       size: size,
     }));
-    handleSizeLoading();
+    handleLoading();
   };
 
   // Function to handle size and color filter selection change
@@ -108,7 +110,7 @@ export const FilterDetail = ({
     ref.current.continuousStart();
     setTimeout(() => {
       ref.current.complete();
-    }, 600);
+    }, 700);
   };
 
   //////////////     //////////////    ////////////      ////////////      //////////////
@@ -138,7 +140,7 @@ export const FilterDetail = ({
     return Array.from(
       new Set(
         relatedItems
-          .filter((item) => item.color === color)
+          .filter((item) => item.color === color && item.stock > 0)
           .map((item) => item.size)
       )
     );
@@ -147,6 +149,7 @@ export const FilterDetail = ({
   const availableSizesForColor = selectedFilters.color
     ? getAvailableSizesForColor(selectedFilters.color)
     : [];
+
 
   //////////////     //////////////    ////////////      ////////////      //////////////
   //                                 RENDERING                                         //
@@ -173,9 +176,9 @@ export const FilterDetail = ({
                 return (
                   <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
                     <LoadingBar
-                      color="#cf6c2a"
+                      color="#3f3025"
                       ref={ref}
-                      height={4}
+                      height={3}
                       shadow={false}
                     />
                     <ColorCheckbox
