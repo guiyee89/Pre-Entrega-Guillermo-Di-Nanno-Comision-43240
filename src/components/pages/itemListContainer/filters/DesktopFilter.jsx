@@ -704,7 +704,7 @@ const OrderByBtn = styled.button`
     props.active ? "#fefefe" : "black"};
   font-size: 0.85rem;
   background-color: ${(props) =>
-    props.active ? "#52575d" : "rgb(244 244 244 / 30%);"};
+    props.active ? "rgb(111 117 125);" : "rgb(244 244 244 / 30%);"};
   border: ${(props) =>
     props.active ? "1px solid #857a7a" : "1px solid #d3d3d38c;"};
   font-weight: ${(props) => (props.active ? "600" : "normal")};
