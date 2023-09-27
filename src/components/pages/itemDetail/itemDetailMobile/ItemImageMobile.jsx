@@ -37,12 +37,12 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
           onSelect={handleImageSwitch}
         >
           {imagesToRender.map((image, index) => (
-            <Carousel.Item key={index}>
+            <CarouselItem key={index}>
               <MainImg
                 src={image}
                 id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
               />
-            </Carousel.Item>
+            </CarouselItem>
           ))}
         </StyledCarousel>
       </MainImgWrapper>
@@ -96,19 +96,15 @@ const StyledCarousel = styled(Carousel)`
     background-image: url(${PrevButtonSVG});
   }
 `;
-const MainImgWrapper = styled.div`
-  width: 100%;
-  top: 0;
-  left: 0;
-  display: flex;
-  position: relative;
-  overflow: hidden;
+const CarouselItem = styled(Carousel.Item)`
+  aspect-ratio: 1/1;
 `;
-
+const MainImgWrapper = styled.div`
+  display: flex;
+`;
 const MainImg = styled.img`
+  object-fit: cover;
   width: 100%;
-  max-height: 100%;
-  overflow: hidden;
+  height: 100%;
   border: 1px solid lightgray;
-  object-fit: contain;
 `;
