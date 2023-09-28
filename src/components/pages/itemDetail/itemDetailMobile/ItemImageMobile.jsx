@@ -78,7 +78,7 @@ const StyledCarousel = styled(Carousel)`
     border-top: 11px solid transparent;
     border-bottom: 10px solid transparent;
     opacity: 0.3;
-    transition: opacity 0.6s ease;
+    transition: opacity 0.1s ease-in-out;
   }
   .carousel-indicators .active {
     opacity: 1;

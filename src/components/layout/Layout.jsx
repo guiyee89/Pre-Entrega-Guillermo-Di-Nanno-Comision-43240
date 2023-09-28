@@ -35,9 +35,6 @@ export const Layout = () => {
     isMenuOpen,
     isFilterOpen,
     windowWidth,
-    progress,
-    setProgress,
-    buffer,
   } = useContext(GlobalToolsContext);
 
   ////////////////////////////////////////////////////

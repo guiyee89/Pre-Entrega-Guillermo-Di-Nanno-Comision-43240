@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { Ring } from "@uiball/loaders";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
-
+import { useContext } from "react";
+import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 
 export const CarouselTablet = () => {
-
   const [discountProducts, setDiscountedProducts] = useState([]);
- 
+  const [loading, setLoading] = useState(true);
+  const { setVisible, setProgress } = useContext(GlobalToolsContext);
+
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
       try {
@@ -48,8 +50,6 @@ export const CarouselTablet = () => {
     fetchDiscountedProducts();
   }, []);
 
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -61,6 +61,11 @@ export const CarouselTablet = () => {
     return <div>No products available.</div>;
   }
 
+  const handleLoadTop = () => {
+    setVisible(true);
+    setProgress(1); //set Top Loading bar to 5% after clicking on Item
+  };
+
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
@@ -71,7 +76,7 @@ export const CarouselTablet = () => {
     <Wrapper>
       {loading ? (
         <LoaderWrapper>
-           <Ring size={40} lineWeight={7} speed={1} color="black" />
+          <Ring size={40} lineWeight={7} speed={1} color="black" />
         </LoaderWrapper>
       ) : (
         <StyledCarousel
@@ -84,7 +89,13 @@ export const CarouselTablet = () => {
               {discountProducts.slice(0, 3).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}>
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
+                      onClick={() => {
+                        event.preventDefault(); // Prevent immediate navigation
+                        handleLoadTop();
+                      }}
+                    >
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
@@ -116,7 +127,11 @@ export const CarouselTablet = () => {
               {discountProducts.slice(3, 6).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}>
+                    <LinkWrapper to={`/item-details/${product.id}`}
+                    onClick={() => {
+                      event.preventDefault(); // Prevent immediate navigation
+                      handleLoadTop();
+                    }}>
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
@@ -148,7 +163,11 @@ export const CarouselTablet = () => {
               {discountProducts.slice(6, 9).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}>
+                    <LinkWrapper to={`/item-details/${product.id}`}
+                    onClick={() => {
+                      event.preventDefault(); // Prevent immediate navigation
+                      handleLoadTop();
+                    }}>
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
@@ -180,7 +199,11 @@ export const CarouselTablet = () => {
               {discountProducts.slice(9, 12).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}>
+                    <LinkWrapper to={`/item-details/${product.id}`}
+                    onClick={() => {
+                      event.preventDefault(); // Prevent immediate navigation
+                      handleLoadTop();
+                    }}>
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
@@ -217,7 +240,7 @@ const Wrapper = styled.div`
   margin: 24px auto 110px;
   z-index: 0;
   max-height: 520px;
-  @media (max-width:800px){
+  @media (max-width: 800px) {
     margin: 24px auto 80px;
   }
 `;

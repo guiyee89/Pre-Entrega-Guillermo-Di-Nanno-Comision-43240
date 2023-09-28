@@ -36,10 +36,10 @@ export const ItemList = ({
 
   //////////////////////////                    ////////////////////////////
   //-------------------         LOADERS          ---------------------//
-  const handleLoadDetail = (itemId) => {
-    // Circle Loader
-    localStorage.setItem("currentPage", currentPage); //save currentPage in localStorage
 
+  // Circle Loader
+  const handleLoadDetail = (itemId) => {
+    localStorage.setItem("currentPage", currentPage); //save currentPage in localStorage
     setLoadingDetail(itemId);
     setTimeout(() => {
       setLoadingDetail(true);
@@ -352,7 +352,7 @@ const ItemCard = styled.div`
 const Loader = styled.div`
   position: absolute;
   top: 90%;
-  right: 40%;
+  right: 46.5%;
 `;
 const ItemTitle = styled.h2`
   font-size: clamp(0.7rem, 2vw + 1px, 0.9rem);

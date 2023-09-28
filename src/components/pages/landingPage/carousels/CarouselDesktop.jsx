@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 import { Ring } from "@uiball/loaders";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
+import { useContext } from "react";
+import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 
 export const CarouselDesktop = () => {
-
   const [discountProducts, setDiscountedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { setVisible, setProgress } = useContext(GlobalToolsContext);
 
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
@@ -17,16 +19,16 @@ export const CarouselDesktop = () => {
         const queryAllProducts = collection(db, "products");
         const querySnapshot = await getDocs(queryAllProducts);
         console.log("fetching discount");
-  
+
         const filteredDiscountProducts = [];
         const filteredProductsMap = new Map();
-  
+
         for (const doc of querySnapshot.docs) {
           const product = doc.data();
           if (product.discount) {
             const { userId, color } = product;
             const key = `${userId}-${color}`;
-  
+
             // Check if the product's userId and color combination already exists in the filteredProductsMap
             if (!filteredProductsMap.has(key)) {
               // If not, add the product to the filteredProductsMap
@@ -47,15 +49,17 @@ export const CarouselDesktop = () => {
       }
     };
     fetchDiscountedProducts();
-    
   }, []);
-
-  
 
   if (!discountProducts || !Array.isArray(discountProducts)) {
     // Handle the case where discountProducts is not defined or not an array
     return <div>No products available.</div>;
   }
+
+  const handleLoadTop = () => {
+    setVisible(true);
+    setProgress(1); //set Top Loading bar to 5% after clicking on Item
+  };
 
   const [index, setIndex] = useState(0);
 
@@ -80,7 +84,13 @@ export const CarouselDesktop = () => {
               {discountProducts.slice(0, 4).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}>
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
+                      onClick={() => {
+                        event.preventDefault(); // Prevent immediate navigation
+                        handleLoadTop();
+                      }}
+                    >
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
@@ -113,7 +123,12 @@ export const CarouselDesktop = () => {
               {discountProducts.slice(4, 8).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}>
+                    <LinkWrapper to={`/item-details/${product.id}`}
+                      onClick={() => {
+                        event.preventDefault(); // Prevent immediate navigation
+                        handleLoadTop();
+                      }}
+                    >
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
@@ -146,7 +161,12 @@ export const CarouselDesktop = () => {
               {discountProducts.slice(8, 12).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}>
+                    <LinkWrapper to={`/item-details/${product.id}`}
+                      onClick={() => {
+                        event.preventDefault(); // Prevent immediate navigation
+                        handleLoadTop();
+                      }}
+                    >
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
