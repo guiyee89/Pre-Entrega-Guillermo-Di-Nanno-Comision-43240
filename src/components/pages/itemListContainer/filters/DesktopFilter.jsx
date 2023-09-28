@@ -620,9 +620,9 @@ const ResetAllBtn = styled.button`
     content: "";
     position: absolute;
     bottom: 2px;
-    left: 5.5%;
+    left: 5.3%;
     width: 90%;
-    height: 1.6px;
+    height: 1.3px;
     background-color: black;
   }
   &:hover {
@@ -640,8 +640,8 @@ const ClearFilterBtn = styled.button`
     content: "";
     position: absolute;
     bottom: 2px;
-    left: 7%;
-    width: 90%;
+    left: 6.8%;
+    width: 84%;
     height: 1px;
     background-color: black;
   }
@@ -704,10 +704,11 @@ const OrderByBtn = styled.button`
     props.active ? "#fefefe" : "black"};
   font-size: 0.85rem;
   background-color: ${(props) =>
-    props.active ? "rgb(111 117 125);" : "rgb(244 244 244 / 30%);"};
+    props.active ? "rgb(111 117 125 / 87%);" : "rgb(244 244 244 / 30%);"};
   border: ${(props) =>
     props.active ? "1px solid #857a7a" : "1px solid #d3d3d38c;"};
   font-weight: ${(props) => (props.active ? "600" : "normal")};
+  
 `;
 const ColorCheckbox = styled.input`
   appearance: none;
