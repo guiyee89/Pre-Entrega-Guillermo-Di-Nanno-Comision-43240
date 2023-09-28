@@ -62,6 +62,11 @@ const Wrapper = styled.div`
   }
 `;
 const StyledCarousel = styled(Carousel)`
+  .carousel-inner {
+    .carousel-item {
+      transition: opacity 0.2s ease, transform 0.18s ease;
+    }
+  }
   .carousel-indicators [data-bs-target] {
     box-sizing: content-box;
     flex: 0 1 auto;
@@ -78,7 +83,7 @@ const StyledCarousel = styled(Carousel)`
     border-top: 11px solid transparent;
     border-bottom: 10px solid transparent;
     opacity: 0.3;
-    transition: opacity 0.1s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
   }
   .carousel-indicators .active {
     opacity: 1;
