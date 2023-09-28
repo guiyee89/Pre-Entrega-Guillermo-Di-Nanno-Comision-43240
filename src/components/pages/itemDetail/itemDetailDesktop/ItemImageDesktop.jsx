@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components/macro";
 
+
 export const ItemImageDesktop = ({
   filteredItem,
   selectedItem,

@@ -28,7 +28,7 @@ export const HeroSmall = () => {
               <BannerText>
                 pants, shorts, sweaters, shirts and more...
                 <br />
-                <Span>up to 25% off</Span>
+                <Span>up to 25%off</Span>
               </BannerText>
             </Banner>
           </Carousel.Item>
@@ -37,7 +37,7 @@ export const HeroSmall = () => {
               <BannerText>
                 on the second unit for all our shoes...
                 <br />
-                <Span>30% off</Span>
+                <Span>30%off</Span>
               </BannerText>
             </Banner>
           </Carousel.Item>
@@ -101,15 +101,16 @@ const Banner = styled.div`
 
 const BannerText = styled.p`
   text-transform: uppercase;
-  font-size: clamp(0.9rem, 2vw + 1px, 1.2rem);
+  font-size: clamp(0.75rem, 2vw + 1px, 1.2rem);
   font-weight: 500;
   letter-spacing: 3px;
   word-spacing: 5px;
   text-align: center;
+  padding: 0 32px;
 `;
 
 const Span = styled.span`
   color: red;
-  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 2vw + 1px, 1.4rem);
   font-weight: bold;
 `;
