@@ -64,7 +64,7 @@ const Wrapper = styled.div`
 const StyledCarousel = styled(Carousel)`
   .carousel-inner {
     .carousel-item {
-      transition: opacity 0.2s ease, transform 0.18s ease;
+      transition: opacity 0.2s ease, transform 0.18s ease; /* Adjusted transition duration */
     }
   }
   .carousel-indicators [data-bs-target] {
