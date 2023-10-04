@@ -79,7 +79,7 @@ export const LandingPage = () => {
                     <br />
                     <MidSpan>from</MidSpan>
                     <br />
-                    <PriceSpan>$800</PriceSpan>
+                    <PriceSpan>$80</PriceSpan>
                   </MidImgText>
                 </TextWrapper>
                 <FakeButton>Buy</FakeButton>
