@@ -41,10 +41,8 @@ export const register = async( {email , password} ) => {
 
 //Google Authenticator
 const googleAuth = new GoogleAuthProvider()
+
 export const loginWithGoogle = async () => {
-  try{
-    return await signInWithPopup(auth, googleAuth)
-  }catch (error) {
-    console.error(error)
-  }
+    const res = await signInWithPopup(auth, googleAuth)
+    console.log(res)
 }
