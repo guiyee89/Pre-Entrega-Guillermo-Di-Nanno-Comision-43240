@@ -218,9 +218,9 @@ const NavLink = styled(Link)`
     content: "";
     position: absolute;
     bottom: -4px;
-    left: -1px;
+    left: 0px;
     width: 100%;
-    height: 1.38px;
+    height: 1.1px;
     background-color: black;
     transform: scaleX(0);
     transform-origin: left center;
