@@ -226,7 +226,7 @@ const Wrapper = styled.div`
     grid-template-columns: repeat(2, 1fr);
   }
   @media (max-width: 500px) {
-    margin: 0px -16px 0px 4px;
+    grid-template-columns: repeat(1, 1fr);
     gap: 0.4rem;
     row-gap: 1.2rem;
   }
