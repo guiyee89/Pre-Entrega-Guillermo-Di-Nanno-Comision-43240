@@ -6,6 +6,7 @@ import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import styled from "styled-components/macro";
+import { initMercadoPago } from "@mercadopago/sdk-react"
 
 export const CheckoutContainer = () => {
   
