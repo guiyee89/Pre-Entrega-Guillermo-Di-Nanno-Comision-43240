@@ -222,7 +222,7 @@ const DesktopFilterWrapper = styled.aside`
   gap: 0.5rem;
   flex-direction: column;
   margin: 5px 8px 0px 0px;
-  height: 1110px;
+  height: 750px;
   min-width: 255px;
   -webkit-box-align: center;
   align-items: center;

@@ -94,22 +94,22 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
                   <Price>
                     ${" "}
                     {Object.keys(filteredItem).length > 0
-                      ? filteredItem.discountPrice
-                      : selectedItem.discountPrice}
+                      ? filteredItem.discountPrice.toFixed(2)
+                      : selectedItem.discountPrice.toFixed(2)}
                   </Price>{" "}
                   <DiscountPrice hasDiscount={hasDiscount}>
                     ${" "}
                     {Object.keys(filteredItem).length > 0
-                      ? filteredItem.unit_price
-                      : selectedItem.unit_price}
+                      ? filteredItem.price.toFixed(2)
+                      : selectedItem.price.toFixed(2)}
                   </DiscountPrice>
                 </ItemPriceWrapper>
               ) : (
                 <Price>
                   ${" "}
                   {Object.keys(filteredItem).length > 0
-                    ? filteredItem.unit_price
-                    : selectedItem.unit_price}
+                    ? filteredItem.price.toFixed(2)
+                    : selectedItem.price.toFixed(2)}
                 </Price>
               )}
               <Stock>
