@@ -6,77 +6,118 @@ import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import styled from "styled-components/macro";
-import { initMercadoPago } from "@mercadopago/sdk-react"
+import { initMercadoPago } from "@mercadopago/sdk-react";
+import axios from "axios";
 
 export const CheckoutContainer = () => {
-  
   const { cart, getTotalPrice, clearCart } = useContext(CartContext);
-
 
   const [orderId, setOrderId] = useState(null);
 
   let total = getTotalPrice();
 
-  const { handleSubmit, handleChange, errors } = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      phone: "",
-    },
-    onSubmit: (data) => {
-      //Aca creamos la logica del submit
-      let order = {
-        buyer: data, //la data de initialValues en onSubmit
-        items: cart, //el cart de CartContext
-        total: total, //el total del CartContext
-      };
-      //guardamos la orden en una variable
-      let ordersCollection = collection(db, "orders");
-      addDoc(ordersCollection, order) // usamos el metodo addDoc para guardar la orden
-        .then((res) => setOrderId(res.id)); //guardamos el ID de la orden en el setOrderID
+  // const { handleSubmit, handleChange, errors } = useFormik({
+  //   initialValues: {
+  //     name: "",
+  //     email: "",
+  //     phone: "",
+  //   },
+  //   onSubmit: (data) => {
+  //     //Aca creamos la logica del submit
+  //     let order = {
+  //       buyer: data, //la data de initialValues en onSubmit
+  //       items: cart, //el cart de CartContext
+  //       total: total, //el total del CartContext
+  //     };
+  //     //guardamos la orden en una variable
+  //     let ordersCollection = collection(db, "orders");
+  //     addDoc(ordersCollection, order) // usamos el metodo addDoc para guardar la orden
+  //       .then((res) => setOrderId(res.id)); //guardamos el ID de la orden en el setOrderID
 
-      //actualizar informacion del producto despues de la compra
-      cart.forEach((product) => {
-        updateDoc(doc(db, "products", product.id), {
-          stock: product.stock - product.quantity,
-        });
-      });
+  //     //actualizar informacion del producto despues de la compra
+  //     cart.forEach((product) => {
+  //       updateDoc(doc(db, "products", product.id), {
+  //         stock: product.stock - product.quantity,
+  //       });
+  //     });
 
-      clearCart();
-    },
+  //     clearCart();
+  //   },
 
-    //que no se valide mientras escribo, sino al hacer submit
-    validateOnChange: false,
-    //validar los datos
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .required("Este campo es obligatorio")
-        .min(3, "Minimo 3 caracteres"),
-      email: Yup.string()
-        .email("Este campo no corresponde a un email valido")
-        .required("Este campo es obligatorio"),
-      phone: Yup.string()
-        .required("Este campo es obligatorio")
-        .min(10, "Debe contener 10 numeros")
-        .max(15, "Debe contener 10 numeros"),
-    }),
+  //   //que no se valide mientras escribo, sino al hacer submit
+  //   validateOnChange: false,
+  //   //validar los datos
+  //   validationSchema: Yup.object({
+  //     name: Yup.string()
+  //       .required("Este campo es obligatorio")
+  //       .min(3, "Minimo 3 caracteres"),
+  //     email: Yup.string()
+  //       .email("Este campo no corresponde a un email valido")
+  //       .required("Este campo es obligatorio"),
+  //     phone: Yup.string()
+  //       .required("Este campo es obligatorio")
+  //       .min(10, "Debe contener 10 numeros")
+  //       .max(15, "Debe contener 10 numeros"),
+  //   }),
+  // });
+
+  initMercadoPago("APP_USR-1a7a9cc4-31c4-465b-9aa3-efc2cd7a028d", {
+    locale: "es-AR",
   });
+  const [preferenceId, setPreferenceId] = useState(null)
+
+  const createPreference = async () => {
+    const cartArray = cart.map((product) => {
+      return {
+        image: product.image,
+        title: product.title,
+        price: product.price,
+        quantity: product.quantity,
+      };
+    });
+
+    try {
+      let response = await axios.post(
+        "http://localhost:8080/create_preference",
+        {
+          items: cartArray,
+          shipment_cost: 10,
+        }
+      );
+      const { id } = response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleBuy = async()=>{
+    const id = await createPreference()
+    if(id){
+      setPreferenceId(id)
+    }
+  }
 
   return (
     <>
       <Wrapper>
         {orderId ? (
           <h1>
-            Su compra fue exitosa. <br />El numero de comprobante es: {orderId}{" "}
+            Su compra fue exitosa. <br />
+            El numero de comprobante es: {orderId}{" "}
           </h1>
         ) : (
           <Checkout
-            handleSubmit={handleSubmit}
-            handleChange={handleChange}
-            errors={errors}
+            // handleSubmit={handleSubmit}
+            // handleChange={handleChange}
+            // errors={errors}
+            preferenceId={preferenceId}
+            createPreference={createPreference}
+            handleBuy={handleBuy}
             cart={cart}
           />
+          
         )}
+
       </Wrapper>
     </>
   );
@@ -84,4 +125,4 @@ export const CheckoutContainer = () => {
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-`
+`;

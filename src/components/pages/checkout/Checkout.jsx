@@ -2,8 +2,15 @@ import { TextField } from "@mui/material";
 import { useContext } from "react";
 import styled from "styled-components/macro";
 import { CartContext } from "../../context/CartContext";
+import { Wallet } from "@mercadopago/sdk-react";
 
-export const Checkout = ({ handleSubmit, handleChange, errors }) => {
+export const Checkout = ({
+  handleSubmit,
+  handleChange,
+  errors,
+  handleBuy,
+  preferenceId,
+}) => {
   const { cart, getTotalPrice, getItemPrice, getTotalDiscount, getSubTotal } =
     useContext(CartContext);
 
@@ -11,10 +18,13 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
   const subTotal = getSubTotal();
   const totalDiscount = getTotalDiscount();
 
+
+
   return (
     <>
       <Wrapper>
-        <FormWrapper>
+        
+        {/* <FormWrapper>
           <Form onSubmit={handleSubmit}>
             <Input
               label="Name"
@@ -56,9 +66,9 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
               Confirm Purchase
             </SubmitBtn>
           </Form>
-        </FormWrapper>
+        </FormWrapper> */}
 
-        <ProductsWrapper key="cart-wrapper">
+        {/* <ProductsWrapper key="cart-wrapper">
           <ProductTable>
             <thead style={{ borderBottom: "1px solid lightgrey" }}>
               <tr>
@@ -110,9 +120,8 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
               })}
             </tbody>
           </ProductTable>
-        </ProductsWrapper>
-
-        <TotalPriceInfo>
+        </ProductsWrapper> */}
+        {/* <TotalPriceInfo>
           <SubTotalWrapper>
             <TotalText colSpan="1">Subtotal:</TotalText>
             <SubTotal>$ {subTotal.toFixed(2)}</SubTotal>
@@ -125,7 +134,11 @@ export const Checkout = ({ handleSubmit, handleChange, errors }) => {
             <TotalText colSpan="1">Total:</TotalText>
             <TotalPrice>$ {total.toFixed(2)}</TotalPrice>
           </TotalWrapper>
-        </TotalPriceInfo>
+        </TotalPriceInfo> */}
+        <Button onClick={handleBuy}>Seleccione metodo de pago</Button>
+        {
+          preferenceId && <Wallet initialization={{preferenceId, redirectMode:"self"}} />
+        }
       </Wrapper>
     </>
   );
@@ -136,6 +149,8 @@ const Wrapper = styled.section`
   max-width: 1300px;
   margin: 0 auto;
 `;
+const Button = styled.button``;
+
 const ItemQuantity = styled.td`
   vertical-align: middle;
 `;
