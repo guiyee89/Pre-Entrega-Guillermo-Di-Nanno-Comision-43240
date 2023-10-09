@@ -193,7 +193,7 @@ const CartContextProvider = ({ children }) => {
     if (exist) {
       const total = cart.reduce((acc, ele) => {
         if (ele.id === id) {
-          return acc + ele.quantity * ele.price;
+          return acc + ele.quantity * ele.unit_price;
         }
         return acc;
       }, 0);
@@ -206,7 +206,7 @@ const CartContextProvider = ({ children }) => {
   //Calcular SubTotal del carrito
   const getSubTotal = () => {
     const total = cart.reduce((acc, item) => {
-      return acc + item.quantity * item.price
+      return acc + item.quantity * item.unit_price
     }, 0)
     return total;
   }
@@ -216,13 +216,13 @@ const CartContextProvider = ({ children }) => {
     const hasDiscountItem = cart.some(item => item.discountPrice); // Check if any item has a discount
     if (hasDiscountItem) {
       const total = cart.reduce((acc, item) => {
-        const itemPrice = item.discountPrice ? item.discountPrice : item.price;
+        const itemPrice = item.discountPrice ? item.discountPrice : item.unit_price;
         return acc + item.quantity * itemPrice;
       }, 0);
       return total;
     } else {
       const total = cart.reduce((acc, item) => {
-        return acc + item.quantity * item.price;
+        return acc + item.quantity * item.unit_price;
       }, 0);
       return total;
     }
@@ -233,8 +233,8 @@ const CartContextProvider = ({ children }) => {
     const hasDiscount = cart.some((item) => item.discountPrice);
     if (hasDiscount) {
       const totalDiscount = cart.reduce((acc, item) => {
-        const itemDiscount = item.discountPrice ? item.discountPrice : item.price;
-        return acc + item.quantity * (itemDiscount - item.price); // Calculate the discount amount for each item
+        const itemDiscount = item.discountPrice ? item.discountPrice : item.unit_price;
+        return acc + item.quantity * (itemDiscount - item.unit_price); // Calculate the discount amount for each item
       }, 0);
   
       return Math.abs(totalDiscount);

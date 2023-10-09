@@ -64,14 +64,14 @@ export const CheckoutContainer = () => {
   initMercadoPago("APP_USR-1a7a9cc4-31c4-465b-9aa3-efc2cd7a028d", {
     locale: "es-AR",
   });
-  const [preferenceId, setPreferenceId] = useState(null)
+  const [preferenceId, setPreferenceId] = useState(null);
 
   const createPreference = async () => {
     const cartArray = cart.map((product) => {
+      const itemPrice = product.discountPrice || product.unit_price;
       return {
-        image: product.image,
         title: product.title,
-        price: product.price,
+        unit_price: itemPrice, // Ensure it's a string with two decimal places
         quantity: product.quantity,
       };
     });
@@ -84,18 +84,21 @@ export const CheckoutContainer = () => {
           shipment_cost: 10,
         }
       );
+
       const { id } = response.data;
+      return id; // Return the ID on success
     } catch (error) {
       console.log(error);
+      return null; // Return null or handle the error as needed
     }
   };
 
-  const handleBuy = async()=>{
-    const id = await createPreference()
-    if(id){
-      setPreferenceId(id)
+  const handleBuy = async () => {
+    const id = await createPreference();
+    if (id) {
+      setPreferenceId(id);
     }
-  }
+  };
 
   return (
     <>
@@ -115,9 +118,7 @@ export const CheckoutContainer = () => {
             handleBuy={handleBuy}
             cart={cart}
           />
-          
         )}
-
       </Wrapper>
     </>
   );
