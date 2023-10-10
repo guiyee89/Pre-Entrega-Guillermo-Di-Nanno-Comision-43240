@@ -6,6 +6,7 @@ import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 import { menuRoutes } from "../../routes/menuRoutes";
 
+
 export const NavDesktop = () => {
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
@@ -227,4 +228,3 @@ const NavLink = styled(Link)`
     transition: transform 0.21s ease-in-out;
   }
 `;
-

@@ -1,3 +1,4 @@
+import ForgotPassword from "../dashboard/authentication/forgotPass/ForgotPassword";
 import { LoginContainer } from "../dashboard/authentication/login/LoginContainer";
 import { SignUpContainer } from "../dashboard/authentication/signup/SignUpContainer";
 import { CartContainer } from "../pages/cart/CartContainer";
@@ -46,5 +47,10 @@ export const menuRoutes = [
         id: "firebase-auth",
         path: "/signup",
         Element: SignUpContainer
+    },
+    {
+        id: "firebase-auth",
+        path: "/forgot-password",
+        Element: ForgotPassword
     }
 ]
