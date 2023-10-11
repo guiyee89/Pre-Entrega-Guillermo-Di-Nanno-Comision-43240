@@ -134,12 +134,12 @@ export const NavMobile = () => {
                   shirts
                 </NavLink>
               </NavList>
-              {user.rol === rolAdmin && (
+              {user.rol === rolAdmin ? (
                 <Dashboard
                   sx={{ fontSize: "30px" }}
                   onClick={() => navigate("/dashboard")}
                 />
-              )}
+              ) : null}
             </NavListWrapper>
           </SideMenuWrapper>
           <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
