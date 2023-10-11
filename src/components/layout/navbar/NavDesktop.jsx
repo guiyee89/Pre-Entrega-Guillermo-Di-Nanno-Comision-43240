@@ -9,7 +9,6 @@ import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
 import { AuthContext } from "../../context/AuthContext";
 
 export const NavDesktop = () => {
-
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const rolAdmin = import.meta.env.VITE_ROL_ADMIN;
@@ -118,12 +117,12 @@ export const NavDesktop = () => {
                     sx={{ padding: "10px" }}
                     totalItems={totalItems}
                   />
-                  {user.rol === rolAdmin && (
+                  {user.rol === rolAdmin ? (
                     <Dashboard
                       sx={{ fontSize: "30px" }}
                       onClick={() => navigate("/dashboard")}
                     />
-                  )}
+                  ) : null}
                 </DashCartContainer>
               </>
             )}
