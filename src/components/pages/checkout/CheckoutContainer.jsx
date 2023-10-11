@@ -61,7 +61,7 @@ export const CheckoutContainer = () => {
   //   }),
   // });
 
-  initMercadoPago("APP_USR-1a7a9cc4-31c4-465b-9aa3-efc2cd7a028d", {
+  initMercadoPago(import.meta.env.VITE_PUBLIC_KEY, {
     locale: "es-AR",
   });
   const [preferenceId, setPreferenceId] = useState(null);
@@ -71,7 +71,7 @@ export const CheckoutContainer = () => {
       const itemPrice = product.discountPrice || product.unit_price;
       return {
         title: product.title,
-        unit_price: itemPrice, // Ensure it's a string with two decimal places
+        unit_price: itemPrice,
         quantity: product.quantity,
       };
     });

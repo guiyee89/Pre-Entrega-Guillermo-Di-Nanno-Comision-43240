@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
@@ -8,8 +8,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import CloseIcon from "@mui/icons-material/Close";
 import { menuRoutes } from "../../routes/menuRoutes";
+import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
+import { AuthContext } from "../../context/AuthContext";
 
 export const NavMobile = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const rolAdmin = import.meta.env.VITE_ROL_ADMIN;
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
@@ -129,9 +134,14 @@ export const NavMobile = () => {
                   shirts
                 </NavLink>
               </NavList>
+              {user.rol === rolAdmin && (
+                <Dashboard
+                  sx={{ fontSize: "30px" }}
+                  onClick={() => navigate("/dashboard")}
+                />
+              )}
             </NavListWrapper>
           </SideMenuWrapper>
-
           <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
             <LogoLink to="/">
               <Logo
@@ -232,9 +242,9 @@ const Logo = styled.img`
   margin-left: ${(props) =>
     props.scrolled === "scrolled" ? "8.7px;;" : "20.3px"};
   transition: margin-left 0.2s ease-in-out;
-  @media (max-width:550px){
+  @media (max-width: 550px) {
     margin-left: ${(props) =>
-    props.scrolled === "scrolled" ? "17.9px;" : "20.3px"};
+      props.scrolled === "scrolled" ? "17.9px;" : "20.3px"};
   }
 `;
 const LogoSideMenu = styled.div`
@@ -291,4 +301,10 @@ const NavLink = styled(Link)`
     transform-origin: left center;
     transition: transform 0.21s ease-in-out;
   }
+`;
+const Dashboard = styled(DashboardCustomizeIcon)`
+  position: absolute;
+  bottom: 250px;
+  left: 17px;
+  cursor: pointer;
 `;
