@@ -1,13 +1,18 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 import { menuRoutes } from "../../routes/menuRoutes";
-
+import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
+import { AuthContext } from "../../context/AuthContext";
 
 export const NavDesktop = () => {
+
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const rolAdmin = import.meta.env.VITE_ROL_ADMIN;
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
@@ -107,11 +112,19 @@ export const NavDesktop = () => {
                   </NavList>
                 </NavListWrapper>
 
-                <CartWidget
-                  scrolled={scroll}
-                  sx={{ padding: "10px" }}
-                  totalItems={totalItems}
-                />
+                <DashCartContainer>
+                  <CartWidget
+                    scrolled={scroll}
+                    sx={{ padding: "10px" }}
+                    totalItems={totalItems}
+                  />
+                  {user.rol === rolAdmin && (
+                    <Dashboard
+                      sx={{ fontSize: "30px" }}
+                      onClick={() => navigate("/dashboard")}
+                    />
+                  )}
+                </DashCartContainer>
               </>
             )}
           </InsideNav>
@@ -227,4 +240,11 @@ const NavLink = styled(Link)`
     transform-origin: left center;
     transition: transform 0.21s ease-in-out;
   }
+`;
+const DashCartContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const Dashboard = styled(DashboardCustomizeIcon)`
+  cursor: pointer;
 `;

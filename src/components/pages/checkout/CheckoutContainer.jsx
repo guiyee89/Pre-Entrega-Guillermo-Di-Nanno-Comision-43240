@@ -71,7 +71,7 @@ export const CheckoutContainer = () => {
       const itemPrice = product.discountPrice || product.unit_price;
       return {
         title: product.title,
-        unit_price: itemPrice, // Ensure it's a string with two decimal places
+        unit_price: itemPrice,
         quantity: product.quantity,
       };
     });

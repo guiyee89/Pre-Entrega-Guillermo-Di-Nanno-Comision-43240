@@ -5,6 +5,7 @@ import { menuRoutes } from "./components/routes/menuRoutes";
 import CartContextProvider from "./components/context/CartContext";
 import GlobalToolsProvider from "./components/context/GlobalToolsContext";
 import AuthContextProvider from "./components/context/AuthContext";
+import { AppRounter } from "./components/routes/AppRounter";
 
 function App() {
   return (
@@ -13,14 +14,7 @@ function App() {
         <CartContextProvider>
           <AuthContextProvider>
             <GlobalToolsProvider>
-              <Routes>
-                <Route element={<Layout />}>
-                  {menuRoutes.map(({ id, path, Element }) => (
-                    <Route key={id} path={path} element={<Element />} />
-                  ))}
-                </Route>
-                <Route path="*" element={<h1>404 not found</h1>} />
-              </Routes>
+              <AppRounter />
             </GlobalToolsProvider>
           </AuthContextProvider>
         </CartContextProvider>

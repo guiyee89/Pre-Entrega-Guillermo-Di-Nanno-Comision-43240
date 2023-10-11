@@ -1,9 +1,11 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { forgotPassword } from "../../../../firebaseConfig";
+import { forgotPassword } from "../../../../../firebaseConfig";
+import styled from "styled-components/macro";
 
-const ForgotPassword = () => {
+
+export const ForgotPassword = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("")
@@ -16,7 +18,7 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div>
+    <ForgotPasswordWrapper>
       <Box
         sx={{
           width: "100%",
@@ -68,8 +70,10 @@ const ForgotPassword = () => {
           </Grid>
         </form>
       </Box>
-    </div>
+    </ForgotPasswordWrapper>
   );
 };
-
-export default ForgotPassword;
+const ForgotPasswordWrapper = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+`;

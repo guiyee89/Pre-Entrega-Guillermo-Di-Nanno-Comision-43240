@@ -17,14 +17,13 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { db, loginWithGoogle, onLogin } from "../../../../firebaseConfig";
 import styled from "styled-components/macro";
 import { collection, doc, getDoc } from "firebase/firestore";
-import { AuthContext } from "../../../context/AuthContext";
+import { AuthContext } from "../../../../context/AuthContext";
+import { db, loginWithGoogle, onLogin } from "../../../../../firebaseConfig";
 
 export const LoginContainer = () => {
-
-  const {handleLogin} = useContext(AuthContext)
+  const { handleLogin } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -46,17 +45,15 @@ export const LoginContainer = () => {
           const userDoc = await getDoc(userRef);
           let finallyUser = {
             email: res.user.email,
-            rol: userDoc.data().rol
-          }
+            rol: userDoc.data().rol,
+          };
           console.log(res.user);
           console.log(userDoc.data());
-          handleLogin(finallyUser)
+          handleLogin(finallyUser);
           navigate("/");
-
         } else {
           alert("Login failed. Please check your email or password.");
         }
-
       } catch (error) {
         console.log(error);
       }
@@ -84,11 +81,11 @@ export const LoginContainer = () => {
       const userDoc = await getDoc(userRef);
       let finallyUser = {
         email: res.user.email,
-        rol: userDoc.data().rol
-      }
+        rol: userDoc.data().rol,
+      };
       console.log(res.user);
       console.log(userDoc.data());
-      handleLogin(finallyUser)
+      handleLogin(finallyUser);
       navigate("/");
     }
     return res;
@@ -230,6 +227,7 @@ export const LoginContainer = () => {
 };
 const LoginWrapper = styled.div`
   max-width: 800px;
+  margin: 0 auto;
 `;
 //LOGIN CREADO POR MI
 // import { useNavigate } from "react-router-dom";
