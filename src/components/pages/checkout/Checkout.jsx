@@ -157,7 +157,7 @@ export const Checkout = ({
           <PaymentMethod onClick={handleBuy}>Seleccione metodo de pago</PaymentMethod>
         </TotalPriceInfo>
         {
-          preferenceId && <Wallet initialization={{preferenceId, redirectMode:"self"}} />
+          preferenceId && <Wallet initialization={{preferenceId, redirectMode:"modal"}} />
         }
       </Wrapper>
     </>
