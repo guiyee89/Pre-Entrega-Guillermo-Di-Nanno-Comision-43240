@@ -13,6 +13,7 @@ import { GlobalToolsContext } from "../context/GlobalToolsContext";
 import { NavMobile } from "./navbar/NavMobile";
 import { NavDesktop } from "./navbar/NavDesktop";
 import { LoadingTopBar } from "../common/loadingTopBar/LoadingTopBar";
+import { UserOrders } from "../pages/dashboard/UserOrders";
 
 ////////////////////////////////////////////////////
 
@@ -30,12 +31,8 @@ export const Layout = () => {
   ////////////////////////////////////////////////////
 
   //SideMenu Context
-  const {
-    isOpen,
-    isMenuOpen,
-    isFilterOpen,
-    windowWidth,
-  } = useContext(GlobalToolsContext);
+  const { isOpen, isMenuOpen, isFilterOpen, windowWidth } =
+    useContext(GlobalToolsContext);
 
   ////////////////////////////////////////////////////
 
@@ -56,7 +53,6 @@ export const Layout = () => {
     (route) => route.path === location.pathname
   );
   const isHome = currentRoute?.id === "home";
-  /* const isItemDetail = useMatch("/item-details/:id"); */
 
   return (
     <>
@@ -74,6 +70,7 @@ export const Layout = () => {
             {windowWidth <= 900 && <NavMobile />}
             <SideCart />
             {!isHome && <HeroSmall />}
+
             <HeroWrapper>{isHome && <HeroLanding />}</HeroWrapper>
 
             <OutletWrapper isHome={isHome}>

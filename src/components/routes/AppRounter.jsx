@@ -6,6 +6,8 @@ import { LoginContainer } from "../pages/dashboard/authentication/login/LoginCon
 import { SignUpContainer } from "../pages/dashboard/authentication/signup/SignUpContainer";
 import { ForgotPassword } from "../pages/dashboard/authentication/forgotPass/ForgotPassword";
 import { ProtectedAdmin } from "./ProtectedAdmin";
+import { ProtectedUsers } from "./ProtectedUsers";
+import { UserOrders } from "../pages/dashboard/UserOrders";
 
 export const AppRounter = () => {
   return (
@@ -16,9 +18,12 @@ export const AppRounter = () => {
         ))}
       </Route>
 
-            
       <Route element={<ProtectedAdmin />}>
         <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
+
+      <Route element={<ProtectedUsers />}>
+        <Route path="user-orders" element={<UserOrders />} />
       </Route>
 
       <Route path="/login" element={<LoginContainer />} />

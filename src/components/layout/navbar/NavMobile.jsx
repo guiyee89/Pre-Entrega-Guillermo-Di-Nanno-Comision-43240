@@ -9,6 +9,7 @@ import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import CloseIcon from "@mui/icons-material/Close";
 import { menuRoutes } from "../../routes/menuRoutes";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
+import Person2Icon from "@mui/icons-material/Person2";
 import { AuthContext } from "../../context/AuthContext";
 
 export const NavMobile = () => {
@@ -140,6 +141,12 @@ export const NavMobile = () => {
                   onClick={() => navigate("/dashboard")}
                 />
               ) : null}
+              {user.rol === "user" && (
+                <PersonIcon
+                  sx={{ fontSize: "30px" }}
+                  onClick={() => navigate("/user-orders")}
+                />
+              )}
             </NavListWrapper>
           </SideMenuWrapper>
           <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
@@ -306,5 +313,8 @@ const Dashboard = styled(DashboardCustomizeIcon)`
   position: absolute;
   bottom: 250px;
   left: 17px;
+  cursor: pointer;
+`;
+const PersonIcon = styled(Person2Icon)`
   cursor: pointer;
 `;

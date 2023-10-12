@@ -14,8 +14,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { onRegister } from "../../../../../firebaseConfig";
+import { onRegister, db } from "../../../../../firebaseConfig";
 import styled from "styled-components/macro";
+import { setDoc, doc } from "firebase/firestore";
+
 
 
 export const SignUpContainer = () => {
@@ -37,6 +39,9 @@ export const SignUpContainer = () => {
         return;
       }
       let res = await onRegister(values);
+      if(res.user.uid){
+        await setDoc( doc(db,"users", res.user.uid) , {rol: "user"} )
+      }
       navigate("/login");
       return res;
     },

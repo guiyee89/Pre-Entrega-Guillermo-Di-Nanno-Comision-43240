@@ -2,68 +2,114 @@ import { Checkout } from "./Checkout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { db } from "../../../firebaseConfig";
-import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
-import { useContext, useState } from "react";
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+  serverTimestamp,
+  getDoc,
+} from "firebase/firestore";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import styled from "styled-components/macro";
 import { initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import { Link, useLocation } from "react-router-dom";
+
+
 
 export const CheckoutContainer = () => {
+
+
   const { cart, getTotalPrice, clearCart } = useContext(CartContext);
-
-  const [orderId, setOrderId] = useState(null);
-
+  const { user } = useContext(AuthContext);
   let total = getTotalPrice();
 
-  // const { handleSubmit, handleChange, errors } = useFormik({
-  //   initialValues: {
-  //     name: "",
-  //     email: "",
-  //     phone: "",
-  //   },
-  //   onSubmit: (data) => {
-  //     //Aca creamos la logica del submit
-  //     let order = {
-  //       buyer: data, //la data de initialValues en onSubmit
-  //       items: cart, //el cart de CartContext
-  //       total: total, //el total del CartContext
-  //     };
-  //     //guardamos la orden en una variable
-  //     let ordersCollection = collection(db, "orders");
-  //     addDoc(ordersCollection, order) // usamos el metodo addDoc para guardar la orden
-  //       .then((res) => setOrderId(res.id)); //guardamos el ID de la orden en el setOrderID
 
-  //     //actualizar informacion del producto despues de la compra
-  //     cart.forEach((product) => {
-  //       updateDoc(doc(db, "products", product.id), {
-  //         stock: product.stock - product.quantity,
-  //       });
-  //     });
 
-  //     clearCart();
-  //   },
+  const { handleSubmit, handleChange, errors } = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+      ciudad: "",
+      direccion: "",
+      cp: "",
+    },
+    onSubmit: (data) => {
+      //Aca creamos la logica del submit
+      let order = {
+        buyer: data, //la data de initialValues en onSubmit
+        items: cart, //el cart de CartContext
+        total: total + shipmentCost, //el total del CartContext y costo de envio
+        email: user.email,
+      };
+      localStorage.setItem("order", JSON.stringify(order));
+      handleBuy();
+    },
+    validateOnChange: false, //que no se valide mientras escribo, sino al hacer submit
+    validationSchema: Yup.object({
+      //validar los datos
+      name: Yup.string()
+        .required("Este campo es obligatorio")
+        .min(3, "Minimo 3 caracteres"),
+      email: Yup.string()
+        .email("Este campo no corresponde a un email valido")
+        .required("Este campo es obligatorio"),
+      phone: Yup.string()
+        .required("Este campo es obligatorio")
+        .min(10, "Debe contener 10 numeros")
+        .max(15, "Debe contener 10 numeros"),
+    }),
+  });
 
-  //   //que no se valide mientras escribo, sino al hacer submit
-  //   validateOnChange: false,
-  //   //validar los datos
-  //   validationSchema: Yup.object({
-  //     name: Yup.string()
-  //       .required("Este campo es obligatorio")
-  //       .min(3, "Minimo 3 caracteres"),
-  //     email: Yup.string()
-  //       .email("Este campo no corresponde a un email valido")
-  //       .required("Este campo es obligatorio"),
-  //     phone: Yup.string()
-  //       .required("Este campo es obligatorio")
-  //       .min(10, "Debe contener 10 numeros")
-  //       .max(15, "Debe contener 10 numeros"),
-  //   }),
-  // });
+
+
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const paramValue = queryParams.get("status"); // approved --- rejected
+  const [orderId, setOrderId] = useState(null);
+
+  useEffect(() => {
+    //Guardamos la orden en Firebase
+    let order = JSON.parse(localStorage.getItem("order"));
+
+    if (paramValue === "approved") {
+      //Si el paramValue esta aprovado, guardamos la orden de compra en FIREBASE
+      let ordersCollection = collection(db, "orders");
+      addDoc(ordersCollection, { ...order, date: serverTimestamp() }) // usamos el metodo addDoc para guardar la orden
+        .then((res) => setOrderId(res.id)); //guardamos el ID de la orden en el setOrderID
+
+      order.items.forEach((product) => {
+        //actualizar informacion del producto despues de la compra
+        updateDoc(doc(db, "products", product.id), {
+          stock: product.stock - product.quantity,
+        });
+      });
+      localStorage.removeItem("order");
+      clearCart();
+    }
+  }, [paramValue]);
+
+
+  const [shipmentCost, setShipmentCost] = useState(0)
+
+  useEffect(() => {
+    let shipmentCollection = collection(db,"shipment")
+    let shipmentDoc = doc(shipmentCollection,"sENFwZKmQYRTTmkuqqGX")
+    getDoc(shipmentDoc).then(res => {
+      setShipmentCost(res.data().cost)
+    })
+  },[])
+
 
   initMercadoPago(import.meta.env.VITE_PUBLIC_KEY, {
     locale: "es-AR",
   });
+
   const [preferenceId, setPreferenceId] = useState(null);
 
   const createPreference = async () => {
@@ -75,16 +121,14 @@ export const CheckoutContainer = () => {
         quantity: product.quantity,
       };
     });
-
     try {
       let response = await axios.post(
         "http://localhost:8080/create_preference",
         {
           items: cartArray,
-          shipment_cost: 10,
+          shipment_cost: shipmentCost,
         }
       );
-
       const { id } = response.data;
       return id; // Return the ID on success
     } catch (error) {
@@ -100,19 +144,24 @@ export const CheckoutContainer = () => {
     }
   };
 
+
+
   return (
     <>
       <Wrapper>
         {orderId ? (
-          <h1>
-            Su compra fue exitosa. <br />
-            El numero de comprobante es: {orderId}{" "}
-          </h1>
+          <>
+            <h1>
+              Su compra fue exitosa. <br />
+              El numero de comprobante es: {orderId}{" "}
+            </h1>
+            <Link to="/all-products">Seguir Comprando</Link>
+          </>
         ) : (
           <Checkout
-            // handleSubmit={handleSubmit}
-            // handleChange={handleChange}
-            // errors={errors}
+            handleSubmit={handleSubmit}
+            handleChange={handleChange}
+            errors={errors}
             preferenceId={preferenceId}
             createPreference={createPreference}
             handleBuy={handleBuy}
