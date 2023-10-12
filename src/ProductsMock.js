@@ -3,7 +3,7 @@
 export const products = [
 
     {
-        id: 1,
+        userId: 1,
         title: "Nike World",
         subtitle: "Running Shoes Absorbing Air",
         price: 125,

@@ -24,7 +24,7 @@ export const Checkout = ({
     <>
       <Wrapper>
         
-        {/* <FormWrapper>
+        <FormWrapper>
           <Form onSubmit={handleSubmit}>
             <Input
               label="Name"
@@ -33,7 +33,7 @@ export const Checkout = ({
               onChange={handleChange}
               helperText={errors.name}
               error={errors.name ? true : false}
-              sx={{ marginTop: "24px" }}
+              sx={{ marginTop: "14px"}}
             />
             <Input
               label="Email"
@@ -42,16 +42,7 @@ export const Checkout = ({
               onChange={handleChange}
               helperText={errors.email}
               error={errors.email ? true : false}
-              sx={{ marginTop: "24px" }}
-            />
-            <Input
-              label="Confirm Email"
-              variant="outlined"
-              name="email"
-              onChange={handleChange}
-              helperText={errors.email}
-              error={errors.email ? true : false}
-              sx={{ marginTop: "24px" }}
+              sx={{ marginTop: "14px" }}
             />
             <Input
               label="Phone"
@@ -60,15 +51,44 @@ export const Checkout = ({
               onChange={handleChange}
               helperText={errors.phone}
               error={errors.phone ? true : false}
-              sx={{ marginTop: "24px" }}
+              sx={{ marginTop: "14px" }}
             />
+            <Input
+              label="Ciudad / Localidad"
+              variant="outlined"
+              name="ciudad"
+              onChange={handleChange}
+              helperText={errors.ciudad}
+              error={errors.ciudad ? true : false}
+              sx={{ marginTop: "14px" }}
+            /> 
+            <Input
+              label="Direccion - Casa / Departamento"
+              variant="outlined"
+              name="direccion"
+              onChange={handleChange}
+              helperText={errors.direccion}
+              error={errors.direccion ? true : false}
+              sx={{ marginTop: "14px" }}
+            />
+            <Input
+              label="Codigo Postal"
+              variant="outlined"
+              name="cp"
+              onChange={handleChange}
+              helperText={errors.cp}
+              error={errors.cp ? true : false}
+              sx={{ marginTop: "14px" }}
+            /> 
             <SubmitBtn type="submit" onClick={handleSubmit}>
               Confirm Purchase
             </SubmitBtn>
           </Form>
-        </FormWrapper> */}
+          
+        </FormWrapper>
+        
 
-        {/* <ProductsWrapper key="cart-wrapper">
+        <ProductsWrapper key="cart-wrapper">
           <ProductTable>
             <thead style={{ borderBottom: "1px solid lightgrey" }}>
               <tr>
@@ -120,8 +140,8 @@ export const Checkout = ({
               })}
             </tbody>
           </ProductTable>
-        </ProductsWrapper> */}
-        {/* <TotalPriceInfo>
+        </ProductsWrapper>
+        <TotalPriceInfo>
           <SubTotalWrapper>
             <TotalText colSpan="1">Subtotal:</TotalText>
             <SubTotal>$ {subTotal.toFixed(2)}</SubTotal>
@@ -134,8 +154,8 @@ export const Checkout = ({
             <TotalText colSpan="1">Total:</TotalText>
             <TotalPrice>$ {total.toFixed(2)}</TotalPrice>
           </TotalWrapper>
-        </TotalPriceInfo> */}
-        <Button onClick={handleBuy}>Seleccione metodo de pago</Button>
+          <PaymentMethod onClick={handleBuy}>Seleccione metodo de pago</PaymentMethod>
+        </TotalPriceInfo>
         {
           preferenceId && <Wallet initialization={{preferenceId, redirectMode:"self"}} />
         }
@@ -149,8 +169,6 @@ const Wrapper = styled.section`
   max-width: 1300px;
   margin: 0 auto;
 `;
-const Button = styled.button``;
-
 const ItemQuantity = styled.td`
   vertical-align: middle;
 `;
@@ -279,4 +297,9 @@ const TotalPrice = styled.h3`
   font-weight: bold;
   font-size: 1.4rem;
   padding-left: 46px;
+`;
+const PaymentMethod = styled.button`
+  position: absolute;
+  bottom: -55px;
+    left: -262px;
 `;

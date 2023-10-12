@@ -6,6 +6,7 @@ import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 import { menuRoutes } from "../../routes/menuRoutes";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
+import Person2Icon from "@mui/icons-material/Person2";
 import { AuthContext } from "../../context/AuthContext";
 
 export const NavDesktop = () => {
@@ -123,6 +124,12 @@ export const NavDesktop = () => {
                       onClick={() => navigate("/dashboard")}
                     />
                   ) : null}
+                  {user.rol === "user" && (
+                    <PersonIcon
+                      sx={{ fontSize: "30px" }}
+                      onClick={() => navigate("/user-orders")}
+                    />
+                  )}
                 </DashCartContainer>
               </>
             )}
@@ -245,5 +252,8 @@ const DashCartContainer = styled.div`
   align-items: center;
 `;
 const Dashboard = styled(DashboardCustomizeIcon)`
+  cursor: pointer;
+`;
+const PersonIcon = styled(Person2Icon)`
   cursor: pointer;
 `;
