@@ -123,7 +123,7 @@ export const CheckoutContainer = () => {
     });
     try {
       let response = await axios.post(
-        "http://localhost:8080/create_preference",
+        "https://backend-e-commerce-1-fjevfcudx-guiyee89.vercel.app/create_preference",
         {
           items: cartArray,
           shipment_cost: shipmentCost,
