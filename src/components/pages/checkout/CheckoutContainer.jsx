@@ -128,7 +128,8 @@ export const CheckoutContainer = () => {
           items: cartArray,
           shipment_cost: shipmentCost,
         }
-      );
+      )
+
       const { id } = response.data;
       return id; // Return the ID on success
     } catch (error) {
