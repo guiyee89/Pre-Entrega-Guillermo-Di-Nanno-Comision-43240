@@ -18,156 +18,170 @@ export const Checkout = ({
   const subTotal = getSubTotal();
   const totalDiscount = getTotalDiscount();
 
-
-
   return (
     <>
       <Wrapper>
-        
-        <FormWrapper>
-          <Form onSubmit={handleSubmit}>
-            <Input
-              label="Name"
-              variant="outlined"
-              name="name"
-              onChange={handleChange}
-              helperText={errors.name}
-              error={errors.name ? true : false}
-              sx={{ marginTop: "14px"}}
-            />
-            <Input
-              label="Email"
-              variant="outlined"
-              name="email"
-              onChange={handleChange}
-              helperText={errors.email}
-              error={errors.email ? true : false}
-              sx={{ marginTop: "14px" }}
-            />
-            <Input
-              label="Phone"
-              variant="outlined"
-              name="phone"
-              onChange={handleChange}
-              helperText={errors.phone}
-              error={errors.phone ? true : false}
-              sx={{ marginTop: "14px" }}
-            />
-            <Input
-              label="Ciudad / Localidad"
-              variant="outlined"
-              name="ciudad"
-              onChange={handleChange}
-              helperText={errors.ciudad}
-              error={errors.ciudad ? true : false}
-              sx={{ marginTop: "14px" }}
-            /> 
-            <Input
-              label="Direccion - Casa / Departamento"
-              variant="outlined"
-              name="direccion"
-              onChange={handleChange}
-              helperText={errors.direccion}
-              error={errors.direccion ? true : false}
-              sx={{ marginTop: "14px" }}
-            />
-            <Input
-              label="Codigo Postal"
-              variant="outlined"
-              name="cp"
-              onChange={handleChange}
-              helperText={errors.cp}
-              error={errors.cp ? true : false}
-              sx={{ marginTop: "14px" }}
-            /> 
+        <FormItems>
+          <FormWrapper>
+            <Form onSubmit={handleSubmit}>
+              <Input
+                label="Name"
+                variant="outlined"
+                name="name"
+                onChange={handleChange}
+                helperText={errors.name}
+                error={errors.name ? true : false}
+                sx={{ marginTop: "14px" }}
+              />
+              <Input
+                label="Email"
+                variant="outlined"
+                name="email"
+                onChange={handleChange}
+                helperText={errors.email}
+                error={errors.email ? true : false}
+                sx={{ marginTop: "14px" }}
+              />
+              <Input
+                label="Phone"
+                variant="outlined"
+                name="phone"
+                onChange={handleChange}
+                helperText={errors.phone}
+                error={errors.phone ? true : false}
+                sx={{ marginTop: "14px" }}
+              />
+              <Input
+                label="Ciudad / Localidad"
+                variant="outlined"
+                name="ciudad"
+                onChange={handleChange}
+                helperText={errors.ciudad}
+                error={errors.ciudad ? true : false}
+                sx={{ marginTop: "14px" }}
+              />
+              <Input
+                label="Direccion - Casa / Departamento"
+                variant="outlined"
+                name="direccion"
+                onChange={handleChange}
+                helperText={errors.direccion}
+                error={errors.direccion ? true : false}
+                sx={{ marginTop: "14px" }}
+              />
+              <Input
+                label="Codigo Postal"
+                variant="outlined"
+                name="cp"
+                onChange={handleChange}
+                helperText={errors.cp}
+                error={errors.cp ? true : false}
+                sx={{ marginTop: "14px" }}
+              />
+              {/* <SubmitBtn type="submit" onClick={handleSubmit}>
+              Confirm Purchase
+            </SubmitBtn>
+            {preferenceId && (
+              <WalletMP
+              initialization={{ preferenceId, redirectMode: "modal" }}
+              />
+            )} */}
+            </Form>
+          </FormWrapper>
+
+          <ProductsWrapper key="cart-wrapper">
+            <ProductTable>
+              <thead style={{ borderBottom: "1px solid lightgrey" }}>
+                <tr>
+                  <th style={{ textAlign: "center", paddingLeft: "45px" }}>
+                    Product
+                  </th>
+                  <th style={{ paddingBottom: "8px" }}>Price</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cart.map((product) => {
+                  const itemPrice = getItemPrice(product.id);
+                  const hasDiscount = product.discountPrice;
+                  return (
+                    <tr key={product.id}>
+                      <ItemWrapper>
+                        <ImgWrapper>
+                          <ItemImg src={product.img[0]} alt="" />
+                        </ImgWrapper>
+                        <ItemTitle>{product.title}</ItemTitle>
+                      </ItemWrapper>
+
+                      {hasDiscount ? (
+                        <ItemPriceWrapper hasDiscount={hasDiscount}>
+                          {hasDiscount && (
+                            <Price hasDiscount={hasDiscount}>
+                              $ {itemPrice.toFixed(2)}
+                            </Price>
+                          )}
+
+                          <DiscountPrice>
+                            ${" "}
+                            {(product.discountPrice * product.quantity).toFixed(
+                              2
+                            )}
+                          </DiscountPrice>
+                        </ItemPriceWrapper>
+                      ) : (
+                        <>
+                          <PriceWrapper>
+                            <Price>$ {itemPrice.toFixed(2)}</Price>
+                          </PriceWrapper>
+                        </>
+                      )}
+                      <ItemQuantity>{product.quantity}</ItemQuantity>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </ProductTable>
+          </ProductsWrapper>
+        </FormItems>
+        <TotalButton>
+          <TotalPriceInfo>
+            <SubTotalWrapper>
+              <TotalText colSpan="1">Subtotal:</TotalText>
+              <SubTotal>$ {subTotal.toFixed(2)}</SubTotal>
+            </SubTotalWrapper>
+            <DiscountWrapper>
+              <TotalText colSpan="1">Discount:</TotalText>
+              <TotalDiscount>- $ {totalDiscount.toFixed(2)}</TotalDiscount>
+            </DiscountWrapper>
+            <TotalWrapper>
+              <TotalText colSpan="1">Total:</TotalText>
+              <TotalPrice>$ {total.toFixed(2)}</TotalPrice>
+            </TotalWrapper>
+          </TotalPriceInfo>
+          <ConfirmMercadoPago>
             <SubmitBtn type="submit" onClick={handleSubmit}>
               Confirm Purchase
             </SubmitBtn>
-          </Form>
-          
-        </FormWrapper>
-        
-
-        <ProductsWrapper key="cart-wrapper">
-          <ProductTable>
-            <thead style={{ borderBottom: "1px solid lightgrey" }}>
-              <tr>
-                <th style={{ textAlign: "center", paddingLeft: "45px" }}>
-                  Product
-                </th>
-                <th style={{ paddingBottom: "8px" }}>Price</th>
-                <th>Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cart.map((product) => {
-                const itemPrice = getItemPrice(product.id);
-                const hasDiscount = product.discountPrice;
-                return (
-                  <tr key={product.id}>
-                    <ItemWrapper>
-                      <ImgWrapper>
-                        <ItemImg src={product.img[0]} alt="" />
-                      </ImgWrapper>
-                      <ItemTitle>{product.title}</ItemTitle>
-                    </ItemWrapper>
-
-                    {hasDiscount ? (
-                      <ItemPriceWrapper hasDiscount={hasDiscount}>
-                        {hasDiscount && (
-                          <Price hasDiscount={hasDiscount}>
-                            $ {itemPrice.toFixed(2)}
-                          </Price>
-                        )}
-
-                        <DiscountPrice>
-                          ${" "}
-                          {(product.discountPrice * product.quantity).toFixed(
-                            2
-                          )}
-                        </DiscountPrice>
-                      </ItemPriceWrapper>
-                    ) : (
-                      <>
-                        <PriceWrapper>
-                          <Price>$ {itemPrice.toFixed(2)}</Price>
-                        </PriceWrapper>
-                      </>
-                    )}
-                    <ItemQuantity>{product.quantity}</ItemQuantity>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </ProductTable>
-        </ProductsWrapper>
-        <TotalPriceInfo>
-          <SubTotalWrapper>
-            <TotalText colSpan="1">Subtotal:</TotalText>
-            <SubTotal>$ {subTotal.toFixed(2)}</SubTotal>
-          </SubTotalWrapper>
-          <DiscountWrapper>
-            <TotalText colSpan="1">Discount:</TotalText>
-            <TotalDiscount>- $ {totalDiscount.toFixed(2)}</TotalDiscount>
-          </DiscountWrapper>
-          <TotalWrapper>
-            <TotalText colSpan="1">Total:</TotalText>
-            <TotalPrice>$ {total.toFixed(2)}</TotalPrice>
-          </TotalWrapper>
-          <PaymentMethod onClick={handleBuy}>Seleccione metodo de pago</PaymentMethod>
-        </TotalPriceInfo>
-        {
-          preferenceId && <Wallet initialization={{preferenceId, redirectMode:"modal"}} />
-        }
+            {preferenceId && (
+              <Wallet
+                initialization={{ preferenceId, redirectMode: "modal" }}
+              />
+            )}
+          </ConfirmMercadoPago>
+        </TotalButton>
       </Wrapper>
     </>
   );
 };
 const Wrapper = styled.section`
   display: flex;
+  flex-direction: column;
   position: relative;
   max-width: 1300px;
   margin: 0 auto;
+`;
+const FormItems = styled.div`
+  display: flex;
 `;
 const ItemQuantity = styled.td`
   vertical-align: middle;
@@ -196,9 +210,6 @@ const SubmitBtn = styled.button`
   background-color: black;
   color: white;
   margin-top: 24px;
-  position: absolute;
-  bottom: -90px;
-  left: 85%;
 `;
 const ProductsWrapper = styled.div`
   display: flex;
@@ -261,29 +272,29 @@ const Price = styled.span`
   }
 `;
 const TotalPriceInfo = styled.div`
-  position: absolute;
   width: 24%;
   display: flex;
   flex-direction: column;
-  bottom: -110px;
-  right: 14%;
   gap: 0.5rem;
 `;
 
 const TotalWrapper = styled.div`
-  font-weight: 500;
-  font-size: 1.4rem;
-  display: inherit;
+  font-weight: 600;
+  font-size: 1.8rem;
+  display: flex;
+    justify-content: space-between;
 `;
 const SubTotalWrapper = styled.div`
-  display: inherit;
+  display: flex;
+    justify-content: space-between;
 `;
 const DiscountWrapper = styled.div`
-  display: inherit;
+  display: flex;
+    justify-content: space-between;
 `;
 const TotalText = styled.h3`
   text-align: end;
-  font-weight: 500;
+  font-weight: 600;
 `;
 const TotalDiscount = styled.h3`
   font-weight: 500;
@@ -295,11 +306,16 @@ const SubTotal = styled.h3`
 `;
 const TotalPrice = styled.h3`
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   padding-left: 46px;
 `;
-const PaymentMethod = styled.button`
-  position: absolute;
-  bottom: -55px;
-    left: -262px;
+const TotalButton = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+  margin: 40px 0 0 42px;
+`;
+const ConfirmMercadoPago = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

@@ -66,7 +66,7 @@ export const CheckoutContainer = () => {
   });
 
 
-
+  
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -124,6 +124,7 @@ export const CheckoutContainer = () => {
     try {
       let response = await axios.post(
         "https://backend-e-commerce-1-fjevfcudx-guiyee89.vercel.app/create_preference",
+        // "http://localhost:8080/create_preference",
         {
           items: cartArray,
           shipment_cost: shipmentCost,
