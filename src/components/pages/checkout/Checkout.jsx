@@ -282,15 +282,15 @@ const TotalWrapper = styled.div`
   font-weight: 600;
   font-size: 1.8rem;
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
 `;
 const SubTotalWrapper = styled.div`
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
 `;
 const DiscountWrapper = styled.div`
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
 `;
 const TotalText = styled.h3`
   text-align: end;
