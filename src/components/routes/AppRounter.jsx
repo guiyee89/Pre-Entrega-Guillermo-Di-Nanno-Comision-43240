@@ -1,13 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "../layout/Layout";
 import { menuRoutes } from "./menuRoutes";
-import { Dashboard } from "../pages/dashboard/Dashboard";
 import { LoginContainer } from "../pages/dashboard/authentication/login/LoginContainer";
 import { SignUpContainer } from "../pages/dashboard/authentication/signup/SignUpContainer";
 import { ForgotPassword } from "../pages/dashboard/authentication/forgotPass/ForgotPassword";
 import { ProtectedAdmin } from "./ProtectedAdmin";
 import { ProtectedUsers } from "./ProtectedUsers";
 import { UserOrders } from "../pages/dashboard/UserOrders";
+import { AdminDashboard } from "../pages/dashboard/AdminDashboard";
+
 
 export const AppRounter = () => {
   return (
@@ -19,7 +20,7 @@ export const AppRounter = () => {
       </Route>
 
       <Route element={<ProtectedAdmin />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<AdminDashboard />} />
       </Route>
 
       <Route element={<ProtectedUsers />}>
