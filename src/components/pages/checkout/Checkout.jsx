@@ -78,14 +78,6 @@ export const Checkout = ({
                 error={errors.cp ? true : false}
                 sx={{ marginTop: "14px" }}
               />
-              {/* <SubmitBtn type="submit" onClick={handleSubmit}>
-              Confirm Purchase
-            </SubmitBtn>
-            {preferenceId && (
-              <WalletMP
-              initialization={{ preferenceId, redirectMode: "modal" }}
-              />
-            )} */}
             </Form>
           </FormWrapper>
 

@@ -1,9 +1,10 @@
 import { CartContainer } from "../pages/cart/CartContainer";
 import { CheckoutContainer } from "../pages/checkout/CheckoutContainer";
-import { UserOrders } from "../pages/dashboard/UserOrders";
+import { UserOrders } from "../pages/dashboard-auth/user/UserOrders";
 import { ItemDetailContainer } from "../pages/itemDetail/ItemDetailContainer";
 import { ItemListContainer } from "../pages/itemListContainer/ItemListContainer";
 import { LandingPage } from "../pages/landingPage/LandingPage";
+
 
 export const menuRoutes = [
     {
