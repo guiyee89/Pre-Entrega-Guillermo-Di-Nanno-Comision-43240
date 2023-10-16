@@ -16,6 +16,7 @@ export const NavMobile = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const rolAdmin = import.meta.env.VITE_ROL_ADMIN;
+  const rolAdmin2 = import.meta.env.VITE_ROL_ADMIN2;
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
@@ -135,7 +136,7 @@ export const NavMobile = () => {
                   shirts
                 </NavLink>
               </NavList>
-              {user.rol === rolAdmin ? (
+              {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
                 <Dashboard
                   sx={{ fontSize: "30px" }}
                   onClick={() => navigate("/dashboard")}
