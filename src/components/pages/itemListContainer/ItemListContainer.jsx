@@ -56,7 +56,7 @@ export const ItemListContainer = () => {
         filterCollection = query(
           itemsCollection,
           where("category", "==", categoryName) ||
-          where("userId", "==", userIdItem) ||
+          where("userId", "==", userIdItem) || //userId y color "where" se pueden quitar junto a los Params()
           where("color", "==", colorItem)
         );
       }

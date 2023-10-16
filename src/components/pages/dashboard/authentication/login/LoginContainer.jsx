@@ -18,7 +18,7 @@ import { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components/macro";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { AuthContext } from "../../../../context/AuthContext";
 import { db, loginWithGoogle, onLogin } from "../../../../../firebaseConfig";
 
@@ -76,22 +76,40 @@ export const LoginContainer = () => {
 
   //Login con Google
   const handleSubmitGoogle = async () => {
-    let res = await loginWithGoogle();
-    if (res.user) {
-      const userCollection = collection(db, "users");
-      const userRef = doc(userCollection, res.user.uid);
-      const userDoc = await getDoc(userRef);
-      let finallyUser = {
-        email: res.user.email,
-        rol: userDoc.data().rol,
-      };
-      console.log(res.user);
-      console.log(userDoc.data());
-      handleLogin(finallyUser);
-      navigate("/");
+    try {
+      // Authenticate the user with Google
+      let res = await loginWithGoogle();
+  
+      if (res.user) {
+        const userCollection = collection(db, "users");
+        const userRef = doc(userCollection, res.user.uid);
+        const userDoc = await getDoc(userRef);
+        let finallyUser;
+        // Check if the user already exists in the database
+        if (userDoc.exists()) {
+          // User exists, retrieve their data
+          finallyUser = {
+            email: res.user.email,
+            rol: userDoc.data().rol,
+          };
+        } else {
+          // User doesn't exist, create a new user role
+          await setDoc(userRef, { rol: "user" }, { merge: true });
+          finallyUser = {
+            email: res.user.email,
+            rol: "user",
+          };
+        }
+        // Log in the user and navigate
+        handleLogin(finallyUser);
+        navigate("/");
+      }
+    } catch (error) {
+      // Handle any authentication or database errors
+      console.error("Error during Google login:", error);
     }
-    return res;
   };
+  
 
   return (
     <LoginWrapper>
