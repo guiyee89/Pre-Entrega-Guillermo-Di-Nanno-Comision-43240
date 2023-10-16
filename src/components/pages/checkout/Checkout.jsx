@@ -1,8 +1,19 @@
-import { TextField } from "@mui/material";
+import {
+  IconButton,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from "@mui/material";
 import { useContext } from "react";
 import styled from "styled-components/macro";
 import { CartContext } from "../../context/CartContext";
 import { Wallet } from "@mercadopago/sdk-react";
+import { Table } from "react-bootstrap";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export const Checkout = ({
   handleSubmit,
@@ -81,59 +92,97 @@ export const Checkout = ({
             </Form>
           </FormWrapper>
 
-          <ProductsWrapper key="cart-wrapper">
-            <ProductTable>
-              <thead style={{ borderBottom: "1px solid lightgrey" }}>
-                <tr>
-                  <th style={{ textAlign: "center", paddingLeft: "45px" }}>
-                    Product
-                  </th>
-                  <th style={{ paddingBottom: "8px" }}>Price</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cart.map((product) => {
-                  const itemPrice = getItemPrice(product.id);
-                  const hasDiscount = product.discountPrice;
-                  return (
-                    <tr key={product.id}>
-                      <ItemWrapper>
-                        <ImgWrapper>
-                          <ItemImg src={product.img[0]} alt="" />
-                        </ImgWrapper>
-                        <ItemTitle>{product.title}</ItemTitle>
-                      </ItemWrapper>
+          <TableContainer sx={{ width: "56%", paddingLeft: "15px" }}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ width: "140px" }} align="center"></TableCell>
+                  <TableCell sx={{ width: "120px" }} align="center">
+                    Titulo
+                  </TableCell>
+                  <TableCell align="center">Precio</TableCell>
+                  <TableCell align="center">Size</TableCell>
+                  <TableCell align="center">Color</TableCell>
+                  <TableCell align="center">Cantidad</TableCell>
+                  <TableCell align="center">Total</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cart.map((item) => {
+                  const itemTotalPrice = getItemPrice(item.id);
+                  const hasDiscount = item.discountPrice;
 
+                  return (
+                    <TableRow
+                      key={item.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <ImgCell align="center" component="th" scope="row">
+                        <img src={item.img[0]} alt={`Item ${item.id}`} />
+                      </ImgCell>
+                      <TableCell align="center" component="th" scope="row">
+                        {item.title}
+                      </TableCell>
                       {hasDiscount ? (
-                        <ItemPriceWrapper hasDiscount={hasDiscount}>
+                        <DiscountPriceWrapper hasDiscount={hasDiscount}>
                           {hasDiscount && (
-                            <Price hasDiscount={hasDiscount}>
-                              $ {itemPrice.toFixed(2)}
+                            <Price
+                              style={{ fontSize: "12.5px" }}
+                              hasDiscount={hasDiscount}
+                              align="center"
+                              component="th"
+                              scope="row"
+                            >
+                              $ {item.unit_price.toFixed(2)}
                             </Price>
                           )}
 
-                          <DiscountPrice>
-                            ${" "}
-                            {(product.discountPrice * product.quantity).toFixed(
-                              2
-                            )}
+                          <DiscountPrice style={{ fontSize: "14px" }}>
+                            $ {item.discountPrice.toFixed(2)}
                           </DiscountPrice>
-                        </ItemPriceWrapper>
+                        </DiscountPriceWrapper>
                       ) : (
                         <>
                           <PriceWrapper>
-                            <Price>$ {itemPrice.toFixed(2)}</Price>
+                            <Price style={{ fontSize: "14px" }}>
+                              $ {item.unit_price.toFixed(2)}
+                            </Price>
                           </PriceWrapper>
                         </>
                       )}
-                      <ItemQuantity>{product.quantity}</ItemQuantity>
-                    </tr>
+                      <TableCell align="center" component="th" scope="row">
+                        {item.size}
+                      </TableCell>
+                      <TableCell align="center" component="th" scope="row">
+                        {item.color}
+                      </TableCell>
+                      <TableCell align="center" component="th" scope="row">
+                        {item.quantity}
+                      </TableCell>
+                      {hasDiscount ? (
+                        <DiscountPriceWrapper>
+                          <DiscountPrice
+                            align="center"
+                            component="th"
+                            scope="row"
+                          >
+                            {" "}
+                            $ {item.discountPrice * item.quantity}
+                          </DiscountPrice>
+                        </DiscountPriceWrapper>
+                      ) : (
+                        <PriceWrapper>
+                          <Price align="center" component="th" scope="row">
+                            $ {itemTotalPrice}
+                          </Price>
+                        </PriceWrapper>
+                      )}
+                    </TableRow>
                   );
                 })}
-              </tbody>
-            </ProductTable>
-          </ProductsWrapper>
+              </TableBody>
+            </Table>
+          </TableContainer>
         </FormItems>
         <TotalButton>
           <TotalPriceInfo>
@@ -175,9 +224,6 @@ const Wrapper = styled.section`
 const FormItems = styled.div`
   display: flex;
 `;
-const ItemQuantity = styled.td`
-  vertical-align: middle;
-`;
 const FormWrapper = styled.div`
   position: relative;
   width: 600px;
@@ -187,7 +233,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  padding-right: 100px;
+  padding-right: 25px;
 `;
 const Input = styled(TextField)`
   width: 350px;
@@ -203,38 +249,21 @@ const SubmitBtn = styled.button`
   color: white;
   margin-top: 24px;
 `;
-const ProductsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 600px;
-  padding: 0 115px 0 20px;
+const ImgCell = styled(TableCell)`
+  width: 12%;
 `;
-const ProductTable = styled.table`
-  text-align: center;
-  margin-bottom: 40px;
-`;
-const ItemWrapper = styled.td`
-  display: flex;
-  align-items: center;
-  padding-top: 8px;
-  height: 70px;
-`;
-const ItemTitle = styled.h2`
-  margin: 0 auto;
-`;
-const ImgWrapper = styled.div`
-  height: 100%;
-`;
-const ItemImg = styled.img`
-  width: 50px;
-  height: 100%;
-  object-fit: contain;
-`;
+
 const PriceWrapper = styled.td`
   vertical-align: middle;
+  text-align: center;
+  border-top: 1px solid #e3dddd;
+  border-bottom: 1px solid #e3dddd;
 `;
-const ItemPriceWrapper = styled.td`
+const DiscountPriceWrapper = styled.td`
   vertical-align: middle;
+  text-align: center;
+  border-top: 1px solid #e3dddd;
+  border-bottom: 1px solid #e3dddd;
 `;
 const DiscountPrice = styled.span`
   color: #a83737;
