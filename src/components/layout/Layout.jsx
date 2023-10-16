@@ -13,7 +13,6 @@ import { GlobalToolsContext } from "../context/GlobalToolsContext";
 import { NavMobile } from "./navbar/NavMobile";
 import { NavDesktop } from "./navbar/NavDesktop";
 import { LoadingTopBar } from "../common/loadingTopBar/LoadingTopBar";
-import { UserOrders } from "../pages/dashboard/UserOrders";
 
 ////////////////////////////////////////////////////
 

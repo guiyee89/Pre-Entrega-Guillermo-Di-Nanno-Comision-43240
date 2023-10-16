@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { db } from "../../../firebaseConfig";
+import { db } from "../../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import styled from "styled-components/macro";
 
 export const UserOrders = () => {
@@ -36,14 +36,14 @@ export const UserOrders = () => {
         {myOrders.map((order) => {
           return (
             <div key={order.id}>
-              {
-                order?.items?.map(product => {
-                  return <div key={product.id} >
+              {order?.items?.map((product) => {
+                return (
+                  <div key={product.id}>
                     <h2>{product.title}</h2>
                     <h3>{product.quantity}</h3>
                   </div>
-                })
-              }
+                );
+              })}
               <h4>El total de la orden es {order.total}</h4>
             </div>
           );
