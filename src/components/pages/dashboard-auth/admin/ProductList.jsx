@@ -1,18 +1,28 @@
 import {
+  Box,
   IconButton,
+  Modal,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@mui/material";
 import styled from "styled-components/macro";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useState } from "react";
+import { ProductsForm } from "./ProductsForm";
 
-
-export const ProductList = ({ filteredItems, handleDelete, handleEdit }) => {
+export const ProductList = ({
+  filteredItems,
+  handleDelete,
+  handleEdit,
+  open,
+  handleClose,
+}) => {
   // Sort items by color and size
   const customSort = (itemA, itemB) => {
     // First, compare by color
@@ -27,8 +37,6 @@ export const ProductList = ({ filteredItems, handleDelete, handleEdit }) => {
   // Sort the items array
   filteredItems.sort(customSort);
 
-
-
   return (
     <>
       <TableContainer>
@@ -39,6 +47,7 @@ export const ProductList = ({ filteredItems, handleDelete, handleEdit }) => {
               <TableCell align="center">Imagen</TableCell>
               <TableCell align="center">Titulo</TableCell>
               <TableCell align="center">Precio</TableCell>
+              <TableCell align="center">Descuento</TableCell>
               <TableCell align="center">Stock</TableCell>
               <TableCell align="center">Size</TableCell>
               <TableCell align="center">Color</TableCell>
@@ -65,6 +74,9 @@ export const ProductList = ({ filteredItems, handleDelete, handleEdit }) => {
                   $ {item.unit_price}
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">
+                  {item.discount}% (${item.discountPrice})
+                </TableCell>
+                <TableCell align="center" component="th" scope="row">
                   {item.stock}
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">
@@ -89,9 +101,32 @@ export const ProductList = ({ filteredItems, handleDelete, handleEdit }) => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Modal
+        sx={{maxWidth:"1000px", margin:"0 auto"}}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <ProductsForm />
+        </Box>
+      </Modal>
     </>
   );
 };
 const ImgCell = styled(TableCell)`
   width: 10%;
 `;
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  /* width: "100%", */
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};

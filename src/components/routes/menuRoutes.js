@@ -1,5 +1,6 @@
 import { CartContainer } from "../pages/cart/CartContainer";
 import { CheckoutContainer } from "../pages/checkout/CheckoutContainer";
+import { AdminDashboard } from "../pages/dashboard-auth/admin/AdminDashboard";
 import { UserOrders } from "../pages/dashboard-auth/user/UserOrders";
 import { ItemDetailContainer } from "../pages/itemDetail/ItemDetailContainer";
 import { ItemListContainer } from "../pages/itemListContainer/ItemListContainer";
@@ -22,16 +23,16 @@ export const menuRoutes = [
         path: "/category/:categoryName",
         Element: ItemListContainer
     },
-    {
-        id: "userId",
-        path: "/userId/:userIdItem",
-        Element: ItemListContainer
-    },
-    {
-        id: "color",
-        path: "/color/:colorItem",
-        Element: ItemListContainer
-    },
+    // {
+    //     id: "userId",
+    //     path: "/userId/:userIdItem",
+    //     Element: ItemListContainer
+    // },
+    // {
+    //     id: "color",
+    //     path: "/color/:colorItem",
+    //     Element: ItemListContainer
+    // },
     {
         id: "detail",
         path: "/item-details/:id",
@@ -43,13 +44,18 @@ export const menuRoutes = [
         Element: CartContainer
     },
     {
-        id: "checkout",
-        path: "/checkout",
+        id: "Checkout",
+        path: "/Checkout",
         Element: CheckoutContainer
     },
     {
         id: "userOrders",
         path: "/user-orders",
         Element: UserOrders
+    },
+    {
+        id: "dashboard",
+        path: "/dashboard",
+        Element: AdminDashboard
     },
 ]

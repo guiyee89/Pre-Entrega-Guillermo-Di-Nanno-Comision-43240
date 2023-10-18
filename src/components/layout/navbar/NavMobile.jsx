@@ -62,12 +62,14 @@ export const NavMobile = () => {
     (route) => route.path === location.pathname
   );
   const isCart = currentRoute?.id === "cart";
+  const isCheckout = currentRoute?.id === "Checkout";
+  const isDashboard = currentRoute?.id === "dashboard";
 
   return (
     <>
       <Nav scrolled={scroll} isFilterOpen={isFilterOpen}>
-        <InsideNav isCart={isCart}>
-          {!isCart && (
+        <InsideNav isCart={isCart} isCheckout={isCheckout} isDashboard={isDashboard}>
+          {!isCart && !isCheckout && !isDashboard && (
             <MenuIcon
               onClick={toggleSideMenu}
               sx={{ fontSize: "40px", marginLeft: "24px", marginTop: "8px" }}
@@ -158,7 +160,7 @@ export const NavMobile = () => {
               ></Logo>
             </LogoLink>
           </LogoDiv>
-          {!isCart && (
+          {!isCart && !isCheckout && !isDashboard &&  (
             <CartWidget
               scrolled={scroll}
               sx={{ padding: "10px" }}
@@ -231,7 +233,7 @@ const InsideNav = styled.div`
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: justify;
-  justify-content: ${({ isCart }) => (isCart ? "center" : "space-between")};
+  justify-content: ${({ isCart, isCheckout, isDashboard }) => (isCart || isCheckout || isDashboard ? "center" : "space-between")};
   @media screen and (max-width: 500px) {
     padding: 0;
   }

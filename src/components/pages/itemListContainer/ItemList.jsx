@@ -172,11 +172,11 @@ export const ItemList = ({
                       </DiscountPrice>
                     )}
                     <Price hasDiscount={hasDiscount}>
-                      $ {product.price.toFixed(2)}
+                      $ {product.unit_price.toFixed(2)}
                     </Price>
                   </ItemPriceWrapper>
                 ) : (
-                  <Price>$ {product.price.toFixed(2)}</Price>
+                  <Price>$ {product.unit_price.toFixed(2)}</Price>
                 )}
               </InfoWrapper>
             </ItemWrapper>

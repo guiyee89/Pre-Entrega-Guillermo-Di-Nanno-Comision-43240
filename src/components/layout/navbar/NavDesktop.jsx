@@ -50,20 +50,23 @@ export const NavDesktop = () => {
   const currentRoute = menuRoutes.find(
     (route) => route.path === location.pathname
   );
-  const isCart = currentRoute?.id === "cart";
 
+  const isCart = currentRoute?.id === "cart";
+  const isCheckout = currentRoute?.id === "Checkout";
+  const isDashboard = currentRoute?.id === "dashboard";
+  
   return (
     <>
       <HeaderWrapper>
         <Nav scrolled={scroll}>
-          <InsideNav isCart={isCart}>
+          <InsideNav isCart={isCart} isCheckout={isCheckout} isDashboard={isDashboard}>
             <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
               <LogoLink to="/">
                 <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
               </LogoLink>
             </LogoDiv>
-
-            {!isCart && (
+            
+            {!isCart && !isCheckout && !isDashboard && (
               <>
                 <NavListWrapper>
                   <NavList>
@@ -171,7 +174,7 @@ const InsideNav = styled.div`
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: justify;
-  justify-content: ${({ isCart }) => (isCart ? "center" : "space-between")};
+  justify-content: ${({ isCart, isCheckout, isDashboard }) => (isCart || isCheckout || isDashboard ? "center" : "space-between")};
   @media screen and (max-width: 50rem) {
     padding: 0;
     justify-content: flex-end;

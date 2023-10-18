@@ -93,9 +93,9 @@ export const Checkout = ({
           </FormWrapper>
 
           <TableContainer sx={{ width: "56%", paddingLeft: "15px" }}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
+            <Table sx={{ minWidth: 650}} aria-label="simple table">
+              <TableHead >
+                <TableRow >
                   <TableCell sx={{ width: "140px" }} align="center"></TableCell>
                   <TableCell sx={{ width: "120px" }} align="center">
                     Titulo

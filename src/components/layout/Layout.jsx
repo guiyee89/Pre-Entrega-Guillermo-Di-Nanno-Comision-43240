@@ -52,6 +52,7 @@ export const Layout = () => {
     (route) => route.path === location.pathname
   );
   const isHome = currentRoute?.id === "home";
+  const isDashboard = currentRoute?.id === "dashboard"
 
   return (
     <>
@@ -67,8 +68,9 @@ export const Layout = () => {
           <>
             {windowWidth > 900 && <NavDesktop />}
             {windowWidth <= 900 && <NavMobile />}
+
             <SideCart />
-            {!isHome && <HeroSmall />}
+            {!isHome && !isDashboard && <HeroSmall />}
 
             <HeroWrapper>{isHome && <HeroLanding />}</HeroWrapper>
 
