@@ -1,14 +1,26 @@
 import { useState } from "react";
-import { collection, getDocs, query, where, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 import { ProductList } from "./ProductList";
+import { Button, TextField } from "@mui/material";
+import styled from "styled-components/macro";
+
+
 
 export const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
   const [filteredItems, setFilteredItems] = useState([]); // State to store filtered items
 
-  console.log(filteredItems)
 
+
+  console.log(filteredItems);
 
   /* FUNCTION TO FETCH ITEMS BASED IN SEARCHQUERY */
   const fetchItemsByUserId = async (userId) => {
@@ -19,8 +31,9 @@ export const AdminDashboard = () => {
       ...doc.data(),
       id: doc.id,
     }));
-    console.log("fetcheando...??")
+    console.log("fetcheando...??");
     setFilteredItems(items);
+
   };
 
   /* SEARCH FOR ITEMS ON CLICK */
@@ -32,33 +45,66 @@ export const AdminDashboard = () => {
     }
   };
 
-
   /* DELETE ITEMS FROM APP */
   const handleDelete = async (id) => {
-    await deleteDoc(doc(db, "products", id));   // Delete the item from Firestore
-    if (searchQuery.trim() !== "") {     // After deletion, you can refetch the items to update the UI
+    await deleteDoc(doc(db, "products", id)); // Delete the item from Firestore
+    if (searchQuery.trim() !== "") {
+      // After deletion, you can refetch the items to update the UI
       fetchItemsByUserId(parseFloat(searchQuery));
     }
   };
 
+  const [open, setOpen] = useState(false);
   
-  const handleEdit = async (id) => {
-
+  const handleClose = () => {
+    setOpen(false)
   }
+
+  const handleEdit = async (id) => {
+    console.log(id);
+  };
 
   return (
     <>
-      <div>
-        <h1>Soy el admin estoy en el dashboard</h1>
-        <input
-          type="number"
-          placeholder="Search by ID number"
-          value={searchQuery}
+      <DashboardWrapper>
+        <Button
+          variant="contained"
+          sx={{ marginRight: "40px", marginTop: "17px" }}
+          onClick={()=>setOpen(true)}
+        >
+          Agregar Producto
+        </Button>
+        <TextFieldInput
+          label="Buscar por ID"
+          variant="outlined"
+          name="id"
           onChange={(e) => setSearchQuery(e.target.value)}
+          sx={{ marginTop: "12px" }}
         />
-        <button onClick={handleSearch}>Search</button>
-        <ProductList filteredItems={filteredItems} handleDelete={handleDelete} handleEdit={handleEdit} />
-      </div>
+        <Button
+          variant="contained"
+          sx={{ marginLeft: "10px", marginTop: "18px" }}
+          onClick={handleSearch}
+        >
+          Buscar
+        </Button>
+        <ProductList
+          filteredItems={filteredItems}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          open={open}
+          handleClose={handleClose}
+        />
+      </DashboardWrapper>
     </>
   );
 };
+const DashboardWrapper = styled.div`
+  width: 100%;
+  margin-top: 150px;
+`;
+const TextFieldInput = styled(TextField)`
+  .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 11.5px 4px;
+  }
+`;

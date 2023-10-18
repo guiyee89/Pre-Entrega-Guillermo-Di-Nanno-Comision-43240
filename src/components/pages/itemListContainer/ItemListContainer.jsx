@@ -23,13 +23,12 @@ export const ScrollRestorationWrapper = ({ children }) => {
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
-  const { categoryName,userIdItem,colorItem } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
+  const { categoryName/* ,userIdItem,colorItem */ } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
   const {
     isFilterOpen,
     toggleFilterMenu,
     windowWidth,
-    progress,
     setProgress,
     loading,
     setLoading,
@@ -55,9 +54,9 @@ export const ItemListContainer = () => {
       } else {
         filterCollection = query(
           itemsCollection,
-          where("category", "==", categoryName) ||
+          where("category", "==", categoryName)/*  ||
           where("userId", "==", userIdItem) || //userId y color "where" se pueden quitar junto a los Params()
-          where("color", "==", colorItem)
+          where("color", "==", colorItem) */
         );
       }
 

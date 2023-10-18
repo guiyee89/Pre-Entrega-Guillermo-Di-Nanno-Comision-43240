@@ -1,11 +1,9 @@
 import GlobalStyles from "./GlobalStyles";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Layout } from "./components/layout/Layout";
-import { menuRoutes } from "./components/routes/menuRoutes";
+import { BrowserRouter} from "react-router-dom";
 import CartContextProvider from "./components/context/CartContext";
 import GlobalToolsProvider from "./components/context/GlobalToolsContext";
 import AuthContextProvider from "./components/context/AuthContext";
-import { AppRounter } from "./components/routes/AppRounter";
+import { AppRouter } from "./components/routes/AppRouter";
 
 function App() {
   return (
@@ -14,7 +12,7 @@ function App() {
         <CartContextProvider>
           <AuthContextProvider>
             <GlobalToolsProvider>
-              <AppRounter />
+              <AppRouter />
             </GlobalToolsProvider>
           </AuthContextProvider>
         </CartContextProvider>

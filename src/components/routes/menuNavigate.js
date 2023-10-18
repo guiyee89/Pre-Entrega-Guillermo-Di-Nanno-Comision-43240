@@ -19,5 +19,10 @@ export const menuNavigate = [
         id: "shoes",
         path: "/category/shoes",
         title: "shoes"
+    },
+    {
+        id: "hoodies",
+        path: "/category/hoodies",
+        title: "hoodies"
     }
 ]
