@@ -209,7 +209,7 @@ const Form = styled.form``;
 const Input = styled(TextField)``;
 const SubmitBtn = styled.button``;
 const SuccessMessage = styled.p`
-  color: green;
+  color: #071507;
   font-weight: bold;
   text-align: center;
 `;

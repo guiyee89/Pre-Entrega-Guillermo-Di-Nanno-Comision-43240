@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, sendPasswordResetEmail } from "firebase/auth";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
 import { v4 } from "uuid"
 
 
@@ -73,12 +73,22 @@ export const forgotPassword = async (email) => {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-/******   STORAGE   ******/
+// /******   STORAGE   ******/
 const storage = getStorage(app)
 
 export const uploadFile = async (file) => {
+  const fileName = file.name;
+  const storageRef = ref(storage, fileName);
+  // const storageRef = ref(storage, v4())
+  await uploadBytes(storageRef, file);
+  const url = await getDownloadURL(storageRef);
+  return url;
+};
+
+
+export const deleteFile = async (file) => {
   const storageRef = ref(storage, v4())
-  await uploadBytes(storageRef, file)
-  let url = await getDownloadURL(storageRef)
-  return url
+  await deleteFile(storageRef, file)
+  // let url = await getDownloadURL(storageRef)
+  // return url
 }

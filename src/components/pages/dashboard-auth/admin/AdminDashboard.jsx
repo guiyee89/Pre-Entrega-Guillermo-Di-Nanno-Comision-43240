@@ -8,92 +8,126 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
-import { ProductList } from "./ProductList";
 import { Button, TextField } from "@mui/material";
 import styled from "styled-components/macro";
-
-
+import { ProductList } from "./manageProducts/ProductList";
+import { useEffect } from "react";
 
 export const AdminDashboard = () => {
-  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
-  const [filteredItems, setFilteredItems] = useState([]); // State to store filtered items
+
+  const [products, setProducts] = useState([]);
+  const [searchUserId, setSearchUserId] = useState(""); // State to store the userId for searching
+  const [isChanged, setIsChanged] = useState(false)
 
 
-
-  console.log(filteredItems);
-
-  /* FUNCTION TO FETCH ITEMS BASED IN SEARCHQUERY */
-  const fetchItemsByUserId = async (userId) => {
-    const itemsCollection = collection(db, "products");
-    const q = query(itemsCollection, where("userId", "==", userId));
-    const snapshot = await getDocs(q);
-    const items = snapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    console.log("fetcheando...??");
-    setFilteredItems(items);
-
-  };
-
-  /* SEARCH FOR ITEMS ON CLICK */
-  const handleSearch = () => {
-    if (searchQuery.trim() !== "") {
-      fetchItemsByUserId(parseFloat(searchQuery));
+  const fetchItemsByUserId = async () => {
+    if (searchUserId.trim() !== "") {
+      const itemsCollection = collection(db, "products");
+      const q = query(
+        itemsCollection,
+        where("userId", "==", parseFloat(searchUserId))
+      );
+      console.log("fetcheando...")
+      const snapshot = await getDocs(q);
+      const items = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setProducts(items);
     } else {
-      setFilteredItems([]); // If the search query is empty, clear the filtered items
+      setProducts([]);
     }
   };
 
-  /* DELETE ITEMS FROM APP */
-  const handleDelete = async (id) => {
-    await deleteDoc(doc(db, "products", id)); // Delete the item from Firestore
-    if (searchQuery.trim() !== "") {
-      // After deletion, you can refetch the items to update the UI
-      fetchItemsByUserId(parseFloat(searchQuery));
-    }
+  // Use an effect to fetch products by searching or editing
+  useEffect(() => {
+    fetchItemsByUserId();
+  }, [isChanged]);
+
+  const handleIsChanged = () => {
+    setIsChanged(!isChanged); // Toggle isChanged to trigger useEffect
   };
 
-  const [open, setOpen] = useState(false);
-  
-  const handleClose = () => {
-    setOpen(false)
-  }
+  console.log(products);
 
-  const handleEdit = async (id) => {
-    console.log(id);
-  };
+  // const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+  // const [filteredItems, setFilteredItems] = useState([]); // State to store filtered items
+  // const [selectedItem, setSelectedItem] = useState(null);// State to manage new or edit product
+
+  // console.log(filteredItems);
+
+  // // Function to fetch items based in SearchQuery
+  // const fetchItemsByUserId = async (userId) => {
+  //   const itemsCollection = collection(db, "products");
+  //   const q = query(itemsCollection, where("userId", "==", userId));
+  //   const snapshot = await getDocs(q);
+  //   const items = snapshot.docs.map((doc) => ({
+  //     ...doc.data(),
+  //     id: doc.id,
+  //   }));
+  //   console.log("fetcheando...??");
+  //   setFilteredItems(items);
+  // };
+
+  // // Search for items on Click
+  // const handleSearch = () => {
+  //   if (searchQuery.trim() !== "") {
+  //     fetchItemsByUserId(parseFloat(searchQuery));
+  //   } else {
+  //     setFilteredItems([]);
+  //   }
+  // };
+
+  // // Delete items from App
+  // const handleDelete = async (id) => {
+  //   await deleteDoc(doc(db, "products", id));
+  //   if (searchQuery.trim() !== "") {
+  //     // After deletion, you can refetch the items to update the UI
+  //     fetchItemsByUserId(parseFloat(searchQuery));
+  //   }
+  // };
+
+  // const [open, setOpen] = useState(false);
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
+  // const handleOpen = (product) => {
+  //   if (product) {
+  //     setSelectedItem(product);
+  //   }else {
+  //     setSelectedItem([])
+  //   }
+  //   setOpen(true);
+  // };
+
+  // const handleEdit = async (id) => {
+  //   console.log(id);
+  // };
 
   return (
     <>
       <DashboardWrapper>
-        <Button
-          variant="contained"
-          sx={{ marginRight: "40px", marginTop: "17px" }}
-          onClick={()=>setOpen(true)}
-        >
-          Agregar Producto
-        </Button>
         <TextFieldInput
           label="Buscar por ID"
           variant="outlined"
           name="id"
-          onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{ marginTop: "12px" }}
+          value={searchUserId}
+          onChange={(e) => setSearchUserId(e.target.value)}
+          sx={{ marginTop: "12px", marginLeft:"40px" }}
         />
         <Button
           variant="contained"
           sx={{ marginLeft: "10px", marginTop: "18px" }}
-          onClick={handleSearch}
+          onClick={fetchItemsByUserId}
         >
           Buscar
         </Button>
         <ProductList
-          filteredItems={filteredItems}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          open={open}
-          handleClose={handleClose}
+          products={products}
+          isChanged
+          setIsChanged={handleIsChanged}
         />
       </DashboardWrapper>
     </>

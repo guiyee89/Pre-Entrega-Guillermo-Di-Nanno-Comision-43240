@@ -63,7 +63,7 @@ export const ItemList = ({
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
-  const itemsPerPage = Math.max(1, windowWidth < 991 ? 18 : 24); //Render 18 items per page on 991px screen width
+  const itemsPerPage = Math.max(1, windowWidth < 991 ? 12 : 18); //Render 12 items per page on 991px screen width
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = items.slice(startIndex, endIndex);
