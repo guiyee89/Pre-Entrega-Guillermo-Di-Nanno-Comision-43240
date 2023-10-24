@@ -37,9 +37,15 @@ export const ProductList = ({ products, setIsChanged }) => {
   Array.isArray(products) && products.sort(customSort);
 
   const [ open, setOpen ] = useState(false)
+  const [selectedItem, setSelectedItem] = useState(null)
 
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const handleOpen = (product) => {
+    setSelectedItem(product)
+    setOpen(true)
   }
 
   const editProduct = (id) => {
@@ -56,7 +62,7 @@ export const ProductList = ({ products, setIsChanged }) => {
       <Button
         variant="contained"
         sx={{ marginLeft: "50px", marginTop: "17px" }}
-        onClick={() => setOpen(true)}
+        onClick={() => handleOpen(null)}
       >
         Agregar Producto
       </Button>
@@ -96,7 +102,7 @@ export const ProductList = ({ products, setIsChanged }) => {
                     $ {product.unit_price}
                   </TableCell>
                   <TableCell align="center" component="th" scope="row">
-                    {product.discount}% (${product.discountPrice})
+                    {product.discount}% ( ${product.discountPrice} )
                   </TableCell>
                   <TableCell align="center" component="th" scope="row">
                     {product.stock}
@@ -111,7 +117,7 @@ export const ProductList = ({ products, setIsChanged }) => {
                     {product.category}
                   </TableCell>
                   <TableCell align="center" component="th" scope="row">
-                    <IconButton onClick={() => editProduct(product.id)}>
+                    <IconButton onClick={() => handleOpen(product)}>
                       <EditIcon />
                     </IconButton>
                     <IconButton onClick={() => deleteProduct(product.id)}>
@@ -132,7 +138,7 @@ export const ProductList = ({ products, setIsChanged }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <ProductsForm  />
+          <ProductsForm handleClose={handleClose} setIsChanged={setIsChanged} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
         </Box>
       </Modal>
     </>

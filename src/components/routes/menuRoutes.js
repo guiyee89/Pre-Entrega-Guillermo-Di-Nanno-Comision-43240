@@ -23,16 +23,16 @@ export const menuRoutes = [
         path: "/category/:categoryName",
         Element: ItemListContainer
     },
-    {
-        id: "userId",
-        path: "/userId/:userIdItem",
-        Element: ItemListContainer
-    },
-    {
-        id: "color",
-        path: "/color/:colorItem",
-        Element: ItemListContainer
-    },
+    // {
+    //     id: "userId",
+    //     path: "/userId/:userIdItem",
+    //     Element: ItemListContainer
+    // },
+    // {
+    //     id: "color",
+    //     path: "/color/:colorItem",
+    //     Element: ItemListContainer
+    // },
     {
         id: "detail",
         path: "/item-details/:id",

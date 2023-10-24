@@ -8,7 +8,7 @@ import useScrollRestoration from "../hooks/useScrollRestoration";
 import { useGlobalLoader } from "../hooks/useGlobalLoader";
 import { HeroSmall } from "./hero/HeroSmall";
 import { SideCart } from "../pages/cart/SideCart";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect  } from "react";
 import { GlobalToolsContext } from "../context/GlobalToolsContext";
 import { NavMobile } from "./navbar/NavMobile";
 import { NavDesktop } from "./navbar/NavDesktop";
@@ -52,7 +52,7 @@ export const Layout = () => {
     (route) => route.path === location.pathname
   );
   const isHome = currentRoute?.id === "home";
-  const isDashboard = currentRoute?.id === "dashboard"
+  const isDashboard = currentRoute?.id === "dashboard";
 
   return (
     <>

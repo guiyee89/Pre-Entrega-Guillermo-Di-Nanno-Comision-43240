@@ -5,15 +5,15 @@ import { db, uploadFile } from "../../../../../firebaseConfig";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 
 export const ProductsForm = ({
-  filteredItems,
-  setFilteredItems,
   selectedItem,
   setSelectedItem,
   handleClose,
+  setIsChanged,
 }) => {
   const [addProduct, setAddProduct] = useState(false);
   const [file, setFile] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
 
   const [newProduct, setNewProduct] = useState({
     userId: "",
@@ -26,60 +26,179 @@ export const ProductsForm = ({
     size: "",
     description: "",
     category: "",
-    img: [],
+    img: "",
     secondUnit: "",
   });
 
   ///////*****         HANDLE CHANGE        ******///////
   const handleChange = (e) => {
-    // if (selectedItem) {
-    //   setSelectedItem({ ...selectedItem, [e.target.name]: e.target.value });
-    // } else {
+    if (selectedItem) {
+      setSelectedItem({ ...selectedItem, [e.target.name]: e.target.value });
+    } else {
       setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
-    // }
+    }
   };
+  ///////*****         HANDLE IMAGE        ******///////
+  // const handleImage = async () => {
+  //   setIsLoading(true);
+  //   // Create a set to store the names or unique identifiers of uploaded files
+  //   const uploadedFileNames = new Set(newProduct.img);
+  //   console.log(uploadedFileNames);
+  //   // Filter out files that are not already uploaded
+  //   const newFiles = file.filter(
+  //     (selectedFile) => !uploadedFileNames.has(selectedFile.name)
+  //   );
+  //   console.log(newFiles);
+  //   const imageUrlPromises = newFiles.map(async (selectedFile) => {
+  //     // Initialize an array to store image URLs
+  //     const imageUrl = await uploadFile(selectedFile);
+  //     return imageUrl;
+  //   });
+
+  //   // Wait for all the uploads to complete
+  //   const newImageUrls = await Promise.all(imageUrlPromises);
+  //   // Combine the new image URLs with the previously uploaded images
+  //   const updatedImageUrls = [...newProduct.img, ...newImageUrls];
+  //   console.log(updatedImageUrls);
+
+  //   if (selectedItem) {
+  //     setSelectedItem({ ...selectedItem, img: updatedImageUrls });
+  //   } else {
+  //     setNewProduct((prevProduct) => ({
+  //       ...prevProduct,
+  //       img: updatedImageUrls,
+  //     }));
+  //   }
+
+  //   // Clear the files that have been successfully uploaded
+  //   const newFilesList = file.filter((selectedFile) =>
+  //     uploadedFileNames.has(selectedFile.name)
+  //   );
+  //   setFile(newFilesList);
+  //   setIsLoading(false);
+  // };
 
   const handleImage = async () => {
     setIsLoading(true);
+
+    if (file.length === 0) {
+      // No files selected, so no need to update
+      return;
+    }
+
     // Create a set to store the names or unique identifiers of uploaded files
     const uploadedFileNames = new Set(newProduct.img);
     // Filter out files that are not already uploaded
-    const newFiles = file.filter((selectedFile) => !uploadedFileNames.has(selectedFile.name));
+    const newFiles = file.filter(
+      (selectedFile) => !uploadedFileNames.has(selectedFile.name)
+    );
+
+    if (newFiles.length === 0) {
+      // No new files to upload, just clear the input and return
+      setFile([]);
+      return;
+    }
+
     const imageUrlPromises = newFiles.map(async (selectedFile) => {
       // Initialize an array to store image URLs
       const imageUrl = await uploadFile(selectedFile);
       return imageUrl;
     });
-  
+
     // Wait for all the uploads to complete
     const newImageUrls = await Promise.all(imageUrlPromises);
     // Combine the new image URLs with the previously uploaded images
     const updatedImageUrls = [...newProduct.img, ...newImageUrls];
-  
-    setNewProduct((prevProduct) => ({
-      ...prevProduct,
-      img: updatedImageUrls,
-    }));
-  
+
+    if (selectedItem) {
+      // If editing, maintain the original order and replace only at the specific index
+      selectedItem.img = selectedItem.img || [];
+      selectedItem.img.splice(0, newFiles.length, ...newImageUrls);
+      setSelectedItem({ ...selectedItem });
+    } else {
+      // If creating a new item, set the updated image URLs
+      setNewProduct((prevProduct) => ({
+        ...prevProduct,
+        img: updatedImageUrls,
+      }));
+    }
+
     // Clear the files that have been successfully uploaded
-    const newFilesList = file.filter((selectedFile) => uploadedFileNames.has(selectedFile.name));
+    const newFilesList = file.filter((selectedFile) =>
+      uploadedFileNames.has(selectedFile.name)
+    );
     setFile(newFilesList);
     setIsLoading(false);
   };
-  
-  const handleSubmit = (e) => {
-    e.preventDefault()
 
-    let newItem = {
-      ...newProduct,
-      unit_price: +newProduct.unit_price,
-      
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const itemsCollection = collection(db, "products");
+
+    if (selectedItem) {
+      const price = parseFloat(selectedItem.unit_price);
+      const discount = parseFloat(selectedItem.discount);
+      const discountAmount = (price * discount) / 100;
+      let totalPrice = price;
+      totalPrice -= discountAmount;
+
+      let updatedItem = {
+        ...selectedItem,
+        userId: parseInt(selectedItem.userId),
+        unit_price: parseFloat(selectedItem.unit_price),
+        discountPrice: totalPrice,
+        stock: parseInt(selectedItem.stock),
+        color: selectedItem.color,
+        size: selectedItem.size,
+        discount: discount,
+      };
+      await updateDoc(doc(itemsCollection, selectedItem.id), updatedItem).then(
+        () => {
+          setIsChanged();
+          handleClose();
+        }
+      );
+    } else {
+      const price = parseFloat(newProduct.unit_price);
+      const discount = parseFloat(newProduct.discount);
+      let totalPrice = price;
+      let newItem;
+      //Agregamos propiedad "discount" (si lo hay) al objecto newItem
+      if (discount) {
+        const discountAmount = (price * discount) / 100;
+        totalPrice -= discountAmount;
+      }
+
+      if (discount) {
+        newItem = {
+          ...newProduct,
+          userId: parseInt(newProduct.userId),
+          unit_price: parseFloat(newProduct.unit_price),
+          discountPrice: totalPrice,
+          stock: parseInt(newProduct.stock),
+          color: newProduct.color,
+          size: newProduct.size,
+          discount: discount,
+        };
+      } else {
+        newItem = {
+          ...newProduct,
+          userId: parseInt(newProduct.userId),
+          unit_price: totalPrice,
+          stock: parseInt(newProduct.stock),
+        };
+      }
+      await addDoc(itemsCollection, newItem);
+      setAddProduct(true);
     }
-
-  }
+    setIsChanged();
+  };
 
   console.log(newProduct);
-  
+
   //YUP VALIDATION
   //que no se valide mientras escribo, sino al hacer submit
   // validateOnChange: false,
@@ -241,9 +360,8 @@ export const ProductsForm = ({
                   style={{ margin: "5px 0 20px" }}
                   name="img"
                   type="file"
-                  // defaultValue={selectedItem?.img[""]}
+                  defaultValue={selectedItem?.img[""]}
                   multiple
-                  //  onChange={(e) => setFile(e.target.files[0])}
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
@@ -266,8 +384,7 @@ export const ProductsForm = ({
                   type="file"
                   name="img"
                   multiple
-                  // defaultValue={selectedItem?.img[1]}
-                  // onChange={(e) => setFile(e.target.files[1])}
+                  defaultValue={selectedItem?.img[""]}
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
@@ -290,7 +407,7 @@ export const ProductsForm = ({
                   type="file"
                   name="img"
                   multiple
-                  // defaultValue={selectedItem?.img[2]}
+                  defaultValue={selectedItem?.img[""]}
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
@@ -313,7 +430,7 @@ export const ProductsForm = ({
                   type="file"
                   name="img"
                   multiple
-                  // defaultValue={selectedItem?.img[3]}
+                  defaultValue={selectedItem?.img[""]}
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
@@ -336,7 +453,7 @@ export const ProductsForm = ({
                   type="file"
                   name="img"
                   multiple
-                  // defaultValue={selectedItem?.img[4]}
+                  defaultValue={selectedItem?.img[""]}
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
@@ -352,13 +469,15 @@ export const ProductsForm = ({
                 )}
               </ImageDiv>
             </Div>
-            <SubmitBtn
-              type="submit"
-              variant="contained"
-              sx={{ margin: "20px auto" }}
-            >
-              Crear Producto
-            </SubmitBtn>
+            {file  && !isLoading && (
+              <SubmitBtn
+                type="submit"
+                variant="contained"
+                sx={{ margin: "20px auto" }}
+              >
+                {selectedItem ? "Modificar" : "Crear Producto"}
+              </SubmitBtn>
+            )}
           </Form>
         </FormWrapper>
       )}

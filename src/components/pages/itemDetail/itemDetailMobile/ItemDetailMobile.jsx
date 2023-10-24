@@ -43,18 +43,15 @@ export const ItemDetailMobile = ({ selectedItem }) => {
     }
   };
 
-   // Loader spinner for filters change
-   const [loadingFilter, setLoadingFilter] = useState(false);
+  // Loader spinner for filters change
+  const [loadingFilter, setLoadingFilter] = useState(false);
 
-   const handleLoading = () => {
-     setLoadingFilter(true);
-     setTimeout(() => {
-       setLoadingFilter(false);
-     }, 990);
-   };
- 
-
-
+  const handleLoading = () => {
+    setLoadingFilter(true);
+    setTimeout(() => {
+      setLoadingFilter(false);
+    }, 990);
+  };
 
   ///////////////////////////////////////////////////////////////////////////////////
   /* Render item details based on the existence of selectedItem or filteredItem */
@@ -78,6 +75,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
           </SubTitle>
 
           <ItemImageMobile
+           
             filteredItem={filteredItem}
             selectedItem={selectedItem}
           />
@@ -96,22 +94,22 @@ export const ItemDetailMobile = ({ selectedItem }) => {
                   <Price>
                     ${" "}
                     {Object.keys(filteredItem).length > 0
-                      ? filteredItem.discountPrice.toFixed(2)
-                      : selectedItem.discountPrice.toFixed(2)}
+                      ? filteredItem.discountPrice
+                      : selectedItem.discountPrice}
                   </Price>{" "}
                   <DiscountPrice hasDiscount={hasDiscount}>
                     ${" "}
                     {Object.keys(filteredItem).length > 0
-                      ? filteredItem.price.toFixed(2)
-                      : selectedItem.price.toFixed(2)}
+                      ? filteredItem.unit_price
+                      : selectedItem.unit_price}
                   </DiscountPrice>
                 </ItemPriceWrapper>
               ) : (
                 <Price>
                   ${" "}
                   {Object.keys(filteredItem).length > 0
-                    ? filteredItem.price.toFixed(2)
-                    : selectedItem.price.toFixed(2)}
+                    ? filteredItem.unit_price
+                    : selectedItem.unit_price}
                 </Price>
               )}
               <Stock>
@@ -127,7 +125,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
             <ItemCountWrapper>
               {loadingFilter ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
                 <Loader>
-                   <Ring size={32} lineWeight={6} speed={2} color="black" />
+                  <Ring size={32} lineWeight={6} speed={2} color="black" />
                 </Loader>
               ) : (
                 <ItemCount
@@ -146,13 +144,12 @@ export const ItemDetailMobile = ({ selectedItem }) => {
             <ReferenceWrapper>
               <SizeReference>Reference Size Model</SizeReference>
             </ReferenceWrapper>
-            
+
             <Description>
               {Object.keys(filteredItem).length > 0
                 ? filteredItem.description
                 : selectedItem.description}
             </Description>
-
           </InsideWrapper>
         </>
       ) : (
@@ -215,7 +212,7 @@ const InsideWrapper = styled.div`
   gap: 0.3rem;
   align-items: flex-start;
   padding: 0px 65px 0px 0px;
-  @media (max-width:500px){
+  @media (max-width: 500px) {
     padding: 0;
   }
 `;
@@ -228,7 +225,6 @@ const SubTitle = styled.h2`
   font-size: 1.3rem;
   text-align: center;
   margin: 0 0 8px;
-
 `;
 
 const FilterWrapper = styled.div`

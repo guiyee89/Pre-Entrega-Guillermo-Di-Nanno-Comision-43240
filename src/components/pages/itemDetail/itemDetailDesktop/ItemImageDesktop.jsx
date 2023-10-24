@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components/macro";
+import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
+import { useContext } from "react";
+import { ClipLoader } from "react-spinners";
 
 
-export const ItemImageDesktop = ({
-  filteredItem,
-  selectedItem,
-}) => {
+export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
-
+  const { progress, setProgress, setVisible, filterLoading, setFilterLoading } =
+    useContext(GlobalToolsContext);
 
   useEffect(() => {
     // When the selectedItem changes, update the imagesToRender state with the selectedItem images
@@ -30,19 +31,68 @@ export const ItemImageDesktop = ({
     setSelectedImage({ image, index });
   };
 
+  // Custom function to track image loading progress
+  const trackImageLoadingProgress = () => {
+    const totalImages = imagesToRender.length;
+    let loadedImages = 0;
+
+    // Track each image's load event
+    imagesToRender.forEach((imageSrc) => {
+      const image = new Image();
+      image.src = imageSrc;
+      image.onload = () => {
+        loadedImages++;
+        if (loadedImages < totalImages) {
+          setFilterLoading(true);
+          // setProgress(Math.min(progress, 100));
+          // setVisible(true);
+        } else {
+          setProgress(100);
+          setFilterLoading(false);
+        }
+      };
+    });
+  };
+
+  useEffect(() => {
+    // After rendering, track the image loading progress
+    if (imagesToRender.length > 0) {
+      //setVisible(false);
+      trackImageLoadingProgress();
+    } else {
+      // If there are no images to load, set the progress to 100 and hide the loading bar
+      setProgress(100);
+      setVisible(true);
+    }
+  }, [imagesToRender, setProgress, setVisible]);
+
   return (
     <Wrapper>
-      <ImgAsideWrapper>
-        {imagesToRender.map((image, index) => (
-          <ImgAside
-            key={index}
-            src={image}
-            alt=""
-            isSelected={selectedImage.index === index}
-            onClick={() => handleImageClick(image, index)}
-          />
-        ))}
-      </ImgAsideWrapper>
+      {progress < 100 && setVisible === true ? (
+        <LoadingTopBar />
+      ) : (
+        <>
+          <ImgAsideWrapper>
+            {imagesToRender.map((image, index) => (
+              <>
+                {filterLoading === true ? (
+                  <LoaderContainer key={index} src={image}>
+                    <ClipLoader color="#112b26" size={22} />
+                  </LoaderContainer>
+                ) : (
+                  <ImgAside
+                    key={index}
+                    src={image}
+                    alt=""
+                    isSelected={selectedImage.index === index}
+                    onClick={() => handleImageClick(image, index)}
+                  />
+                )}
+              </>
+            ))}
+          </ImgAsideWrapper>
+        </>
+      )}
       <MainImgWrapper>
         {imagesToRender.map((image, index) => (
           <MainImg
@@ -79,13 +129,20 @@ const ImgAsideWrapper = styled.aside`
 `;
 
 const ImgAside = styled.img`
-cursor: pointer;
+  cursor: pointer;
   box-shadow: ${({ isSelected }) =>
     isSelected
       ? "rgba(0, 0, 0, 0.55) 0px 0px 3.5px"
       : "rgba(0, 0, 0, 0.65) 0px 0px 3px"};
   border: ${({ isSelected }) => (isSelected ? "1px solid black" : "none")};
   width: ${({ isSelected }) => (isSelected ? "81%" : "75%")};
+`;
+const LoaderContainer = styled.div`
+  width: 81%;
+  display: flex;
+  justify-content: center;
+  height: 11%;
+  align-items: center;
 `;
 const MainImgWrapper = styled.div`
   width: 100%;
@@ -108,3 +165,126 @@ const MainImg = styled.img`
   opacity: ${({ isVisible }) => (isVisible ? "1" : "0")};
   transition: transform 0.18s ease, opacity 0.2s ease;
 `;
+// import { useState, useEffect } from "react";
+// import styled from "styled-components/macro";
+// import { ClipLoader } from "react-spinners";
+
+// export const ItemImageDesktop = ({
+//   filteredItem,
+//   selectedItem,
+// }) => {
+//   const [selectedImage, setSelectedImage] = useState({});
+//   const [imagesToRender, setImagesToRender] = useState([]);
+//   const [loadedImages, setLoadedImages] = useState([]);
+
+//   useEffect(() => {
+//     if (selectedItem) {
+//       setImagesToRender(selectedItem.img.slice(0, 5));
+//       setSelectedImage({ image: selectedItem.img[0], index: 0 });
+//     }
+//   }, [selectedItem]);
+
+//   useEffect(() => {
+//     if (filteredItem && Object.keys(filteredItem).length > 0) {
+//       setImagesToRender(filteredItem.img.slice(0, 5));
+//       setSelectedImage({ image: selectedItem.img[0], index: 0 });
+//       setLoadedImages(Array(imagesToRender.length).fill(false));
+//     }
+//   }, [filteredItem, selectedItem]);
+
+//   const handleImageLoad = (index) => {
+//     const updatedLoadedImages = [...loadedImages];
+//     updatedLoadedImages[index] = true;
+//     setLoadedImages(updatedLoadedImages);
+//   };
+
+//   const handleImageClick = (image, index) => {
+//     setSelectedImage({ image, index });
+//   };
+
+//   return (
+//     <Wrapper>
+//       <ImgAsideWrapper>
+//         {imagesToRender.map((image, index) => (
+//           <ImgAside
+//             key={index}
+//             src={image}
+//             alt=""
+//             isSelected={selectedImage.index === index}
+//             onClick={() => handleImageClick(image, index)}
+//           />
+//         ))}
+//         {imagesToRender.map((image, index) => (
+//           !loadedImages[index] && (
+//             <ClipLoader key={`loader-${index}`} color="#194f44" size={35} />
+//           )
+//         ))}
+//       </ImgAsideWrapper>
+//       <MainImgWrapper>
+//         {imagesToRender.map((image, index) => (
+//           <MainImg
+//             key={index}
+//             src={image}
+//             id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
+//             translationDirection={
+//               selectedImage.index === index
+//                 ? "none"
+//                 : selectedImage.index < index
+//                 ? "translateX(-100%)"
+//                 : "translateX(100%)"
+//             }
+//             isVisible={selectedImage.index === index}
+//             onLoad={() => handleImageLoad(index)}
+//           />
+//         ))}
+//       </MainImgWrapper>
+//     </Wrapper>
+//   )
+// }
+
+// const Wrapper = styled.div`
+//   display: flex;
+//   width: 85%;
+//   margin-left: -35px;
+//   margin-right: 20px;
+// `;
+
+// const ImgAsideWrapper = styled.aside`
+//   width: 18.8%;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1rem;
+//   margin-top: 1.5px;
+// `;
+
+// const ImgAside = styled.img`
+//   cursor: pointer;
+//   box-shadow: ${({ isSelected }) =>
+//     isSelected
+//       ? "rgba(0, 0, 0, 0.55) 0px 0px 3.5px"
+//       : "rgba(0, 0, 0, 0.65) 0px 0px 3px"};
+//   border: ${({ isSelected }) => (isSelected ? "1px solid black" : "none")};
+//   width: ${({ isSelected }) => (isSelected ? "81%" : "75%")};
+// `;
+
+// const MainImgWrapper = styled.div`
+//   width: 100%;
+//   height: 700px;
+//   top: 0;
+//   left: 0;
+//   display: flex;
+//   position: relative;
+//   overflow: hidden;
+// `;
+
+// const MainImg = styled.img`
+//   width: 100%;
+//   max-height: 100%;
+//   position: absolute;
+//   overflow: hidden;
+//   border: 1px solid lightgray;
+//   object-fit: cover;
+//   transform: ${({ translationDirection }) => translationDirection};
+//   opacity: ${({ isVisible }) => (isVisible ? "1" : "0")};
+//   transition: transform 0.18s ease, opacity 0.2s ease;
+// `;

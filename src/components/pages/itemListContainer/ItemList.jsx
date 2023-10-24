@@ -3,7 +3,7 @@ import { BsEyeFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { Pagination, PaginationItem } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useContext } from "react";
@@ -20,9 +20,8 @@ export const ItemList = ({
   useScrollRestoration();
 
   //////////////////////////                    ////////////////////////////
-  //-------------------    LOADING + currentPage    ---------------------//
-  const [loadingDetail, setLoadingDetail] = useState(false);
-  const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
+  //-------------------        currentPage         ---------------------//
+
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
   const categoryTitle = categoryName ? categoryName : "All  Categories"; // Rendering conditional title
   const {
@@ -32,13 +31,20 @@ export const ItemList = ({
     windowWidth,
     setProgress,
     setVisible,
+    setFilterLoading,
   } = useContext(GlobalToolsContext);
+
+
 
   //////////////////////////                    ////////////////////////////
   //-------------------         LOADERS          ---------------------//
 
+  const [loadingDetail, setLoadingDetail] = useState(false);
+  const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
+
   // Circle Loader
   const handleLoadDetail = (itemId) => {
+    setFilterLoading(false);
     localStorage.setItem("currentPage", currentPage); //save currentPage in localStorage
     setLoadingDetail(itemId);
     setTimeout(() => {
@@ -54,6 +60,7 @@ export const ItemList = ({
 
   //Pagination loader
   const handlePageChange = (value) => {
+    setFilterLoading(false);
     setIsLoadingPageChange(true);
     setTimeout(() => {
       setIsLoadingPageChange(false);
@@ -92,6 +99,16 @@ export const ItemList = ({
     // Call the showProductsQuantity function to update the productsQuantity state
     showProductsQuantity();
   }, [items]);
+
+  //Img Skeleton
+  const [imgskeleton, setImgskeleton] = useState(false);
+
+  useEffect(() => {
+    setImgskeleton(true);
+    setTimeout(() => {
+      setImgskeleton(false);
+    }, 550);
+  }, []);
 
   ///////////////////////////                  /////////////////////////////
   return (
@@ -136,13 +153,14 @@ export const ItemList = ({
             <ItemWrapper
               key={product.id}
               onClick={(event) => {
-                event.preventDefault(); // Prevent immediate navigation
+                event.preventDefault();
                 handleLoadTop();
                 handleLoadDetail(product.id);
                 setTimeout(() => {
                   navigate(`/item-details/${product.id}`);
-                }, 700); // Delay in milliseconds
+                }, 700);
               }}
+              imgskeleton="false"
             >
               <Loader>
                 {isLoadingDetail && (
@@ -151,7 +169,11 @@ export const ItemList = ({
               </Loader>
               <ItemCard>
                 <ImgWrapperLink>
-                  <ItemImg variant="top" src={product.img[0]} />
+                  {imgskeleton === true ? (
+                    <ClipLoader color="#194f44" size={35} />
+                  ) : (
+                    <ItemImg src={product.img[0]} alt={product.title} />
+                  )}
                 </ImgWrapperLink>
                 {hasDiscount && <Discount>-{product.discount}%</Discount>}
 
@@ -184,7 +206,6 @@ export const ItemList = ({
         })}
       </Wrapper>
 
-      {/* )} */}
       {/* Pagination */}
       <PaginationWrapperBottom>
         <Pagination
@@ -220,7 +241,7 @@ const Wrapper = styled.div`
     gap: 0.7rem;
   }
   @media (max-width: 1050px) {
-    margin-left: 13px;
+    margin-left: 9px;
   }
   @media (max-width: 990px) {
     grid-template-columns: repeat(2, 1fr);
@@ -302,6 +323,7 @@ const ImgWrapperLink = styled.div`
     transform: scale(1.11);
   }
 `;
+
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -319,6 +341,7 @@ const ItemWrapper = styled(Link)`
   box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 1px;
   position: relative;
   cursor: pointer;
+  min-width: ${(props) => (props.imgskeleton && "100%")};
   max-width: 430px;
   height: 100%;
   background-color: rgb(239, 237, 237);
@@ -337,6 +360,12 @@ const ItemWrapper = styled(Link)`
       transition: background-color ease-in-out 0.4s;
     } */
   }
+  @media (max-width: 899px) {
+    min-width: ${(props) => (props.imgskeleton ? "100%" : "100%")};
+  }
+  @media (max-width: 550px) {
+    min-width: ${(props) => (props.imgskeleton ? "100%" : "100%")};
+  }
 `;
 const ItemCard = styled.div`
   color: black;
@@ -349,6 +378,7 @@ const ItemCard = styled.div`
   justify-content: center;
   /* box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 3px; */
 `;
+
 const Loader = styled.div`
   position: absolute;
   top: 90%;
@@ -461,10 +491,11 @@ const FilterBtn = styled.div`
   @media (min-width: 901px) {
     display: none;
   }
-  @media (min-width:550px){
+  @media (min-width: 550px) {
     margin: 10px -13px 10px 13px;
   }
 `;
+
 const ClipLoaderTop = styled(ClipLoader)`
   position: absolute;
   top: 210px;

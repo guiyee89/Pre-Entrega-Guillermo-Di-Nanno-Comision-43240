@@ -24,7 +24,7 @@ const GlobalToolsProvider = ({ children }) => {
 
   //Manage Mobile - Desktop components by width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -35,14 +35,20 @@ const GlobalToolsProvider = ({ children }) => {
     };
   }, []);
 
-  //Manage state for Loading Spinner
-  const [loading, setLoading] = useState(false)
+  //Manage state for Loading spinner on page change
+  const [loading, setLoading] = useState(false);
 
-  //Manage states for Loading Top Bar component
+  //Manage states for Loading Top Bar component (LoadingTopBar)
   const [progress, setProgress] = useState(0);
   const [buffer, setBuffer] = useState(10);
   const [visible, setVisible] = useState(false);
   const [progressComplete, setProgressComplete] = useState(false);
+
+  //Manage state for Spinner Loaders on filter color change for small images
+  const [filterLoading, setFilterLoading] = useState(false);
+
+  //Manage state for Skeleton Loading on Images when filter color change
+  const [imgLoader, setImgLoader] = useState(false); //ItemImageDesktop y Mobile components
 
   const value = {
     isOpen,
@@ -60,8 +66,12 @@ const GlobalToolsProvider = ({ children }) => {
     setBuffer,
     visible,
     setVisible,
-    progressComplete, 
-    setProgressComplete
+    progressComplete,
+    setProgressComplete,
+    filterLoading,
+    setFilterLoading,
+    imgLoader,
+    setImgLoader,
   };
 
   return (

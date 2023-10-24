@@ -6,14 +6,15 @@ import { CartContext } from "../../../context/CartContext";
 import { ItemImageDesktop } from "./ItemImageDesktop";
 import { Ring } from "@uiball/loaders";
 
+
 export const ItemDetailDesktop = ({ selectedItem }) => {
   ///////////////////////////////////////////////////////////////////////////////////
-  const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
-  const { addToCart } = useContext(CartContext); //Function addToCart from Context
-  const hasDiscount = "discount" in selectedItem; //Get discounted item
+  const [filteredItem, setFilteredItem] = useState({}); ///Filtered Item from FilterColorSize component
+  const { addToCart } = useContext(CartContext); ///Function addToCart from Context
+  const hasDiscount = "discount" in selectedItem; ///Get discounted item
 
   ///////////////////////////////////////////////////////////////////////////////////
-  //On add to cart if selectedItem or filteredItem
+  ///              On add to cart if selectedItem or filteredItem                ///
   const onAddToCart = (quantity) => {
     let data = {
       ...selectedItem,
@@ -26,46 +27,46 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
       };
     }
     addToCart(data);
-    setFilteredItem({}); // Reset the filteredItem state after adding to cart
+    setFilteredItem({}); ////Reset the filteredItem state after adding to cart
   };
 
   ///////////////////////////////////////////////////////////////////////////////////
   //       FILTERING OF COLOR AND SIZE & HANDLING IMAGE CHANGE + Loaders        //
 
-  //  handle filtering size & color  //
+  ////handle filtering size & color
   const handleFilterItemChange = (item) => {
     if (item === undefined) {
-      //Check in case "item" doesn't exist, then return the original selected item
+      /////Check in case "item" doesn't exist, then return the original selected item
       setFilteredItem(selectedItem);
     } else {
-      //else return the filtered item
+      ////else return the filtered item////
       setFilteredItem(item);
     }
   };
 
-  // Loader spinner for filters change
+  ///Loader spinner for filters change disabling "Add Cart" Button
   const [loadingFilter, setLoadingFilter] = useState(false);
 
   const handleLoading = () => {
     setLoadingFilter(true);
     setTimeout(() => {
       setLoadingFilter(false);
-    }, 990);
+    }, 900);
   };
 
 
   ///////////////////////////////////////////////////////////////////////////////////
-  /* Render item details based on the existence of selectedItem or filteredItem */
+  /*   Render item details based on the existence of selectedItem or filteredItem   */
   return (
     <Wrapper>
       {/* Check if either selectedItem or filteredItem exists */}
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
-          {/* Rendering Images */}
           <ItemImageDesktop
             filteredItem={filteredItem}
             selectedItem={selectedItem}
           />
+
           {hasDiscount && <Discount>-{selectedItem.discount}%</Discount>}
           <InsideWrapper>
             <Title>
@@ -123,7 +124,7 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
             </StockPriceWrapper>
 
             <ItemCountWrapper>
-              {loadingFilter ? ( // Render the Loader and disable the ItemCount for 1 second when filtering
+              {loadingFilter === true ? ( //Render the Loader and disable the ItemCount for 1 second when filtering
                 <Loader>
                   <Ring size={32} lineWeight={6} speed={2} color="black" />
                 </Loader>
@@ -153,7 +154,7 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
           </InsideWrapper>
         </>
       ) : (
-        // Render a loading state or a message while the data is being loaded
+        //Render a loading state or a message while the data is being loaded
         <div>Loading...</div>
       )}
     </Wrapper>
