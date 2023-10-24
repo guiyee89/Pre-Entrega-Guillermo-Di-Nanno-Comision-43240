@@ -47,7 +47,7 @@ export const LandingPage = () => {
           <ImgWrapper>
             <LinkImg to="/category/shirts">
               <MiddleItemsImg
-                src="https://res.cloudinary.com/derdim3m6/image/upload/v1698182725/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-10-24_18h22_54_nztjly.png"
+                src="https://res.cloudinary.com/derdim3m6/image/upload/v1698183856/web%20access/samples%20for%20e-commerce/Landing%20Page/wjxscadfdn8jycft7uag.png"
                 alt=""
               />
               <TextButtonContainer>
@@ -68,7 +68,7 @@ export const LandingPage = () => {
           <ImgWrapper>
             <LinkImg to="/category/pants">
               <MiddleItemsImg
-                src="https://res.cloudinary.com/derdim3m6/image/upload/v1698182724/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-10-24_18h23_13_gxlfml.png"
+                src="https://res.cloudinary.com/derdim3m6/image/upload/v1698183856/web%20access/samples%20for%20e-commerce/Landing%20Page/x4avcawarryrelks64x0.png"
                 alt=""
               />
               <TextButtonContainer>
