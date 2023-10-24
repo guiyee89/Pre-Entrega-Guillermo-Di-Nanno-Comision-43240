@@ -75,7 +75,6 @@ export const ItemDetailMobile = ({ selectedItem }) => {
           </SubTitle>
 
           <ItemImageMobile
-           
             filteredItem={filteredItem}
             selectedItem={selectedItem}
           />

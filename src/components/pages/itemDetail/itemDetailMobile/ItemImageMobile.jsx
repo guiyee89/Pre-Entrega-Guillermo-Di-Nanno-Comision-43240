@@ -7,7 +7,6 @@ import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 import { ClipLoader } from "react-spinners";
 import { LoadingTopBar } from "../../../common/loadingTopBar/LoadingTopBar";
 
-
 export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
@@ -18,6 +17,8 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
     visible,
     imgLoader,
     setImgLoader,
+    filterLoading,
+    setFilterLoading,
   } = useContext(GlobalToolsContext);
 
   useEffect(() => {
@@ -48,10 +49,11 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
       image.onload = () => {
         loadedImages++;
         if (loadedImages < totalImages) {
-          setProgress(Math.min(progress, 85));
+          setFilterLoading(true);
         } else {
           setProgress(100);
           setImgLoader(false); // Set loader to false when all images are loaded
+          setFilterLoading(false);
         }
       };
     });
@@ -63,6 +65,9 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
     } else {
       setProgress(100);
     }
+    if(imgLoader === false){
+      setVisible(false)
+    }
   }, [imagesToRender, setProgress, setVisible]);
 
   return (
@@ -73,7 +78,7 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
         </LoaderContainer>
       ) : (
         <Wrapper imgSkeleton="false">
-          {progress < 100 && visible === true ? (
+          {progress < 100 && visible === true && imgLoader === true ? (
             <LoadingTopBar />
           ) : (
             <MainImgWrapper>
@@ -84,14 +89,20 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
               >
                 {imagesToRender.map((image, index) => (
                   <CarouselItem key={index}>
-                    <MainImg
-                      imgSkeleton="false"
-                      src={image}
-                      id={
-                        selectedItem?.id ||
-                        (filteredItem?.id && filteredItem.id)
-                      }
-                    />
+                    {filterLoading === true  && imgLoader === true ?(
+                      <LoaderContainer>
+                        <ClipLoader color="#194f44" size={35} />
+                      </LoaderContainer>
+                    ) : (
+                      <MainImg
+                        imgSkeleton="false"
+                        src={image}
+                        id={
+                          selectedItem?.id ||
+                          (filteredItem?.id && filteredItem.id)
+                        }
+                      />
+                    )}
                   </CarouselItem>
                 ))}
               </StyledCarousel>
@@ -111,6 +122,7 @@ const Wrapper = styled.div`
   position: relative;
 `;
 const StyledCarousel = styled(Carousel)`
+  width: 100%;
   .carousel-inner {
     .carousel-item {
       transition: opacity 0.2s ease, transform 0.18s ease;
@@ -151,6 +163,7 @@ const StyledCarousel = styled(Carousel)`
   }
 `;
 const CarouselItem = styled(Carousel.Item)`
+  width: 100%;
   aspect-ratio: 1/1;
 `;
 const MainImgWrapper = styled.div`
@@ -168,15 +181,15 @@ const LoaderContainer = styled.div`
   align-items: center;
   justify-content: center;
   @media (max-width: 950px) {
-    min-height: ${(props) => (props.imgSkeleton ? "100%" : "500px")};
+    min-height: ${(props) => (props.imgSkeleton ? "550px" : "550px")};
   }
   @media (max-width: 550px) {
     margin-bottom: 10px;
     width: 95%;
-    min-height: ${(props) => (props.imgSkeleton ? "100%" : "360px")};
+    min-height: ${(props) => (props.imgSkeleton ? "370px" : "370px")};
   }
   @media (max-width: 330px) {
-    min-height: ${(props) => (props.imgSkeleton ? "100%" : "320px")};
+    min-height: ${(props) => (props.imgSkeleton ? "320px" : "320px")};
     width: 100%;
   }
 `;
