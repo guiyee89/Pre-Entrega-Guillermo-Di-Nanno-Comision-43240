@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ItemDetailDesktop } from "./itemDetailDesktop/ItemDetailDesktop";
 import { ItemDetailMobile } from "./itemDetailMobile/ItemDetailMobile";
 import { db } from "../../../firebaseConfig";
@@ -11,9 +11,7 @@ import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import { Ring } from "@uiball/loaders";
 
-
 export const ItemDetailContainer = () => {
-
   // Guardamos los items (objetos)
   const [selectedItem, setSelectedItem] = useState({});
   const { id } = useParams();
@@ -22,15 +20,17 @@ export const ItemDetailContainer = () => {
     loading,
     setLoading,
     setVisible,
-    progressComplete, 
+    progressComplete,
     setProgressComplete,
-    progress
+    progress,
+    setFilterLoading
   } = useContext(GlobalToolsContext);
 
 
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
     setLoading(true);
+    setFilterLoading(true)
     setVisible(true);
     const itemCollection = collection(db, "products");
     const refDoc = doc(itemCollection, id);
@@ -44,8 +44,8 @@ export const ItemDetailContainer = () => {
         setTimeout(() => {
           setLoading(false);
           setProgressComplete(true);
-          if(progress === 100){
-            setVisible(false)
+          if (progress === 100) {
+            setVisible(false);
           }
         }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
       })
@@ -95,4 +95,7 @@ const LoaderWrapper = styled.div`
   align-items: center;
   height: 538px;
   margin-left: 35px;
+  @media (max-width: 550px) {
+    margin-left: 0px;
+  }
 `;

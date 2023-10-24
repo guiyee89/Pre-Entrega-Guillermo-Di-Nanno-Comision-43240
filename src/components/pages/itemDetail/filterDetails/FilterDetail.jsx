@@ -3,8 +3,8 @@ import { useState } from "react";
 import styled from "styled-components/macro";
 import { db } from "../../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import LoadingBar from "react-top-loading-bar";
-
+import { useContext } from "react";
+import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 
 export const FilterDetail = ({
   selectedItem,
@@ -52,21 +52,28 @@ export const FilterDetail = ({
       size: selectedItem.size,
     });
   }, [selectedItem]);
-  
-  
 
   //////////////     //////////////    ////////////      ////////////      /////////////
-  //              HANDLING OF COLOR AND SIZE SELECTION ON-CHANGE                      //
+  //            HANDLING OF COLOR AND SIZE SELECTION ON-CHANGE  +  LOADERS            //
+
+  const { setProgress, setVisible, setImgLoader } =
+    useContext(GlobalToolsContext);
+
+  const handleTopLoad = () => {
+    setVisible(true);
+    setProgress(0);
+  };
 
   // Function to handle color filter selection change
   const handleColorChange = (color) => {
+    setImgLoader(true);
     setTimeout(() => {
       setSelectedFilters((prevFilters) => ({
         ...prevFilters,
         color: color,
       }));
     }, 1200);
-    handleLoading();
+    handleTopLoad();
   };
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
@@ -102,16 +109,6 @@ export const FilterDetail = ({
       setFilteredItem(filterSelection || {});
     }
   }, [selectedFilters, relatedItems, onFilterItemChange]);
-
-  //--------    LOADING    --------//
-  const ref = useRef(null);
-
-  const handleTopLoad = () => {
-    ref.current.continuousStart();
-    setTimeout(() => {
-      ref.current.complete();
-    }, 700);
-  };
 
   //////////////     //////////////    ////////////      ////////////      //////////////
   //                      LOGIC FOR COLOR & SIZE RENDERING                           //
@@ -150,7 +147,6 @@ export const FilterDetail = ({
     ? getAvailableSizesForColor(selectedFilters.color)
     : [];
 
-
   //////////////     //////////////    ////////////      ////////////      //////////////
   //                                 RENDERING                                         //
   return (
@@ -175,12 +171,6 @@ export const FilterDetail = ({
               if (itemsWithCurrentColor.length > 0) {
                 return (
                   <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
-                    <LoadingBar
-                      color="#3f3025"
-                      ref={ref}
-                      height={3}
-                      shadow={false}
-                    />
                     <ColorCheckbox
                       id={`color-${color}`}
                       checked={selectedFilters.color === color}
@@ -195,12 +185,6 @@ export const FilterDetail = ({
               } else {
                 return (
                   <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
-                    <LoadingBar
-                      color="#cf6c2a"
-                      ref={ref}
-                      height={4}
-                      shadow={true}
-                    />
                     <ColorCheckbox
                       id={`color-${color}`}
                       checked={selectedFilters.color === color}
@@ -254,8 +238,6 @@ export const FilterDetail = ({
     </>
   );
 };
-
-
 
 const Wrapper = styled.div`
   display: flex;
@@ -326,7 +308,7 @@ const SizeContainer = styled.div`
   width: 100%;
   gap: 0.4rem;
   @media (max-width: 950px) {
-    gap: 0.2rem
+    gap: 0.2rem;
   }
 `;
 const ColorText = styled.p`
@@ -356,7 +338,8 @@ const SizeCheckbox = styled.input.attrs({ type: "checkbox" })`
   appearance: none;
   width: 36px;
   height: 41px;
-  border: ${(props) => props.isSizeAvailable ? "1.9px solid grey" : "1.9px solid lightgrey"};
+  border: ${(props) =>
+    props.isSizeAvailable ? "1.9px solid grey" : "1.9px solid lightgrey"};
   border-radius: 40%;
   outline: none;
   cursor: pointer;
@@ -380,6 +363,6 @@ const SizeCheckboxLabel = styled.label`
   font-size: ${(props) => props.isSizeAvailable && "0.87rem"};
   ${SizeCheckbox}:checked + & {
     color: white;
-    font-size: .87rem;
+    font-size: 0.87rem;
   }
 `;

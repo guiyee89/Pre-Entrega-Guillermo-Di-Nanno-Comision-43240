@@ -23,7 +23,8 @@ export const ScrollRestorationWrapper = ({ children }) => {
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
-  const { categoryName/* ,userIdItem,colorItem */ } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
+  const { categoryName /* ,userIdItem,colorItem */ } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
+
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
   const {
     isFilterOpen,
@@ -33,18 +34,17 @@ export const ItemListContainer = () => {
     loading,
     setLoading,
     setVisible,
-    progressComplete, 
-    setProgressComplete
+    progressComplete,
+    setProgressComplete,
   } = useContext(GlobalToolsContext);
-
 
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
   useEffect(() => {
-    setProgress(0)
+    setProgress(0);
     setLoading(true);
     setVisible(true);
-    const delay = 550;
+    const delay = 950;
     const timer = setTimeout(() => {
       let itemsCollection = collection(db, "products");
       let filterCollection;
@@ -54,7 +54,7 @@ export const ItemListContainer = () => {
       } else {
         filterCollection = query(
           itemsCollection,
-          where("category", "==", categoryName)/*  ||
+          where("category", "==", categoryName) /* ||
           where("userId", "==", userIdItem) || //userId y color "where" se pueden quitar junto a los Params()
           where("color", "==", colorItem) */
         );
@@ -81,11 +81,12 @@ export const ItemListContainer = () => {
           console.log("fetching itemList...");
           console.log(products);
           setItems(products);
+
           setTimeout(() => {
             setLoading(false);
             setProgressComplete(true);
-            if(progressComplete === true){
-              setProgress(100)
+            if (progressComplete === true) {
+              setProgress(100);
             }
           }, 250); // Set loading to false and progressComplete true after a delay to avoid "No items found" message
         })
@@ -255,6 +256,7 @@ const MobileFilterWrapper = styled.div`
 const ItemListWrapper = styled.div`
   grid-column: 2/13;
   margin-top: -3px;
+  width: 100%;
   @media (max-width: 900px) {
     grid-column: 1/13;
     margin: 0 auto;
@@ -267,6 +269,7 @@ const ItemsFiltersWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   height: 100%;
+  width: 100%;
   max-width: 1618px;
   margin-left: -20px;
 `;

@@ -1,26 +1,36 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components/macro";
-import Carousel from "react-bootstrap/Carousel"; // Import the Carousel component
-import NextButtonSVG from "../../../../assets/arrow-right-336-svgrepo-com.svg"; // Import your custom next button SVG
+import Carousel from "react-bootstrap/Carousel";
+import NextButtonSVG from "../../../../assets/arrow-right-336-svgrepo-com.svg";
 import PrevButtonSVG from "../../../../assets/arrow-left-335-svgrepo-com.svg";
+import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
+import { ClipLoader } from "react-spinners";
+import { LoadingTopBar } from "../../../common/loadingTopBar/LoadingTopBar";
+
 
 export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
+  const {
+    progress,
+    setProgress,
+    setVisible,
+    visible,
+    imgLoader,
+    setImgLoader,
+  } = useContext(GlobalToolsContext);
 
   useEffect(() => {
-    // When the selectedItem changes, update the imagesToRender state with the selectedItem images
     if (selectedItem) {
       setImagesToRender(selectedItem.img.slice(0, 5));
-      setSelectedImage({ image: selectedItem.img[0], index: 0 }); // Set the first image as selected by default
+      setSelectedImage({ image: selectedItem.img[0], index: 0 });
     }
   }, [selectedItem]);
 
   useEffect(() => {
-    // When the filteredItem changes, update the imagesToRender state with the filteredItem images
     if (filteredItem && Object.keys(filteredItem).length > 0) {
       setImagesToRender(filteredItem.img.slice(0, 5));
-      setSelectedImage({ image: selectedItem.img[0], index: 0 }); // Set the first image as selected by default
+      setSelectedImage({ image: selectedItem.img[0], index: 0 });
     }
   }, [filteredItem]);
 
@@ -28,25 +38,68 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
     setSelectedImage({ image: imagesToRender[newIndex], index: newIndex });
   };
 
+  const trackImageLoadingProgress = () => {
+    const totalImages = imagesToRender.length;
+    let loadedImages = 0;
+
+    imagesToRender.forEach((imageSrc) => {
+      const image = new Image();
+      image.src = imageSrc;
+      image.onload = () => {
+        loadedImages++;
+        if (loadedImages < totalImages) {
+          setProgress(Math.min(progress, 85));
+        } else {
+          setProgress(100);
+          setImgLoader(false); // Set loader to false when all images are loaded
+        }
+      };
+    });
+  };
+
+  useEffect(() => {
+    if (imagesToRender.length > 0) {
+      trackImageLoadingProgress();
+    } else {
+      setProgress(100);
+    }
+  }, [imagesToRender, setProgress, setVisible]);
+
   return (
-    <Wrapper>
-      <MainImgWrapper>
-        <StyledCarousel
-          interval={null}
-          activeIndex={selectedImage.index}
-          onSelect={handleImageSwitch}
-        >
-          {imagesToRender.map((image, index) => (
-            <CarouselItem key={index}>
-              <MainImg
-                src={image}
-                id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
-              />
-            </CarouselItem>
-          ))}
-        </StyledCarousel>
-      </MainImgWrapper>
-    </Wrapper>
+    <>
+      {imgLoader === true ? (
+        <LoaderContainer>
+          <ClipLoader color="#194f44" size={35} />
+        </LoaderContainer>
+      ) : (
+        <Wrapper imgSkeleton="false">
+          {progress < 100 && visible === true ? (
+            <LoadingTopBar />
+          ) : (
+            <MainImgWrapper>
+              <StyledCarousel
+                interval={null}
+                activeIndex={selectedImage.index}
+                onSelect={handleImageSwitch}
+              >
+                {imagesToRender.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <MainImg
+                      imgSkeleton="false"
+                      src={image}
+                      id={
+                        selectedItem?.id ||
+                        (filteredItem?.id && filteredItem.id)
+                      }
+                    />
+                  </CarouselItem>
+                ))}
+              </StyledCarousel>
+            </MainImgWrapper>
+          )}
+        </Wrapper>
+      )}
+    </>
   );
 };
 
@@ -56,15 +109,11 @@ const Wrapper = styled.div`
   flex-direction: column-reverse;
   align-items: flex-start;
   position: relative;
-  @media (max-width: 550px) {
-    margin-bottom: 10px;
-    width: 95%;
-  }
 `;
 const StyledCarousel = styled(Carousel)`
   .carousel-inner {
     .carousel-item {
-      transition: opacity 0.2s ease, transform 0.18s ease; /* Adjusted transition duration */
+      transition: opacity 0.2s ease, transform 0.18s ease;
     }
   }
   .carousel-indicators [data-bs-target] {
@@ -112,4 +161,22 @@ const MainImg = styled.img`
   width: 100%;
   height: 100%;
   border: 1px solid lightgray;
+  flex-grow: 1;
+`;
+const LoaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 950px) {
+    min-height: ${(props) => (props.imgSkeleton ? "100%" : "500px")};
+  }
+  @media (max-width: 550px) {
+    margin-bottom: 10px;
+    width: 95%;
+    min-height: ${(props) => (props.imgSkeleton ? "100%" : "360px")};
+  }
+  @media (max-width: 330px) {
+    min-height: ${(props) => (props.imgSkeleton ? "100%" : "320px")};
+    width: 100%;
+  }
 `;
