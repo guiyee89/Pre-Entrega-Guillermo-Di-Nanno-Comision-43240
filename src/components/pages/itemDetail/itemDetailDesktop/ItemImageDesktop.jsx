@@ -44,8 +44,6 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
         loadedImages++;
         if (loadedImages < totalImages) {
           setFilterLoading(true);
-          // setProgress(Math.min(progress, 100));
-          // setVisible(true);
         } else {
           setProgress(100);
           setFilterLoading(false);
@@ -62,7 +60,7 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
     } else {
       // If there are no images to load, set the progress to 100 and hide the loading bar
       setProgress(100);
-      setVisible(true);
+      // setVisible(true);
     }
   }, [imagesToRender, setProgress, setVisible]);
 

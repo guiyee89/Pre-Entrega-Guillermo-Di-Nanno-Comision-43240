@@ -34,8 +34,6 @@ export const ItemList = ({
     setFilterLoading,
   } = useContext(GlobalToolsContext);
 
-
-
   //////////////////////////                    ////////////////////////////
   //-------------------         LOADERS          ---------------------//
 
@@ -44,7 +42,7 @@ export const ItemList = ({
 
   // Circle Loader
   const handleLoadDetail = (itemId) => {
-    setFilterLoading(false);
+    setFilterLoading(true);
     localStorage.setItem("currentPage", currentPage); //save currentPage in localStorage
     setLoadingDetail(itemId);
     setTimeout(() => {
@@ -60,7 +58,7 @@ export const ItemList = ({
 
   //Pagination loader
   const handlePageChange = (value) => {
-    setFilterLoading(false);
+    setFilterLoading(true);
     setIsLoadingPageChange(true);
     setTimeout(() => {
       setIsLoadingPageChange(false);
@@ -70,7 +68,8 @@ export const ItemList = ({
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
-  const itemsPerPage = Math.max(1, windowWidth < 991 ? 12 : 18); //Render 12 items per page on 991px screen width
+  const itemsPerPage = Math.max(1,windowWidth < 600 ? 12 : windowWidth < 991 ? 16 : 18);
+  //Render 12 items per page on 991px screen width
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = items.slice(startIndex, endIndex);
@@ -341,7 +340,7 @@ const ItemWrapper = styled(Link)`
   box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 1px;
   position: relative;
   cursor: pointer;
-  min-width: ${(props) => (props.imgskeleton && "100%")};
+  min-width: ${(props) => props.imgskeleton && "100%"};
   max-width: 430px;
   height: 100%;
   background-color: rgb(239, 237, 237);
