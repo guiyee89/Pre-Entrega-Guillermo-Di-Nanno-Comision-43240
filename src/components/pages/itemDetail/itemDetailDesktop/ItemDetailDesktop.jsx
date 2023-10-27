@@ -124,7 +124,7 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
             </StockPriceWrapper>
 
             <ItemCountWrapper>
-              {loadingFilter === true ? ( //Render the Loader and disable the ItemCount for 1 second when filtering
+              {loadingFilter ? ( //Render the Loader and disable the ItemCount for 1 second when filtering Sizes
                 <Loader>
                   <Ring size={32} lineWeight={6} speed={2} color="black" />
                 </Loader>

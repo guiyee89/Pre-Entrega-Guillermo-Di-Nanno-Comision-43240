@@ -114,6 +114,15 @@ export const NavDesktop = () => {
                       shirts
                     </NavLink>
                   </NavList>
+                  <NavList>
+                    <NavLink
+                      to="/category/hoodies"
+                      scrolled={scroll}
+                      onClick={handleNavLinkClick}
+                    >
+                      hoodies
+                    </NavLink>
+                  </NavList>
                 </NavListWrapper>
 
                 <DashCartContainer>

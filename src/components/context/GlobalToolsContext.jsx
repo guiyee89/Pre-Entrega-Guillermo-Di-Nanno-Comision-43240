@@ -44,12 +44,12 @@ const GlobalToolsProvider = ({ children }) => {
   const [visible, setVisible] = useState(false);
   const [progressComplete, setProgressComplete] = useState(false);
 
-  //Manage state for Spinner Loaders on filter color change for small images
+  //Manage state for Spinner Loaders on navigating to ItemDetail
   const [filterLoading, setFilterLoading] = useState(false);
-
   //Manage state for Skeleton Loading on Images when filter color change
-  const [imgLoader, setImgLoader] = useState(false); //ItemImageDesktop y Mobile components
+  const [imgLoader, setImgLoader] = useState(false); //ItemImageMobile component
 
+  
   const value = {
     isOpen,
     toggleSideCart,

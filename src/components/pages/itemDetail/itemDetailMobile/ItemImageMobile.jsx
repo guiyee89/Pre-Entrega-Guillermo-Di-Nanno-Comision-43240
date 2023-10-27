@@ -10,6 +10,7 @@ import { LoadingTopBar } from "../../../common/loadingTopBar/LoadingTopBar";
 export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
+  
   const {
     progress,
     setProgress,

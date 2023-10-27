@@ -23,7 +23,7 @@ export const ScrollRestorationWrapper = ({ children }) => {
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
-  const { categoryName /* ,userIdItem,colorItem */ } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
+  const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
 
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
   const {
@@ -38,80 +38,140 @@ export const ItemListContainer = () => {
     setProgressComplete,
   } = useContext(GlobalToolsContext);
 
+  //EL ORIGINAL
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
+  // useEffect(() => {
+  //   setLoading(true);
+  //   const delay = 650;
+  //   const timer = setTimeout(() => {
+  //     setProgress(5);
+  //     setVisible(true);
+  //     let itemsCollection =  collection(db, "products");
+  //     let filterCollection;
+  //     console.log("fetching ItemListContainer");
+
+  //     if (!categoryName) {
+  //       filterCollection = itemsCollection;
+  //     } else {
+  //       filterCollection = query(
+  //         itemsCollection,
+  //         where("category", "==", categoryName)
+  //       );
+  //     }
+
+  //     getDocs(filterCollection)
+  //       .then((res) => {
+  //         const products = res.docs.reduce((filtered, productDoc) => {
+  //           const product = productDoc.data();
+  //           const { userId, color } = product;
+  //           const key = `${userId}-${color}`;
+  //           // Check if the product's customId and color combination already exists
+  //           if (
+  //             !filtered.some((item) => `${item.userId}-${item.color}` === key)
+  //           ) {
+  //             filtered.push({
+  //               ...product,
+  //               id: productDoc.id,
+  //             });
+  //           }
+
+  //           return filtered;
+  //         }, []);
+
+  //         console.log("fetching itemList...");
+  //         console.log(products);
+  //         setItems(products);
+
+  //         setTimeout(() => {
+  //           setLoading(false);
+  //           setProgressComplete(true);
+  //           if (progressComplete === true) {
+  //             setProgress(100);
+  //           }
+  //         }, 250); // Set loading to false and progressComplete true after a delay to avoid "No items found" message
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }, delay);
+
+  //   return () => clearTimeout(timer); // Clear the timeout if the component unmounts
+  // }, [categoryName]);
   useEffect(() => {
-    setProgress(0);
     setLoading(true);
-    setVisible(true);
-    const delay = 950;
-    const timer = setTimeout(() => {
-      let itemsCollection = collection(db, "products");
-      let filterCollection;
-      console.log("fetching ItemListContainer");
-      if (!categoryName) {
-        filterCollection = itemsCollection;
-      } else {
-        filterCollection = query(
-          itemsCollection,
-          where("category", "==", categoryName) /* ||
-          where("userId", "==", userIdItem) || //userId y color "where" se pueden quitar junto a los Params()
-          where("color", "==", colorItem) */
-        );
+    const delay = 750;
+    console.log("mounting ItemListContainer");
+    const fetchData = async () => {
+      setProgress(8);
+      setVisible(true);
+      try {
+        const itemsCollection = collection(db, "products");
+        let filterCollection = itemsCollection;
+
+        if (categoryName) {
+          filterCollection = query(
+            itemsCollection,
+            where("category", "==", categoryName)
+          );
+        }
+
+        const res = await getDocs(filterCollection);
+        const products = res.docs.map((productDoc) => ({
+          ...productDoc.data(),
+          id: productDoc.id,
+        }));
+        console.log("Fetching data");
+        // Remove duplicates based on userId and color
+        const uniqueProducts = [];
+        const seen = new Set();
+        products.forEach((product) => {
+          const key = `${product.userId}-${product.color}`;
+          if (!seen.has(key)) {
+            uniqueProducts.push(product);
+            seen.add(key);
+          }
+        });
+
+        setItems(uniqueProducts);
+
+        setTimeout(() => {
+          setLoading(false);
+          setProgressComplete(true);
+          if (progressComplete) {
+            setProgress(100);
+          }
+        }, 250);
+      } catch (err) {
+        console.error(err);
+        setLoading(false);
       }
+    };
 
-      getDocs(filterCollection)
-        .then((res) => {
-          const products = res.docs.reduce((filtered, productDoc) => {
-            const product = productDoc.data();
-            const { userId, color } = product;
-            const key = `${userId}-${color}`;
-            // Check if the product's customId and color combination already exists
-            if (
-              !filtered.some((item) => `${item.userId}-${item.color}` === key)
-            ) {
-              filtered.push({
-                ...product,
-                id: productDoc.id,
-              });
-            }
+    const timer = setTimeout(fetchData, delay);
 
-            return filtered;
-          }, []);
-          console.log("fetching itemList...");
-          console.log(products);
-          setItems(products);
+    return () => {
+      clearTimeout(timer); // Clear the timeout if the component unmounts
+    };
+  }, [
+    categoryName,
+    setProgress,
+    setLoading,
+    setVisible,
+    setProgressComplete,
+    progressComplete,
+  ]);
 
-          setTimeout(() => {
-            setLoading(false);
-            setProgressComplete(true);
-            if (progressComplete === true) {
-              setProgress(100);
-            }
-          }, 250); // Set loading to false and progressComplete true after a delay to avoid "No items found" message
-        })
-        .catch((err) => console.log(err));
-    }, delay);
-
-    return () => clearTimeout(timer); // Clear the timeout if the component unmounts
-  }, [categoryName]);
-
-  //////////////     //////////////    ////////////      ////////////      /////////////
-  //     STATES TO MANAGE DATA BETWEEN COMPONENTS - MANAGE DATA TO FILTER ITEMS       //
-
-  //States for MultfiFilter and ItemListcontainer data
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); //Set currentPage and pass prop to ItemList
-  const [itemsNotFound, setItemsNotFound] = useState(false); //Set message for no items found on Filter
-  const [itemLoader, setItemLoader] = useState(false); // State to control the filtering loader
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsNotFound, setItemsNotFound] = useState(false);
+  const [itemLoader, setItemLoader] = useState(false);
 
   const handleFilterChange = (filteredItems, detailsFilters) => {
+    setItemsNotFound(false);
     if (filteredItems.length > 0) {
       setFilteredItems(filteredItems);
-      setDetailsFilters(detailsFilters); //Set detailsFilters to the selected filters from MultiFilter
-      window.scrollTo({ /* top: 0, */ behavior: "instant" });
-      /* setCurrentPage(); */ //Set filters on filterChanged to automatically change currentPage in ItemList
+      setDetailsFilters(detailsFilters);
+      window.scrollTo({ behavior: "instant" });
     } else {
       setFilteredItems([]);
       setDetailsFilters([]);
@@ -176,21 +236,14 @@ export const ItemListContainer = () => {
 
                 <ItemListWrapper>
                   {/* RENDERING ITEMS */}
-                  {filteredItems.length > 0 ? (
-                    <ItemList
-                      items={filteredItems}
-                      navigate={navigate}
-                      currentPage={currentPage}
-                      setCurrentPage={setCurrentPage}
-                      itemLoader={itemLoader}
-                    />
-                  ) : (
-                    itemsNotFound && (
-                      <NoProductMessage>
-                        No items found with this filter criteria
-                      </NoProductMessage>
-                    )
-                  )}
+
+                  <ItemList
+                    items={filteredItems}
+                    navigate={navigate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    itemLoader={itemLoader}
+                  />
                 </ItemListWrapper>
               </ItemsFiltersWrapper>
             )}

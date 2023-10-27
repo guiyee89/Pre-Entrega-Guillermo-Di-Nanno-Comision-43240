@@ -1,29 +1,26 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components/macro";
 import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 import { useContext } from "react";
 import { ClipLoader } from "react-spinners";
 
-
 export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
-  const { progress, setProgress, setVisible, filterLoading, setFilterLoading } =
-    useContext(GlobalToolsContext);
+  const { progress, setProgress, setVisible } = useContext(GlobalToolsContext);
+  const [loadedImages, setLoadedImages] = useState(0);
 
   useEffect(() => {
-    // When the selectedItem changes, update the imagesToRender state with the selectedItem images
     if (selectedItem) {
       setImagesToRender(selectedItem.img.slice(0, 5));
-      setSelectedImage({ image: selectedItem.img[0], index: 0 }); // Set the first image as selected by default
+      setSelectedImage({ image: selectedItem.img[0], index: 0 });
     }
   }, [selectedItem]);
 
   useEffect(() => {
-    // When the filteredItem changes, update the imagesToRender state with the filteredItem images
     if (filteredItem && Object.keys(filteredItem).length > 0) {
       setImagesToRender(filteredItem.img.slice(0, 5));
-      setSelectedImage({ image: selectedItem.img[0], index: 0 }); // Set the first image as selected by default
+      setSelectedImage({ image: selectedItem.img[0], index: 0 });
     }
   }, [filteredItem]);
 
@@ -31,70 +28,68 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
     setSelectedImage({ image, index });
   };
 
-  // Custom function to track image loading progress
-  const trackImageLoadingProgress = () => {
+  useEffect(() => {
     const totalImages = imagesToRender.length;
-    let loadedImages = 0;
 
-    // Track each image's load event
-    imagesToRender.forEach((imageSrc) => {
+    const trackImageLoad = (index) => {
       const image = new Image();
-      image.src = imageSrc;
+      image.src = imagesToRender[index];
       image.onload = () => {
-        loadedImages++;
-        if (loadedImages < totalImages) {
-          setFilterLoading(true);
-        } else {
-          setProgress(100);
-          setFilterLoading(false);
-        }
+        // This image is loaded
+        setLoadedImages((prevLoadedImages) => prevLoadedImages + 1);
       };
-    });
-  };
+    };
+
+    if (imagesToRender.length >= 0) {
+      setLoadedImages(0); // Reset the loaded image count
+      setVisible(true);
+      for (let i = 0; i < totalImages; i++) {
+        trackImageLoad(i);
+      }
+    }
+  }, [imagesToRender]);
 
   useEffect(() => {
-    // After rendering, track the image loading progress
-    if (imagesToRender.length > 0) {
-      //setVisible(false);
-      trackImageLoadingProgress();
-    } else {
-      // If there are no images to load, set the progress to 100 and hide the loading bar
+    if (loadedImages === imagesToRender.length) {
+      // All images are loaded
       setProgress(100);
-      // setVisible(true);
+      if (progress === 100) {
+        setVisible(false);
+      }
     }
-  }, [imagesToRender, setProgress, setVisible]);
+  }, [loadedImages, imagesToRender.length, setVisible]);
 
   return (
     <Wrapper>
-      {progress < 100 && setVisible === true ? (
+      {/* {progress < 100 && setVisible === true ? (
         <LoadingTopBar />
       ) : (
-        <>
-          <ImgAsideWrapper>
-            {imagesToRender.map((image, index) => (
-              <>
-                {filterLoading === true ? (
-                  <LoaderContainer key={index} src={image}>
-                    <ClipLoader color="#112b26" size={22} />
-                  </LoaderContainer>
-                ) : (
-                  <ImgAside
-                    key={index}
-                    src={image}
-                    alt=""
-                    isSelected={selectedImage.index === index}
-                    onClick={() => handleImageClick(image, index)}
-                  />
-                )}
-              </>
-            ))}
-          </ImgAsideWrapper>
-        </>
-      )}
+        <> */}
+      <ImgAsideWrapper>
+        {imagesToRender.map((image, index) => (
+          <React.Fragment key={`img-aside-${index}`}>
+            {loadedImages <= index ? (
+              <LoaderContainer key={`loader-container-${index}`}>
+                <ClipLoader color="#112b26" size={22} />
+              </LoaderContainer>
+            ) : (
+              <ImgAside
+                key={`img-aside-${index}`}
+                src={image}
+                alt=""
+                isSelected={selectedImage.index === index}
+                onClick={() => handleImageClick(image, index)}
+              />
+            )}
+          </React.Fragment>
+        ))}
+      </ImgAsideWrapper>
+      {/* </>
+      )} */}
       <MainImgWrapper>
         {imagesToRender.map((image, index) => (
           <MainImg
-            key={index}
+            key={`main-img-${index}`}
             src={image}
             id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
             translationDirection={
@@ -139,7 +134,7 @@ const LoaderContainer = styled.div`
   width: 81%;
   display: flex;
   justify-content: center;
-  height: 11%;
+  height: 12.5%;
   align-items: center;
 `;
 const MainImgWrapper = styled.div`
