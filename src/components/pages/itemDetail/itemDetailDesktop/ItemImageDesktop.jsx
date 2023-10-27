@@ -47,45 +47,45 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
         trackImageLoad(i);
       }
     }
-  }, [imagesToRender, setProgress]);
+  }, [imagesToRender]);
 
   useEffect(() => {
     if (loadedImages === imagesToRender.length) {
       // All images are loaded
       setProgress(100);
-      if(progress === 100){
-        setVisible(false)
+      if (progress === 100) {
+        setVisible(false);
       }
-    } 
-  }, [loadedImages, imagesToRender.length, setProgress, setVisible]);
+    }
+  }, [loadedImages, imagesToRender.length, setVisible]);
 
   return (
     <Wrapper>
-      {progress < 100 && setVisible === true ? (
+      {/* {progress < 100 && setVisible === true ? (
         <LoadingTopBar />
       ) : (
-        <>
-          <ImgAsideWrapper>
-            {imagesToRender.map((image, index) => (
-              <React.Fragment key={`img-aside-${index}`}>
-                {loadedImages <= index ? (
-                  <LoaderContainer key={`loader-container-${index}`}>
-                    <ClipLoader color="#112b26" size={22} />
-                  </LoaderContainer>
-                ) : (
-                  <ImgAside
-                    key={`img-aside-${index}`}
-                    src={image}
-                    alt=""
-                    isSelected={selectedImage.index === index}
-                    onClick={() => handleImageClick(image, index)}
-                  />
-                )}
-              </React.Fragment>
-            ))}
-          </ImgAsideWrapper>
-        </>
-      )}
+        <> */}
+      <ImgAsideWrapper>
+        {imagesToRender.map((image, index) => (
+          <React.Fragment key={`img-aside-${index}`}>
+            {loadedImages <= index ? (
+              <LoaderContainer key={`loader-container-${index}`}>
+                <ClipLoader color="#112b26" size={22} />
+              </LoaderContainer>
+            ) : (
+              <ImgAside
+                key={`img-aside-${index}`}
+                src={image}
+                alt=""
+                isSelected={selectedImage.index === index}
+                onClick={() => handleImageClick(image, index)}
+              />
+            )}
+          </React.Fragment>
+        ))}
+      </ImgAsideWrapper>
+      {/* </>
+      )} */}
       <MainImgWrapper>
         {imagesToRender.map((image, index) => (
           <MainImg

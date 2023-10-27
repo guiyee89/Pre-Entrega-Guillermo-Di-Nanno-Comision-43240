@@ -60,7 +60,7 @@ export const FilterDetail = ({
     useContext(GlobalToolsContext);
 
   const handleTopLoad = () => {//Pass it to Color change function
-    setImgLoader(true);
+    setImgLoader(true);//set Skeleton for Img on Mobile
     setVisible(true);
     setProgress(0);
   };
@@ -73,7 +73,7 @@ export const FilterDetail = ({
         color: color,
       }));
     }, 1200);
-    handleTopLoad();
+     handleTopLoad();
   };
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
@@ -81,7 +81,7 @@ export const FilterDetail = ({
       ...prevFilters,
       size: size,
     }));
-    handleLoading();
+     handleLoading();
   };
 
   // Function to handle size and color filter selection change
@@ -170,7 +170,7 @@ export const FilterDetail = ({
 
               if (itemsWithCurrentColor.length > 0) {
                 return (
-                  <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
+                  <ColorCheckboxWrapper key={color} >
                     <ColorCheckbox
                       id={`color-${color}`}
                       checked={selectedFilters.color === color}
@@ -184,7 +184,7 @@ export const FilterDetail = ({
                 );
               } else {
                 return (
-                  <ColorCheckboxWrapper key={color} onClick={handleTopLoad}>
+                  <ColorCheckboxWrapper key={color} >
                     <ColorCheckbox
                       id={`color-${color}`}
                       checked={selectedFilters.color === color}
