@@ -14,7 +14,6 @@ export const ProductsForm = ({
   const [file, setFile] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const [newProduct, setNewProduct] = useState({
     userId: "",
     title: "",
@@ -130,8 +129,6 @@ export const ProductsForm = ({
     setFile(newFilesList);
     setIsLoading(false);
   };
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -370,11 +367,6 @@ export const ProductsForm = ({
                   // error={errors.img ? true : false}
                   sx={{ marginBottom: "18px" }}
                 />
-                {file && (
-                  <Button variant="outlined" onClick={handleImage}>
-                    Ok
-                  </Button>
-                )}
               </ImageDiv>
 
               <h2>Imagen 2 (Opcional)</h2>
@@ -393,11 +385,6 @@ export const ProductsForm = ({
                   // error={errors.img ? true : false}
                   sx={{ marginBottom: "8px" }}
                 />
-                {file && (
-                  <Button variant="outlined" onClick={handleImage}>
-                    Ok
-                  </Button>
-                )}
               </ImageDiv>
 
               <h2>Imagen 3 (Opcional)</h2>
@@ -416,11 +403,6 @@ export const ProductsForm = ({
                   // error={errors.img ? true : false}
                   sx={{ marginBottom: "8px" }}
                 />
-                {file && (
-                  <Button variant="outlined" onClick={handleImage}>
-                    Ok
-                  </Button>
-                )}
               </ImageDiv>
 
               <h2>Imagen 4 (Opcional)</h2>
@@ -439,11 +421,6 @@ export const ProductsForm = ({
                   // error={errors.img ? true : false}
                   sx={{ marginBottom: "8px" }}
                 />
-                {file && (
-                  <Button variant="outlined" onClick={handleImage}>
-                    Ok
-                  </Button>
-                )}
               </ImageDiv>
 
               <h2>Imagen 5 (Opcional)</h2>
@@ -462,14 +439,18 @@ export const ProductsForm = ({
                   // error={errors.img ? true : false}
                   sx={{ marginBottom: "8px" }}
                 />
-                {file && (
-                  <Button variant="outlined" onClick={handleImage}>
-                    Ok
-                  </Button>
-                )}
               </ImageDiv>
             </Div>
-            {file  && !isLoading && (
+            {file && (
+              <LoadImgBtn
+                variant="outlined"
+                sx={{ margin: "20px auto" }}
+                onClick={handleImage}
+              >
+                Cargar Imagenes
+              </LoadImgBtn>
+            )}
+            {file && !isLoading && (
               <SubmitBtn
                 type="submit"
                 variant="contained"
@@ -500,7 +481,9 @@ const Input = styled(TextField)`
     padding: 12.5px 5px;
   }
 `;
-
+const LoadImgBtn = styled(Button)`
+  width: 60%;
+`;
 const SubmitBtn = styled(Button)`
   width: 60%;
 `;

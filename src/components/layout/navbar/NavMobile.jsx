@@ -68,7 +68,11 @@ export const NavMobile = () => {
   return (
     <>
       <Nav scrolled={scroll} isFilterOpen={isFilterOpen}>
-        <InsideNav isCart={isCart} isCheckout={isCheckout} isDashboard={isDashboard}>
+        <InsideNav
+          isCart={isCart}
+          isCheckout={isCheckout}
+          isDashboard={isDashboard}
+        >
           {!isCart && !isCheckout && !isDashboard && (
             <MenuIcon
               onClick={toggleSideMenu}
@@ -137,6 +141,15 @@ export const NavMobile = () => {
                 >
                   shirts
                 </NavLink>
+                <NavList>
+                  <NavLink
+                    to="/category/hoodies"
+                    scrolled={scroll}
+                    onClick={handleNavLinkClick}
+                  >
+                    hoodies
+                  </NavLink>
+                </NavList>
               </NavList>
               {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
                 <Dashboard
@@ -160,7 +173,7 @@ export const NavMobile = () => {
               ></Logo>
             </LogoLink>
           </LogoDiv>
-          {!isCart && !isCheckout && !isDashboard &&  (
+          {!isCart && !isCheckout && !isDashboard && (
             <CartWidget
               scrolled={scroll}
               sx={{ padding: "10px" }}
@@ -233,7 +246,8 @@ const InsideNav = styled.div`
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: justify;
-  justify-content: ${({ isCart, isCheckout, isDashboard }) => (isCart || isCheckout || isDashboard ? "center" : "space-between")};
+  justify-content: ${({ isCart, isCheckout, isDashboard }) =>
+    isCart || isCheckout || isDashboard ? "center" : "space-between"};
   @media screen and (max-width: 500px) {
     padding: 0;
   }

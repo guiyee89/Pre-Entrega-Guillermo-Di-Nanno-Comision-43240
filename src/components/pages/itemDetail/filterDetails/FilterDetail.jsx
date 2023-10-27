@@ -59,14 +59,14 @@ export const FilterDetail = ({
   const { setProgress, setVisible, setImgLoader } =
     useContext(GlobalToolsContext);
 
-  const handleTopLoad = () => {
+  const handleTopLoad = () => {//Pass it to Color change function
+    setImgLoader(true);
     setVisible(true);
     setProgress(0);
   };
 
   // Function to handle color filter selection change
   const handleColorChange = (color) => {
-    setImgLoader(true);
     setTimeout(() => {
       setSelectedFilters((prevFilters) => ({
         ...prevFilters,
