@@ -38,7 +38,7 @@ export const ItemList = ({
   //-------------------         LOADERS          ---------------------//
 
   const [loadingDetail, setLoadingDetail] = useState(false);
-  const [isLoadingPageChange, setIsLoadingPageChange] = useState(false);
+  const [isLoadingPagination, setIsLoadingPagination] = useState(false);
 
   // Circle Loader
   const handleLoadDetail = (itemId) => {
@@ -56,12 +56,12 @@ export const ItemList = ({
     setProgress(5); //set Top Loading bar to 5% after clicking on Item
   };
 
-  //Pagination loader
+  //Pagination loaders
   const handlePageChange = (value) => {
     setFilterLoading(true);
-    setIsLoadingPageChange(true);
+    setIsLoadingPagination(true);
     setTimeout(() => {
-      setIsLoadingPageChange(false);
+      setIsLoadingPagination(false);
       setCurrentPage(value);
     }, 500);
   };
@@ -132,7 +132,7 @@ export const ItemList = ({
             }}
             renderItem={(item) => <PaginationItem component="div" {...item} />}
           />
-          {isLoadingPageChange && <ClipLoaderTop color="#194f44" size={35} />}
+          {isLoadingPagination && <ClipLoaderTop color="#194f44" size={35} />}
         </PaginationWrapperTop>
         <ItemsQuantity>{productsQuantity} Products</ItemsQuantity>
       </HeaderContainer>
@@ -218,7 +218,7 @@ export const ItemList = ({
           }}
           renderItem={(item) => <PaginationItem component="div" {...item} />}
         />
-        {isLoadingPageChange && <ClipLoaderBottom color="#194f44" size={35} />}
+        {isLoadingPagination && <ClipLoaderBottom color="#194f44" size={35} />}
       </PaginationWrapperBottom>
     </>
   );

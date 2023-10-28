@@ -79,9 +79,9 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
         </LoaderContainer>
       ) : (
         <Wrapper imgSkeleton="false">
-          {progress < 100 && visible === true && imgLoader === true ? (
+          {/* {progress < 100 && visible === true && imgLoader === true ? (
             <LoadingTopBar />
-          ) : (
+          ) : ( */}
             <MainImgWrapper>
               <StyledCarousel
                 interval={null}
@@ -108,7 +108,7 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
                 ))}
               </StyledCarousel>
             </MainImgWrapper>
-          )}
+          {/* )} */}
         </Wrapper>
       )}
     </>

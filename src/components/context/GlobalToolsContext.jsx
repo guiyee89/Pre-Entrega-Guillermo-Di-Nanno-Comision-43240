@@ -4,6 +4,7 @@ import { useEffect } from "react";
 export const GlobalToolsContext = createContext();
 
 const GlobalToolsProvider = ({ children }) => {
+
   //Manage side cart
   const [isOpen, setIsOpen] = useState(true);
   const toggleSideCart = () => {
@@ -35,8 +36,10 @@ const GlobalToolsProvider = ({ children }) => {
     };
   }, []);
 
+
+  ///////////         LOADERS           ///////////
   //Manage state for Loading spinner on page change
-  const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(false);
 
   //Manage states for Loading Top Bar component (LoadingTopBar)
   const [progress, setProgress] = useState(0);
@@ -44,7 +47,7 @@ const GlobalToolsProvider = ({ children }) => {
   const [visible, setVisible] = useState(false);
   const [progressComplete, setProgressComplete] = useState(false);
 
-  //Manage state for Spinner Loaders on navigating to ItemDetail
+  //Manage state for Spinner Loaders on filters click
   const [filterLoading, setFilterLoading] = useState(false);
   //Manage state for Skeleton Loading on Images when filter color change
   const [imgLoader, setImgLoader] = useState(false); //ItemImageMobile component
@@ -58,8 +61,8 @@ const GlobalToolsProvider = ({ children }) => {
     isFilterOpen,
     toggleFilterMenu,
     windowWidth,
-    loading,
-    setLoading,
+    pageLoading,
+    setPageLoading,
     progress,
     setProgress,
     buffer,

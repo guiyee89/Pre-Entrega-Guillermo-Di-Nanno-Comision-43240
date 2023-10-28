@@ -17,8 +17,8 @@ export const ItemDetailContainer = () => {
   const { id } = useParams();
   const {
     windowWidth,
-    loading,
-    setLoading,
+    pageLoading,
+    setPageLoading,
     setVisible,
     progressComplete,
     setProgressComplete,
@@ -29,7 +29,7 @@ export const ItemDetailContainer = () => {
 
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
-    setLoading(true);
+    setPageLoading(true);
     setFilterLoading(true)
     setVisible(true);
     const itemCollection = collection(db, "products");
@@ -42,7 +42,7 @@ export const ItemDetailContainer = () => {
           id: response.id,
         });
         setTimeout(() => {
-          setLoading(false);
+          setPageLoading(false);
           setProgressComplete(true);
           if (progress === 100) {
             setVisible(false);
@@ -66,7 +66,7 @@ export const ItemDetailContainer = () => {
         pauseOnHover
         theme="dark"
       />
-      {loading ? (
+      {pageLoading ? (
         <LoaderWrapper>
           {windowWidth > 600 ? (
             <Ring size={40} lineWeight={7} speed={2} color="black" />

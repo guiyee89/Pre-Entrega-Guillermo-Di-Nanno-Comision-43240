@@ -43,14 +43,14 @@ export const ItemDetailMobile = ({ selectedItem }) => {
     }
   };
 
-  // Loader spinner for filters change
-  const [loadingFilter, setLoadingFilter] = useState(false);
+  ///Loader spinner for Size filters change disabling "Add Cart" Button
+  const [loadingSizeFilter, setLoadingSizeFilter] = useState(false);
 
   const handleLoading = () => {
-    setLoadingFilter(true);
+    setLoadingSizeFilter(true);
     setTimeout(() => {
-      setLoadingFilter(false);
-    }, 990);
+      setLoadingSizeFilter(false);
+    }, 900);
   };
 
   ///////////////////////////////////////////////////////////////////////////////////
@@ -122,7 +122,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
             </StockPriceWrapper>
 
             <ItemCountWrapper>
-              {loadingFilter ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
+              {loadingSizeFilter ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
                 <Loader>
                   <Ring size={32} lineWeight={6} speed={2} color="black" />
                 </Loader>
@@ -135,7 +135,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
                   }
                   initial={1}
                   onAddToCart={onAddToCart}
-                  disabled={loadingFilter}
+                  disabled={loadingSizeFilter}
                 />
               )}
             </ItemCountWrapper>

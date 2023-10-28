@@ -58,6 +58,7 @@ export const FilterDetail = ({
 
   const { setProgress, setVisible, setImgLoader } =
     useContext(GlobalToolsContext);
+  
 
   const handleTopLoad = () => {//Pass it to Color change function
     setImgLoader(true);//set Skeleton for Img on Mobile
