@@ -12,9 +12,10 @@ import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import { Ring } from "@uiball/loaders";
 
 export const ItemDetailContainer = () => {
-  // Guardamos los items (objetos)
+
   const [selectedItem, setSelectedItem] = useState({});
   const { id } = useParams();
+  const [loadingColorFilter, setLoadingColorFilter] = useState(false);//Activate image loaders on color filter
   const {
     windowWidth,
     pageLoading,
@@ -24,15 +25,16 @@ export const ItemDetailContainer = () => {
     setProgressComplete,
     progress,
   } = useContext(GlobalToolsContext);
-
+  
 
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
     setPageLoading(true);
-    setVisible(true);
     const itemCollection = collection(db, "products");
     const refDoc = doc(itemCollection, id);
     console.log("fetching from ItemDetailContainer");
+    setVisible(true);
+    setLoadingColorFilter(true);
     getDoc(refDoc)
       .then((response) => {
         setSelectedItem({
@@ -76,7 +78,11 @@ export const ItemDetailContainer = () => {
         progressComplete && (
           <>
             {windowWidth > 950 ? (
-              <ItemDetailDesktop selectedItem={selectedItem} />
+              <ItemDetailDesktop
+                selectedItem={selectedItem}
+                setLoadingColorFilter={setLoadingColorFilter}//props to activate loaders on color filter
+                loadingColorFilter={loadingColorFilter}
+              />
             ) : (
               <ItemDetailMobile selectedItem={selectedItem} />
             )}

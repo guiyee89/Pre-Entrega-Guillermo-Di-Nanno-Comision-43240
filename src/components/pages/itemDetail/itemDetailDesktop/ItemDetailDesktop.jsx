@@ -7,13 +7,13 @@ import { ItemImageDesktop } from "./ItemImageDesktop";
 import { Ring } from "@uiball/loaders";
 import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 
-export const ItemDetailDesktop = ({ selectedItem }) => {
+export const ItemDetailDesktop = ({ selectedItem, loadingColorFilter, setLoadingColorFilter }) => {
+
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterDetail component
   const { addToCart } = useContext(CartContext);
   const hasDiscount = "discount" in selectedItem;
   const { setProgress, setVisible } = useContext(GlobalToolsContext);
-  const [loadingSizeFilter, setLoadingSizeFilter] = useState(false);
-  const [loadingColorFilter, setColorLoadingFilter] = useState(false)
+  const [loadingSizeFilter, setLoadingSizeFilter] = useState(false);//Activate size loader
 
 
   //On add to cart if selectedItem or filteredItem
@@ -33,30 +33,32 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
     setFilteredItem({});
   };
 
-  ///Loader for Size filters change disabling "Add Cart" Button activated with FilterDetail
-  const handleSizeLoading = () => {
-    setColorLoadingFilter(false)//Disable loaders for images on size filtering
-    setLoadingSizeFilter(true);
-    setTimeout(() => {
-      setLoadingSizeFilter(false);
-    }, 900);
-  };
-
-  //Loaders for Color change function with GlobalToolsContext on FilterDetail
-  const handleColorLoading = () => {
-    setColorLoadingFilter(true)
-    setVisible(true);
-    setProgress(0);
-  };
-
-  //handle filtering size & color
-  const handleFilterItemChange = (item) => {
+  
+   //Handle filtering size & color
+   const handleFilterItemChange = (item) => {
     if (item === undefined) {
       setFilteredItem(selectedItem);
     } else {
       setFilteredItem(item);
     }
   };
+
+  ///Loader for Size filters change
+  const handleSizeLoading = () => {
+    setLoadingColorFilter(false)//Disable loaders for images on size filtering
+    setLoadingSizeFilter(true);
+    setTimeout(() => {
+      setLoadingSizeFilter(false);
+    }, 900);
+  };
+
+  //Loaders for Color change 
+  const handleColorLoading = () => {
+    setLoadingColorFilter(true)
+    setVisible(true);
+    setProgress(0);
+  };
+
 
   //Render item details based on the existence of selectedItem or filteredItem
   return (
