@@ -4,12 +4,11 @@ import styled from "styled-components/macro";
 import { db } from "../../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-
 export const FilterDetail = ({
   selectedItem,
   onFilterItemChange,
   handleSizeLoading,
-  handleColorLoading
+  handleColorLoading,
 }) => {
   //////////////     //////////////    ////////////      ////////////      /////////////
   const [selectedFilters, setSelectedFilters] = useState({
@@ -58,7 +57,6 @@ export const FilterDetail = ({
 
   // Function to handle color filter selection change
   const handleColorChange = (color) => {
-    console.log("activando color filter")
     setTimeout(() => {
       setSelectedFilters((prevFilters) => ({
         ...prevFilters,
@@ -69,7 +67,6 @@ export const FilterDetail = ({
   };
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
-    console.log("activando size filter")
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       size: size,
@@ -163,7 +160,7 @@ export const FilterDetail = ({
 
               if (itemsWithCurrentColor.length > 0) {
                 return (
-                  <ColorCheckboxWrapper key={color} >
+                  <ColorCheckboxWrapper key={color}>
                     <ColorCheckbox
                       id={`color-${color}`}
                       checked={selectedFilters.color === color}
@@ -177,7 +174,7 @@ export const FilterDetail = ({
                 );
               } else {
                 return (
-                  <ColorCheckboxWrapper key={color} >
+                  <ColorCheckboxWrapper key={color}>
                     <ColorCheckbox
                       id={`color-${color}`}
                       checked={selectedFilters.color === color}

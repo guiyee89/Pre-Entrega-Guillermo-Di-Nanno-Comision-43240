@@ -30,7 +30,6 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem, loadingColorFilte
   };
 
   useEffect(() => {
-    console.log("activando size or color filter");
     const totalImages = imagesToRender.length;
 
     const trackImageLoad = (index) => {
@@ -44,7 +43,6 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem, loadingColorFilte
 
     if (imagesToRender.length >= 0) {
       setLoadedImages(0); // Reset the loaded image count
-      // setVisible(true);
       for (let i = 0; i < totalImages; i++) {
         trackImageLoad(i);
       }
@@ -53,7 +51,6 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem, loadingColorFilte
 
 
   useEffect(() => {
-    console.log("activating size or color filter");
     if (loadedImages === imagesToRender.length) {
       // All images are loaded
       setProgress(100);
