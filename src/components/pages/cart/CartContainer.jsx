@@ -25,10 +25,10 @@ const missingItemMessage = (missingItems) => {
 };
 
 export const CartContainer = () => {
-  const { windowWidth, setProgress, loading, setLoading, setVisible } = useContext(GlobalToolsContext);
+  const { windowWidth, setProgress, setVisible } = useContext(GlobalToolsContext);
   const { cart } = useContext(CartContext);
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -86,9 +86,9 @@ export const CartContainer = () => {
       {loading ? (
         <LoaderWrapper>
           {windowWidth > 600 ? (
-            <Ring size={60} lineWeight={8} speed={2} color="black" />
+            <Ring size={40} lineWeight={8} speed={2} color="black" />
           ) : (
-            <Ring size={40} lineWeight={6} speed={2} color="black" />
+            <Ring size={25} lineWeight={6} speed={2} color="black" />
           )}
         </LoaderWrapper>
       ) : windowWidth > 680 ? (

@@ -40,8 +40,8 @@ export const LandingPage = () => {
 
         <CarouselWrapper>
           {windowWidth >= 900 && <CarouselDesktop />}
-          {windowWidth < 900 && windowWidth >= 650 && <CarouselTablet />}
-          {windowWidth < 650 && <CarouselMobile />}
+          {windowWidth < 900 && windowWidth >= 550 && <CarouselTablet />}
+          {windowWidth < 550 && <CarouselMobile />}
         </CarouselWrapper>
         <MiddleArticle>
           <ImgWrapper>
