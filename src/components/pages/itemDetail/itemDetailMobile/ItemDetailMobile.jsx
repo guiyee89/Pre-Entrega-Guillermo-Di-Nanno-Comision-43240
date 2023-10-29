@@ -5,12 +5,16 @@ import { useState, useContext } from "react";
 import { CartContext } from "../../../context/CartContext";
 import { ItemImageMobile } from "./ItemImageMobile";
 import { Ring } from "@uiball/loaders";
+import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 
 export const ItemDetailMobile = ({ selectedItem }) => {
   ///////////////////////////////////////////////////////////////////////////////////
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterColorSize component
   const { addToCart } = useContext(CartContext); //Function addToCart from Context
   const hasDiscount = "discount" in selectedItem; //Get discounted item
+  const { setProgress, setVisible } = useContext(GlobalToolsContext);
+  const [imgSkeletonLoader, setImgSkeletonLoader] = useState(false);
+  const [loadingSizeFilter, setLoadingSizeFilter] = useState(false);
 
   ///////////////////////////////////////////////////////////////////////////////////
   //On add to cart if selectedItem or filteredItem
@@ -30,8 +34,6 @@ export const ItemDetailMobile = ({ selectedItem }) => {
   };
 
   ///////////////////////////////////////////////////////////////////////////////////
-  //       FILTERING OF COLOR AND SIZE & HANDLING IMAGE CHANGE + Loaders        //
-
   //  handle filtering size & color  //
   const handleFilterItemChange = (item) => {
     if (item === undefined) {
@@ -43,14 +45,19 @@ export const ItemDetailMobile = ({ selectedItem }) => {
     }
   };
 
-  // Loader spinner for filters change
-  const [loadingFilter, setLoadingFilter] = useState(false);
-
-  const handleLoading = () => {
-    setLoadingFilter(true);
+  ///Loader spinner for Size filters change disabling "Add Cart" Button
+  const handleSizeLoading = () => {
+    setLoadingSizeFilter(true);
     setTimeout(() => {
-      setLoadingFilter(false);
-    }, 990);
+      setLoadingSizeFilter(false);
+    }, 900);
+  };
+
+  //Loaders for Color change function with GlobalToolsContext on FilterDetail
+  const handleColorLoading = () => {
+    setImgSkeletonLoader(true); //set Skeleton for Img on Mobile
+    setVisible(true);
+    setProgress(0);
   };
 
   ///////////////////////////////////////////////////////////////////////////////////
@@ -77,13 +84,16 @@ export const ItemDetailMobile = ({ selectedItem }) => {
           <ItemImageMobile
             filteredItem={filteredItem}
             selectedItem={selectedItem}
+            imgSkeletonLoader={imgSkeletonLoader}
+            setImgSkeletonLoader={setImgSkeletonLoader}
           />
           <InsideWrapper>
             <FilterWrapper>
               <FilterDetail
                 selectedItem={selectedItem}
                 onFilterItemChange={handleFilterItemChange}
-                handleLoading={handleLoading}
+                handleSizeLoading={handleSizeLoading}
+                handleColorLoading={handleColorLoading}
               />
             </FilterWrapper>
 
@@ -122,7 +132,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
             </StockPriceWrapper>
 
             <ItemCountWrapper>
-              {loadingFilter ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
+              {loadingSizeFilter ? ( // Render the ClipLoader and disable the ItemCount for 1 second when filtering
                 <Loader>
                   <Ring size={32} lineWeight={6} speed={2} color="black" />
                 </Loader>
@@ -135,7 +145,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
                   }
                   initial={1}
                   onAddToCart={onAddToCart}
-                  disabled={loadingFilter}
+                  disabled={loadingSizeFilter}
                 />
               )}
             </ItemCountWrapper>

@@ -4,10 +4,11 @@ import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 import { useContext } from "react";
 import { ClipLoader } from "react-spinners";
 
-export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
+export const ItemImageDesktop = ({ filteredItem, selectedItem, loadingColorFilter }) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
-  const { progress, setProgress, setVisible } = useContext(GlobalToolsContext);
+  const { progress, setProgress, setVisible } =
+    useContext(GlobalToolsContext);
   const [loadedImages, setLoadedImages] = useState(0);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
   };
 
   useEffect(() => {
+    console.log("activando size or color filter");
     const totalImages = imagesToRender.length;
 
     const trackImageLoad = (index) => {
@@ -42,14 +44,16 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
 
     if (imagesToRender.length >= 0) {
       setLoadedImages(0); // Reset the loaded image count
-      setVisible(true);
+      // setVisible(true);
       for (let i = 0; i < totalImages; i++) {
         trackImageLoad(i);
       }
     }
   }, [imagesToRender]);
 
+
   useEffect(() => {
+    console.log("activating size or color filter");
     if (loadedImages === imagesToRender.length) {
       // All images are loaded
       setProgress(100);
@@ -57,18 +61,16 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
         setVisible(false);
       }
     }
-  }, [loadedImages, imagesToRender.length, setVisible]);
+  }, [loadedImages, setVisible, imagesToRender.length ]);
+  
+
 
   return (
     <Wrapper>
-      {/* {progress < 100 && setVisible === true ? (
-        <LoadingTopBar />
-      ) : (
-        <> */}
       <ImgAsideWrapper>
         {imagesToRender.map((image, index) => (
           <React.Fragment key={`img-aside-${index}`}>
-            {loadedImages <= index ? (
+            {loadedImages <= index && loadingColorFilter === true  ? (
               <LoaderContainer key={`loader-container-${index}`}>
                 <ClipLoader color="#112b26" size={22} />
               </LoaderContainer>
@@ -84,8 +86,7 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem }) => {
           </React.Fragment>
         ))}
       </ImgAsideWrapper>
-      {/* </>
-      )} */}
+
       <MainImgWrapper>
         {imagesToRender.map((image, index) => (
           <MainImg
@@ -158,126 +159,3 @@ const MainImg = styled.img`
   opacity: ${({ isVisible }) => (isVisible ? "1" : "0")};
   transition: transform 0.18s ease, opacity 0.2s ease;
 `;
-// import { useState, useEffect } from "react";
-// import styled from "styled-components/macro";
-// import { ClipLoader } from "react-spinners";
-
-// export const ItemImageDesktop = ({
-//   filteredItem,
-//   selectedItem,
-// }) => {
-//   const [selectedImage, setSelectedImage] = useState({});
-//   const [imagesToRender, setImagesToRender] = useState([]);
-//   const [loadedImages, setLoadedImages] = useState([]);
-
-//   useEffect(() => {
-//     if (selectedItem) {
-//       setImagesToRender(selectedItem.img.slice(0, 5));
-//       setSelectedImage({ image: selectedItem.img[0], index: 0 });
-//     }
-//   }, [selectedItem]);
-
-//   useEffect(() => {
-//     if (filteredItem && Object.keys(filteredItem).length > 0) {
-//       setImagesToRender(filteredItem.img.slice(0, 5));
-//       setSelectedImage({ image: selectedItem.img[0], index: 0 });
-//       setLoadedImages(Array(imagesToRender.length).fill(false));
-//     }
-//   }, [filteredItem, selectedItem]);
-
-//   const handleImageLoad = (index) => {
-//     const updatedLoadedImages = [...loadedImages];
-//     updatedLoadedImages[index] = true;
-//     setLoadedImages(updatedLoadedImages);
-//   };
-
-//   const handleImageClick = (image, index) => {
-//     setSelectedImage({ image, index });
-//   };
-
-//   return (
-//     <Wrapper>
-//       <ImgAsideWrapper>
-//         {imagesToRender.map((image, index) => (
-//           <ImgAside
-//             key={index}
-//             src={image}
-//             alt=""
-//             isSelected={selectedImage.index === index}
-//             onClick={() => handleImageClick(image, index)}
-//           />
-//         ))}
-//         {imagesToRender.map((image, index) => (
-//           !loadedImages[index] && (
-//             <ClipLoader key={`loader-${index}`} color="#194f44" size={35} />
-//           )
-//         ))}
-//       </ImgAsideWrapper>
-//       <MainImgWrapper>
-//         {imagesToRender.map((image, index) => (
-//           <MainImg
-//             key={index}
-//             src={image}
-//             id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
-//             translationDirection={
-//               selectedImage.index === index
-//                 ? "none"
-//                 : selectedImage.index < index
-//                 ? "translateX(-100%)"
-//                 : "translateX(100%)"
-//             }
-//             isVisible={selectedImage.index === index}
-//             onLoad={() => handleImageLoad(index)}
-//           />
-//         ))}
-//       </MainImgWrapper>
-//     </Wrapper>
-//   )
-// }
-
-// const Wrapper = styled.div`
-//   display: flex;
-//   width: 85%;
-//   margin-left: -35px;
-//   margin-right: 20px;
-// `;
-
-// const ImgAsideWrapper = styled.aside`
-//   width: 18.8%;
-//   display: flex;
-//   flex-direction: column;
-//   gap: 1rem;
-//   margin-top: 1.5px;
-// `;
-
-// const ImgAside = styled.img`
-//   cursor: pointer;
-//   box-shadow: ${({ isSelected }) =>
-//     isSelected
-//       ? "rgba(0, 0, 0, 0.55) 0px 0px 3.5px"
-//       : "rgba(0, 0, 0, 0.65) 0px 0px 3px"};
-//   border: ${({ isSelected }) => (isSelected ? "1px solid black" : "none")};
-//   width: ${({ isSelected }) => (isSelected ? "81%" : "75%")};
-// `;
-
-// const MainImgWrapper = styled.div`
-//   width: 100%;
-//   height: 700px;
-//   top: 0;
-//   left: 0;
-//   display: flex;
-//   position: relative;
-//   overflow: hidden;
-// `;
-
-// const MainImg = styled.img`
-//   width: 100%;
-//   max-height: 100%;
-//   position: absolute;
-//   overflow: hidden;
-//   border: 1px solid lightgray;
-//   object-fit: cover;
-//   transform: ${({ translationDirection }) => translationDirection};
-//   opacity: ${({ isVisible }) => (isVisible ? "1" : "0")};
-//   transition: transform 0.18s ease, opacity 0.2s ease;
-// `;

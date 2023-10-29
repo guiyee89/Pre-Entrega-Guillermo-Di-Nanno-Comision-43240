@@ -24,6 +24,7 @@ export const ScrollRestorationWrapper = ({ children }) => {
 export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
+  const [pageLoading, setPageLoading] = useState(false);
 
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
   const {
@@ -31,8 +32,6 @@ export const ItemListContainer = () => {
     toggleFilterMenu,
     windowWidth,
     setProgress,
-    loading,
-    setLoading,
     setVisible,
     progressComplete,
     setProgressComplete,
@@ -96,8 +95,9 @@ export const ItemListContainer = () => {
 
   //   return () => clearTimeout(timer); // Clear the timeout if the component unmounts
   // }, [categoryName]);
+  
   useEffect(() => {
-    setLoading(true);
+    setPageLoading(true);
     const delay = 750;
     console.log("mounting ItemListContainer");
     const fetchData = async () => {
@@ -134,7 +134,7 @@ export const ItemListContainer = () => {
         setItems(uniqueProducts);
 
         setTimeout(() => {
-          setLoading(false);
+          setPageLoading(false);
           setProgressComplete(true);
           if (progressComplete) {
             setProgress(100);
@@ -142,7 +142,7 @@ export const ItemListContainer = () => {
         }, 250);
       } catch (err) {
         console.error(err);
-        setLoading(false);
+        setPageLoading(false);
       }
     };
 
@@ -154,7 +154,7 @@ export const ItemListContainer = () => {
   }, [
     categoryName,
     setProgress,
-    setLoading,
+    setPageLoading,
     setVisible,
     setProgressComplete,
     progressComplete,
@@ -197,7 +197,7 @@ export const ItemListContainer = () => {
           theme="dark"
         />
 
-        {loading ? (
+        {pageLoading ? (
           <LoaderWrapper>
             {windowWidth > 600 ? (
               <Ring size={40} lineWeight={7} speed={2} color="black" />

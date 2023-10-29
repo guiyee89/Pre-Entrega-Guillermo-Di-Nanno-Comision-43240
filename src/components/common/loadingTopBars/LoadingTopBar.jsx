@@ -12,8 +12,7 @@ export const LoadingTopBar = () => {
     setBuffer,
     visible,
     setVisible,
-    loading,
-    filterLoading,
+    pageLoading
   } = useContext(GlobalToolsContext);
 
   const progressRef = useRef(() => {});
@@ -22,11 +21,12 @@ export const LoadingTopBar = () => {
 
   ///////////////////////////////////////////////////////////////////
   useEffect(() => {
+
     progressRef.current = () => {
       if (progress >= 100) {
         clearInterval(timer);
         setTimeout(() => {
-          if (loading === false) {
+          if (pageLoading === false) {
             setProgress(0);
             setBuffer(10);
             setVisible(false); // Hide the progress bar
@@ -37,7 +37,7 @@ export const LoadingTopBar = () => {
         // const diff2 = Math.random() * 15;
         let newProgress; // Ensure progress doesn't exceed 100
 
-        if (loading) {
+        if (pageLoading) {
           // Cap the progress at 90 when loading is true
           newProgress = Math.min(progress + diff, 85);
         } else {
@@ -63,22 +63,12 @@ export const LoadingTopBar = () => {
 
 
   useEffect(() => {
-    if (loading === false) {
+    if (pageLoading === false) {
       setProgress(100);
     }
-  }, [loading]);
+  }, [pageLoading]);
 
-  useEffect(() => {
-    if (filterLoading === false) {
-      setProgress(100);
-    }
-    if(filterLoading === false){
-      setTimeout(()=> {
-        setVisible(false)
-      },500)
-      
-    }
-  }, [filterLoading]);
+  
 
   //////////////////////////////////////////////////////////////////////
   return (

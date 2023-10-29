@@ -12,7 +12,7 @@ import { useContext, useEffect  } from "react";
 import { GlobalToolsContext } from "../context/GlobalToolsContext";
 import { NavMobile } from "./navbar/NavMobile";
 import { NavDesktop } from "./navbar/NavDesktop";
-import { LoadingTopBar } from "../common/loadingTopBar/LoadingTopBar";
+import { LoadingTopBar } from "../common/loadingTopBars/LoadingTopBar";
 
 ////////////////////////////////////////////////////
 

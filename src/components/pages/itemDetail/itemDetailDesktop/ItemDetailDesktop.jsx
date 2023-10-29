@@ -1,20 +1,22 @@
 import styled from "styled-components/macro";
 import { ItemCount } from "../../../common/itemCount/ItemCount";
 import { FilterDetail } from "../filterDetails/FilterDetail";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { CartContext } from "../../../context/CartContext";
 import { ItemImageDesktop } from "./ItemImageDesktop";
 import { Ring } from "@uiball/loaders";
-
+import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 
 export const ItemDetailDesktop = ({ selectedItem }) => {
-  ///////////////////////////////////////////////////////////////////////////////////
-  const [filteredItem, setFilteredItem] = useState({}); ///Filtered Item from FilterColorSize component
-  const { addToCart } = useContext(CartContext); ///Function addToCart from Context
-  const hasDiscount = "discount" in selectedItem; ///Get discounted item
+  const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterDetail component
+  const { addToCart } = useContext(CartContext);
+  const hasDiscount = "discount" in selectedItem;
+  const { setProgress, setVisible } = useContext(GlobalToolsContext);
+  const [loadingSizeFilter, setLoadingSizeFilter] = useState(false);
+  const [loadingColorFilter, setColorLoadingFilter] = useState(false)
 
-  ///////////////////////////////////////////////////////////////////////////////////
-  ///              On add to cart if selectedItem or filteredItem                ///
+
+  //On add to cart if selectedItem or filteredItem
   const onAddToCart = (quantity) => {
     let data = {
       ...selectedItem,
@@ -27,44 +29,44 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
       };
     }
     addToCart(data);
-    setFilteredItem({}); ////Reset the filteredItem state after adding to cart
+    //Reset the filteredItem state after adding to cart
+    setFilteredItem({});
   };
 
-  ///////////////////////////////////////////////////////////////////////////////////
-  //       FILTERING OF COLOR AND SIZE & HANDLING IMAGE CHANGE + Loaders        //
+  ///Loader for Size filters change disabling "Add Cart" Button activated with FilterDetail
+  const handleSizeLoading = () => {
+    setColorLoadingFilter(false)//Disable loaders for images on size filtering
+    setLoadingSizeFilter(true);
+    setTimeout(() => {
+      setLoadingSizeFilter(false);
+    }, 900);
+  };
 
-  ////handle filtering size & color
+  //Loaders for Color change function with GlobalToolsContext on FilterDetail
+  const handleColorLoading = () => {
+    setColorLoadingFilter(true)
+    setVisible(true);
+    setProgress(0);
+  };
+
+  //handle filtering size & color
   const handleFilterItemChange = (item) => {
     if (item === undefined) {
-      /////Check in case "item" doesn't exist, then return the original selected item
       setFilteredItem(selectedItem);
     } else {
-      ////else return the filtered item////
       setFilteredItem(item);
     }
   };
 
-  ///Loader spinner for filters change disabling "Add Cart" Button
-  const [loadingFilter, setLoadingFilter] = useState(false);
-
-  const handleLoading = () => {
-    setLoadingFilter(true);
-    setTimeout(() => {
-      setLoadingFilter(false);
-    }, 900);
-  };
-
-
-  ///////////////////////////////////////////////////////////////////////////////////
-  /*   Render item details based on the existence of selectedItem or filteredItem   */
+  //Render item details based on the existence of selectedItem or filteredItem
   return (
     <Wrapper>
-      {/* Check if either selectedItem or filteredItem exists */}
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
           <ItemImageDesktop
             filteredItem={filteredItem}
             selectedItem={selectedItem}
+            loadingColorFilter={loadingColorFilter}//Enable loaders for images on color filter
           />
 
           {hasDiscount && <Discount>-{selectedItem.discount}%</Discount>}
@@ -85,7 +87,8 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
               <FilterDetail
                 selectedItem={selectedItem}
                 onFilterItemChange={handleFilterItemChange}
-                handleLoading={handleLoading}
+                handleSizeLoading={handleSizeLoading}
+                handleColorLoading={handleColorLoading}
               />
             </FilterWrapper>
 
@@ -124,7 +127,7 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
             </StockPriceWrapper>
 
             <ItemCountWrapper>
-              {loadingFilter ? ( //Render the Loader and disable the ItemCount for 1 second when filtering Sizes
+              {loadingSizeFilter ? ( //Render the Loader and disable the ItemCount for 1 second when filtering Sizes
                 <Loader>
                   <Ring size={32} lineWeight={6} speed={2} color="black" />
                 </Loader>
@@ -137,7 +140,7 @@ export const ItemDetailDesktop = ({ selectedItem }) => {
                   }
                   initial={1}
                   onAddToCart={onAddToCart}
-                  disabled={loadingFilter}
+                  disabled={loadingSizeFilter}
                 />
               )}
             </ItemCountWrapper>

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 export const GlobalToolsContext = createContext();
 
+
 const GlobalToolsProvider = ({ children }) => {
   //Manage side cart
   const [isOpen, setIsOpen] = useState(true);
@@ -35,8 +36,9 @@ const GlobalToolsProvider = ({ children }) => {
     };
   }, []);
 
-  //Manage state for Loading spinner on page change
-  const [loading, setLoading] = useState(false);
+  ///////////         LOADERS           ///////////
+  //Manage state for Loading spinner on page change (used in LoadingTopBar)
+  const [pageLoading, setPageLoading] = useState(false);
 
   //Manage states for Loading Top Bar component (LoadingTopBar)
   const [progress, setProgress] = useState(0);
@@ -44,12 +46,7 @@ const GlobalToolsProvider = ({ children }) => {
   const [visible, setVisible] = useState(false);
   const [progressComplete, setProgressComplete] = useState(false);
 
-  //Manage state for Spinner Loaders on navigating to ItemDetail
-  const [filterLoading, setFilterLoading] = useState(false);
-  //Manage state for Skeleton Loading on Images when filter color change
-  const [imgLoader, setImgLoader] = useState(false); //ItemImageMobile component
 
-  
   const value = {
     isOpen,
     toggleSideCart,
@@ -58,8 +55,8 @@ const GlobalToolsProvider = ({ children }) => {
     isFilterOpen,
     toggleFilterMenu,
     windowWidth,
-    loading,
-    setLoading,
+    pageLoading,
+    setPageLoading,
     progress,
     setProgress,
     buffer,
@@ -67,11 +64,7 @@ const GlobalToolsProvider = ({ children }) => {
     visible,
     setVisible,
     progressComplete,
-    setProgressComplete,
-    filterLoading,
-    setFilterLoading,
-    imgLoader,
-    setImgLoader,
+    setProgressComplete
   };
 
   return (
