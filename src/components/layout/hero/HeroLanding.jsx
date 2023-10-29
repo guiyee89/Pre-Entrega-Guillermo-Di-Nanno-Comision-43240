@@ -4,6 +4,8 @@ import styled from "styled-components/macro";
 import { InfoIcons } from "../../common/infoIcons/InfoIcons";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
+import NextButtonSVG from "../../../assets/arrow-right-336-svgrepo-com.svg";
+import PrevButtonSVG from "../../../assets/arrow-left-335-svgrepo-com.svg";
 
 export const HeroLanding = () => {
   const { windowWidth } = useContext(GlobalToolsContext);
@@ -93,7 +95,7 @@ const StyledCarousel = styled(Carousel)`
     margin: -17px 40px 30px;
   }
   @media (max-width: 500px) {
-    margin: -12px 21px 30px;
+    margin: -12px 0px 30px;
   }
   .carousel-slide {
     min-height: 300px;
@@ -105,30 +107,50 @@ const StyledCarousel = styled(Carousel)`
   }
   .carousel-control-next-icon,
   .carousel-control-prev-icon {
-    width: 2rem;
-    height: 3rem;
+   
+    
     background-color: rgba(0, 0, 0, 0.55);
-    @media (max-width: 450px) {
-      width: 1.6rem;
+    @media (max-width: 550px) {
+ 
       height: 2.6rem;
+      background-color: transparent;
+    }
+  }
+  .carousel-control-prev-icon {
+    @media (max-width: 550px) {
+      background-image: url(${PrevButtonSVG});
+      width: 3.4rem;
+    }
+  }
+  .carousel-control-next-icon {
+    @media (max-width: 550px) {
+      background-image: url(${NextButtonSVG});
+      width: 3.4rem;
     }
   }
   .carousel-control-prev {
     left: 1.9%;
     @media (max-width: 800px) {
-      left: -9.9%;
+      left: -13.2%;
+    }
+    @media (max-width: 500px) {
+      left: -5.9%;
     }
     @media (max-width: 450px) {
-      left: -10.7%;
+      left: -4.7%;
     }
   }
+
   .carousel-control-next {
     right: 1.9%;
     @media (max-width: 800px) {
-      right: -9.9%;
+      right: -13.2%;
+    }
+    @media (max-width: 500px) {
+      right: -5.9%;
     }
     @media (max-width: 450px) {
-      right: -10.7%;
+      right: -4.7%;
     }
   }
   .carousel-indicators [data-bs-target] {

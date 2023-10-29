@@ -106,7 +106,7 @@ export const ItemListContainer = () => {
       try {
         const itemsCollection = collection(db, "products");
         let filterCollection = itemsCollection;
-
+        console.log("Fetching data 1...");
         if (categoryName) {
           filterCollection = query(
             itemsCollection,
@@ -119,7 +119,7 @@ export const ItemListContainer = () => {
           ...productDoc.data(),
           id: productDoc.id,
         }));
-        console.log("Fetching data");
+        console.log("Fetching data 2...");
         // Remove duplicates based on userId and color
         const uniqueProducts = [];
         const seen = new Set();
