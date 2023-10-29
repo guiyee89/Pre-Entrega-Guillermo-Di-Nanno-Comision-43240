@@ -24,6 +24,7 @@ export const ScrollRestorationWrapper = ({ children }) => {
 export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
+  const [pageLoading, setPageLoading] = useState(false);
 
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
   const {
@@ -31,8 +32,6 @@ export const ItemListContainer = () => {
     toggleFilterMenu,
     windowWidth,
     setProgress,
-    pageLoading,
-    setPageLoading,
     setVisible,
     progressComplete,
     setProgressComplete,
@@ -140,7 +139,6 @@ export const ItemListContainer = () => {
           if (progressComplete) {
             setProgress(100);
           }
-          setVisible(false)
         }, 250);
       } catch (err) {
         console.error(err);

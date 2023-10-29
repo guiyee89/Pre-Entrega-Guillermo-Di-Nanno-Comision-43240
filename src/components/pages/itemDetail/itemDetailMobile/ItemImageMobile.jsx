@@ -5,22 +5,18 @@ import NextButtonSVG from "../../../../assets/arrow-right-336-svgrepo-com.svg";
 import PrevButtonSVG from "../../../../assets/arrow-left-335-svgrepo-com.svg";
 import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 import { ClipLoader } from "react-spinners";
-import { LoadingTopBar } from "../../../common/loadingTopBar/LoadingTopBar";
 
-export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
+export const ItemImageMobile = ({
+  filteredItem,
+  selectedItem,
+  imgSkeletonLoader,
+  setImgSkeletonLoader,
+}) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
-  
-  const {
-    progress,
-    setProgress,
-    setVisible,
-    visible,
-    imgLoader,
-    setImgLoader,
-    filterLoading,
-    setFilterLoading,
-  } = useContext(GlobalToolsContext);
+  const [filterColorLoading, setFilterColorLoading] = useState(false);
+
+  const { setProgress, setVisible } = useContext(GlobalToolsContext);
 
   useEffect(() => {
     if (selectedItem) {
@@ -41,6 +37,7 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
   };
 
   const trackImageLoadingProgress = () => {
+    console.log("activando size filter");
     const totalImages = imagesToRender.length;
     let loadedImages = 0;
 
@@ -50,65 +47,62 @@ export const ItemImageMobile = ({ filteredItem, selectedItem }) => {
       image.onload = () => {
         loadedImages++;
         if (loadedImages < totalImages) {
-          setFilterLoading(true);
+          setFilterColorLoading(true);
         } else {
           setProgress(100);
-          setImgLoader(false); // Set loader to false when all images are loaded
-          setFilterLoading(false);
+          setImgSkeletonLoader(false); // Set loader to false when all images are loaded
+          setFilterColorLoading(false);
         }
       };
     });
   };
 
   useEffect(() => {
+    console.log("activando size filter");
     if (imagesToRender.length > 0) {
       trackImageLoadingProgress();
     } else {
       setProgress(100);
     }
-    if(imgLoader === false){
-      setVisible(false)
+    if (imgSkeletonLoader === false) {
+      setVisible(false);
     }
   }, [imagesToRender, setProgress, setVisible]);
 
   return (
     <>
-      {imgLoader === true ? (
+      {imgSkeletonLoader === true ? (
         <LoaderContainer>
           <ClipLoader color="#194f44" size={35} />
         </LoaderContainer>
       ) : (
         <Wrapper imgSkeleton="false">
-          {/* {progress < 100 && visible === true && imgLoader === true ? (
-            <LoadingTopBar />
-          ) : ( */}
-            <MainImgWrapper>
-              <StyledCarousel
-                interval={null}
-                activeIndex={selectedImage.index}
-                onSelect={handleImageSwitch}
-              >
-                {imagesToRender.map((image, index) => (
-                  <CarouselItem key={index}>
-                    {filterLoading === true  && imgLoader === true ?(
-                      <LoaderContainer>
-                        <ClipLoader color="#194f44" size={35} />
-                      </LoaderContainer>
-                    ) : (
-                      <MainImg
-                        imgSkeleton="false"
-                        src={image}
-                        id={
-                          selectedItem?.id ||
-                          (filteredItem?.id && filteredItem.id)
-                        }
-                      />
-                    )}
-                  </CarouselItem>
-                ))}
-              </StyledCarousel>
-            </MainImgWrapper>
-          {/* )} */}
+          <MainImgWrapper>
+            <StyledCarousel
+              interval={null}
+              activeIndex={selectedImage.index}
+              onSelect={handleImageSwitch}
+            >
+              {imagesToRender.map((image, index) => (
+                <CarouselItem key={index}>
+                  {filterColorLoading === true && imgSkeletonLoader === true ? (
+                    <LoaderContainer>
+                      <ClipLoader color="#194f44" size={35} />
+                    </LoaderContainer>
+                  ) : (
+                    <MainImg
+                      imgSkeleton="false"
+                      src={image}
+                      id={
+                        selectedItem?.id ||
+                        (filteredItem?.id && filteredItem.id)
+                      }
+                    />
+                  )}
+                </CarouselItem>
+              ))}
+            </StyledCarousel>
+          </MainImgWrapper>
         </Wrapper>
       )}
     </>

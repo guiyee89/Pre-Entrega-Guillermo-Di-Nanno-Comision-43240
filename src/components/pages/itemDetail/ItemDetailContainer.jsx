@@ -23,14 +23,12 @@ export const ItemDetailContainer = () => {
     progressComplete,
     setProgressComplete,
     progress,
-    setFilterLoading
   } = useContext(GlobalToolsContext);
 
 
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
     setPageLoading(true);
-    setFilterLoading(true)
     setVisible(true);
     const itemCollection = collection(db, "products");
     const refDoc = doc(itemCollection, id);

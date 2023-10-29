@@ -3,8 +3,8 @@ import { useEffect } from "react";
 
 export const GlobalToolsContext = createContext();
 
-const GlobalToolsProvider = ({ children }) => {
 
+const GlobalToolsProvider = ({ children }) => {
   //Manage side cart
   const [isOpen, setIsOpen] = useState(true);
   const toggleSideCart = () => {
@@ -36,9 +36,8 @@ const GlobalToolsProvider = ({ children }) => {
     };
   }, []);
 
-
   ///////////         LOADERS           ///////////
-  //Manage state for Loading spinner on page change
+  //Manage state for Loading spinner on page change (used in LoadingTopBar)
   const [pageLoading, setPageLoading] = useState(false);
 
   //Manage states for Loading Top Bar component (LoadingTopBar)
@@ -47,12 +46,7 @@ const GlobalToolsProvider = ({ children }) => {
   const [visible, setVisible] = useState(false);
   const [progressComplete, setProgressComplete] = useState(false);
 
-  //Manage state for Spinner Loaders on filters click
-  const [filterLoading, setFilterLoading] = useState(false);
-  //Manage state for Skeleton Loading on Images when filter color change
-  const [imgLoader, setImgLoader] = useState(false); //ItemImageMobile component
 
-  
   const value = {
     isOpen,
     toggleSideCart,
@@ -70,11 +64,7 @@ const GlobalToolsProvider = ({ children }) => {
     visible,
     setVisible,
     progressComplete,
-    setProgressComplete,
-    filterLoading,
-    setFilterLoading,
-    imgLoader,
-    setImgLoader,
+    setProgressComplete
   };
 
   return (

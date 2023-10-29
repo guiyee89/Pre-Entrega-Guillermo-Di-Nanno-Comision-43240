@@ -31,7 +31,6 @@ export const ItemList = ({
     windowWidth,
     setProgress,
     setVisible,
-    setFilterLoading,
   } = useContext(GlobalToolsContext);
 
   //////////////////////////                    ////////////////////////////
@@ -42,7 +41,6 @@ export const ItemList = ({
 
   // Circle Loader
   const handleLoadDetail = (itemId) => {
-    setFilterLoading(true);
     localStorage.setItem("currentPage", currentPage); //save currentPage in localStorage
     setLoadingDetail(itemId);
     setTimeout(() => {
@@ -58,7 +56,6 @@ export const ItemList = ({
 
   //Pagination loaders
   const handlePageChange = (value) => {
-    setFilterLoading(true);
     setIsLoadingPagination(true);
     setTimeout(() => {
       setIsLoadingPagination(false);

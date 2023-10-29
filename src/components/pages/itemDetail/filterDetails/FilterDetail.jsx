@@ -3,13 +3,13 @@ import { useState } from "react";
 import styled from "styled-components/macro";
 import { db } from "../../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { useContext } from "react";
-import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
+
 
 export const FilterDetail = ({
   selectedItem,
   onFilterItemChange,
-  handleLoading,
+  handleSizeLoading,
+  handleColorLoading
 }) => {
   //////////////     //////////////    ////////////      ////////////      /////////////
   const [selectedFilters, setSelectedFilters] = useState({
@@ -56,33 +56,25 @@ export const FilterDetail = ({
   //////////////     //////////////    ////////////      ////////////      /////////////
   //            HANDLING OF COLOR AND SIZE SELECTION ON-CHANGE  +  LOADERS            //
 
-  const { setProgress, setVisible, setImgLoader } =
-    useContext(GlobalToolsContext);
-  
-
-  const handleTopLoad = () => {//Pass it to Color change function
-    setImgLoader(true);//set Skeleton for Img on Mobile
-    setVisible(true);
-    setProgress(0);
-  };
-
   // Function to handle color filter selection change
   const handleColorChange = (color) => {
+    console.log("activando color filter")
     setTimeout(() => {
       setSelectedFilters((prevFilters) => ({
         ...prevFilters,
         color: color,
       }));
     }, 1200);
-     handleTopLoad();
+    handleColorLoading();
   };
   // Function to handle size filter selection change
   const handleSizeChange = (size) => {
+    console.log("activando size filter")
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       size: size,
     }));
-     handleLoading();
+    handleSizeLoading();
   };
 
   // Function to handle size and color filter selection change
