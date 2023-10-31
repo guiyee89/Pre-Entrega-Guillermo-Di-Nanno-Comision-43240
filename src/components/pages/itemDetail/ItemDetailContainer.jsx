@@ -28,65 +28,65 @@ export const ItemDetailContainer = () => {
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
     setPageLoading(true);
-    const delay = 450;
-
-    const fetchData = async () => {
-      try {
-        const itemCollection = collection(db, "products");
-        const refDoc = doc(itemCollection, id);
-        console.log("fetching from ItemDetailContainer");
-        setVisible(true);
-        setLoadingColorFilter(true);
-
-        const response = await getDoc(refDoc);
+    const itemCollection = collection(db, "products");
+    const refDoc = doc(itemCollection, id);
+    console.log("fetching from ItemDetailContainer");
+    setVisible(true);
+    setLoadingColorFilter(true);
+    getDoc(refDoc)
+      .then((response) => {
         setSelectedItem({
           ...response.data(),
           id: response.id,
         });
-
-        // Simulate a 250ms delay
         setTimeout(() => {
           setPageLoading(false);
           setProgressComplete(true);
           if (progress === 100) {
             setVisible(false);
           }
-        }, 250);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    const timer = setTimeout(fetchData, delay);
-
-    return () => {
-      clearTimeout(timer); // Clear the timeout if the component unmounts
-    };
+        }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
+      })
+      .catch((err) => console.log(err));
   }, [id]);
-
   // useEffect(() => {
   //   setPageLoading(true);
-  //   const itemCollection = collection(db, "products");
-  //   const refDoc = doc(itemCollection, id);
-  //   console.log("fetching from ItemDetailContainer");
-  //   setVisible(true);
-  //   setLoadingColorFilter(true);
-  //   getDoc(refDoc)
-  //     .then((response) => {
+  //   const delay = 750;
+
+  //   const fetchData = async () => {
+  //     try {
+  //       const itemCollection = collection(db, "products");
+  //       const refDoc = doc(itemCollection, id);
+  //       console.log("fetching from ItemDetailContainer");
+  //       setVisible(true);
+  //       setLoadingColorFilter(true);
+
+  //       const response = await getDoc(refDoc);
   //       setSelectedItem({
   //         ...response.data(),
   //         id: response.id,
   //       });
+
+  //       // Simulate a 250ms delay
   //       setTimeout(() => {
   //         setPageLoading(false);
   //         setProgressComplete(true);
   //         if (progress === 100) {
   //           setVisible(false);
   //         }
-  //       }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
-  //     })
-  //     .catch((err) => console.log(err));
+  //       }, 250);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+
+  //   const timer = setTimeout(fetchData, delay);
+
+  //   return () => {
+  //     clearTimeout(timer); // Clear the timeout if the component unmounts
+  //   };
   // }, [id]);
+
 
   return (
     <>
