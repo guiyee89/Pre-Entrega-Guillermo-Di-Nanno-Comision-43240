@@ -46,7 +46,7 @@ export const ItemList = ({
     setTimeout(() => {
       setLoadingDetail(true);
       // navigate(`/item-details/${itemId}`);
-    }, 1700);
+    }, 1500);
   };
 
   const handleLoadTop = () => {
@@ -65,7 +65,10 @@ export const ItemList = ({
 
   //////////////////////////                    ////////////////////////////
   //-------------------         PAGINATION          ---------------------//
-  const itemsPerPage = Math.max(1,windowWidth < 600 ? 12 : windowWidth < 991 ? 16 : 18);
+  const itemsPerPage = Math.max(
+    1,
+    windowWidth < 600 ? 12 : windowWidth < 991 ? 16 : 18
+  );
   //Render 12 items per page on 991px screen width
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -136,7 +139,7 @@ export const ItemList = ({
 
       {itemLoader && ( //Loader for filters
         <LoaderOverlay>
-          <Ring size={40} lineWeight={7} speed={1} color="black" />
+          <Ring size={35} lineWeight={7} speed={1} color="black" />
         </LoaderOverlay>
       )}
       <Wrapper key="cart-wrapper">
@@ -154,19 +157,19 @@ export const ItemList = ({
                 handleLoadDetail(product.id);
                 setTimeout(() => {
                   navigate(`/item-details/${product.id}`);
-                }, 700);
+                }, 1500);
               }}
               imgskeleton="false"
             >
               <Loader>
                 {isLoadingDetail && (
-                  <Ring size={32} lineWeight={7} speed={1} color="black" />
+                  <Ring size={25} lineWeight={6} speed={1} color="black" />
                 )}
               </Loader>
               <ItemCard>
                 <ImgWrapperLink>
                   {imgskeleton === true ? (
-                    <ClipLoader color="#194f44" size={35} />
+                    <ClipLoader color="#8f501a" size={30} />
                   ) : (
                     <ItemImg src={product.img[0]} alt={product.title} />
                   )}
@@ -233,14 +236,14 @@ const Wrapper = styled.div`
   align-items: center;
   background-color: rgb(253 253 253);
   @media (max-width: 1150px) {
-    margin: 0 -8px 0 0;
     gap: 0.7rem;
   }
-  @media (max-width: 1050px) {
-    margin-left: 9px;
-  }
+
   @media (max-width: 990px) {
     grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 900px) {
+    margin: 0;
   }
   @media (max-width: 500px) {
     grid-template-columns: repeat(1, 1fr);
@@ -357,10 +360,10 @@ const ItemWrapper = styled(Link)`
     } */
   }
   @media (max-width: 899px) {
-    min-width: ${(props) => (props.imgskeleton ? "100%" : "100%")};
+    min-width: ${(props) => props.imgskeleton && "100%"};
   }
   @media (max-width: 550px) {
-    min-width: ${(props) => (props.imgskeleton ? "100%" : "100%")};
+    min-width: ${(props) => props.imgskeleton && "100%"};
   }
 `;
 const ItemCard = styled.div`
@@ -464,9 +467,9 @@ const FilterContainer = styled.div`
   margin-bottom: 19px;
   @media (max-width: 900px) {
     display: flex;
-    width: 100%;
+    width: 108%;
     position: sticky;
-    margin: 0px auto 6px 5px;
+    margin: 0px auto 6px -17px;
     border-bottom: 1px solid lightgray;
     top: 56px;
     align-items: center;
@@ -478,7 +481,7 @@ const FilterContainer = styled.div`
 
 const FilterBtn = styled.div`
   font-weight: 600;
-  margin: 10px -13px 10px 10px;
+  margin: 10px -13px 10px 7px;
   word-spacing: 7px;
   width: 49.1%;
   border-right: 1px solid #aeacac;
@@ -488,7 +491,7 @@ const FilterBtn = styled.div`
     display: none;
   }
   @media (min-width: 550px) {
-    margin: 10px -13px 10px 13px;
+    margin: 10px -13px 10px -1px;
   }
 `;
 
@@ -503,10 +506,10 @@ const ClipLoaderBottom = styled(ClipLoader)`
 const PaginationWrapperTop = styled.div`
   display: flex;
   width: 45%;
-  margin: 0 0 15px 20px;
+  margin: 0 0 15px 5px;
   justify-content: center;
   @media (max-width: 900px) {
-    width: 49%;
+    width: 100%;
   }
 `;
 const PaginationWrapperBottom = styled.div`

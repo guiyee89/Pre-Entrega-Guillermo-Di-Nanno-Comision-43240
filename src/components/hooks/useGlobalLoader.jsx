@@ -1,30 +1,22 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import styled from "styled-components/macro";
 
 
 export const useGlobalLoader = () => {
   
-  const [loading, setLoading] = useState(true);
+  const [globalLoading, setGlobalLoading] = useState(true);
   const location = useLocation();
 
   //Global "Flash" Conditional
   useEffect(() => {
-    setLoading(true);
+    setGlobalLoading(true);
     const timer = setTimeout(() => {
-      setLoading(false);
-    }, 300);
+      setGlobalLoading(false);
+    }, 0);
 
     return () => clearTimeout(timer);
   }, [location]);
 
 
-  return loading;
+  return globalLoading;
 };
-const Wrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    margin-left: 20px;
-`

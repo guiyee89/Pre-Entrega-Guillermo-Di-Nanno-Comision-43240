@@ -18,10 +18,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../../../firebaseConfig";
 import { useState } from "react";
 
-
-export const ProductList = ({ products, setIsChanged }) => {
-
-
+export const ProductList = ({ products, setIsChanged, foundProduct }) => {
   // Sort items by color and size
   const customSort = (itemA, itemB) => {
     // First, compare by color
@@ -36,17 +33,17 @@ export const ProductList = ({ products, setIsChanged }) => {
   // Sort the items array
   Array.isArray(products) && products.sort(customSort);
 
-  const [ open, setOpen ] = useState(false)
-  const [selectedItem, setSelectedItem] = useState(null)
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   const handleOpen = (product) => {
-    setSelectedItem(product)
-    setOpen(true)
-  }
+    setSelectedItem(product);
+    setOpen(true);
+  };
 
   const editProduct = (id) => {
     console.log(id);
@@ -66,69 +63,71 @@ export const ProductList = ({ products, setIsChanged }) => {
       >
         Nuevo Producto
       </Button>
-      <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">ID</TableCell>
-              <TableCell align="center">Imagen</TableCell>
-              <TableCell align="center">Titulo</TableCell>
-              <TableCell align="center">Precio</TableCell>
-              <TableCell align="center">Descuento</TableCell>
-              <TableCell align="center">Stock</TableCell>
-              <TableCell align="center">Size</TableCell>
-              <TableCell align="center">Color</TableCell>
-              <TableCell align="center">Categoria</TableCell>
-              <TableCell align="center">Acciones</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.isArray(products) &&
-              products.map((product) => (
-                <TableRow
-                  key={product.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell align="center" component="th" scope="row">
-                    {product.userId}
-                  </TableCell>
-                  <ImgCell align="center" component="th" scope="row">
-                    <img src={product.img[0]} />
-                  </ImgCell>
-                  <TableCell align="center" component="th" scope="row">
-                    {product.title}
-                  </TableCell>
-                  <TableCell align="center" component="th" scope="row">
-                    $ {product.unit_price}
-                  </TableCell>
-                  <TableCell align="center" component="th" scope="row">
-                    {product.discount}% ( ${product.discountPrice} )
-                  </TableCell>
-                  <TableCell align="center" component="th" scope="row">
-                    {product.stock}
-                  </TableCell>
-                  <TableCell align="center" component="th" scope="row">
-                    {product.size}
-                  </TableCell>
-                  <TableCell align="center" component="th" scope="row">
-                    {product.color}
-                  </TableCell>
-                  <TableCell align="center" component="th" scope="row">
-                    {product.category}
-                  </TableCell>
-                  <TableCell align="center" component="th" scope="row">
-                    <IconButton onClick={() => handleOpen(product)}>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton onClick={() => deleteProduct(product.id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {foundProduct === true && (
+        <TableContainer>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">ID</TableCell>
+                <TableCell align="center">Imagen</TableCell>
+                <TableCell align="center">Titulo</TableCell>
+                <TableCell align="center">Precio</TableCell>
+                <TableCell align="center">Descuento</TableCell>
+                <TableCell align="center">Stock</TableCell>
+                <TableCell align="center">Size</TableCell>
+                <TableCell align="center">Color</TableCell>
+                <TableCell align="center">Categoria</TableCell>
+                <TableCell align="center">Acciones</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Array.isArray(products) &&
+                products.map((product) => (
+                  <TableRow
+                    key={product.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell align="center" component="th" scope="row">
+                      {product.userId}
+                    </TableCell>
+                    <ImgCell align="center" component="th" scope="row">
+                      <img src={product.img[0]} />
+                    </ImgCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {product.title}
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      $ {product.unit_price}
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {product.discount}% ( ${product.discountPrice} )
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {product.stock}
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {product.size}
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {product.color}
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {product.category}
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      <IconButton onClick={() => handleOpen(product)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => deleteProduct(product.id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
 
       <Modal
         sx={{ maxWidth: "1000px", margin: "0 auto" }}
@@ -138,7 +137,12 @@ export const ProductList = ({ products, setIsChanged }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <ProductsForm handleClose={handleClose} setIsChanged={setIsChanged} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
+          <ProductsForm
+            handleClose={handleClose}
+            setIsChanged={setIsChanged}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+          />
         </Box>
       </Modal>
     </>

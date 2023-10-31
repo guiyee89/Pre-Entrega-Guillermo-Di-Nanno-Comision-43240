@@ -22,8 +22,11 @@ export const ScrollRestorationWrapper = ({ children }) => {
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ItemListContainer = () => {
+
+
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
+
 
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
   const {
@@ -145,13 +148,12 @@ export const ItemListContainer = () => {
         console.error(err);
       }
     };
-
     const timer = setTimeout(fetchData, delay);
-
     return () => {
       clearTimeout(timer); // Clear the timeout if the component unmounts
     };
   }, [categoryName]);
+
 
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -303,13 +305,12 @@ const ItemListWrapper = styled.div`
   grid-column: 2/13;
   margin-top: -3px;
   width: 100%;
+  margin: 0 auto;
   @media (max-width: 900px) {
+    width: 95%;
     grid-column: 1/13;
-    margin: 0 auto;
   }
-  @media (max-width: 650px) {
-    margin: 0;
-  }
+
 `;
 const ItemsFiltersWrapper = styled.div`
   display: grid;
@@ -317,5 +318,8 @@ const ItemsFiltersWrapper = styled.div`
   height: 100%;
   width: 100%;
   max-width: 1618px;
-  margin-left: -20px;
+  @media (max-width: 900px) {
+    grid-column: 1/13;
+    margin: 0 auto;
+  }
 `;

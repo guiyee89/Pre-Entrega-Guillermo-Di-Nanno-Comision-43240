@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ItemDetailDesktop } from "./itemDetailDesktop/ItemDetailDesktop";
 import { ItemDetailMobile } from "./itemDetailMobile/ItemDetailMobile";
 import { db } from "../../../firebaseConfig";
@@ -15,6 +15,7 @@ export const ItemDetailContainer = () => {
   const [selectedItem, setSelectedItem] = useState({});
   const { id } = useParams();
   const [loadingColorFilter, setLoadingColorFilter] = useState(false); //Activate image loaders on color filter
+
   const {
     windowWidth,
     pageLoading,
@@ -49,44 +50,6 @@ export const ItemDetailContainer = () => {
       })
       .catch((err) => console.log(err));
   }, [id]);
-  // useEffect(() => {
-  //   setPageLoading(true);
-  //   const delay = 750;
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const itemCollection = collection(db, "products");
-  //       const refDoc = doc(itemCollection, id);
-  //       console.log("fetching from ItemDetailContainer");
-  //       setVisible(true);
-  //       setLoadingColorFilter(true);
-
-  //       const response = await getDoc(refDoc);
-  //       setSelectedItem({
-  //         ...response.data(),
-  //         id: response.id,
-  //       });
-
-  //       // Simulate a 250ms delay
-  //       setTimeout(() => {
-  //         setPageLoading(false);
-  //         setProgressComplete(true);
-  //         if (progress === 100) {
-  //           setVisible(false);
-  //         }
-  //       }, 250);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-
-  //   const timer = setTimeout(fetchData, delay);
-
-  //   return () => {
-  //     clearTimeout(timer); // Clear the timeout if the component unmounts
-  //   };
-  // }, [id]);
-
 
   return (
     <>

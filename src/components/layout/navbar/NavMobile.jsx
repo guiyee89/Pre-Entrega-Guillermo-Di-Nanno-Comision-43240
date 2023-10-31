@@ -141,16 +141,17 @@ export const NavMobile = () => {
                 >
                   shirts
                 </NavLink>
-                <NavList>
-                  <NavLink
-                    to="/category/hoodies"
-                    scrolled={scroll}
-                    onClick={handleNavLinkClick}
-                  >
-                    hoodies
-                  </NavLink>
-                </NavList>
               </NavList>
+              <NavList>
+                <NavLink
+                  to="/category/hoodies"
+                  scrolled={scroll}
+                  onClick={handleNavLinkClick}
+                >
+                  hoodies
+                </NavLink>
+              </NavList>
+
               {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
                 <Dashboard
                   sx={{ fontSize: "30px" }}
@@ -264,11 +265,11 @@ const LogoLink = styled(Link)`
 const Logo = styled.img`
   width: 51%;
   margin-left: ${(props) =>
-    props.scrolled === "scrolled" ? "8.7px;;" : "20.3px"};
+    props.scrolled === "scrolled" ? "19.7px;" : "23.3px"};
   transition: margin-left 0.2s ease-in-out;
   @media (max-width: 550px) {
     margin-left: ${(props) =>
-      props.scrolled === "scrolled" ? "17.9px;" : "20.3px"};
+      props.scrolled === "scrolled" ? "18.8px;" : "25.3px"};
   }
 `;
 const LogoSideMenu = styled.div`
