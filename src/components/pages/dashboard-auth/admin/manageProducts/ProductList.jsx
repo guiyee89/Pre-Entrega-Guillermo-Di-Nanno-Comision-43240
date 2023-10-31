@@ -64,7 +64,7 @@ export const ProductList = ({ products, setIsChanged }) => {
         sx={{ marginLeft: "50px", marginTop: "17px" }}
         onClick={() => handleOpen(null)}
       >
-        Agregar Producto
+        Nuevo Producto
       </Button>
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

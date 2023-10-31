@@ -13,7 +13,7 @@ export const useGlobalLoader = () => {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 550);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [location]);

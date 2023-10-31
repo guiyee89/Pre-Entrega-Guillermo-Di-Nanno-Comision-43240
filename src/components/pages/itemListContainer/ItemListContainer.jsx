@@ -24,7 +24,6 @@ export const ScrollRestorationWrapper = ({ children }) => {
 export const ItemListContainer = () => {
   const [items, setItems] = useState([]); //Guardamos los items
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
-  const [pageLoading, setPageLoading] = useState(false);
 
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
   const {
@@ -35,6 +34,8 @@ export const ItemListContainer = () => {
     setVisible,
     progressComplete,
     setProgressComplete,
+    pageLoading,
+    setPageLoading,
   } = useContext(GlobalToolsContext);
 
   //EL ORIGINAL
@@ -95,18 +96,18 @@ export const ItemListContainer = () => {
 
   //   return () => clearTimeout(timer); // Clear the timeout if the component unmounts
   // }, [categoryName]);
-  
+
   useEffect(() => {
     setPageLoading(true);
-    const delay = 750;
+    const delay = 650;
     console.log("mounting ItemListContainer");
     const fetchData = async () => {
-      setProgress(8);
       setVisible(true);
+      setProgress(8);
       try {
         const itemsCollection = collection(db, "products");
         let filterCollection = itemsCollection;
-        console.log("Fetching data 1...");
+
         if (categoryName) {
           filterCollection = query(
             itemsCollection,
@@ -119,7 +120,7 @@ export const ItemListContainer = () => {
           ...productDoc.data(),
           id: productDoc.id,
         }));
-        console.log("Fetching data 2...");
+        console.log("Fetching data...");
         // Remove duplicates based on userId and color
         const uniqueProducts = [];
         const seen = new Set();
@@ -136,13 +137,12 @@ export const ItemListContainer = () => {
         setTimeout(() => {
           setPageLoading(false);
           setProgressComplete(true);
-          if (progressComplete) {
+          if (progressComplete === true) {
             setProgress(100);
           }
         }, 250);
       } catch (err) {
         console.error(err);
-        setPageLoading(false);
       }
     };
 
@@ -151,14 +151,7 @@ export const ItemListContainer = () => {
     return () => {
       clearTimeout(timer); // Clear the timeout if the component unmounts
     };
-  }, [
-    categoryName,
-    setProgress,
-    setPageLoading,
-    setVisible,
-    setProgressComplete,
-    progressComplete,
-  ]);
+  }, [categoryName]);
 
   const [detailsFilters, setDetailsFilters] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -200,9 +193,9 @@ export const ItemListContainer = () => {
         {pageLoading ? (
           <LoaderWrapper>
             {windowWidth > 600 ? (
-              <Ring size={40} lineWeight={7} speed={2} color="black" />
+              <Ring size={40} lineWeight={7} speed={1} color="black" />
             ) : (
-              <Ring size={35} lineWeight={6} speed={2} color="black" />
+              <Ring size={35} lineWeight={6} speed={1} color="black" />
             )}
           </LoaderWrapper>
         ) : (

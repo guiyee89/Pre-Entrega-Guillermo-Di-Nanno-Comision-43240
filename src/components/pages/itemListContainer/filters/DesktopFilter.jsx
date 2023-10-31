@@ -250,14 +250,14 @@ export const DesktopFilter = ({
         <ResetAllBtn
           onClick={() => {
             //Reset General Filters
-              setDetailsFilters((prevFilters) => ({
-                ...prevFilters,
-                category: "",
-                size: "",
-                color: "",
-                orderBy: "",
-              }));
-              localStorage.removeItem("selectedFilters");
+            setDetailsFilters((prevFilters) => ({
+              ...prevFilters,
+              category: "",
+              size: "",
+              color: "",
+              orderBy: "",
+            }));
+            localStorage.removeItem("selectedFilters");
             handleResetFilters();
           }}
         >
@@ -300,11 +300,11 @@ export const DesktopFilter = ({
                   <OrderByBtn
                     active={detailsFilters.orderBy === ""}
                     onClick={() => {
-                        setDetailsFilters((prevFilters) => ({
-                          ...prevFilters,
-                          orderBy: "",
-                        }));
-                        localStorage.removeItem("selectedFilters");
+                      setDetailsFilters((prevFilters) => ({
+                        ...prevFilters,
+                        orderBy: "",
+                      }));
+                      localStorage.removeItem("selectedFilters");
                       handleResetFilters();
                     }}
                   >
@@ -367,11 +367,11 @@ export const DesktopFilter = ({
           <ClearFilterBtn
             onClick={() => {
               //Reset section filters
-                setDetailsFilters((prevFilters) => ({
-                  ...prevFilters,
-                  category: "",
-                }));
-                localStorage.removeItem("selectedFilters");
+              setDetailsFilters((prevFilters) => ({
+                ...prevFilters,
+                category: "",
+              }));
+              localStorage.removeItem("selectedFilters");
               handleResetFilters();
             }}
           >
@@ -389,9 +389,11 @@ export const DesktopFilter = ({
                 control={
                   <Checkbox
                     sx={{
-                      color: "#202932",
+                      color: "#949495;",
+                      width: "2.2rem;",
                       "&.Mui-checked": {
                         color: "black",
+                        width: "2.2rem",
                       },
                     }}
                     checked={detailsFilters.category.includes(category)}
@@ -408,7 +410,15 @@ export const DesktopFilter = ({
                     }
                   />
                 }
-                label={category}
+                label={
+                  <Typography
+                    sx={{
+                      fontSize: "0.88rem",
+                    }}
+                  >
+                    {category}
+                  </Typography>
+                }
               />
             ))}
           </AccordionDetails>
@@ -440,13 +450,14 @@ export const DesktopFilter = ({
             </Typography>
           </AccordionSummary>
           <ClearFilterBtn
+            style={{marginLeft:"23px"}}
             onClick={() => {
-                setDetailsFilters((prevFilters) => ({
-                  //Reset section filters
-                  ...prevFilters,
-                  size: "",
-                }));
-                localStorage.removeItem("selectedFilters");            
+              setDetailsFilters((prevFilters) => ({
+                //Reset section filters
+                ...prevFilters,
+                size: "",
+              }));
+              localStorage.removeItem("selectedFilters");
               handleResetFilters();
             }}
           >
@@ -484,7 +495,7 @@ export const DesktopFilter = ({
                           sx={{
                             fontWeight:
                               detailsFilters.size.includes(size) && "bold",
-                            fontSize: "0.9rem",
+                            fontSize: "0.88rem",
                           }}
                         >
                           {size}
@@ -576,7 +587,7 @@ export const DesktopFilter = ({
                       label={
                         <Typography
                           sx={{
-                            fontSize: "0.83rem", // Add the desired font size
+                            fontSize: "0.65rem",
                             paddingTop: "3px",
                           }}
                         >
@@ -653,6 +664,7 @@ const FilterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 68%;
+  width: 95%;
   align-items: center;
   overflow-x: hidden;
   overflow-y: auto;
@@ -687,8 +699,8 @@ const styles = {
   `,
 };
 const selectStyle = {
-  m: 1,
-  height: 35,
+  m: 1.1,
+  height: 25,
   width: 100,
 };
 const OrderByWrapper = styled.div`
@@ -699,26 +711,26 @@ const OrderByBtn = styled.button`
   text-align: inherit;
   border-radius: 3%;
   margin-bottom: 5px;
-  padding: 4px;
-  color:${(props) =>
-    props.active ? "#fefefe" : "black"};
+  padding: ${(props) => (props.active ? "5px" : "4px")};
+  padding-left: 10px;
+  text-transform: lowercase;
+  color: ${(props) => (props.active ? "#000000" : "black")};
   font-size: 0.85rem;
   background-color: ${(props) =>
-    props.active ? "rgb(104 109 115)" : "rgb(244 244 244 / 30%);"};
+    props.active ? "rgb(189 189 189)" : "rgb(244 244 244 / 30%);"};
   border: ${(props) =>
-    props.active ? "1px solid #857a7a" : "1px solid #d3d3d38c;"};
-  font-weight: ${(props) => (props.active ? "600" : "normal")};
+    props.active ? "1px solid #857a7a" : "1px solid #8f8f8f89;"};
+  font-weight: ${(props) => (props.active ? "500" : "normal")};
   text-align: ${(props) => (props.active ? "center" : "normal")};
-  &:hover{
-    background-color: ${(props) =>
-    props.active ? "#434141" : "lightgrey"};
+  &:hover {
+    background-color: ${(props) => (props.active ? "#979797" : "lightgrey")};
   }
 `;
 const ColorCheckbox = styled.input`
   appearance: none;
   outline: none;
   cursor: pointer;
-  margin-left: 1px;
+  margin-left: ${({ checked }) => (checked ? "-8px" : "0")};
   border-radius: 50%;
   width: ${({ checked }) => (checked ? "38px" : "24px")};
   height: ${({ checked }) => (checked ? "38px" : "24px")};
@@ -745,17 +757,18 @@ const SizeCheckboxLabel = styled.label`
   }
 `;
 const SizeCheckboxInput = styled.input`
-  width: 46px;
-  height: 32px;
-  border-radius: 13%;
+  width: 51px;
+  height: 30px;
+  border-radius: 10%;
   background-color: transparent;
-  border: 2px solid rgb(191 194 198);
+  border: 1px solid rgb(191, 194, 198);
   appearance: none;
   outline: none;
   position: absolute;
   cursor: pointer;
   &:checked {
-    border-width: 0.125rem;
+    border-width: 0.115rem;
     border-color: black;
+    color: black;
   }
 `;

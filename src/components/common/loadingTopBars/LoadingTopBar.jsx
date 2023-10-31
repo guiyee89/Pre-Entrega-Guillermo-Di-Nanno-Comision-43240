@@ -3,6 +3,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { useContext, useEffect, useRef } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import styled from "styled-components/macro";
+import { Troubleshoot } from "@mui/icons-material";
 
 export const LoadingTopBar = () => {
   const {
@@ -37,7 +38,7 @@ export const LoadingTopBar = () => {
         // const diff2 = Math.random() * 15;
         let newProgress; // Ensure progress doesn't exceed 100
 
-        if (pageLoading) {
+        if (pageLoading === true) {
           // Cap the progress at 90 when loading is true
           newProgress = Math.min(progress + diff, 85);
         } else {
