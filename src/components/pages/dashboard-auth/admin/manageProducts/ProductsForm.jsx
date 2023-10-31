@@ -19,13 +19,6 @@ export const ProductsForm = ({
   const [isInput3Enabled, setInput3Enabled] = useState(false); // Imagen 3
   const [isInput4Enabled, setInput4Enabled] = useState(false); // Imagen 4
   const [isInput5Enabled, setInput5Enabled] = useState(false); // Imagen 5
-  const [isInputEnabled, setInputEnabled] = useState([
-    true,
-    false,
-    false,
-    false,
-    false,
-  ]);
 
   console.log(file);
 
@@ -92,19 +85,18 @@ export const ProductsForm = ({
     setFile(newFilesList);
     setIsLoading(false);
   };
-
   const handleCancelImage = (inputNumber) => {
     // Create a copy of the current file array
     const updatedFiles = [...file];
-
+  
     // Clear the selected file at the specified inputNumber - 1 (array index is 0-based)
     if (inputNumber >= 1 && inputNumber <= updatedFiles.length) {
       updatedFiles.splice(inputNumber - 1, 1);
     }
-
+  
     // Set the updated files array
     setFile(updatedFiles);
-
+  
     // Clear the file input values
     for (let i = inputNumber; i <= 5; i++) {
       const fileInput = document.querySelector(`#fileInput${i}`);
@@ -112,13 +104,18 @@ export const ProductsForm = ({
         fileInput.value = ""; // Reset the input value
       }
     }
-
-    // Disable subsequent inputs based on the inputNumber
-    for (let i = inputNumber + 1; i <= 5; i++) {
-      const setEnabledFunction = `setInput${i}Enabled`;
-      if (i in window) {
-        window[setEnabledFunction](false);
-      }
+  
+    // Enable the next input field
+    if (inputNumber === 1) {
+      setInput1Enabled(true);
+    } else if (inputNumber === 2) {
+      setInput2Enabled(true);
+    } else if (inputNumber === 3) {
+      setInput3Enabled(true);
+    } else if (inputNumber === 4) {
+      setInput4Enabled(true);
+    } else if (inputNumber === 5) {
+      setInput5Enabled(true);
     }
   };
 
@@ -126,16 +123,18 @@ export const ProductsForm = ({
     if (file.length <= 0) {
       setInput2Enabled(false);
     }
-    if (file.length <= 1) {
+    if (file.length === 1) {
       setInput3Enabled(false);
     }
-    if (file.length <= 2) {
+    if (file.length === 2) {
       setInput4Enabled(false);
     }
-    if (file.length <= 3) {
+    if (file.length === 3) {
       setInput5Enabled(false);
     }
-  }, [file]);
+  }, [file, handleCancelImage]);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -369,6 +368,7 @@ export const ProductsForm = ({
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
                     setInput2Enabled(true); // Enable the second input
+                    setInput1Enabled(false);
                   }}
                   disabled={!isInput1Enabled}
                   sx={{
@@ -380,7 +380,7 @@ export const ProductsForm = ({
                   }}
                 />
                 {file.length === 1 && (
-                  <CloseIcon onClick={() => handleCancelImage(1)} />
+                  <CloseIcon sx={{cursor:"pointer"}} onClick={() => handleCancelImage(1)} />
                 )}
               </ImageDiv>
 
@@ -400,6 +400,7 @@ export const ProductsForm = ({
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
                     setInput3Enabled(true); // Enable the second input
+                    setInput2Enabled(false)
                   }}
                   disabled={!isInput2Enabled}
                   // helperText={errors.img}
@@ -413,7 +414,7 @@ export const ProductsForm = ({
                   }}
                 />
                 {file.length === 2 && (
-                  <CloseIcon onClick={() => handleCancelImage(2)} />
+                  <CloseIcon sx={{cursor:"pointer"}} onClick={() => handleCancelImage(2)} />
                 )}
               </ImageDiv>
 
@@ -430,6 +431,7 @@ export const ProductsForm = ({
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
                     setInput4Enabled(true); // Enable the second input
+                    setInput3Enabled(false)
                   }}
                   disabled={!isInput3Enabled}
                   // helperText={errors.img}
@@ -443,7 +445,7 @@ export const ProductsForm = ({
                   }}
                 />
                 {file.length === 3 && (
-                  <CloseIcon onClick={() => handleCancelImage(3)} />
+                  <CloseIcon sx={{cursor:"pointer"}} onClick={() => handleCancelImage(3)} />
                 )}
               </ImageDiv>
 
@@ -460,6 +462,7 @@ export const ProductsForm = ({
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
                     setInput5Enabled(true); // Enable the second input
+                    setInput4Enabled(false)
                   }}
                   disabled={!isInput4Enabled}
                   // helperText={errors.img}
@@ -473,7 +476,7 @@ export const ProductsForm = ({
                   }}
                 />
                 {file.length === 4 && (
-                  <CloseIcon onClick={() => handleCancelImage(4)} />
+                  <CloseIcon sx={{cursor:"pointer"}} onClick={() => handleCancelImage(4)} />
                 )}
               </ImageDiv>
 
@@ -489,6 +492,7 @@ export const ProductsForm = ({
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
+                    setInput5Enabled(false);
                   }}
                   disabled={!isInput5Enabled}
                   // helperText={errors.img}

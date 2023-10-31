@@ -3,7 +3,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { useContext, useEffect, useRef } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import styled from "styled-components/macro";
-import { Troubleshoot } from "@mui/icons-material";
+
 
 export const LoadingTopBar = () => {
   const {
@@ -13,7 +13,7 @@ export const LoadingTopBar = () => {
     setBuffer,
     visible,
     setVisible,
-    pageLoading
+    pageLoading,
   } = useContext(GlobalToolsContext);
 
   const progressRef = useRef(() => {});
@@ -22,7 +22,6 @@ export const LoadingTopBar = () => {
 
   ///////////////////////////////////////////////////////////////////
   useEffect(() => {
-
     progressRef.current = () => {
       if (progress >= 100) {
         clearInterval(timer);
@@ -51,7 +50,6 @@ export const LoadingTopBar = () => {
     };
   }, [progress, setProgress, visible /* setBuffer */]);
 
-
   useEffect(() => {
     const timer = setInterval(() => {
       //Set a time progress of the bar
@@ -62,14 +60,11 @@ export const LoadingTopBar = () => {
     };
   }, []);
 
-
   useEffect(() => {
     if (pageLoading === false) {
       setProgress(100);
     }
   }, [pageLoading]);
-
-  
 
   //////////////////////////////////////////////////////////////////////
   return (

@@ -73,7 +73,7 @@ export const ItemImageMobile = ({
     <>
       {imgSkeletonLoader === true ? (
         <LoaderContainer>
-          <ClipLoader color="#194f44" size={35} />
+          <ClipLoader color="#8f501a" size={35} />
         </LoaderContainer>
       ) : (
         <Wrapper imgSkeleton="false">
@@ -87,7 +87,7 @@ export const ItemImageMobile = ({
                 <CarouselItem key={index}>
                   {filterColorLoading === true && imgSkeletonLoader === true ? (
                     <LoaderContainer>
-                      <ClipLoader color="#194f44" size={35} />
+                      <ClipLoader color="#8f501a" size={25} />
                     </LoaderContainer>
                   ) : (
                     <MainImg
