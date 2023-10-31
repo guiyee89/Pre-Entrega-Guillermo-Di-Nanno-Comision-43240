@@ -1,5 +1,6 @@
 import { Button, TextField } from "@mui/material";
-import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import { db, uploadFile } from "../../../../../firebaseConfig";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
@@ -13,6 +14,20 @@ export const ProductsForm = ({
   const [addProduct, setAddProduct] = useState(false);
   const [file, setFile] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInput1Enabled, setInput1Enabled] = useState(true); // Imagen Principal
+  const [isInput2Enabled, setInput2Enabled] = useState(false); // Imagen 2
+  const [isInput3Enabled, setInput3Enabled] = useState(false); // Imagen 3
+  const [isInput4Enabled, setInput4Enabled] = useState(false); // Imagen 4
+  const [isInput5Enabled, setInput5Enabled] = useState(false); // Imagen 5
+  const [isInputEnabled, setInputEnabled] = useState([
+    true,
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  console.log(file);
 
   const [newProduct, setNewProduct] = useState({
     userId: "",
@@ -37,67 +52,18 @@ export const ProductsForm = ({
       setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
     }
   };
-  ///////*****         HANDLE IMAGE        ******///////
-  // const handleImage = async () => {
-  //   setIsLoading(true);
-  //   // Create a set to store the names or unique identifiers of uploaded files
-  //   const uploadedFileNames = new Set(newProduct.img);
-  //   console.log(uploadedFileNames);
-  //   // Filter out files that are not already uploaded
-  //   const newFiles = file.filter(
-  //     (selectedFile) => !uploadedFileNames.has(selectedFile.name)
-  //   );
-  //   console.log(newFiles);
-  //   const imageUrlPromises = newFiles.map(async (selectedFile) => {
-  //     // Initialize an array to store image URLs
-  //     const imageUrl = await uploadFile(selectedFile);
-  //     return imageUrl;
-  //   });
-
-  //   // Wait for all the uploads to complete
-  //   const newImageUrls = await Promise.all(imageUrlPromises);
-  //   // Combine the new image URLs with the previously uploaded images
-  //   const updatedImageUrls = [...newProduct.img, ...newImageUrls];
-  //   console.log(updatedImageUrls);
-
-  //   if (selectedItem) {
-  //     setSelectedItem({ ...selectedItem, img: updatedImageUrls });
-  //   } else {
-  //     setNewProduct((prevProduct) => ({
-  //       ...prevProduct,
-  //       img: updatedImageUrls,
-  //     }));
-  //   }
-
-  //   // Clear the files that have been successfully uploaded
-  //   const newFilesList = file.filter((selectedFile) =>
-  //     uploadedFileNames.has(selectedFile.name)
-  //   );
-  //   setFile(newFilesList);
-  //   setIsLoading(false);
-  // };
-
+  /////*****         HANDLE IMAGE        ******///////
   const handleImage = async () => {
     setIsLoading(true);
 
-    if (file.length === 0) {
-      // No files selected, so no need to update
-      return;
-    }
-
     // Create a set to store the names or unique identifiers of uploaded files
     const uploadedFileNames = new Set(newProduct.img);
+    console.log(uploadedFileNames);
     // Filter out files that are not already uploaded
     const newFiles = file.filter(
       (selectedFile) => !uploadedFileNames.has(selectedFile.name)
     );
-
-    if (newFiles.length === 0) {
-      // No new files to upload, just clear the input and return
-      setFile([]);
-      return;
-    }
-
+    console.log(newFiles);
     const imageUrlPromises = newFiles.map(async (selectedFile) => {
       // Initialize an array to store image URLs
       const imageUrl = await uploadFile(selectedFile);
@@ -108,14 +74,11 @@ export const ProductsForm = ({
     const newImageUrls = await Promise.all(imageUrlPromises);
     // Combine the new image URLs with the previously uploaded images
     const updatedImageUrls = [...newProduct.img, ...newImageUrls];
+    console.log(updatedImageUrls);
 
     if (selectedItem) {
-      // If editing, maintain the original order and replace only at the specific index
-      selectedItem.img = selectedItem.img || [];
-      selectedItem.img.splice(0, newFiles.length, ...newImageUrls);
-      setSelectedItem({ ...selectedItem });
+      setSelectedItem({ ...selectedItem, img: updatedImageUrls });
     } else {
-      // If creating a new item, set the updated image URLs
       setNewProduct((prevProduct) => ({
         ...prevProduct,
         img: updatedImageUrls,
@@ -129,6 +92,50 @@ export const ProductsForm = ({
     setFile(newFilesList);
     setIsLoading(false);
   };
+
+  const handleCancelImage = (inputNumber) => {
+    // Create a copy of the current file array
+    const updatedFiles = [...file];
+
+    // Clear the selected file at the specified inputNumber - 1 (array index is 0-based)
+    if (inputNumber >= 1 && inputNumber <= updatedFiles.length) {
+      updatedFiles.splice(inputNumber - 1, 1);
+    }
+
+    // Set the updated files array
+    setFile(updatedFiles);
+
+    // Clear the file input values
+    for (let i = inputNumber; i <= 5; i++) {
+      const fileInput = document.querySelector(`#fileInput${i}`);
+      if (fileInput) {
+        fileInput.value = ""; // Reset the input value
+      }
+    }
+
+    // Disable subsequent inputs based on the inputNumber
+    for (let i = inputNumber + 1; i <= 5; i++) {
+      const setEnabledFunction = `setInput${i}Enabled`;
+      if (i in window) {
+        window[setEnabledFunction](false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (file.length <= 0) {
+      setInput2Enabled(false);
+    }
+    if (file.length <= 1) {
+      setInput3Enabled(false);
+    }
+    if (file.length <= 2) {
+      setInput4Enabled(false);
+    }
+    if (file.length <= 3) {
+      setInput5Enabled(false);
+    }
+  }, [file]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -193,8 +200,6 @@ export const ProductsForm = ({
     }
     setIsChanged();
   };
-
-  console.log(newProduct);
 
   //YUP VALIDATION
   //que no se valide mientras escribo, sino al hacer submit
@@ -357,34 +362,59 @@ export const ProductsForm = ({
                   style={{ margin: "5px 0 20px" }}
                   name="img"
                   type="file"
+                  id="fileInput1"
                   defaultValue={selectedItem?.img[""]}
                   multiple
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
+                    setInput2Enabled(true); // Enable the second input
                   }}
-                  // helperText={errors.img}
-                  // error={errors.img ? true : false}
-                  sx={{ marginBottom: "18px" }}
+                  disabled={!isInput1Enabled}
+                  sx={{
+                    marginBottom: "18px",
+                    display:
+                      (isInput1Enabled || file.length > 0) && !selectedItem
+                        ? "block"
+                        : "none",
+                  }}
                 />
+                {file.length === 1 && (
+                  <CloseIcon onClick={() => handleCancelImage(1)} />
+                )}
               </ImageDiv>
 
               <h2>Imagen 2 (Opcional)</h2>
               <ImageDiv>
                 <input
-                  style={{ margin: "5px 0 20px" }}
+                  style={{
+                    margin: "5px 0 20px",
+                    // display: isInput2Enabled ? "block" : "none",
+                  }}
                   type="file"
+                  id="fileInput2"
                   name="img"
                   multiple
                   defaultValue={selectedItem?.img[""]}
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
+                    setInput3Enabled(true); // Enable the second input
                   }}
+                  disabled={!isInput2Enabled}
                   // helperText={errors.img}
                   // error={errors.img ? true : false}
-                  sx={{ marginBottom: "8px" }}
+                  sx={{
+                    marginBottom: "18px",
+                    display:
+                      (isInput2Enabled || file.length > 0) && !selectedItem
+                        ? "block"
+                        : "none",
+                  }}
                 />
+                {file.length === 2 && (
+                  <CloseIcon onClick={() => handleCancelImage(2)} />
+                )}
               </ImageDiv>
 
               <h2>Imagen 3 (Opcional)</h2>
@@ -393,16 +423,28 @@ export const ProductsForm = ({
                   style={{ margin: "5px 0 20px" }}
                   type="file"
                   name="img"
+                  id="fileInput3"
                   multiple
                   defaultValue={selectedItem?.img[""]}
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
+                    setInput4Enabled(true); // Enable the second input
                   }}
+                  disabled={!isInput3Enabled}
                   // helperText={errors.img}
                   // error={errors.img ? true : false}
-                  sx={{ marginBottom: "8px" }}
+                  sx={{
+                    marginBottom: "18px",
+                    display:
+                      (isInput3Enabled || file.length > 0) && !selectedItem
+                        ? "block"
+                        : "none",
+                  }}
                 />
+                {file.length === 3 && (
+                  <CloseIcon onClick={() => handleCancelImage(3)} />
+                )}
               </ImageDiv>
 
               <h2>Imagen 4 (Opcional)</h2>
@@ -411,16 +453,28 @@ export const ProductsForm = ({
                   style={{ margin: "5px 0 20px" }}
                   type="file"
                   name="img"
+                  id="fileInput4"
                   multiple
                   defaultValue={selectedItem?.img[""]}
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
+                    setInput5Enabled(true); // Enable the second input
                   }}
+                  disabled={!isInput4Enabled}
                   // helperText={errors.img}
                   // error={errors.img ? true : false}
-                  sx={{ marginBottom: "8px" }}
+                  sx={{
+                    marginBottom: "18px",
+                    display:
+                      (isInput4Enabled || file.length > 0) && !selectedItem
+                        ? "block"
+                        : "none",
+                  }}
                 />
+                {file.length === 4 && (
+                  <CloseIcon onClick={() => handleCancelImage(4)} />
+                )}
               </ImageDiv>
 
               <h2>Imagen 5 (Opcional)</h2>
@@ -429,19 +483,34 @@ export const ProductsForm = ({
                   style={{ margin: "5px 0 20px" }}
                   type="file"
                   name="img"
+                  id="fileInput5"
                   multiple
                   defaultValue={selectedItem?.img[""]}
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
                   }}
+                  disabled={!isInput5Enabled}
                   // helperText={errors.img}
                   // error={errors.img ? true : false}
-                  sx={{ marginBottom: "8px" }}
+                  sx={{
+                    marginBottom: "18px",
+                    display:
+                      (isInput5Enabled || file.length > 0) && !selectedItem
+                        ? "block"
+                        : "none",
+                  }}
                 />
+                {file.length === 5 && (
+                  <CloseIcon onClick={() => handleCancelImage(5)} />
+                )}
               </ImageDiv>
             </Div>
-            {file && (
+            {isLoading ? (
+              <LoadImgBtn variant="outlined" sx={{ margin: "20px auto" }}>
+                Uploading Images...
+              </LoadImgBtn>
+            ) : file.length > 0 ? (
               <LoadImgBtn
                 variant="outlined"
                 sx={{ margin: "20px auto" }}
@@ -449,14 +518,13 @@ export const ProductsForm = ({
               >
                 Cargar Imagenes
               </LoadImgBtn>
-            )}
-            {file && !isLoading && (
+            ) : (
               <SubmitBtn
                 type="submit"
                 variant="contained"
                 sx={{ margin: "20px auto" }}
               >
-                {selectedItem ? "Modificar" : "Crear Producto"}
+                {selectedItem ? "Confirmar cambios" : "Crear Producto"}
               </SubmitBtn>
             )}
           </Form>

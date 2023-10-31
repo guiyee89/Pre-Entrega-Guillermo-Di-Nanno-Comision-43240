@@ -69,7 +69,7 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem, loadingColorFilte
           <React.Fragment key={`img-aside-${index}`}>
             {loadedImages <= index && loadingColorFilter === true  ? (
               <LoaderContainer key={`loader-container-${index}`}>
-                <ClipLoader color="#112b26" size={22} />
+                <ClipLoader color="#112b26" size={20} />
               </LoaderContainer>
             ) : (
               <ImgAside
