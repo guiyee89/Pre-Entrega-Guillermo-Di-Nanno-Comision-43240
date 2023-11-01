@@ -9,8 +9,10 @@ import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import CloseIcon from "@mui/icons-material/Close";
 import { menuRoutes } from "../../routes/menuRoutes";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
-import Person2Icon from "@mui/icons-material/Person2";
 import { AuthContext } from "../../context/AuthContext";
+import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+
 
 export const NavMobile = () => {
   const navigate = useNavigate();
@@ -76,7 +78,7 @@ export const NavMobile = () => {
           {!isCart && !isCheckout && !isDashboard && (
             <MenuIcon
               onClick={toggleSideMenu}
-              sx={{ fontSize: "40px", marginLeft: "24px", marginTop: "8px" }}
+              sx={{ fontSize: "37px", marginLeft: "24px", marginTop: "8px" }}
             />
           )}
           <TransparentDiv
@@ -152,18 +154,39 @@ export const NavMobile = () => {
                 </NavLink>
               </NavList>
 
-              {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
-                <Dashboard
-                  sx={{ fontSize: "30px" }}
-                  onClick={() => navigate("/dashboard")}
-                />
-              ) : null}
-              {user.rol === "user" && (
-                <PersonIcon
-                  sx={{ fontSize: "30px" }}
-                  onClick={() => navigate("/user-orders")}
-                />
-              )}
+              {user.rol === rolAdmin ||
+                  user.rol === rolAdmin2 ||
+                  user.rol === "user" ? null : (
+                    <LoginBtn>
+                      <h4>Login / Sign up</h4>
+                      <LoginOutlinedIcon
+                        sx={{ fontSize: "26px" }}
+                        onClick={() => navigate("/login")}
+                      />
+                    </LoginBtn>
+                  )}
+                  {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
+                    <>
+                      <DashboardBtn>
+                        <h4>Admin</h4>
+                        <DashboardCustomizeIcon
+                          sx={{ fontSize: "27px", marginBottom: "-12px" }}
+                          onClick={() => navigate("/dashboard")}
+                        />
+                      </DashboardBtn>
+                    </>
+                  ) : null}
+                  {user.rol === "user" && (
+                    <>
+                      <ProfileBtn>
+                        <h4>Profile</h4>
+                        <AccountCircleSharpIcon
+                          sx={{ fontSize: "30px", marginBottom: "-13px" }}
+                          onClick={() => navigate("/user-orders")}
+                        />
+                      </ProfileBtn>
+                    </>
+                  )}
             </NavListWrapper>
           </SideMenuWrapper>
           <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
@@ -327,12 +350,23 @@ const NavLink = styled(Link)`
     transition: transform 0.21s ease-in-out;
   }
 `;
-const Dashboard = styled(DashboardCustomizeIcon)`
-  position: absolute;
-  bottom: 250px;
-  left: 17px;
+
+const DashboardBtn = styled.button`
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  font-size: 0.6rem;
 `;
-const PersonIcon = styled(Person2Icon)`
+const ProfileBtn = styled.button`
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  font-size: 0.6rem;
+`;
+const LoginBtn = styled.button`
+  background-color: transparent;
+  border: none;
+  font-size: 0.6rem;
+  cursor: pointer;
+  margin-bottom: -6px;
 `;

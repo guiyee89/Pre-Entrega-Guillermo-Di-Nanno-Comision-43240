@@ -3,10 +3,13 @@ import { db } from "../../../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { AuthContext } from "../../../context/AuthContext";
 import styled from "styled-components/macro";
+import ExitToAppSharpIcon from "@mui/icons-material/ExitToAppSharp";
+import { useNavigate } from "react-router-dom";
 
 export const UserOrders = () => {
   const [myOrders, setMyOrders] = useState([]);
-  const { user } = useContext(AuthContext);
+  const { user, handleLogout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ordersCollection = collection(db, "orders");
@@ -30,6 +33,13 @@ export const UserOrders = () => {
 
   return (
     <>
+      <LogoutBtn>
+        <h4>Logout</h4>
+        <ExitToAppSharpIcon
+          sx={{ fontSize: "30px" }}
+          onClick={() => handleLogout(navigate("/"))}
+        />
+      </LogoutBtn>
       <OrdersWrapper>
         <Title>Ordenes de compra</Title>
         <h2>Welcome user {user.email}</h2>
@@ -52,5 +62,15 @@ export const UserOrders = () => {
     </>
   );
 };
-const OrdersWrapper = styled.div``;
+const OrdersWrapper = styled.div`
+  margin-top: 50px;
+`;
 const Title = styled.h1``;
+const LogoutBtn = styled.button`
+  background-color: transparent;
+  border: none;
+  font-size: 0.65rem;
+  width: 100%;
+  text-align: right;
+  margin: -50px 160px 0 0px;
+`;
