@@ -1,5 +1,6 @@
 import { Badge } from "@mui/material";
-import { BsFillCartFill } from "react-icons/bs";
+// import { BsFillCartFill } from "react-icons/bs";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import styled from "styled-components/macro";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import { useContext } from "react";
@@ -21,7 +22,8 @@ export const CartWidget = ({ scrolled, totalItems }) => {
           }}
         >
           <CartWrapper scrolled={scrolled}>
-            <BsFillCartFill color="black" size={"28px"} />
+            <ShoppingBagOutlinedIcon fontSize="medium" />
+            {/* <BsFillCartFill color="black" size={"28px"} /> */}
           </CartWrapper>
         </Contador>
       </CartWidgetWrapper>
@@ -30,16 +32,17 @@ export const CartWidget = ({ scrolled, totalItems }) => {
 };
 const CartWidgetWrapper = styled.div`
   cursor: pointer;
+  margin-bottom: -12px;
 `;
 const Contador = styled(Badge)`
   padding-left: 8px;
   margin: 0 24px 0 0;
   z-index: 0;
   .css-16rm5dn-MuiBadge-badge {
-    font-size: 0.75rem; 
-    height: 25px;
+    font-size: 0.75rem;
+    height: 21.2px;
     border-radius: 50%;
-    min-width: 25px;
+    min-width: 22px;
     @media screen and (max-width: 50rem) {
       border-radius: 50%;
     }

@@ -88,15 +88,15 @@ export const ProductsForm = ({
   const handleCancelImage = (inputNumber) => {
     // Create a copy of the current file array
     const updatedFiles = [...file];
-  
+
     // Clear the selected file at the specified inputNumber - 1 (array index is 0-based)
     if (inputNumber >= 1 && inputNumber <= updatedFiles.length) {
       updatedFiles.splice(inputNumber - 1, 1);
     }
-  
+
     // Set the updated files array
     setFile(updatedFiles);
-  
+
     // Clear the file input values
     for (let i = inputNumber; i <= 5; i++) {
       const fileInput = document.querySelector(`#fileInput${i}`);
@@ -104,7 +104,7 @@ export const ProductsForm = ({
         fileInput.value = ""; // Reset the input value
       }
     }
-  
+
     // Enable the next input field
     if (inputNumber === 1) {
       setInput1Enabled(true);
@@ -133,8 +133,6 @@ export const ProductsForm = ({
       setInput5Enabled(false);
     }
   }, [file, handleCancelImage]);
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -380,7 +378,10 @@ export const ProductsForm = ({
                   }}
                 />
                 {file.length === 1 && (
-                  <CloseIcon sx={{cursor:"pointer"}} onClick={() => handleCancelImage(1)} />
+                  <CloseIcon
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => handleCancelImage(1)}
+                  />
                 )}
               </ImageDiv>
 
@@ -400,7 +401,7 @@ export const ProductsForm = ({
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
                     setInput3Enabled(true); // Enable the second input
-                    setInput2Enabled(false)
+                    setInput2Enabled(false);
                   }}
                   disabled={!isInput2Enabled}
                   // helperText={errors.img}
@@ -414,7 +415,10 @@ export const ProductsForm = ({
                   }}
                 />
                 {file.length === 2 && (
-                  <CloseIcon sx={{cursor:"pointer"}} onClick={() => handleCancelImage(2)} />
+                  <CloseIcon
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => handleCancelImage(2)}
+                  />
                 )}
               </ImageDiv>
 
@@ -431,7 +435,7 @@ export const ProductsForm = ({
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
                     setInput4Enabled(true); // Enable the second input
-                    setInput3Enabled(false)
+                    setInput3Enabled(false);
                   }}
                   disabled={!isInput3Enabled}
                   // helperText={errors.img}
@@ -445,7 +449,10 @@ export const ProductsForm = ({
                   }}
                 />
                 {file.length === 3 && (
-                  <CloseIcon sx={{cursor:"pointer"}} onClick={() => handleCancelImage(3)} />
+                  <CloseIcon
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => handleCancelImage(3)}
+                  />
                 )}
               </ImageDiv>
 
@@ -462,7 +469,7 @@ export const ProductsForm = ({
                     const selectedFiles = Array.from(e.target.files);
                     setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
                     setInput5Enabled(true); // Enable the second input
-                    setInput4Enabled(false)
+                    setInput4Enabled(false);
                   }}
                   disabled={!isInput4Enabled}
                   // helperText={errors.img}
@@ -476,7 +483,10 @@ export const ProductsForm = ({
                   }}
                 />
                 {file.length === 4 && (
-                  <CloseIcon sx={{cursor:"pointer"}} onClick={() => handleCancelImage(4)} />
+                  <CloseIcon
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => handleCancelImage(4)}
+                  />
                 )}
               </ImageDiv>
 
@@ -539,12 +549,13 @@ export const ProductsForm = ({
 };
 
 const FormWrapper = styled.div`
-  width: 500px;
+  width: 100%;
   max-height: 600px;
   overflow-y: auto;
+  padding: 20px 12px;
 `;
 const Form = styled.form`
-  width: 90%;
+  width: 95%;
   display: flex;
   flex-direction: column;
 `;

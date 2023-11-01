@@ -6,8 +6,9 @@ import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 import { menuRoutes } from "../../routes/menuRoutes";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
-import Person2Icon from "@mui/icons-material/Person2";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import { AuthContext } from "../../context/AuthContext";
+import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
 
 export const NavDesktop = () => {
   const navigate = useNavigate();
@@ -54,18 +55,22 @@ export const NavDesktop = () => {
   const isCart = currentRoute?.id === "cart";
   const isCheckout = currentRoute?.id === "Checkout";
   const isDashboard = currentRoute?.id === "dashboard";
-  
+
   return (
     <>
       <HeaderWrapper>
         <Nav scrolled={scroll}>
-          <InsideNav isCart={isCart} isCheckout={isCheckout} isDashboard={isDashboard}>
+          <InsideNav
+            isCart={isCart}
+            isCheckout={isCheckout}
+            isDashboard={isDashboard}
+          >
             <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
               <LogoLink to="/">
                 <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
               </LogoLink>
             </LogoDiv>
-            
+
             {!isCart && !isCheckout && !isDashboard && (
               <>
                 <NavListWrapper>
@@ -131,17 +136,38 @@ export const NavDesktop = () => {
                     sx={{ padding: "10px" }}
                     totalItems={totalItems}
                   />
+                  {user.rol === rolAdmin ||
+                  user.rol === rolAdmin2 ||
+                  user.rol === "user" ? null : (
+                    <LoginBtn>
+                      <h4>Login / Sign up</h4>
+                      <LoginOutlinedIcon
+                        sx={{ fontSize: "26px" }}
+                        onClick={() => navigate("/login")}
+                      />
+                    </LoginBtn>
+                  )}
                   {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
-                    <Dashboard
-                      sx={{ fontSize: "30px" }}
-                      onClick={() => navigate("/dashboard")}
-                    />
+                    <>
+                      <DashboardBtn>
+                        <h4>Admin</h4>
+                        <DashboardCustomizeIcon
+                          sx={{ fontSize: "27px", marginBottom: "-12px" }}
+                          onClick={() => navigate("/dashboard")}
+                        />
+                      </DashboardBtn>
+                    </>
                   ) : null}
                   {user.rol === "user" && (
-                    <PersonIcon
-                      sx={{ fontSize: "30px" }}
-                      onClick={() => navigate("/user-orders")}
-                    />
+                    <>
+                      <ProfileBtn>
+                        <h4>Profile</h4>
+                        <AccountCircleSharpIcon
+                          sx={{ fontSize: "30px", marginBottom: "-13px" }}
+                          onClick={() => navigate("/user-orders")}
+                        />
+                      </ProfileBtn>
+                    </>
                   )}
                 </DashCartContainer>
               </>
@@ -183,7 +209,8 @@ const InsideNav = styled.div`
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: justify;
-  justify-content: ${({ isCart, isCheckout, isDashboard }) => (isCart || isCheckout || isDashboard ? "center" : "space-between")};
+  justify-content: ${({ isCart, isCheckout, isDashboard }) =>
+    isCart || isCheckout || isDashboard ? "center" : "space-between"};
   @media screen and (max-width: 50rem) {
     padding: 0;
     justify-content: flex-end;
@@ -223,7 +250,7 @@ const NavList = styled.li`
 const NavLink = styled(Link)`
   color: black;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   position: relative;
   font-size: ${(props) =>
@@ -264,9 +291,22 @@ const DashCartContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-const Dashboard = styled(DashboardCustomizeIcon)`
+const DashboardBtn = styled.button`
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  font-size: 0.6rem;
 `;
-const PersonIcon = styled(Person2Icon)`
+const ProfileBtn = styled.button`
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  font-size: 0.6rem;
+`;
+const LoginBtn = styled.button`
+  background-color: transparent;
+  border: none;
+  font-size: 0.6rem;
+  cursor: pointer;
+  margin-bottom: -6px;
 `;
