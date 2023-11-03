@@ -4,11 +4,14 @@ import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 import { useContext } from "react";
 import { ClipLoader } from "react-spinners";
 
-export const ItemImageDesktop = ({ filteredItem, selectedItem, loadingColorFilter }) => {
+export const ItemImageDesktop = ({
+  filteredItem,
+  selectedItem,
+  loadingColorFilter,
+}) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
-  const { progress, setProgress, setVisible } =
-    useContext(GlobalToolsContext);
+  const { progress, setProgress, setVisible } = useContext(GlobalToolsContext);
   const [loadedImages, setLoadedImages] = useState(0);
 
   useEffect(() => {
@@ -18,12 +21,15 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem, loadingColorFilte
     }
   }, [selectedItem]);
 
+  
   useEffect(() => {
     if (filteredItem && Object.keys(filteredItem).length > 0) {
       setImagesToRender(filteredItem.img.slice(0, 5));
       setSelectedImage({ image: selectedItem.img[0], index: 0 });
     }
   }, [filteredItem]);
+
+  
 
   const handleImageClick = (image, index) => {
     setSelectedImage({ image, index });
@@ -49,7 +55,6 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem, loadingColorFilte
     }
   }, [imagesToRender]);
 
-
   useEffect(() => {
     if (loadedImages === imagesToRender.length) {
       // All images are loaded
@@ -58,16 +63,14 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem, loadingColorFilte
         setVisible(false);
       }
     }
-  }, [loadedImages, setVisible, imagesToRender.length ]);
-  
-
+  }, [loadedImages, setVisible, imagesToRender.length]);
 
   return (
     <Wrapper>
       <ImgAsideWrapper>
         {imagesToRender.map((image, index) => (
           <React.Fragment key={`img-aside-${index}`}>
-            {loadedImages <= index && loadingColorFilter === true  ? (
+            {loadedImages <= index && loadingColorFilter === true ? (
               <LoaderContainer key={`loader-container-${index}`}>
                 <ClipLoader color="#8f501a" size={17} />
               </LoaderContainer>
@@ -103,6 +106,7 @@ export const ItemImageDesktop = ({ filteredItem, selectedItem, loadingColorFilte
       </MainImgWrapper>
     </Wrapper>
   );
+  
 };
 
 const Wrapper = styled.div`
@@ -126,7 +130,9 @@ const ImgAside = styled.img`
       ? "rgba(0, 0, 0, 0.55) 0px 0px 3.5px"
       : "rgba(0, 0, 0, 0.65) 0px 0px 3px"};
   border: ${({ isSelected }) => (isSelected ? "1px solid black" : "none")};
-  width: ${({ isSelected }) => (isSelected ? "81%" : "75%")};
+  width: ${({ isSelected }) => (isSelected ? "63%" : "60%")};
+  height: ${({ isSelected }) => (isSelected ? "15%" : "14%")};
+  object-fit: cover;
 `;
 const LoaderContainer = styled.div`
   width: 81%;

@@ -1,9 +1,10 @@
 import { Button, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import { db, uploadFile } from "../../../../../firebaseConfig";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { GlobalToolsContext } from "../../../../context/GlobalToolsContext";
 
 export const ProductsForm = ({
   selectedItem,
@@ -11,16 +12,20 @@ export const ProductsForm = ({
   handleClose,
   setIsChanged,
 }) => {
+  const { windowWidth } = useContext(GlobalToolsContext);
   const [addProduct, setAddProduct] = useState(false);
-  const [file, setFile] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInput1Enabled, setInput1Enabled] = useState(true); // Imagen Principal
-  const [isInput2Enabled, setInput2Enabled] = useState(false); // Imagen 2
-  const [isInput3Enabled, setInput3Enabled] = useState(false); // Imagen 3
-  const [isInput4Enabled, setInput4Enabled] = useState(false); // Imagen 4
-  const [isInput5Enabled, setInput5Enabled] = useState(false); // Imagen 5
-
+  const [file, setFile] = useState({
+    1: {},
+    2: {},
+    3: {},
+    4: {},
+    5: {},
+  });
+  const [allSelectedFiles, setAllSelectedFiles] = useState([]);
   console.log(file);
+  console.log(allSelectedFiles);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [newProduct, setNewProduct] = useState({
     userId: "",
@@ -33,9 +38,18 @@ export const ProductsForm = ({
     size: "",
     description: "",
     category: "",
-    img: "",
+    img: [],
     secondUnit: "",
   });
+
+  const [existingImages, setExistingImages] = useState([]);
+
+  useEffect(() => {
+    if (selectedItem) {
+      // Set existing images for rendering
+      setExistingImages(selectedItem.img);
+    }
+  }, [selectedItem]);
 
   ///////*****         HANDLE CHANGE        ******///////
   const handleChange = (e) => {
@@ -45,94 +59,92 @@ export const ProductsForm = ({
       setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
     }
   };
+
   /////*****         HANDLE IMAGE        ******///////
   const handleImage = async () => {
     setIsLoading(true);
-
-    // Create a set to store the names or unique identifiers of uploaded files
     const uploadedFileNames = new Set(newProduct.img);
-    console.log(uploadedFileNames);
-    // Filter out files that are not already uploaded
-    const newFiles = file.filter(
-      (selectedFile) => !uploadedFileNames.has(selectedFile.name)
-    );
-    console.log(newFiles);
-    const imageUrlPromises = newFiles.map(async (selectedFile) => {
-      // Initialize an array to store image URLs
-      const imageUrl = await uploadFile(selectedFile);
-      return imageUrl;
-    });
+    const updatedFiles = { ...file };
+    const newImageUrls = [];
 
-    // Wait for all the uploads to complete
-    const newImageUrls = await Promise.all(imageUrlPromises);
-    // Combine the new image URLs with the previously uploaded images
-    const updatedImageUrls = [...newProduct.img, ...newImageUrls];
-    console.log(updatedImageUrls);
+    try {
+      for (let inputNumber in updatedFiles) {
+        if (updatedFiles[inputNumber].length > 0) {
+          const selectedFiles = updatedFiles[inputNumber];
+          const imageUrlPromises = selectedFiles.map(async (selectedFile) => {
+            const imageUrl = await uploadFile(selectedFile);
+            return imageUrl;
+          });
+          const newUrls = await Promise.all(imageUrlPromises);
+          newImageUrls.push(...newUrls);
+          updatedFiles[inputNumber] = [];
+        }
+      }
+      const updatedImageUrls = [...newProduct.img, ...newImageUrls];
 
-    if (selectedItem) {
-      setSelectedItem({ ...selectedItem, img: updatedImageUrls });
-    } else {
-      setNewProduct((prevProduct) => ({
-        ...prevProduct,
-        img: updatedImageUrls,
-      }));
+      if (selectedItem) {
+        setSelectedItem({ ...selectedItem, img: updatedImageUrls });
+      } else {
+        setNewProduct((prevProduct) => ({
+          ...prevProduct,
+          img: updatedImageUrls,
+        }));
+      }
+    } finally {
+      setAllSelectedFiles([]); // Clear the selected files after the image upload
+      setIsLoading(false);
     }
-
-    // Clear the files that have been successfully uploaded
-    const newFilesList = file.filter((selectedFile) =>
-      uploadedFileNames.has(selectedFile.name)
-    );
-    setFile(newFilesList);
-    setIsLoading(false);
   };
+
+  const handleFileInputChange = (inputNumber, selectedFiles) => {
+    // Create a copy of the current file object
+    const updatedFiles = { ...file };
+
+    // Assign the selected files to the specified inputNumber (e.g., 1, 2, etc.)
+    updatedFiles[inputNumber] = selectedFiles;
+
+    // Combine all the selected files into one array
+    const allSelectedFiles = Object.keys(updatedFiles).reduce((acc, key) => {
+      if (Array.isArray(updatedFiles[key])) {
+        return [...acc, ...updatedFiles[key]];
+      } else {
+        return acc;
+      }
+    }, []);
+
+    // Set the updated files object and the combined files array
+    setFile(updatedFiles);
+    setAllSelectedFiles(allSelectedFiles);
+  };
+
   const handleCancelImage = (inputNumber) => {
-    // Create a copy of the current file array
-    const updatedFiles = [...file];
+    // Create a copy of the current file object
+    const updatedFiles = { ...file };
 
-    // Clear the selected file at the specified inputNumber - 1 (array index is 0-based)
-    if (inputNumber >= 1 && inputNumber <= updatedFiles.length) {
-      updatedFiles.splice(inputNumber - 1, 1);
-    }
+    // Clear the selected file at the specified inputNumber
+    updatedFiles[inputNumber] = [];
 
-    // Set the updated files array
+    // Set the updated files object
     setFile(updatedFiles);
 
-    // Clear the file input values
-    for (let i = inputNumber; i <= 5; i++) {
-      const fileInput = document.querySelector(`#fileInput${i}`);
-      if (fileInput) {
-        fileInput.value = ""; // Reset the input value
+    // Combine all the selected files into one array
+    const allSelectedFiles = Object.keys(updatedFiles).reduce((acc, key) => {
+      if (Array.isArray(updatedFiles[key])) {
+        return [...acc, ...updatedFiles[key]];
+      } else {
+        return acc;
       }
-    }
+    }, []);
 
-    // Enable the next input field
-    if (inputNumber === 1) {
-      setInput1Enabled(true);
-    } else if (inputNumber === 2) {
-      setInput2Enabled(true);
-    } else if (inputNumber === 3) {
-      setInput3Enabled(true);
-    } else if (inputNumber === 4) {
-      setInput4Enabled(true);
-    } else if (inputNumber === 5) {
-      setInput5Enabled(true);
+    // Set the combined files array
+    setAllSelectedFiles(allSelectedFiles);
+
+    // Clear the file input value
+    const fileInput = document.querySelector(`#fileInput${inputNumber}`);
+    if (fileInput) {
+      fileInput.value = ""; // Reset the input value
     }
   };
-
-  useEffect(() => {
-    if (file.length <= 0) {
-      setInput2Enabled(false);
-    }
-    if (file.length === 1) {
-      setInput3Enabled(false);
-    }
-    if (file.length === 2) {
-      setInput4Enabled(false);
-    }
-    if (file.length === 3) {
-      setInput5Enabled(false);
-    }
-  }, [file, handleCancelImage]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -352,179 +364,167 @@ export const ProductsForm = ({
                 sx={{ marginBottom: "18px" }}
               />
             </Div>
-            <Div>
-              <h2>Imagen Principal</h2>
+            <AllImagesDiv>
               <ImageDiv>
-                <input
-                  style={{ margin: "5px 0 20px" }}
-                  name="img"
-                  type="file"
-                  id="fileInput1"
-                  defaultValue={selectedItem?.img[""]}
-                  multiple
-                  onChange={(e) => {
-                    const selectedFiles = Array.from(e.target.files);
-                    setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
-                    setInput2Enabled(true); // Enable the second input
-                    setInput1Enabled(false);
-                  }}
-                  disabled={!isInput1Enabled}
-                  sx={{
-                    marginBottom: "18px",
-                    display:
-                      (isInput1Enabled || file.length > 0) && !selectedItem
-                        ? "block"
-                        : "none",
-                  }}
-                />
-                {file.length === 1 && (
-                  <CloseIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => handleCancelImage(1)}
+                {existingImages.map((image, index) => (
+                  <div key={index}>
+                    <p style={{ textAlign: "center", marginLeft: "35px" }}>
+                      {index + 1}
+                    </p>{" "}
+                    {/* Display the number 1, 2, 3, ... */}
+                    <img
+                      src={image}
+                      alt={`Existing Image ${index}`}
+                      style={{
+                        width: "100px",
+                        height: "auto",
+                        marginLeft: "35px",
+                        border: "1px solid black",
+                        marginBottom: "30px",
+                      }}
+                    />
+                  </div>
+                ))}
+              </ImageDiv>
+              <Div>
+                <h2>Imagen Principal</h2>
+                <ImageDiv>
+                  <input
+                    style={{ margin: "5px 0 20px" }}
+                    name="img"
+                    type="file"
+                    id="fileInput1"
+                    multiple
+                    disabled={file[1].length > 0}
+                    onChange={(e) => {
+                      const selectedFiles = Array.from(e.target.files);
+                      handleFileInputChange(1, selectedFiles);
+                    }}
+                    sx={{
+                      marginBottom: "18px",
+                    }}
                   />
-                )}
-              </ImageDiv>
+                  {file[1].length > 0 && (
+                    <CloseIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => handleCancelImage(1)}
+                    />
+                  )}
+                </ImageDiv>
 
-              <h2>Imagen 2 (Opcional)</h2>
-              <ImageDiv>
-                <input
-                  style={{
-                    margin: "5px 0 20px",
-                    // display: isInput2Enabled ? "block" : "none",
-                  }}
-                  type="file"
-                  id="fileInput2"
-                  name="img"
-                  multiple
-                  defaultValue={selectedItem?.img[""]}
-                  onChange={(e) => {
-                    const selectedFiles = Array.from(e.target.files);
-                    setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
-                    setInput3Enabled(true); // Enable the second input
-                    setInput2Enabled(false);
-                  }}
-                  disabled={!isInput2Enabled}
-                  // helperText={errors.img}
-                  // error={errors.img ? true : false}
-                  sx={{
-                    marginBottom: "18px",
-                    display:
-                      (isInput2Enabled || file.length > 0) && !selectedItem
-                        ? "block"
-                        : "none",
-                  }}
-                />
-                {file.length === 2 && (
-                  <CloseIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => handleCancelImage(2)}
+                <h2>2 (Opcional)</h2>
+                <ImageDiv>
+                  <input
+                    style={{
+                      margin: "5px 0 20px",
+                    }}
+                    type="file"
+                    id="fileInput2"
+                    name="img"
+                    multiple
+                    disabled={file[2].length > 0}
+                    onChange={(e) => {
+                      const selectedFiles = Array.from(e.target.files);
+                      handleFileInputChange(2, selectedFiles);
+                    }}
+                    // helperText={errors.img}
+                    // error={errors.img ? true : false}
+                    sx={{
+                      marginBottom: "18px",
+                    }}
                   />
-                )}
-              </ImageDiv>
+                  {file[2].length > 0 && (
+                    <CloseIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => handleCancelImage(2)}
+                    />
+                  )}
+                </ImageDiv>
 
-              <h2>Imagen 3 (Opcional)</h2>
-              <ImageDiv>
-                <input
-                  style={{ margin: "5px 0 20px" }}
-                  type="file"
-                  name="img"
-                  id="fileInput3"
-                  multiple
-                  defaultValue={selectedItem?.img[""]}
-                  onChange={(e) => {
-                    const selectedFiles = Array.from(e.target.files);
-                    setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
-                    setInput4Enabled(true); // Enable the second input
-                    setInput3Enabled(false);
-                  }}
-                  disabled={!isInput3Enabled}
-                  // helperText={errors.img}
-                  // error={errors.img ? true : false}
-                  sx={{
-                    marginBottom: "18px",
-                    display:
-                      (isInput3Enabled || file.length > 0) && !selectedItem
-                        ? "block"
-                        : "none",
-                  }}
-                />
-                {file.length === 3 && (
-                  <CloseIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => handleCancelImage(3)}
+                <h2>3 (Opcional)</h2>
+                <ImageDiv>
+                  <input
+                    style={{ margin: "5px 0 20px" }}
+                    type="file"
+                    name="img"
+                    id="fileInput3"
+                    multiple
+                    disabled={file[3].length > 0}
+                    onChange={(e) => {
+                      const selectedFiles = Array.from(e.target.files);
+                      handleFileInputChange(3, selectedFiles);
+                    }}
+                    // helperText={errors.img}
+                    // error={errors.img ? true : false}
+                    sx={{
+                      marginBottom: "18px",
+                    }}
                   />
-                )}
-              </ImageDiv>
-
-              <h2>Imagen 4 (Opcional)</h2>
-              <ImageDiv>
-                <input
-                  style={{ margin: "5px 0 20px" }}
-                  type="file"
-                  name="img"
-                  id="fileInput4"
-                  multiple
-                  defaultValue={selectedItem?.img[""]}
-                  onChange={(e) => {
-                    const selectedFiles = Array.from(e.target.files);
-                    setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
-                    setInput5Enabled(true); // Enable the second input
-                    setInput4Enabled(false);
-                  }}
-                  disabled={!isInput4Enabled}
-                  // helperText={errors.img}
-                  // error={errors.img ? true : false}
-                  sx={{
-                    marginBottom: "18px",
-                    display:
-                      (isInput4Enabled || file.length > 0) && !selectedItem
-                        ? "block"
-                        : "none",
-                  }}
-                />
-                {file.length === 4 && (
-                  <CloseIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => handleCancelImage(4)}
+                  {file[3].length > 0 && (
+                    <CloseIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => handleCancelImage(3)}
+                    />
+                  )}
+                </ImageDiv>
+              </Div>
+              <Div style={{ marginLeft: windowWidth < 600 ? "0px" : "20px" }}>
+                <h2>4 (Opcional)</h2>
+                <ImageDiv>
+                  <input
+                    style={{ margin: "5px 0 20px" }}
+                    type="file"
+                    name="img"
+                    id="fileInput4"
+                    multiple
+                    disabled={file[4].length > 0}
+                    onChange={(e) => {
+                      const selectedFiles = Array.from(e.target.files);
+                      handleFileInputChange(4, selectedFiles);
+                    }}
+                    // helperText={errors.img}
+                    // error={errors.img ? true : false}
+                    sx={{
+                      marginBottom: "18px",
+                    }}
                   />
-                )}
-              </ImageDiv>
-
-              <h2>Imagen 5 (Opcional)</h2>
-              <ImageDiv>
-                <input
-                  style={{ margin: "5px 0 20px" }}
-                  type="file"
-                  name="img"
-                  id="fileInput5"
-                  multiple
-                  defaultValue={selectedItem?.img[""]}
-                  onChange={(e) => {
-                    const selectedFiles = Array.from(e.target.files);
-                    setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
-                    setInput5Enabled(false);
-                  }}
-                  disabled={!isInput5Enabled}
-                  // helperText={errors.img}
-                  // error={errors.img ? true : false}
-                  sx={{
-                    marginBottom: "18px",
-                    display:
-                      (isInput5Enabled || file.length > 0) && !selectedItem
-                        ? "block"
-                        : "none",
-                  }}
-                />
-                {file.length === 5 && (
-                  <CloseIcon onClick={() => handleCancelImage(5)} />
-                )}
-              </ImageDiv>
-            </Div>
+                  {file[4].length > 0 && (
+                    <CloseIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => handleCancelImage(4)}
+                    />
+                  )}
+                </ImageDiv>
+                <h2>5 (Opcional)</h2>
+                <ImageDiv>
+                  <input
+                    style={{ margin: "5px 0 20px" }}
+                    type="file"
+                    name="img"
+                    id="fileInput5"
+                    multiple
+                    disabled={file[5].length > 0}
+                    onChange={(e) => {
+                      const selectedFiles = Array.from(e.target.files);
+                      handleFileInputChange(5, selectedFiles);
+                    }}
+                    // helperText={errors.img}
+                    // error={errors.img ? true : false}
+                    sx={{
+                      marginBottom: "18px",
+                    }}
+                  />
+                  {file[5].length > 0 && (
+                    <CloseIcon onClick={() => handleCancelImage(5)} />
+                  )}
+                </ImageDiv>
+              </Div>
+            </AllImagesDiv>
             {isLoading ? (
               <LoadImgBtn variant="outlined" sx={{ margin: "20px auto" }}>
                 Uploading Images...
               </LoadImgBtn>
-            ) : file.length > 0 ? (
+            ) : allSelectedFiles.length > 0 ? (
               <LoadImgBtn
                 variant="outlined"
                 sx={{ margin: "20px auto" }}
@@ -581,4 +581,8 @@ const Div = styled.div`
 `;
 const ImageDiv = styled.div`
   display: flex;
+`;
+const AllImagesDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 `;

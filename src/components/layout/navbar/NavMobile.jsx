@@ -13,7 +13,6 @@ import { AuthContext } from "../../context/AuthContext";
 import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 
-
 export const NavMobile = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -76,10 +75,7 @@ export const NavMobile = () => {
           isDashboard={isDashboard}
         >
           {!isCart && !isCheckout && !isDashboard && (
-            <MenuIcon
-              onClick={toggleSideMenu}
-              sx={{ fontSize: "37px", marginLeft: "24px", marginTop: "8px" }}
-            />
+            <MenuIconBtn scrolled={scroll} sx={{fontSize:"26px"}} onClick={toggleSideMenu} />
           )}
           <TransparentDiv
             isMenuOpen={isMenuOpen}
@@ -95,7 +91,7 @@ export const NavMobile = () => {
               <CloseIcon
                 onClick={toggleSideMenu}
                 sx={{
-                  fontSize: "35px",
+                  fontSize: "28px",
                   marginTop: "15px",
                   marginLeft: "36px",
                   cursor: "pointer",
@@ -155,38 +151,38 @@ export const NavMobile = () => {
               </NavList>
 
               {user.rol === rolAdmin ||
-                  user.rol === rolAdmin2 ||
-                  user.rol === "user" ? null : (
-                    <LoginBtn>
-                      <h4>Login / Sign up</h4>
-                      <LoginOutlinedIcon
-                        sx={{ fontSize: "26px" }}
-                        onClick={() => navigate("/login")}
-                      />
-                    </LoginBtn>
-                  )}
-                  {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
-                    <>
-                      <DashboardBtn>
-                        <h4>Admin</h4>
-                        <DashboardCustomizeIcon
-                          sx={{ fontSize: "27px", marginBottom: "-12px" }}
-                          onClick={() => navigate("/dashboard")}
-                        />
-                      </DashboardBtn>
-                    </>
-                  ) : null}
-                  {user.rol === "user" && (
-                    <>
-                      <ProfileBtn>
-                        <h4>Profile</h4>
-                        <AccountCircleSharpIcon
-                          sx={{ fontSize: "30px", marginBottom: "-13px" }}
-                          onClick={() => navigate("/user-orders")}
-                        />
-                      </ProfileBtn>
-                    </>
-                  )}
+              user.rol === rolAdmin2 ||
+              user.rol === "user" ? null : (
+                <LoginBtn>
+                  <h4>Login / Sign up</h4>
+                  <LoginOutlinedIcon
+                    sx={{ fontSize: "26px" }}
+                    onClick={() => navigate("/login")}
+                  />
+                </LoginBtn>
+              )}
+              {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
+                <>
+                  <DashboardBtn>
+                    <h4>Admin</h4>
+                    <DashboardCustomizeIcon
+                      sx={{ fontSize: "27px", marginBottom: "-12px" }}
+                      onClick={() => navigate("/dashboard")}
+                    />
+                  </DashboardBtn>
+                </>
+              ) : null}
+              {user.rol === "user" && (
+                <>
+                  <ProfileBtn>
+                    <h4>Profile</h4>
+                    <AccountCircleSharpIcon
+                      sx={{ fontSize: "30px", marginBottom: "-13px" }}
+                      onClick={() => navigate("/user-orders")}
+                    />
+                  </ProfileBtn>
+                </>
+              )}
             </NavListWrapper>
           </SideMenuWrapper>
           <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
@@ -233,6 +229,11 @@ const SideMenuWrapper = styled.div`
   @media screen and (min-width: 500px) {
     width: ${({ isMenuOpen }) => (isMenuOpen ? "0" : "60%")};
   }
+`;
+const MenuIconBtn = styled(MenuIcon)`
+  margin-left: 24px;
+  margin-right: -5px;
+  margin-top: ${(props) => (props.scrolled === "scrolled" ? "20px" : "24px")};
 `;
 const SideMenuHeader = styled.div`
   display: flex;

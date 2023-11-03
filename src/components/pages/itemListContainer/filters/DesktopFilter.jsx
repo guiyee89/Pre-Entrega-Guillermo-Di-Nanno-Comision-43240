@@ -730,7 +730,7 @@ const ColorCheckbox = styled.input`
   appearance: none;
   outline: none;
   cursor: pointer;
-  margin-left: ${({ checked }) => (checked ? "-8px" : "0")};
+  margin-left: ${({ checked }) => (checked ? "-5px" : "0")};
   border-radius: 50%;
   width: ${({ checked }) => (checked ? "38px" : "24px")};
   height: ${({ checked }) => (checked ? "38px" : "24px")};
