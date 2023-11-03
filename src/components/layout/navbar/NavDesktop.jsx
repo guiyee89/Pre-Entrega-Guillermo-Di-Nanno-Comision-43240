@@ -149,10 +149,10 @@ export const NavDesktop = () => {
                   )}
                   {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
                     <>
-                      <DashboardBtn>
+                      <DashboardBtn scrolled={scroll}>
                         <h4>Admin</h4>
                         <DashboardCustomizeIcon
-                          sx={{ fontSize: "27px", marginBottom: "-12px" }}
+                          sx={{ fontSize: "27px" }}
                           onClick={() => navigate("/dashboard")}
                         />
                       </DashboardBtn>
@@ -296,6 +296,7 @@ const DashboardBtn = styled.button`
   border: none;
   cursor: pointer;
   font-size: 0.6rem;
+  margin-bottom: ${(props) => (props.scrolled === "scrolled" ? "4px" : "-6px")};
 `;
 const ProfileBtn = styled.button`
   background-color: transparent;

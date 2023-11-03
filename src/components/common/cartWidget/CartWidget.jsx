@@ -41,6 +41,7 @@ const Contador = styled(Badge)`
   .css-16rm5dn-MuiBadge-badge {
     font-size: 0.75rem;
     height: 21.2px;
+    bottom: 4px;
     border-radius: 50%;
     min-width: 22px;
     @media screen and (max-width: 50rem) {
@@ -52,6 +53,7 @@ const CartWrapper = styled.div`
   width: ${(props) => (props.scrolled === "scrolled" ? "22px" : "32px")};
   transition: width ${(props) => (props.scrolled ? "0.25s" : "0.06s")}
     ease-in-out;
+  margin-top: ${(props) => (props.scrolled === "scrolled" ? "-8px" : "3px")};
   @media screen and (max-width: 50rem) {
     width: 22px;
   }
