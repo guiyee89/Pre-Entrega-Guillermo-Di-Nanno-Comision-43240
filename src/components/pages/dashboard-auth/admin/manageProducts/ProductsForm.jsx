@@ -364,28 +364,28 @@ export const ProductsForm = ({
                 sx={{ marginBottom: "18px" }}
               />
             </Div>
+            <ImageDiv>
+              {existingImages.map((image, index) => (
+                <div key={index}>
+                  <p style={{ textAlign: "center", marginLeft: "35px" }}>
+                    {index + 1}
+                  </p>{" "}
+                  {/* Display the number 1, 2, 3, ... */}
+                  <img
+                    src={image}
+                    alt={`Existing Image ${index}`}
+                    style={{
+                      width: "100px",
+                      height: "auto",
+                      marginLeft: "35px",
+                      border: "1px solid black",
+                      marginBottom: "30px",
+                    }}
+                  />
+                </div>
+              ))}
+            </ImageDiv>
             <AllImagesDiv>
-              <ImageDiv>
-                {existingImages.map((image, index) => (
-                  <div key={index}>
-                    <p style={{ textAlign: "center", marginLeft: "35px" }}>
-                      {index + 1}
-                    </p>{" "}
-                    {/* Display the number 1, 2, 3, ... */}
-                    <img
-                      src={image}
-                      alt={`Existing Image ${index}`}
-                      style={{
-                        width: "100px",
-                        height: "auto",
-                        marginLeft: "35px",
-                        border: "1px solid black",
-                        marginBottom: "30px",
-                      }}
-                    />
-                  </div>
-                ))}
-              </ImageDiv>
               <Div>
                 <h2>Imagen Principal</h2>
                 <ImageDiv>
