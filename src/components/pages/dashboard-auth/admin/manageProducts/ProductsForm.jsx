@@ -367,17 +367,16 @@ export const ProductsForm = ({
             <ImageDiv>
               {existingImages.map((image, index) => (
                 <div key={index}>
-                  <p style={{ textAlign: "center", marginLeft: "35px" }}>
+                  <p style={{ textAlign: "center",  marginLeft: windowWidth < 600 ? "0px" : "35px" }}>
                     {index + 1}
                   </p>{" "}
-                  {/* Display the number 1, 2, 3, ... */}
                   <img
                     src={image}
                     alt={`Existing Image ${index}`}
                     style={{
                       width: "100px",
                       height: "auto",
-                      marginLeft: "35px",
+                      marginLeft: windowWidth < 600 ? "0px" : "35px",
                       border: "1px solid black",
                       marginBottom: "30px",
                     }}
