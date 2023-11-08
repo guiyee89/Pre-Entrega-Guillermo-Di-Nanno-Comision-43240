@@ -3,7 +3,7 @@ import { BsEyeFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { Pagination, PaginationItem } from "@mui/material";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link , useParams } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useContext } from "react";
@@ -189,7 +189,7 @@ export const ItemList = ({
                   <ItemPriceWrapper hasDiscount={hasDiscount}>
                     {hasDiscount && (
                       <DiscountPrice>
-                        $ {product.discountPrice.toFixed(2)}
+                        $ {product.discountPrice}
                       </DiscountPrice>
                     )}
                     <Price hasDiscount={hasDiscount}>

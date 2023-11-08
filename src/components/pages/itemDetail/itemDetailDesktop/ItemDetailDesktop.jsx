@@ -100,8 +100,8 @@ export const ItemDetailDesktop = ({ selectedItem, loadingColorFilter, setLoading
                   <Price>
                     ${" "}
                     {Object.keys(filteredItem).length > 0
-                      ? filteredItem.discountPrice.toFixed(2)
-                      : selectedItem.discountPrice.toFixed(2)}
+                      ? filteredItem.discountPrice
+                      : selectedItem.discountPrice}
                   </Price>{" "}
                   <DiscountPrice hasDiscount={hasDiscount}>
                     ${" "}
