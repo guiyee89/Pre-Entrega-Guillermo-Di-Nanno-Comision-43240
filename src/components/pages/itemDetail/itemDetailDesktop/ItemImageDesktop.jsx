@@ -65,10 +65,13 @@ export const ItemImageDesktop = ({
     }
   }, [loadedImages, setVisible, imagesToRender.length]);
 
+  const filteredImagesToRender = imagesToRender.filter((image) => image !== null);
+
+
   return (
     <Wrapper>
       <ImgAsideWrapper>
-        {imagesToRender.map((image, index) => (
+        {filteredImagesToRender.map((image, index) => (
           <React.Fragment key={`img-aside-${index}`}>
             {loadedImages <= index && loadingColorFilter === true ? (
               <LoaderContainer key={`loader-container-${index}`}>

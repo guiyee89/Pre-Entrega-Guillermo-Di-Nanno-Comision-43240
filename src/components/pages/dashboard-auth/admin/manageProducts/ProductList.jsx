@@ -45,9 +45,9 @@ export const ProductList = ({ products, setIsChanged, foundProduct }) => {
     setOpen(true);
   };
 
-  const editProduct = (id) => {
-    console.log(id);
-  };
+  // const editProduct = (id) => {
+  //   console.log(id);
+  // };
 
   const deleteProduct = async (id) => {
     await deleteDoc(doc(db, "products", id));
