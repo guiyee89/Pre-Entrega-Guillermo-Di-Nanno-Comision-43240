@@ -7,14 +7,16 @@ import { ItemImageDesktop } from "./ItemImageDesktop";
 import { Ring } from "@uiball/loaders";
 import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 
-export const ItemDetailDesktop = ({ selectedItem, loadingColorFilter, setLoadingColorFilter }) => {
-
+export const ItemDetailDesktop = ({
+  selectedItem,
+  loadingColorFilter,
+  setLoadingColorFilter,
+}) => {
   const [filteredItem, setFilteredItem] = useState({}); //Filtered Item from FilterDetail component
   const { addToCart } = useContext(CartContext);
   const hasDiscount = "discount" in selectedItem;
   const { setProgress, setVisible } = useContext(GlobalToolsContext);
-  const [loadingSizeFilter, setLoadingSizeFilter] = useState(false);//Activate size loader
-
+  const [loadingSizeFilter, setLoadingSizeFilter] = useState(false); //Activate size loader
 
   //On add to cart if selectedItem or filteredItem
   const onAddToCart = (quantity) => {
@@ -33,9 +35,8 @@ export const ItemDetailDesktop = ({ selectedItem, loadingColorFilter, setLoading
     setFilteredItem({});
   };
 
-  
-   //Handle filtering size & color
-   const handleFilterItemChange = (item) => {
+  //Handle filtering size & color
+  const handleFilterItemChange = (item) => {
     if (item === undefined) {
       setFilteredItem(selectedItem);
     } else {
@@ -45,20 +46,19 @@ export const ItemDetailDesktop = ({ selectedItem, loadingColorFilter, setLoading
 
   ///Loader for Size filters change
   const handleSizeLoading = () => {
-    setLoadingColorFilter(false)//Disable loaders for images on size filtering
+    setLoadingColorFilter(false); //Disable loaders for images on size filtering
     setLoadingSizeFilter(true);
     setTimeout(() => {
       setLoadingSizeFilter(false);
     }, 900);
   };
 
-  //Loaders for Color change 
+  //Loaders for Color change
   const handleColorLoading = () => {
-    setLoadingColorFilter(true)
+    setLoadingColorFilter(true);
     setVisible(true);
     setProgress(0);
   };
-
 
   //Render item details based on the existence of selectedItem or filteredItem
   return (
@@ -68,10 +68,12 @@ export const ItemDetailDesktop = ({ selectedItem, loadingColorFilter, setLoading
           <ItemImageDesktop
             filteredItem={filteredItem}
             selectedItem={selectedItem}
-            loadingColorFilter={loadingColorFilter}//Enable loaders for images on color filter
+            loadingColorFilter={loadingColorFilter} //Enable loaders for images on color filter
           />
 
-          {hasDiscount && <Discount>-{selectedItem.discount}%</Discount>}
+          {hasDiscount && selectedItem.discount !== null && (
+            <Discount>-{selectedItem.discount}%</Discount>
+          )}
           <InsideWrapper>
             <Title>
               {Object.keys(filteredItem).length > 0
@@ -95,7 +97,7 @@ export const ItemDetailDesktop = ({ selectedItem, loadingColorFilter, setLoading
             </FilterWrapper>
 
             <StockPriceWrapper>
-              {hasDiscount ? (
+              {hasDiscount && selectedItem.discount !== null ? (
                 <ItemPriceWrapper>
                   <Price>
                     ${" "}

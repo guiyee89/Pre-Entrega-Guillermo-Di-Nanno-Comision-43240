@@ -69,6 +69,22 @@ export const ItemImageMobile = ({
     }
   }, [imagesToRender, setProgress, setVisible]);
 
+  const filteredImagesToRender = imagesToRender.filter(
+    (image) => image !== null
+  );
+
+  useEffect(() => {
+    if (filteredImagesToRender.length > 0) {
+      trackImageLoadingProgress();
+    } else {
+      setProgress(100);
+      setImgSkeletonLoader(false); // Set loader to false when there are no images to render
+    }
+    if (imgSkeletonLoader === false) {
+      setVisible(false);
+    }
+  }, [filteredImagesToRender, setProgress, setVisible, imgSkeletonLoader]);
+
   return (
     <>
       {imgSkeletonLoader === true ? (
@@ -83,7 +99,7 @@ export const ItemImageMobile = ({
               activeIndex={selectedImage.index}
               onSelect={handleImageSwitch}
             >
-              {imagesToRender.map((image, index) => (
+              {filteredImagesToRender.map((image, index) => (
                 <CarouselItem key={index}>
                   {filterColorLoading === true && imgSkeletonLoader === true ? (
                     <LoaderContainer>
