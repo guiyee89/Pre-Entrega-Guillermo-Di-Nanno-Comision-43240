@@ -51,6 +51,8 @@ export const ItemDetailContainer = () => {
       .catch((err) => console.log(err));
   }, [id]);
 
+  console.log(selectedItem)
+
   return (
     <>
       <ToastContainer

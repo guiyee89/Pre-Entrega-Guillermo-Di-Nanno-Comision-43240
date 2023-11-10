@@ -3,7 +3,7 @@ import { BsEyeFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { Pagination, PaginationItem } from "@mui/material";
-import { Link , useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useContext } from "react";
@@ -174,7 +174,9 @@ export const ItemList = ({
                     <ItemImg src={product.img[0]} alt={product.title} />
                   )}
                 </ImgWrapperLink>
-                {hasDiscount && <Discount>-{product.discount}%</Discount>}
+                {hasDiscount && product.discount !== null && (
+                  <Discount>-{product.discount}%</Discount>
+                )}
 
                 <ButtonsWrapper>
                   <BtnSeeDetails>
@@ -185,12 +187,10 @@ export const ItemList = ({
               <InfoWrapper>
                 <ItemTitle>{product.title}</ItemTitle>
                 <ItemSubTitle>{product.subtitle}</ItemSubTitle>
-                {hasDiscount ? (
+                {hasDiscount && product.discount !== null ? (
                   <ItemPriceWrapper hasDiscount={hasDiscount}>
                     {hasDiscount && (
-                      <DiscountPrice>
-                        $ {product.discountPrice}
-                      </DiscountPrice>
+                      <DiscountPrice>$ {product.discountPrice.toFixed(2)}</DiscountPrice>
                     )}
                     <Price hasDiscount={hasDiscount}>
                       $ {product.unit_price.toFixed(2)}

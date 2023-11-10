@@ -67,7 +67,9 @@ export const ItemDetailMobile = ({ selectedItem }) => {
       {/* Check if either selectedItem or filteredItem exists */}
       {selectedItem?.id || Object.keys(filteredItem).length > 0 ? (
         <>
-          {hasDiscount && <Discount>-{selectedItem.discount}%</Discount>}
+          {hasDiscount && selectedItem.discount !== null && (
+            <Discount>-{selectedItem.discount}%</Discount>
+          )}
 
           <Title>
             {Object.keys(filteredItem).length > 0
@@ -98,7 +100,7 @@ export const ItemDetailMobile = ({ selectedItem }) => {
             </FilterWrapper>
 
             <StockPriceWrapper>
-              {hasDiscount ? (
+              {hasDiscount && selectedItem.discount !== null ? (
                 <ItemPriceWrapper>
                   <Price>
                     ${" "}
@@ -109,16 +111,16 @@ export const ItemDetailMobile = ({ selectedItem }) => {
                   <DiscountPrice hasDiscount={hasDiscount}>
                     ${" "}
                     {Object.keys(filteredItem).length > 0
-                      ? filteredItem.unit_price
-                      : selectedItem.unit_price}
+                      ? filteredItem.unit_price.toFixed(2)
+                      : selectedItem.unit_price.toFixed(2)}
                   </DiscountPrice>
                 </ItemPriceWrapper>
               ) : (
                 <Price>
                   ${" "}
                   {Object.keys(filteredItem).length > 0
-                    ? filteredItem.unit_price
-                    : selectedItem.unit_price}
+                    ? filteredItem.unit_price.toFixed(2)
+                    : selectedItem.unit_price.toFixed(2)}
                 </Price>
               )}
               <Stock>

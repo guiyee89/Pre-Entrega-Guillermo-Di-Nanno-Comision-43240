@@ -136,7 +136,7 @@ export const ItemListContainer = () => {
         });
 
         setItems(uniqueProducts);
-
+        console.log(uniqueProducts);
         setTimeout(() => {
           setPageLoading(false);
           setProgressComplete(true);

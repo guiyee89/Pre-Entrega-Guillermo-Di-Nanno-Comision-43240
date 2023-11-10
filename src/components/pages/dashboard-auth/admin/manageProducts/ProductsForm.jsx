@@ -222,11 +222,11 @@ export const ProductsForm = ({
         ...selectedItem,
         userId: parseInt(selectedItem.userId),
         unit_price: parseFloat(selectedItem.unit_price),
-        discountPrice: totalPrice || "",
+        discountPrice: totalPrice || null,
         stock: parseInt(selectedItem.stock),
         color: selectedItem.color,
         size: selectedItem.size,
-        discount: discount || "",
+        discount: discount || null,
       };
 
       await updateDoc(doc(itemsCollection, selectedItem.id), updatedItem).then(
@@ -280,7 +280,6 @@ export const ProductsForm = ({
           stock: newProduct.stock ? parseInt(newProduct.stock) : 0,
           color: newProduct.color || "",
           size: newProduct.size || "",
-          /* discount: 0, */
           title: newProduct.title || "",
           subtitle: newProduct.subtitle || "",
           description: newProduct.description || "",
@@ -581,7 +580,6 @@ export const ProductsForm = ({
                               Imagen
                             </label>
                           )}
-
                         </div>
                       </div>
                     ))}
