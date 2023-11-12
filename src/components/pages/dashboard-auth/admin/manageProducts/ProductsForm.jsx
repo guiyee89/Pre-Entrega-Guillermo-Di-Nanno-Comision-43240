@@ -484,7 +484,7 @@ export const ProductsForm = ({
                             width: "70px",
                             height: "80px",
                             marginLeft: windowWidth < 600 ? "0px" : "35px",
-                            border: image ? "1px solid black" : "none",
+                            border: image ? "1px solid gray" : "none",
                             marginBottom: "20px",
                           }}
                         >
@@ -506,7 +506,8 @@ export const ProductsForm = ({
                                 alignItems: "center",
                                 justifyContent: "center",
                                 textAlign: "center",
-                                border: "1px solid lightgray",
+                                border: "1px solid gray",
+                                fontSize:".68rem",
                               }}
                             >
                               Imagen
@@ -518,7 +519,7 @@ export const ProductsForm = ({
                   </ImageContainer>
                 ) : (
                   <ImageContainer>
-                    {/* Render 5 empty slots here */}
+                    {/* Render 5 empty slots here for newProduct*/}
                     {[1, 2, 3, 4, 5].map((slotIndex) => (
                       <div
                         key={slotIndex}
@@ -531,8 +532,6 @@ export const ProductsForm = ({
                           style={{
                             textAlign: "center",
                             marginLeft: windowWidth < 600 ? "0px" : "35px",
-                            marginBottom: "-21px",
-                            paddingTop: "5px",
                           }}
                         >
                           {slotIndex}
@@ -542,7 +541,7 @@ export const ProductsForm = ({
                             width: "70px",
                             height: "80px",
                             marginLeft: windowWidth < 600 ? "0px" : "35px",
-                            border: "1px solid lightgray",
+                            border: "1px solid gray",
                             marginBottom: "20px",
                           }}
                         >
@@ -574,6 +573,7 @@ export const ProductsForm = ({
                                 alignItems: "center",
                                 justifyContent: "center",
                                 textAlign: "center",
+                                fontSize:".68rem",
                                 border: "1px solid lightgray",
                               }}
                             >

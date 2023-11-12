@@ -11,6 +11,7 @@ export const ItemImageDesktop = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
+  const filteredImagesToRender = imagesToRender.filter( (image) => image !== null)//Render images - Avoid null values in array
   const { progress, setProgress, setVisible } = useContext(GlobalToolsContext);
   const [loadedImages, setLoadedImages] = useState(0);
 
@@ -21,15 +22,12 @@ export const ItemImageDesktop = ({
     }
   }, [selectedItem]);
 
-  
   useEffect(() => {
     if (filteredItem && Object.keys(filteredItem).length > 0) {
       setImagesToRender(filteredItem.img.slice(0, 5));
       setSelectedImage({ image: selectedItem.img[0], index: 0 });
     }
   }, [filteredItem]);
-
-  
 
   const handleImageClick = (image, index) => {
     setSelectedImage({ image, index });
@@ -47,7 +45,7 @@ export const ItemImageDesktop = ({
       };
     };
 
-    if (imagesToRender.length >= 0) {
+    if (imagesToRender.length > 0) {
       setLoadedImages(0); // Reset the loaded image count
       for (let i = 0; i < totalImages; i++) {
         trackImageLoad(i);
@@ -56,24 +54,26 @@ export const ItemImageDesktop = ({
   }, [imagesToRender]);
 
   useEffect(() => {
-    if (loadedImages === imagesToRender.length) {
-      // All images are loaded
+    const totalImages = imagesToRender.filter((image) => image !== null).length;
+  
+    if (loadedImages === totalImages) {
+      // All non-null images are loaded
+      console.log(loadedImages)
       setProgress(100);
       if (progress === 100) {
         setVisible(false);
       }
     }
-  }, [loadedImages, setVisible, imagesToRender.length]);
-
-  const filteredImagesToRender = imagesToRender.filter((image) => image !== null);
+  }, [loadedImages, setVisible]);
 
 
+  
   return (
     <Wrapper>
       <ImgAsideWrapper>
         {filteredImagesToRender.map((image, index) => (
           <React.Fragment key={`img-aside-${index}`}>
-            {loadedImages <= index && loadingColorFilter === true ? (
+            {image !== null && loadedImages <= index && loadingColorFilter === true ? (
               <LoaderContainer key={`loader-container-${index}`}>
                 <ClipLoader color="#8f501a" size={17} />
               </LoaderContainer>
@@ -91,7 +91,7 @@ export const ItemImageDesktop = ({
       </ImgAsideWrapper>
 
       <MainImgWrapper>
-        {imagesToRender.map((image, index) => (
+        {filteredImagesToRender.map((image, index) => (
           <MainImg
             key={`main-img-${index}`}
             src={image}
@@ -109,7 +109,6 @@ export const ItemImageDesktop = ({
       </MainImgWrapper>
     </Wrapper>
   );
-  
 };
 
 const Wrapper = styled.div`

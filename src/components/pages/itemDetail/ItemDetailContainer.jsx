@@ -29,29 +29,62 @@ export const ItemDetailContainer = () => {
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
     setPageLoading(true);
-    const itemCollection = collection(db, "products");
-    const refDoc = doc(itemCollection, id);
-    console.log("fetching from ItemDetailContainer");
-    setVisible(true);
-    setLoadingColorFilter(true);
-    getDoc(refDoc)
-      .then((response) => {
-        setSelectedItem({
-          ...response.data(),
-          id: response.id,
+    const delay = 250;
+    const fetchItem = async () => {
+      try {
+        setVisible(true);
+        setLoadingColorFilter(true);
+        const itemCollection = collection(db, "products");
+        const refDoc = doc(itemCollection, id);
+        console.log("fetching from ItemDetailContainer");
+        await getDoc(refDoc).then((response) => {
+          setSelectedItem({
+            ...response.data(),
+            id: response.id,
+          });
+          console.log(selectedItem);
+          setTimeout(() => {
+            setPageLoading(false);
+            setProgressComplete(true);
+            if (progress === 100) {
+              setVisible(false);
+            }
+          }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
         });
-        setTimeout(() => {
-          setPageLoading(false);
-          setProgressComplete(true);
-          if (progress === 100) {
-            setVisible(false);
-          }
-        }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
-      })
-      .catch((err) => console.log(err));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    const timer = setTimeout(fetchItem, delay); // Fix here: Change fetchData to fetchItem
+    return () => {
+      clearTimeout(timer); // Clear the timeout if the component unmounts
+    };
   }, [id]);
-
-  console.log(selectedItem)
+  // EL ORIGINAL
+  // useEffect(() => {
+  //   setPageLoading(true);
+  //   const itemCollection = collection(db, "products");
+  //   const refDoc = doc(itemCollection, id);
+  //   console.log("fetching from ItemDetailContainer");
+  //   setVisible(true);
+  //   setLoadingColorFilter(true);
+  //   getDoc(refDoc)
+  //     .then((response) => {
+  //       setSelectedItem({
+  //         ...response.data(),
+  //         id: response.id,
+  //       });
+  //       console.log(selectedItem)
+  //       setTimeout(() => {
+  //         setPageLoading(false);
+  //         setProgressComplete(true);
+  //         if (progress === 100) {
+  //           setVisible(false);
+  //         }
+  //       }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, [id]);
 
   return (
     <>

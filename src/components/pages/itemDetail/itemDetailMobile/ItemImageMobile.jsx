@@ -14,9 +14,12 @@ export const ItemImageMobile = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
+  const filteredImagesToRender = imagesToRender.filter(
+    (image) => image !== null
+  ); //Render images - Avoid null values in array
   const [filterColorLoading, setFilterColorLoading] = useState(false);
 
-  const { setProgress, setVisible } = useContext(GlobalToolsContext);
+  const { setProgress, setVisible, progress } = useContext(GlobalToolsContext);
 
   useEffect(() => {
     if (selectedItem) {
@@ -37,8 +40,10 @@ export const ItemImageMobile = ({
   };
 
   const trackImageLoadingProgress = () => {
-    console.log("activando size filter");
-    const totalImages = imagesToRender.length;
+    const nonNullImages = imagesToRender.filter((image) => image !== null);
+
+    const totalImages = nonNullImages.length;
+
     let loadedImages = 0;
 
     imagesToRender.forEach((imageSrc) => {
@@ -65,25 +70,14 @@ export const ItemImageMobile = ({
       setProgress(100);
     }
     if (imgSkeletonLoader === false) {
-      setVisible(false);
+      setProgress(100);
+      if (progress === 100) {
+        setTimeout(() => {
+          setVisible(false);
+        }, 450);
+      }
     }
   }, [imagesToRender, setProgress, setVisible]);
-
-  const filteredImagesToRender = imagesToRender.filter(
-    (image) => image !== null
-  );
-
-  useEffect(() => {
-    if (filteredImagesToRender.length > 0) {
-      trackImageLoadingProgress();
-    } else {
-      setProgress(100);
-      setImgSkeletonLoader(false); // Set loader to false when there are no images to render
-    }
-    if (imgSkeletonLoader === false) {
-      setVisible(false);
-    }
-  }, [filteredImagesToRender, setProgress, setVisible, imgSkeletonLoader]);
 
   return (
     <>
