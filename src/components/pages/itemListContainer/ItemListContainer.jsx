@@ -41,65 +41,8 @@ export const ItemListContainer = () => {
     setPageLoading,
   } = useContext(GlobalToolsContext);
 
-  //EL ORIGINAL
   //////////////     //////////////    ////////////      ////////////      /////////////
   //FETCH TO FIRESTORE FOR COLLECTION DATABASE "products" AND FILTER BY categoryName
-  // useEffect(() => {
-  //   setLoading(true);
-  //   const delay = 650;
-  //   const timer = setTimeout(() => {
-  //     setProgress(5);
-  //     setVisible(true);
-  //     let itemsCollection =  collection(db, "products");
-  //     let filterCollection;
-  //     console.log("fetching ItemListContainer");
-
-  //     if (!categoryName) {
-  //       filterCollection = itemsCollection;
-  //     } else {
-  //       filterCollection = query(
-  //         itemsCollection,
-  //         where("category", "==", categoryName)
-  //       );
-  //     }
-
-  //     getDocs(filterCollection)
-  //       .then((res) => {
-  //         const products = res.docs.reduce((filtered, productDoc) => {
-  //           const product = productDoc.data();
-  //           const { userId, color } = product;
-  //           const key = `${userId}-${color}`;
-  //           // Check if the product's customId and color combination already exists
-  //           if (
-  //             !filtered.some((item) => `${item.userId}-${item.color}` === key)
-  //           ) {
-  //             filtered.push({
-  //               ...product,
-  //               id: productDoc.id,
-  //             });
-  //           }
-
-  //           return filtered;
-  //         }, []);
-
-  //         console.log("fetching itemList...");
-  //         console.log(products);
-  //         setItems(products);
-
-  //         setTimeout(() => {
-  //           setLoading(false);
-  //           setProgressComplete(true);
-  //           if (progressComplete === true) {
-  //             setProgress(100);
-  //           }
-  //         }, 250); // Set loading to false and progressComplete true after a delay to avoid "No items found" message
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }, delay);
-
-  //   return () => clearTimeout(timer); // Clear the timeout if the component unmounts
-  // }, [categoryName]);
-
   useEffect(() => {
     setPageLoading(true);
     const delay = 650;
