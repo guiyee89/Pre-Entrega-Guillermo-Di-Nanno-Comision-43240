@@ -136,13 +136,13 @@ export const ProductsForm = ({
         }
       }
     };
-
     handleImageQueue();
     if (imageQueue.length < 1) {
       setIsQueueProcessing(false);
     }
   }, [imageQueue, selectedItem]);
 
+  
   // Merge the selected files with the existing files for the input
   const handleFileInputChange = (inputNumber, selectedFiles) => {
     const updatedFiles = { ...file };

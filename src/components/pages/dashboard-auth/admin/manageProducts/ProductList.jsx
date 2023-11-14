@@ -19,6 +19,7 @@ import { db } from "../../../../../firebaseConfig";
 import { useState } from "react";
 import { DiscountForm } from "./DiscountForm";
 
+
 export const ProductList = ({ products, setIsChanged, foundProduct }) => {
   // Sort items by color and size
   const customSort = (itemA, itemB) => {
@@ -69,7 +70,7 @@ export const ProductList = ({ products, setIsChanged, foundProduct }) => {
           {foundProduct === true && (
             <>
               <DiscountFormContainer>
-                <DiscountForm selectedItem={selectedItem}/>
+                <DiscountForm selectedItem={selectedItem} setSelectedItem={setSelectedItem} setIsChanged={setIsChanged} products={products}/>
               </DiscountFormContainer>
               <TableContainer>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
