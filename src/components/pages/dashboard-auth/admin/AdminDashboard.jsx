@@ -65,48 +65,18 @@ export const AdminDashboard = () => {
           onClick={() => handleLogout(navigate("/"))}
         />
       </LogoutBtn>
-      <AdminDashboardWrapper>
-        <DashboardContainer>
-          <TextFieldInput
-            label="Buscar por ID"
-            variant="outlined"
-            name="id"
-            value={searchProduct}
-            onChange={(e) => setSearchProduct(e.target.value)}
-            sx={{ marginTop: "12px", marginLeft: "8px" }}
-          />
-          <Button
-            variant="contained"
-            sx={{ marginLeft: "10px", marginTop: "18px" }}
-            onClick={fetchItemsByUserId}
-          >
-            Buscar
-          </Button>
-        </DashboardContainer>
-      </AdminDashboardWrapper>
       <ProductList
         products={products}
         setIsChanged={handleIsChanged}
         foundProduct={foundProduct}
+        searchProduct={searchProduct}
+        setSearchProduct={setSearchProduct}
+        fetchItemsByUserId={fetchItemsByUserId}
       />
     </>
   );
 };
-const AdminDashboardWrapper = styled.div`
-  width: 100%;
-  margin-top: 100px;
-  display: flex;
-  flex-direction: row-reverse;
-`;
-const DashboardContainer = styled.div`
-  width: 100%;
-  margin-top: 50px;
-`;
-const TextFieldInput = styled(TextField)`
-  .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
-    padding: 11.5px 4px;
-  }
-`;
+
 const LogoutBtn = styled.button`
   background-color: transparent;
   border: none;

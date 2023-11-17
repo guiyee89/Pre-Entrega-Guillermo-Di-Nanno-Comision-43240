@@ -18,9 +18,10 @@ export const ProductsForm = ({
   const { windowWidth } = useContext(GlobalToolsContext);
   const [addProduct, setAddProduct] = useState(false);
   const [existingImages, setExistingImages] = useState([]);
-  const [allSelectedFiles, setAllSelectedFiles] = useState([]);
+  let [allSelectedFiles, setAllSelectedFiles] = useState([]);
   const [isQueueProcessing, setIsQueueProcessing] = useState(false); // Use a queue to handle concurrency of handleImage
   const [imageQueue, setImageQueue] = useState([]);
+
   const [isLoading, setIsLoading] = useState({
     1: false,
     2: false,
@@ -35,6 +36,7 @@ export const ProductsForm = ({
     4: [],
     5: [],
   });
+
   const [confirmedImageUpload, setConfirmedImageUpload] = useState({
     1: false,
     2: false,
@@ -91,6 +93,16 @@ export const ProductsForm = ({
     } catch (error) {}
   };
 
+  // Function to handle the confirmation of all images
+  const handleConfirmAllImages = () => {
+    // Iterate over all selected files and trigger handleImage
+    for (let inputNumber = 1; inputNumber <= 5; inputNumber++) {
+      if (file[inputNumber].length > 0 && !isLoading[inputNumber]) {
+        handleImage(inputNumber);
+      }
+    }
+  };
+
   // Set a queue for each image being uploaded
   useEffect(() => {
     const handleImageQueue = async () => {
@@ -142,7 +154,6 @@ export const ProductsForm = ({
     }
   }, [imageQueue, selectedItem]);
 
-  
   // Merge the selected files with the existing files for the input
   const handleFileInputChange = (inputNumber, selectedFiles) => {
     const updatedFiles = { ...file };
@@ -153,7 +164,7 @@ export const ProductsForm = ({
 
     setFile(updatedFiles);
     // Combine all the selected files into one array
-    const allSelectedFiles = Object.keys(updatedFiles).reduce((acc, key) => {
+    allSelectedFiles = Object.keys(updatedFiles).reduce((acc, key) => {
       return [...acc, ...updatedFiles[key]];
     }, []);
 
@@ -323,9 +334,8 @@ export const ProductsForm = ({
             <InfoImageContainer>
               <ProductInfo>
                 <Div>
-                  <h2>ID del producto</h2>
                   <Input
-                    label="ID"
+                    label="ID del Producto"
                     variant="outlined"
                     name="userId"
                     defaultValue={selectedItem?.userId}
@@ -333,10 +343,12 @@ export const ProductsForm = ({
                     // helperText={errors.userId}
                     // error={errors.userId ? true : false}
                     sx={{ marginBottom: "18px" }}
+                    InputLabelProps={{
+                      style: { fontSize: "14px" },
+                    }}
                   />
                 </Div>
                 <Div>
-                  <h2>Nombre del producto</h2>
                   <Input
                     label="Nombre del producto"
                     variant="outlined"
@@ -346,10 +358,12 @@ export const ProductsForm = ({
                     // helperText={errors.title}
                     // error={errors.title ? true : false}
                     sx={{ marginBottom: "18px" }}
+                    InputLabelProps={{
+                      style: { fontSize: "14px" },
+                    }}
                   />
                 </Div>
                 <Div>
-                  <h2>Subtitulo del producto</h2>
                   <Input
                     label="Subtitulo del producto"
                     variant="outlined"
@@ -359,10 +373,12 @@ export const ProductsForm = ({
                     // helperText={errors.subtitle}
                     // error={errors.subtitle ? true : false}
                     sx={{ marginBottom: "18px" }}
+                    InputLabelProps={{
+                      style: { fontSize: "14px" },
+                    }}
                   />
                 </Div>
                 <Div>
-                  <h2>Precio</h2>
                   <Input
                     label="Precio"
                     variant="outlined"
@@ -372,12 +388,14 @@ export const ProductsForm = ({
                     // helperText={errors.unit_price}
                     // error={errors.unit_price ? true : false}
                     sx={{ marginBottom: "18px" }}
+                    InputLabelProps={{
+                      style: { fontSize: "14px" },
+                    }}
                   />
                 </Div>
                 <Div>
-                  <h2>Descuento en %</h2>
                   <Input
-                    label="(solo agregar el numero, ej: 10 - 20)"
+                    label="Descuento en %"
                     variant="outlined"
                     name="discount"
                     defaultValue={selectedItem?.discount}
@@ -385,12 +403,14 @@ export const ProductsForm = ({
                     // helperText={errors.discount}
                     // error={errors.discount ? true : false}
                     sx={{ marginBottom: "18px" }}
+                    InputLabelProps={{
+                      style: { fontSize: "14px" },
+                    }}
                   />
                 </Div>
                 <Div>
-                  <h2>Stock</h2>
                   <Input
-                    label="Stock     (agregar cantidad)"
+                    label="Stock"
                     variant="outlined"
                     name="stock"
                     defaultValue={selectedItem?.stock}
@@ -398,10 +418,12 @@ export const ProductsForm = ({
                     // helperText={errors.stock}
                     // error={errors.stock ? true : false}
                     sx={{ marginBottom: "18px" }}
+                    InputLabelProps={{
+                      style: { fontSize: "14px" },
+                    }}
                   />
                 </Div>
                 <Div>
-                  <h2>Color</h2>
                   <Input
                     label="Color"
                     variant="outlined"
@@ -411,12 +433,14 @@ export const ProductsForm = ({
                     // helperText={errors.color}
                     // error={errors.color ? true : false}
                     sx={{ marginBottom: "18px" }}
+                    InputLabelProps={{
+                      style: { fontSize: "14px" },
+                    }}
                   />
                 </Div>
                 <Div>
-                  <h2>Talle</h2>
                   <Input
-                    label="(Ejemplo: s - m - l - 41 - 42 .. etc)"
+                    label="Talle (Ejemplo: s - m - l - 41 -42 - 43)"
                     variant="outlined"
                     name="size"
                     defaultValue={selectedItem?.size}
@@ -424,12 +448,14 @@ export const ProductsForm = ({
                     // helperText={errors.size}
                     // error={errors.size ? true : false}
                     sx={{ marginBottom: "18px" }}
+                    InputLabelProps={{
+                      style: { fontSize: "14px" },
+                    }}
                   />
                 </Div>
                 <Div>
-                  <h2>Descripción del producto</h2>
                   <Input
-                    label="Descripción"
+                    label="Descripción del Producto"
                     variant="outlined"
                     name="description"
                     defaultValue={selectedItem?.description}
@@ -437,12 +463,14 @@ export const ProductsForm = ({
                     // helperText={errors.description}
                     // error={errors.description ? true : false}
                     sx={{ marginBottom: "18px" }}
+                    InputLabelProps={{
+                      style: { fontSize: "14px" },
+                    }}
                   />
                 </Div>
                 <Div>
-                  <h2>Categoria del producto</h2>
                   <Input
-                    label="Categoria"
+                    label="Categoria del Producto"
                     variant="outlined"
                     name="category"
                     defaultValue={selectedItem?.category}
@@ -450,6 +478,9 @@ export const ProductsForm = ({
                     // helperText={errors.category}
                     // error={errors.category ? true : false}
                     sx={{ marginBottom: "18px" }}
+                    InputLabelProps={{
+                      style: { fontSize: "14px" },
+                    }}
                   />
                 </Div>
               </ProductInfo>
@@ -507,7 +538,7 @@ export const ProductsForm = ({
                                 justifyContent: "center",
                                 textAlign: "center",
                                 border: "1px solid gray",
-                                fontSize:".68rem",
+                                fontSize: ".68rem",
                               }}
                             >
                               Imagen
@@ -573,7 +604,7 @@ export const ProductsForm = ({
                                 alignItems: "center",
                                 justifyContent: "center",
                                 textAlign: "center",
-                                fontSize:".68rem",
+                                fontSize: ".68rem",
                                 border: "1px solid lightgray",
                               }}
                             >
@@ -622,7 +653,7 @@ export const ProductsForm = ({
                         >
                           {file[inputNumber].length > 0 ||
                           isLoading[inputNumber]
-                            ? "Cargar"
+                            ? "Modificar"
                             : "Cargar"}
                           <input
                             type="file"
@@ -676,7 +707,7 @@ export const ProductsForm = ({
                                       marginTop: "5px",
                                       paddingBottom: "3px",
                                     }}
-                                    onClick={() => handleImage(inputNumber)}
+                                    onClick={handleConfirmAllImages}
                                     style={{
                                       display: isLoading[inputNumber] && "none",
                                     }}
@@ -692,6 +723,21 @@ export const ProductsForm = ({
                     </div>
                   ))}
                 </InputsContainer>
+                <LoadImgBtn
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    minWidth: "100px",
+                    marginTop: "5px",
+                    paddingBottom: "3px",
+                  }}
+                  onClick={handleConfirmAllImages}
+                  style={{
+                    display: isLoading /* [inputNumber]  && "none",*/,
+                  }}
+                >
+                  Confirmar
+                </LoadImgBtn>
               </ImagesInputsContainer>
             </InfoImageContainer>
             <SubmitBtn
