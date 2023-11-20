@@ -112,7 +112,7 @@ export const CarouselTablet = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -127,11 +127,13 @@ export const CarouselTablet = () => {
               {discountProducts.slice(3, 6).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}
-                    onClick={() => {
-                      event.preventDefault(); // Prevent immediate navigation
-                      handleLoadTop();
-                    }}>
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
+                      onClick={() => {
+                        event.preventDefault(); // Prevent immediate navigation
+                        handleLoadTop();
+                      }}
+                    >
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
@@ -148,7 +150,7 @@ export const CarouselTablet = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -163,11 +165,13 @@ export const CarouselTablet = () => {
               {discountProducts.slice(6, 9).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}
-                    onClick={() => {
-                      event.preventDefault(); // Prevent immediate navigation
-                      handleLoadTop();
-                    }}>
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
+                      onClick={() => {
+                        event.preventDefault(); // Prevent immediate navigation
+                        handleLoadTop();
+                      }}
+                    >
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
@@ -184,7 +188,7 @@ export const CarouselTablet = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -199,11 +203,13 @@ export const CarouselTablet = () => {
               {discountProducts.slice(9, 12).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}
-                    onClick={() => {
-                      event.preventDefault(); // Prevent immediate navigation
-                      handleLoadTop();
-                    }}>
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
+                      onClick={() => {
+                        event.preventDefault(); // Prevent immediate navigation
+                        handleLoadTop();
+                      }}
+                    >
                       <ItemCard>
                         <CarouselImg
                           className="d-block w-100"
@@ -220,7 +226,7 @@ export const CarouselTablet = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -322,7 +328,6 @@ const CarouselImg = styled.img`
     min-height: 200px;
   }
   @media (max-width: 68.75rem) {
-    min-width: 200px;
     height: 100%;
   }
 `;
@@ -330,11 +335,15 @@ const CarouselInner = styled.div`
   max-width: 100%;
   display: flex;
   gap: 1rem;
+  @media (max-width:43.75rem){
+    gap: .5rem
+  }
 `;
 const ItemWrapper = styled.div`
   //esto ajusta el responsivnes junto con 100% del itemCard
   max-height: 440px;
   max-width: 315px;
+  width: 100%;
   min-width: 165px;
   padding-top: 1.5px;
   padding-bottom: 5px;
@@ -393,14 +402,14 @@ const Discount = styled.h4`
   position: absolute;
   top: 10px;
   left: 8%;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: #b34646;
+  background-color: rgb(179, 70, 70);
   text-align: center;
   color: white;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   line-height: 2.8;
   cursor: pointer;
 `;
