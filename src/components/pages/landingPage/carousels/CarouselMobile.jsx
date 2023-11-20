@@ -8,13 +8,11 @@ import { db } from "../../../../firebaseConfig";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 
-
 export const CarouselMobile = () => {
-
   const [discountProducts, setDiscountedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const {setVisible, setProgress} = useContext(GlobalToolsContext);
- 
+  const { setVisible, setProgress } = useContext(GlobalToolsContext);
+
   useEffect(() => {
     const fetchDiscountedProducts = async () => {
       try {
@@ -52,7 +50,6 @@ export const CarouselMobile = () => {
     fetchDiscountedProducts();
   }, []);
 
-
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -75,12 +72,11 @@ export const CarouselMobile = () => {
     setIndex(selectedIndex);
   };
 
-
   return (
     <Wrapper>
       {loading ? (
         <LoaderWrapper>
-           <Ring size={40} lineWeight={7} speed={1} color="black" />
+          <Ring size={40} lineWeight={7} speed={1} color="black" />
         </LoaderWrapper>
       ) : (
         <StyledCarousel
@@ -93,7 +89,8 @@ export const CarouselMobile = () => {
               {discountProducts.slice(0, 2).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
                       onClick={() => {
                         event.preventDefault(); // Prevent immediate navigation
                         handleLoadTop();
@@ -115,7 +112,7 @@ export const CarouselMobile = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -130,8 +127,9 @@ export const CarouselMobile = () => {
               {discountProducts.slice(2, 4).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}
-                       onClick={() => {
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
+                      onClick={() => {
                         event.preventDefault(); // Prevent immediate navigation
                         handleLoadTop();
                       }}
@@ -152,7 +150,7 @@ export const CarouselMobile = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -167,7 +165,8 @@ export const CarouselMobile = () => {
               {discountProducts.slice(4, 6).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
                       onClick={() => {
                         event.preventDefault(); // Prevent immediate navigation
                         handleLoadTop();
@@ -189,7 +188,7 @@ export const CarouselMobile = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -204,7 +203,8 @@ export const CarouselMobile = () => {
               {discountProducts.slice(6, 8).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
                       onClick={() => {
                         event.preventDefault(); // Prevent immediate navigation
                         handleLoadTop();
@@ -226,7 +226,7 @@ export const CarouselMobile = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -241,7 +241,8 @@ export const CarouselMobile = () => {
               {discountProducts.slice(8, 10).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
                       onClick={() => {
                         event.preventDefault(); // Prevent immediate navigation
                         handleLoadTop();
@@ -263,7 +264,7 @@ export const CarouselMobile = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -279,7 +280,8 @@ export const CarouselMobile = () => {
               {discountProducts.slice(10, 12).map((product) => {
                 return (
                   <ItemWrapper key={product.id}>
-                    <LinkWrapper to={`/item-details/${product.id}`}
+                    <LinkWrapper
+                      to={`/item-details/${product.id}`}
                       onClick={() => {
                         event.preventDefault(); // Prevent immediate navigation
                         handleLoadTop();
@@ -301,7 +303,7 @@ export const CarouselMobile = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -414,6 +416,7 @@ const ItemWrapper = styled.div`
   //esto ajusta el responsivnes junto con 100% del itemCard
   max-height: 440px;
   max-width: 315px;
+  width: 100%;
   min-width: 165px;
   padding-top: 1.5px;
   padding-bottom: 5px;

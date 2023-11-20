@@ -154,7 +154,7 @@ const CarouselWrapper = styled.div`
     max-width: 95%;
   }
   @media (max-width: 700px) {
-    max-width: 99%;
+    max-width: 100%;
   }
   @media (max-width: 500px) {
     min-height: 0;
