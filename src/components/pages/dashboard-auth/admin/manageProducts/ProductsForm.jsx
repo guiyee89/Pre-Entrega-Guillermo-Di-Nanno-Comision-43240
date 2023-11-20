@@ -723,21 +723,7 @@ export const ProductsForm = ({
                     </div>
                   ))}
                 </InputsContainer>
-                <LoadImgBtn
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    minWidth: "100px",
-                    marginTop: "5px",
-                    paddingBottom: "3px",
-                  }}
-                  onClick={handleConfirmAllImages}
-                  style={{
-                    display: isLoading /* [inputNumber]  && "none",*/,
-                  }}
-                >
-                  Confirmar
-                </LoadImgBtn>
+      
               </ImagesInputsContainer>
             </InfoImageContainer>
             <SubmitBtn
