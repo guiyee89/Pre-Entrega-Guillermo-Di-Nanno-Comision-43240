@@ -107,7 +107,7 @@ export const CarouselDesktop = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -145,7 +145,7 @@ export const CarouselDesktop = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -183,7 +183,7 @@ export const CarouselDesktop = () => {
                             <DiscountPrice>
                               $ {product.discountPrice}
                             </DiscountPrice>{" "}
-                            $ {product.price}
+                            $ {product.unit_price}
                           </CarouselItemPrice>
                         </InfoWrapper>
                       </ItemCard>
@@ -295,6 +295,7 @@ const ItemWrapper = styled.div`
   //esto ajusta el responsivnes junto con 100% del itemCard
   max-height: 440px;
   max-width: 315px;
+  width: 100%;
   padding-top: 1.5px;
   padding-bottom: 5px;
 `;
