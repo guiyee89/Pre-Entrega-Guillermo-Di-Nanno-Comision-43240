@@ -108,6 +108,8 @@ export const ProductsForm = ({
     const handleImageQueue = async () => {
       if (imageQueue.length > 0) {
         const { inputNumber } = imageQueue[0];
+        // Check if the corresponding isLoading state is false
+
         try {
           const { inputNumber, selectedFiles } = imageQueue[0];
           const imageUrlPromises = selectedFiles.map(async (selectedFile) => {
@@ -707,7 +709,10 @@ export const ProductsForm = ({
                                       marginTop: "5px",
                                       paddingBottom: "3px",
                                     }}
-                                    onClick={handleConfirmAllImages}
+                                    onClick={
+                                      handleConfirmAllImages /* () =>
+                                        handleImage(inputNumber) */
+                                    }
                                     style={{
                                       display: isLoading[inputNumber] && "none",
                                     }}
@@ -723,7 +728,6 @@ export const ProductsForm = ({
                     </div>
                   ))}
                 </InputsContainer>
-      
               </ImagesInputsContainer>
             </InfoImageContainer>
             <SubmitBtn
