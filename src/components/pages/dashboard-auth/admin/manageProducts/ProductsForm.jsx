@@ -93,68 +93,142 @@ export const ProductsForm = ({
     } catch (error) {}
   };
 
-  // Function to handle the confirmation of all images
-  const handleConfirmAllImages = () => {
-    // Iterate over all selected files and trigger handleImage
-    for (let inputNumber = 1; inputNumber <= 5; inputNumber++) {
-      if (file[inputNumber].length > 0 && !isLoading[inputNumber]) {
-        handleImage(inputNumber);
-      }
-    }
-  };
-
-  // Set a queue for each image being uploaded
   useEffect(() => {
     const handleImageQueue = async () => {
       if (imageQueue.length > 0) {
-        const { inputNumber } = imageQueue[0];
+        console.log(imageQueue);
+        const { inputNumber, selectedFiles } = imageQueue[0];
+
         try {
-          const { inputNumber, selectedFiles } = imageQueue[0];
           const imageUrlPromises = selectedFiles.map(async (selectedFile) => {
-            const imageUrl = await uploadFile(selectedFile);
-            return imageUrl;
+            return await uploadFile(selectedFile);
           });
+
           const newUrls = await Promise.all(imageUrlPromises);
 
+          // Set the uploaded image URL to the corresponding input number
           if (selectedItem) {
-            const imgCopy = selectedItem.img ? [...selectedItem.img] : [];
-            imgCopy[inputNumber - 1] = newUrls[0];
-            setSelectedItem((prevSelectedItem) => ({
-              ...prevSelectedItem,
-              img: imgCopy,
-            }));
+            setSelectedItem((prevSelectedItem) => {
+              const imgCopy = [...(prevSelectedItem.img || [])];
+              imgCopy[inputNumber - 1] = newUrls[0];
+              return {
+                ...prevSelectedItem,
+                img: imgCopy,
+              };
+            });
           } else {
-            const imgCopy = newProduct.img ? [...newProduct.img] : [];
-            imgCopy[inputNumber - 1] = newUrls[0];
-            setNewProduct((prevProduct) => ({
-              ...prevProduct,
-              img: imgCopy,
-            }));
+            setNewProduct((prevProduct) => {
+              const imgCopy = [...(prevProduct.img || [])];
+              imgCopy[inputNumber - 1] = newUrls[0];
+              return {
+                ...prevProduct,
+                img: imgCopy,
+              };
+            });
           }
+        } catch (error) {
+          console.error("Error uploading image:", error);
         } finally {
           // Reset the loading state after the upload is complete or if an error occurs
           setIsLoading((prevLoading) => ({
             ...prevLoading,
             [inputNumber]: false,
           }));
-          // Remove the processed item from the queue
-          setImageQueue((prevQueue) => prevQueue.slice(1));
 
           // Set the confirmedImageUpload state for this input to true
           setConfirmedImageUpload((prevConfirmedImageUpload) => ({
             ...prevConfirmedImageUpload,
             [inputNumber]: true,
           }));
+
+          // Find the index of the processed item in the queue
+          const processedItemIndex = imageQueue.findIndex(
+            (item) => item.inputNumber === inputNumber
+          );
+          // Remove the processed item from the queue
+          setImageQueue((prevQueue) => {
+            const updatedQueue = [...prevQueue];
+            updatedQueue.shift(processedItemIndex, 1);
+            return updatedQueue;
+          });
         }
+      } else {
+        // No more items in the queue, set isQueueProcessing to false
+        setIsQueueProcessing(false);
       }
     };
+    // Call handleImageQueue initially
     handleImageQueue();
-    if (imageQueue.length < 1) {
-      setIsQueueProcessing(false);
-    }
-  }, [imageQueue, selectedItem]);
+  }, [imageQueue, selectedItem, newProduct, uploadFile]);
+
+  // CODE SNIPPET: Confirm all image together into there imageQueue array
+  // // Function to handle the confirmation of all images
+  // const handleConfirmAllImages = () => {
+  //   // Iterate over all selected files and trigger handleImage
+  //   for (let inputNumber = 1; inputNumber <= 5; inputNumber++) {
+  //     if (file[inputNumber].length > 0 && !isLoading[inputNumber]) {
+  //       handleImage(inputNumber);
+  //     }
+  //   }
+  // };
+
+  // // Set a queue for each image being uploaded
+  // useEffect(() => {
+  //   const handleImageQueue = async () => {
+  //     if (imageQueue.length > 0) {
+  //       const { inputNumber } = imageQueue[0];
+  //       // Check if the corresponding isLoading state is false
+
+  //       try {
+  //         const { inputNumber, selectedFiles } = imageQueue[0];
+  //         const imageUrlPromises = selectedFiles.map(async (selectedFile) => {
+  //           const imageUrl = await uploadFile(selectedFile);
+  //           return imageUrl;
+  //         });
+  //         const newUrls = await Promise.all(imageUrlPromises);
+
+  //         if (selectedItem) {
+  //           const imgCopy = selectedItem.img ? [...selectedItem.img] : [];
+  //           imgCopy[inputNumber - 1] = newUrls[0];
+  //           setSelectedItem((prevSelectedItem) => ({
+  //             ...prevSelectedItem,
+  //             img: imgCopy,
+  //           }));
+  //         } else {
+  //           const imgCopy = newProduct.img ? [...newProduct.img] : [];
+  //           imgCopy[inputNumber - 1] = newUrls[0];
+  //           setNewProduct((prevProduct) => ({
+  //             ...prevProduct,
+  //             img: imgCopy,
+  //           }));
+  //         }
+  //       } finally {
+  //         // Reset the loading state after the upload is complete or if an error occurs
+  //         setIsLoading((prevLoading) => ({
+  //           ...prevLoading,
+  //           [inputNumber]: false,
+  //         }));
+  //         // Remove the processed item from the queue
+  //         setImageQueue((prevQueue) => prevQueue.slice(1));
+
+  //         // Set the confirmedImageUpload state for this input to true
+  //         setConfirmedImageUpload((prevConfirmedImageUpload) => ({
+  //           ...prevConfirmedImageUpload,
+  //           [inputNumber]: true,
+  //         }));
+  //       }
+  //     }
+  //   };
+  //   handleImageQueue();
+  //   if (imageQueue.length < 1) {
+  //     setIsQueueProcessing(false);
+  //   }
+  // }, [imageQueue, selectedItem]);
+
+  // Set a queue for each image being uploaded
 
   // Merge the selected files with the existing files for the input
+
   const handleFileInputChange = (inputNumber, selectedFiles) => {
     const updatedFiles = { ...file };
     updatedFiles[inputNumber] = [
@@ -707,7 +781,10 @@ export const ProductsForm = ({
                                       marginTop: "5px",
                                       paddingBottom: "3px",
                                     }}
-                                    onClick={handleConfirmAllImages}
+                                    onClick={
+                                      /* handleConfirmAllImages */ () =>
+                                        handleImage(inputNumber)
+                                    }
                                     style={{
                                       display: isLoading[inputNumber] && "none",
                                     }}
@@ -723,7 +800,6 @@ export const ProductsForm = ({
                     </div>
                   ))}
                 </InputsContainer>
-      
               </ImagesInputsContainer>
             </InfoImageContainer>
             <SubmitBtn
