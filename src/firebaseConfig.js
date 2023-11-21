@@ -22,11 +22,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 
-
 ///////////////////////////////////////////////////////////////////////////////
 /* traemos el metodo getFirestore y lo exportamos a la app con "db" (database) */
 export const db = getFirestore(app)
-
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -94,15 +92,6 @@ export const uploadFile = async (file) => {
     }, 1200); // Adjust the delay time as needed
   });
 };
-// export const uploadFile = async (file) => {
-//   const fileName = file.name;
-//   const storageRef = ref(storage, fileName);
-//   // const storageRef = ref(storage, v4())
-//   await uploadBytes(storageRef, file);
-//   const url = await getDownloadURL(storageRef);
-//   return url;
-// };
-
 
 export const deleteFile = async (file) => {
   const storageRef = ref(storage, v4())
