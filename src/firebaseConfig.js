@@ -77,13 +77,31 @@ export const forgotPassword = async (email) => {
 const storage = getStorage(app)
 
 export const uploadFile = async (file) => {
-  const fileName = file.name;
-  const storageRef = ref(storage, fileName);
-  // const storageRef = ref(storage, v4())
-  await uploadBytes(storageRef, file);
-  const url = await getDownloadURL(storageRef);
-  return url;
+  return new Promise((resolve, reject) => {
+    const fileName = file.name;
+    const storageRef = ref(storage, fileName);
+    // const storageRef = ref(storage, v4())
+
+    // Add a delay before uploading the file
+    setTimeout(async () => {
+      try {
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        resolve(url);
+      } catch (error) {
+        reject(error);
+      }
+    }, 1200); // Adjust the delay time as needed
+  });
 };
+// export const uploadFile = async (file) => {
+//   const fileName = file.name;
+//   const storageRef = ref(storage, fileName);
+//   // const storageRef = ref(storage, v4())
+//   await uploadBytes(storageRef, file);
+//   const url = await getDownloadURL(storageRef);
+//   return url;
+// };
 
 
 export const deleteFile = async (file) => {
