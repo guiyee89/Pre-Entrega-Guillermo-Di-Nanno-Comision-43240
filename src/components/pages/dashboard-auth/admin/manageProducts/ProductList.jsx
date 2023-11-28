@@ -14,8 +14,9 @@ import {
 import styled from "styled-components/macro";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { ProductsForm } from "./ProductsForm";
-import { deleteDoc, doc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../../../firebaseConfig";
 import { useContext, useState } from "react";
 import { PriceDiscountForm } from "./PriceDiscountForm";
@@ -57,9 +58,17 @@ export const ProductList = ({
     setOpen(true);
   };
 
-  // const editProduct = (id) => {
-  //   console.log(id);
-  // };
+  const copyProduct = async (id) => {
+    const itemsCollection = collection(db, "products");
+    const selectedProduct = products.find((product) => product.id === id);
+    // Remove the 'id' field to let Firebase generate a new ID
+    const copyItem = { ...selectedProduct };
+    delete copyItem.id;
+
+    await addDoc(itemsCollection, copyItem);
+
+    setIsChanged();
+  };
 
   const deleteProduct = async (id) => {
     await deleteDoc(doc(db, "products", id));
@@ -79,7 +88,7 @@ export const ProductList = ({
               onChange={(e) => setSearchProduct(e.target.value)}
               sx={{ marginTop: "12px", marginLeft: "8px", width: "130px" }}
               InputLabelProps={{
-                style: { fontSize: "12px", zIndex: "0"  },
+                style: { fontSize: "12px", zIndex: "0" },
               }}
             />
             <Button
@@ -88,6 +97,11 @@ export const ProductList = ({
                 marginLeft: "10px",
                 marginTop: "18px",
                 marginRight: "68px",
+                fontSize: "0.7rem",
+                backgroundColor: "black",
+                "&:hover": {
+                  backgroundColor: "#4b4d4e",
+                },
               }}
               onClick={() => fetchItemsByUserId()}
             >
@@ -97,7 +111,14 @@ export const ProductList = ({
           <div style={{ marginLeft: "7px" }}>
             <AddButton
               variant="contained"
-              sx={{ marginTop: "17px" }}
+              sx={{
+                marginTop: "17px",
+                fontSize: "0.7rem",
+                backgroundColor: "black",
+                "&:hover": {
+                  backgroundColor: "#4b4d4e",
+                },
+              }}
               onClick={() => handleOpen(null)}
             >
               Nuevo Producto
@@ -118,9 +139,11 @@ export const ProductList = ({
               <TableContainer>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 
-                    <TableHead sx={{position:"sticky", top:"0", zIndex:"100"}}>
-                      <TableRow sx={{position:"sticky", top:"0"}}>
-                        <TableCell align="center" >ID</TableCell>
+                    <TableHead
+                      sx={{ position: "sticky", top: "0", zIndex: "100" }}
+                    >
+                      <TableRow sx={{ position: "sticky", top: "0" }}>
+                        <TableCell align="center">ID</TableCell>
                         <TableCell align="center">Imagen</TableCell>
                         <TableCell align="center">Titulo</TableCell>
                         <TableCell align="center">Precio</TableCell>
@@ -129,10 +152,10 @@ export const ProductList = ({
                         <TableCell align="center">Size</TableCell>
                         <TableCell align="center">Color</TableCell>
                         <TableCell align="center">Categoria</TableCell>
-                        <TableCell align="center">Acciones</TableCell>
+                        <TableCell align="center">Editar / Copiar / Borrar</TableCell>
                       </TableRow>
                     </TableHead>
-               
+                 
                   <TableBody>
                     {Array.isArray(products) &&
                       products.map((product) => (
@@ -145,7 +168,14 @@ export const ProductList = ({
                           <TableCell align="center" component="th" scope="row">
                             {product.userId}
                           </TableCell>
-                          <ImgCell align="center" component="th" scope="row">
+                          <ImgCell
+                            align="center"
+                            component="th"
+                            scope="row"
+                            sx={{
+                              padding: windowWidth < 1100 ? "8px" : "12px",
+                            }}
+                          >
                             <img src={product.img[0]} />
                           </ImgCell>
                           <TableCell align="center" component="th" scope="row">
@@ -162,7 +192,7 @@ export const ProductList = ({
                           >
                             {product.discount ? (
                               <>
-                                {product.discount}% {/* <br /> */}( $
+                                {product.discount}% <br /> ( $
                                 {product.discountPrice} )
                               </>
                             ) : (
@@ -197,9 +227,17 @@ export const ProductList = ({
                           >
                             {product.category}
                           </TableCell>
-                          <TableCell align="center" component="th" scope="row">
+                          <TableCell
+                            align="center"
+                            component="th"
+                            scope="row"
+                            sx={{ padding: "4px", minWidth: "130px" }}
+                          >
                             <IconButton onClick={() => handleOpen(product)}>
                               <EditIcon />
+                            </IconButton>
+                            <IconButton onClick={() => copyProduct(product.id)}>
+                              <ContentCopyIcon />
                             </IconButton>
                             <IconButton
                               onClick={() => deleteProduct(product.id)}
@@ -237,14 +275,18 @@ export const ProductList = ({
   );
 };
 const ProductListWrapper = styled.div`
-  width: 100%;
+  width: 80%;
   margin-top: 200px;
+  @media (max-width: 950px) {
+    width: 100%;
+  }
 `;
 const ProductsButtonsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  margin: ${(props) => (props.windowWidth < 700 ? "0px" : "0px 0 0 70px;")};
+  justify-content: space-between;
+  margin: ${(props) =>
+    props.windowWidth < 750 ? "0px 16px 0 0" : "0px 70px 0 70px;"};
 `;
 
 const TextFieldInput = styled(TextField)`
@@ -259,7 +301,7 @@ const ProductListContainer = styled.div`
   margin-top: 30px;
 `;
 const ImgCell = styled(TableCell)`
-  width: 10%;
+  width: 9%;
 `;
 const style = {
   position: "absolute",
