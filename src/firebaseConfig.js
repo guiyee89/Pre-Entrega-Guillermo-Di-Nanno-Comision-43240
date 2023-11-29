@@ -89,7 +89,7 @@ export const uploadFile = async (file) => {
       } catch (error) {
         reject(error);
       }
-    }, 1200); // Adjust the delay time as needed
+    }, 1000); // Adjust the delay time as needed
   });
 };
 

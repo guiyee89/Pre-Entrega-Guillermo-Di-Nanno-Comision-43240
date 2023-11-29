@@ -565,8 +565,10 @@ export const ProductsForm = ({
                       <div
                         key={index}
                         style={{
-                          height: "17%",
+                          height: "19%",
+                          paddingTop: "5px",
                           borderTop: "1px solid lightgray",
+                          borderBottom: "1px solid lightgrey",
                         }}
                       >
                         <p
@@ -629,8 +631,10 @@ export const ProductsForm = ({
                       <div
                         key={slotIndex}
                         style={{
-                          height: "17%",
+                          height: "19%",
+                          paddingTop: "5px",
                           borderTop: "1px solid lightgray",
+                          borderBottom: "1px solid lightgrey",
                         }}
                       >
                         <p
@@ -696,8 +700,10 @@ export const ProductsForm = ({
                     <div
                       key={inputNumber}
                       style={{
-                        height: "17%",
+                        height: "19%",
+                        paddingTop: "5px",
                         borderTop: "1px solid lightgray",
+                        borderBottom: "1px solid lightgrey",
                         width: "98%",
                       }}
                     >
@@ -710,13 +716,14 @@ export const ProductsForm = ({
                         {inputNumber === 1 ? "Imagen Principal" : "(Opcional)"}{" "}
                       </h2>
                       <ImageDiv>
-                        <Button
+                        <LoadImgBtn
                           component="label"
                           variant="contained"
                           startIcon={<CloudUploadIcon />}
                           size="small"
                           sx={{
                             margin: "5px 60px 20px 10px",
+                            fontSize: "0.6125rem",
                             "& .MuiButton-label": {
                               display: "flex",
                               alignItems: "center",
@@ -741,15 +748,15 @@ export const ProductsForm = ({
                               display: "none",
                             }}
                           />
-                        </Button>
+                        </LoadImgBtn>
 
                         {file[inputNumber].length > 0 && (
                           <div>
-                            <CloseIcon
+                            <CancelUploadedFile
                               sx={{
                                 cursor: "pointer",
                                 position: "absolute",
-                                right: "57%",
+                                right: "50%",
                               }}
                               fontSize="small"
                               onClick={() => handleCancelFile(inputNumber)}
@@ -773,13 +780,13 @@ export const ProductsForm = ({
                                     />
                                   </div>
                                 ) : (
-                                  <LoadImgBtn
+                                  <ConfirmImgLoadBtn
                                     variant="contained"
                                     size="small"
                                     sx={{
-                                      minWidth: "100px",
                                       marginTop: "5px",
                                       paddingBottom: "3px",
+                                      fontSize: "0.6125rem",
                                     }}
                                     onClick={
                                       /* handleConfirmAllImages */ () =>
@@ -790,7 +797,7 @@ export const ProductsForm = ({
                                     }}
                                   >
                                     Confirmar
-                                  </LoadImgBtn>
+                                  </ConfirmImgLoadBtn>
                                 )}
                               </>
                             )}
@@ -805,7 +812,13 @@ export const ProductsForm = ({
             <SubmitBtn
               type="submit"
               variant="contained"
-              sx={{ margin: "20px auto" }}
+              sx={{
+                margin: "20px auto",
+                backgroundColor: "black",
+                "&:hover": {
+                  backgroundColor: "#4b4d4e",
+                },
+              }}
             >
               {selectedItem ? "Confirmar cambios" : "Crear Producto"}
             </SubmitBtn>
@@ -826,17 +839,28 @@ const FormWrapper = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  width: 90%;
 `;
 const Input = styled(TextField)`
   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
     padding: 12.5px 5px;
   }
 `;
+const ConfirmImgLoadBtn = styled(Button)`
+  width: 100px;
+  @media (max-width: 420px) {
+    width: 70px;
+  }
+`;
 const LoadImgBtn = styled(Button)`
-  width: 60%;
+  width: 100px;
 `;
 const SubmitBtn = styled(Button)`
-  width: 60%;
+  width: 25%;
+  @media (max-width: 900px) {
+    width: 200px;
+  }
 `;
 const SuccessMessage = styled.p`
   color: #091209;
@@ -848,6 +872,9 @@ const ProductInfo = styled.div`
 `;
 const InfoImageContainer = styled.div`
   display: flex;
+  @media (max-width: 56.25rem) {
+    flex-direction: column;
+  }
 `;
 const Div = styled.div`
   display: flex;
@@ -862,11 +889,29 @@ const ImageDiv = styled.div`
   margin: 21px 0px 0 10px;
   position: relative;
 `;
+const CancelUploadedFile = styled(CloseIcon)`
+  @media (max-width: 900px) {
+    left: 30%;
+  }
+  @media (max-width: 570px) {
+    left: 36%;
+  }
+  @media (max-width: 500px) {
+    left: 40%;
+  }
+  @media (max-width: 392px) {
+    left: 44%;
+  }
+`;
 const ImagesInputsContainer = styled.div`
   display: flex;
   justify-content: flex-start;
-  width: 100%;
+  width: 85%;
   margin-left: 15px;
+  @media (max-width: 500px) {
+    margin-left: 0px;
+    width: 98%;
+  }
 `;
 const InputsContainer = styled.div`
   display: flex;

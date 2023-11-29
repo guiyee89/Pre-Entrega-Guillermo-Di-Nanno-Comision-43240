@@ -42,7 +42,7 @@ export const ItemDetailContainer = () => {
             ...response.data(),
             id: response.id,
           });
-          console.log(selectedItem);
+
           setTimeout(() => {
             setPageLoading(false);
             setProgressComplete(true);
@@ -55,6 +55,7 @@ export const ItemDetailContainer = () => {
         console.log(err);
       }
     };
+    console.log(selectedItem);
     const timer = setTimeout(fetchItem, delay); // Fix here: Change fetchData to fetchItem
     return () => {
       clearTimeout(timer); // Clear the timeout if the component unmounts

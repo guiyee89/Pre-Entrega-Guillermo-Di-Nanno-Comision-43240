@@ -85,5 +85,8 @@ const LogoutBtn = styled.button`
   position: absolute;
   margin-right: 10px;
   top: 95px;
-  right: 0;
+  right: 14%;
+  @media (max-width:950px){
+    right: 0;
+  }
 `;
