@@ -11,6 +11,25 @@ import styled from "styled-components/macro";
 import { Ring } from "@uiball/loaders";
 
 //Swal Sweet Alert Message - NO AVAILABLE STOCK
+// const missingItemMessage = (missingItems) => {
+//   let message = "<ul style='list-style-type: none; padding: 0;'>";
+
+//   missingItems.forEach((item) => {
+//     if (item.notFound) {
+//       message += `<li style='display: flex; align-items: center; margin-bottom: 10px;'>
+//                     <img src="${item.img[0]}" alt="${item.title}" style='width: 100px; height: 100px; object-fit:contain; padding-right: 20px' />
+//                     <span style='font-weight: bold; color: black; padding-right: 20px'>${item.title}</span style ='color: black'> - <span>Product not found</span> - Size: ${item.size}
+//                   </li>`;
+//     } else {
+//       message += `<li style='display: flex; align-items: center; margin-bottom: 10px;'>
+//                     <img src="${item.img[0]}" alt="${item.title}" style='width: 100px; height: 100px; object-fit:contain; padding-right: 20px' />
+//                     <span style='font-weight: bold; color: black; padding-right: 20px'>${item.title}</span style ='color: black'> - <span>No stock</span> - Size: ${item.size}
+//                   </li>`;
+//     }
+//   });
+//   message += "</ul>";
+//   return message;
+// };
 const missingItemMessage = (missingItems) => {
   let message = "<ul style='list-style-type: none; padding: 0;'>";
 
@@ -101,7 +120,7 @@ export const CartContainer = () => {
       // Ya no hay stock de productos o productos no encontrados
       Swal.fire({
         title:
-          "<span style='font-size: 1rem; color: black; line-height:0.1'>Some items in your cart are no longer available:</span> <br>  <span style=' color: #c42828; line-height:4; font-size:1.2rem'>Product not found or change in Stock</span>",
+          "<span style='font-size: 1.2rem; color: black; line-height:0.1'>Some items in your cart are no longer available or data has been recently updated :</span> <br>  <span style=' color: #851a1a; line-height:4; font-size:1.3rem'>Product not found</span>",
         html: missingItemMessage(missingItems),
       });
     }
@@ -134,4 +153,8 @@ const LoaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 550px;
+`;
+const StyledSwalTitle = styled.span`
+  font-size: 1em;
+  /* Add any other styles you need */
 `;
