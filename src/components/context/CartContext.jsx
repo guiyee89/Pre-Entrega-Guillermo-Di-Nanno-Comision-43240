@@ -253,6 +253,7 @@ const CartContextProvider = ({ children }) => {
   //Almaceno la info y las funciones del context en el objeto "data" para retornarlo a sus children
   let data = {
     cart,
+    setCart,
     addToCart,
     clearCart,
     removeById,

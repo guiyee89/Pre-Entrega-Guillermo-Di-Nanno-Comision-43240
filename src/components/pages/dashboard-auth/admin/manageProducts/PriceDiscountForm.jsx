@@ -11,7 +11,6 @@ export const PriceDiscountForm = ({ setIsChanged, products }) => {
   const [getPrice, setGetPrice] = useState();
   const { windowWidth } = useContext(GlobalToolsContext);
 
-
   useEffect(() => {
     // Find the product with the given userId
     const productProperties = products.find(
@@ -123,13 +122,21 @@ export const PriceDiscountForm = ({ setIsChanged, products }) => {
                 value={getDiscount || ""}
                 onChange={handleChange}
                 InputLabelProps={{
-                  style: { fontSize: "14px", zIndex: "0"  },
+                  style: { fontSize: "14px", zIndex: "0" },
                 }}
                 // helperText={errors.discount}
                 // error={errors.discount ? true : false}
               />
             </div>
-            <SubmitBtn type="submit" variant="contained" sx={{ minWidth: "120px"}}>
+            <SubmitBtn
+              type="submit"
+              variant="contained"
+              sx={{
+                minWidth: "100px",
+                fontSize: "0.65rem",
+                backgroundColor: "#1e4a75",
+              }}
+            >
               Confirmar
             </SubmitBtn>
           </Form>
@@ -150,7 +157,7 @@ const Form = styled.form`
   align-items: center;
   gap: 1rem;
   justify-content: flex-start;
-  margin: ${(props) => props.windowWidth < 700 ? "0" : "0px 0px 0px 70px;"}
+  margin: ${(props) => (props.windowWidth < 750 ? "0" : "0px 0px 0px 70px;")};
 `;
 const Div = styled.div`
   width: 100%;
@@ -162,6 +169,4 @@ const Input = styled(TextField)`
   }
   width: 130px;
 `;
-const SubmitBtn = styled(Button)`
- 
-`;
+const SubmitBtn = styled(Button)``;

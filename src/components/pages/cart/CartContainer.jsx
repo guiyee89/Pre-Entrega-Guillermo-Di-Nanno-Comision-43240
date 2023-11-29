@@ -11,33 +11,62 @@ import styled from "styled-components/macro";
 import { Ring } from "@uiball/loaders";
 
 //Swal Sweet Alert Message - NO AVAILABLE STOCK
+// const missingItemMessage = (missingItems) => {
+//   let message = "<ul style='list-style-type: none; padding: 0;'>";
+
+//   missingItems.forEach((item) => {
+//     if (item.notFound) {
+//       message += `<li style='display: flex; align-items: center; margin-bottom: 10px;'>
+//                     <img src="${item.img[0]}" alt="${item.title}" style='width: 100px; height: 100px; object-fit:contain; padding-right: 20px' />
+//                     <span style='font-weight: bold; color: black; padding-right: 20px'>${item.title}</span style ='color: black'> - <span>Product not found</span> - Size: ${item.size}
+//                   </li>`;
+//     } else {
+//       message += `<li style='display: flex; align-items: center; margin-bottom: 10px;'>
+//                     <img src="${item.img[0]}" alt="${item.title}" style='width: 100px; height: 100px; object-fit:contain; padding-right: 20px' />
+//                     <span style='font-weight: bold; color: black; padding-right: 20px'>${item.title}</span style ='color: black'> - <span>No stock</span> - Size: ${item.size}
+//                   </li>`;
+//     }
+//   });
+//   message += "</ul>";
+//   return message;
+// };
 const missingItemMessage = (missingItems) => {
   let message = "<ul style='list-style-type: none; padding: 0;'>";
 
   missingItems.forEach((item) => {
     message += `<li style='display: flex; align-items: center; margin-bottom: 10px;'>
-                  <img src="${item.img[0]}" alt="${item.title}" style='width: 100px; height: 100px; object-fit:contain; padding-right: 20px' />
-                  <span style='font-weight: bold; color: black; padding-right: 20px'>${item.title}</span style ='color: black'> - <span> No stock </span>
+    
+                  <img src="${item.img[0]}" alt="${
+      item.title
+    }" style='width: 100px; height: 100px; object-fit: contain; padding-right: 20px' />
+                  <span style='font-weight: bold; color: black; padding-right: 20px'>${
+                    item.title
+                  }</span> ${" "} <span style='font-weight: bold; color: grey; padding-right: 20px'> Size: <span style='text-transform:uppercase'>${
+      item.size
+    }</span></span>
                 </li>`;
   });
+
   message += "</ul>";
   return message;
 };
 
 export const CartContainer = () => {
-  const { windowWidth, setProgress, setVisible } = useContext(GlobalToolsContext);
-  const { cart } = useContext(CartContext);
+  const { windowWidth, setProgress, setVisible } =
+    useContext(GlobalToolsContext);
+  const { cart, setCart } = useContext(CartContext);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
   useEffect(() => {
-    setVisible(true)
-    setLoading(true)
-    setProgress(2)
+    console.log(cart);
+    setVisible(true);
+    setLoading(true);
+    setProgress(2);
     setTimeout(() => {
       setLoading(false);
       if (loading === false) {
@@ -46,10 +75,10 @@ export const CartContainer = () => {
     }, 750);
   }, []);
 
-
   const realizarCompra = async () => {
     let isValid = true;
     const missingItems = [];
+    const updatedCart = [];
 
     for (const product of cart) {
       const productRef = doc(db, "products", product.id);
@@ -58,27 +87,47 @@ export const CartContainer = () => {
       if (!productSnapshot.exists()) {
         // Producto no existe en Firebase
         isValid = false;
-        missingItems.push(product);
-      }
+        missingItems.push({ ...product, notFound: true });
 
-      const productData = productSnapshot.data();
-      if (product.quantity > productData.stock) {
-        // Cantidad de producto en localStorage excede el stock en Firebase
-        isValid = false;
-        missingItems.push(product);
+        // Remove the non-existing item from localStorage
+        const updatedCart = cart.filter((item) => item.id !== product.id);
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+      } else {
+        const productData = productSnapshot.data();
+
+        // Check if the size in the database matches the size in the cart
+        if (product.size !== productData.size) {
+          isValid = false;
+          missingItems.push({ ...product, sizeMismatch: true });
+          // Skip adding this item to the updatedCart
+          continue;
+        }
+
+        if (product.quantity > productData.stock) {
+          // Cantidad de producto en localStorage excede el stock en Firebase
+          isValid = false;
+          missingItems.push(product);
+        }
+
+        // Add the item to the updatedCart
+        updatedCart.push(product);
       }
     }
 
     if (isValid) {
       navigate("/Checkout");
     } else {
-      // Ya no hay stock de productos
+      // Ya no hay stock de productos o productos no encontrados
       Swal.fire({
         title:
-          "<span style='font-size: 1rem; color: black'>Some items in your cart are no longer available :</span>",
+          "<span style='font-size: 1.2rem; color: black; line-height:0.1'>Some items in your cart are no longer available or data has been recently updated :</span> <br>  <span style=' color: #851a1a; line-height:4; font-size:1.3rem'>Product not found</span>",
         html: missingItemMessage(missingItems),
       });
     }
+    // Set the updatedCart to the localStorage
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    // Set the updatedCart to the CartContext or any state where you manage the cart
+    setCart(updatedCart);
   };
 
   return (
@@ -104,4 +153,8 @@ const LoaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 550px;
+`;
+const StyledSwalTitle = styled.span`
+  font-size: 1em;
+  /* Add any other styles you need */
 `;
