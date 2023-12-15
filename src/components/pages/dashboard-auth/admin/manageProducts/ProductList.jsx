@@ -86,7 +86,11 @@ export const ProductList = ({
               name="id"
               value={searchProduct}
               onChange={(e) => setSearchProduct(e.target.value)}
-              sx={{ marginTop: "12px", marginLeft: "8px", width: "130px" }}
+              sx={{ marginTop: "12px", marginLeft: "8px", width: "130px", 
+              "&.MuiInputBase-input":{
+                padding: "10.5px 14px"
+              }
+             }}
               InputLabelProps={{
                 style: { fontSize: "12px", zIndex: "0" },
               }}
@@ -290,6 +294,7 @@ const ProductsButtonsContainer = styled.div`
 `;
 
 const TextFieldInput = styled(TextField)`
+
   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
     padding: 11.5px 4px;
     text-align: center;

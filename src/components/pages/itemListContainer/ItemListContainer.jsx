@@ -25,8 +25,9 @@ export const ItemListContainer = () => {
 
 
   const [items, setItems] = useState([]); //Guardamos los items
+  const [allItems, setAllItems] = useState([])//Save all items to filter properly
   const { categoryName } = useParams(); //useParams de react-router-dom para filtrar productos por categoryName
-
+  
 
   const navigate = useNavigate(); //Pasamos useNavigate() como prop
   const {
@@ -79,6 +80,7 @@ export const ItemListContainer = () => {
         });
 
         setItems(uniqueProducts);
+        setAllItems(products)
         console.log(uniqueProducts);
         setTimeout(() => {
           setPageLoading(false);
@@ -152,6 +154,7 @@ export const ItemListContainer = () => {
                   <DesktopFilterWrapper scrolled={scroll}>
                     <DesktopFilter
                       items={items}
+                      allItems={allItems}
                       onFilterChange={handleFilterChange}
                       setCurrentPage={setCurrentPage}
                       setItemLoader={setItemLoader}
@@ -165,6 +168,7 @@ export const ItemListContainer = () => {
                   >
                     <MobileFilter
                       items={items}
+                      allItems={allItems}
                       onFilterChange={handleFilterChange}
                       setCurrentPage={setCurrentPage}
                       setItemLoader={setItemLoader}
@@ -176,7 +180,7 @@ export const ItemListContainer = () => {
                   {/* RENDERING ITEMS */}
 
                   <ItemList
-                    items={filteredItems}
+                    filteredItems={filteredItems}
                     navigate={navigate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
@@ -216,7 +220,7 @@ const DesktopFilterWrapper = styled.aside`
   flex-direction: column;
   margin: 5px 8px 0px 0px;
   height: 750px;
-  min-width: 255px;
+  min-width: 250px;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: start;
@@ -224,6 +228,9 @@ const DesktopFilterWrapper = styled.aside`
   position: sticky;
   top: 110px;
   background-color: rgb(253, 253, 253);
+  @media (max-width:1200px){
+    min-width: 228px;
+  }
   @media (max-width: 1050px) {
     min-width: 200px;
     padding-left: 5px;
