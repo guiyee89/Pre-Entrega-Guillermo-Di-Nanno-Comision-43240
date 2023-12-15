@@ -2,7 +2,7 @@ import styled from "styled-components/macro";
 import { BsEyeFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import { Pagination, PaginationItem } from "@mui/material";
+import { Button, Pagination, PaginationItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 import TuneIcon from "@mui/icons-material/Tune";
@@ -11,7 +11,7 @@ import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import { Ring } from "@uiball/loaders";
 
 export const ItemList = ({
-  items,
+  filteredItems,
   navigate,
   currentPage,
   setCurrentPage,
@@ -31,6 +31,7 @@ export const ItemList = ({
     windowWidth,
     setProgress,
     setVisible,
+    scroll,
   } = useContext(GlobalToolsContext);
 
   //////////////////////////                    ////////////////////////////
@@ -72,8 +73,8 @@ export const ItemList = ({
   //Render 12 items per page on 991px screen width
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const itemsToDisplay = items.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(items.length / itemsPerPage);
+  const itemsToDisplay = filteredItems.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
   //scroll back to top of page when change pagination
   useEffect(() => {
@@ -91,13 +92,13 @@ export const ItemList = ({
 
   const [productsQuantity, setProductsQuantity] = useState();
   const showProductsQuantity = () => {
-    setProductsQuantity(items.length); // Update the state with the number of items
+    setProductsQuantity(filteredItems.length); // Update the state with the number of items
   };
 
   useEffect(() => {
     // Call the showProductsQuantity function to update the productsQuantity state
     showProductsQuantity();
-  }, [items]);
+  }, [filteredItems]);
 
   //Img Skeleton
   const [imgskeleton, setImgskeleton] = useState(false);
@@ -138,7 +139,7 @@ export const ItemList = ({
       </HeaderContainer>
 
       {itemLoader && ( //Loader for filters
-        <LoaderOverlay>
+        <LoaderOverlay scrolled={scroll}>
           <Ring size={35} lineWeight={7} speed={1} color="black" />
         </LoaderOverlay>
       )}
@@ -190,7 +191,9 @@ export const ItemList = ({
                 {hasDiscount && product.discount !== null ? (
                   <ItemPriceWrapper hasDiscount={hasDiscount}>
                     {hasDiscount && (
-                      <DiscountPrice>$ {product.discountPrice.toFixed(2)}</DiscountPrice>
+                      <DiscountPrice>
+                        $ {product.discountPrice.toFixed(2)}
+                      </DiscountPrice>
                     )}
                     <Price hasDiscount={hasDiscount}>
                       $ {product.unit_price.toFixed(2)}
@@ -253,8 +256,11 @@ const Wrapper = styled.div`
 `;
 const LoaderOverlay = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
+  top: ${(props) => (props.scrolled === "scrolled" ? "64px" : "90.5px")};
+  transition: top
+    ${(props) => (props.scrolled === "scrolled" ? "0.16s" : "0.16s")}
+    ease-in-out;
+  left: 0px;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
@@ -447,6 +453,11 @@ const Discount = styled.h4`
     height: 38px;
     font-size: 0.8rem;
     line-height: 3.1;
+  }
+  @media (max-width: 1300px) {
+    width: 41px;
+    height: 41px;
+    font-size: 0.95rem;
   }
 `;
 const HeaderContainer = styled.div`
