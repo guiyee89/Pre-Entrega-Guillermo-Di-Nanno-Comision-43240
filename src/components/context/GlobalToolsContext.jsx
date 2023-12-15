@@ -46,6 +46,24 @@ const GlobalToolsProvider = ({ children }) => {
   const [visible, setVisible] = useState(false);
   const [progressComplete, setProgressComplete] = useState(false);
 
+    //////////        ////////////        ////////////        ///////////
+  //                       Scroll Effect                      //
+  const [scroll, setScroll] = useState("not-scrolled");
+  //funcion para darle efecto al navbar al scrollear 12% de la pantalla
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = window.innerHeight * 0.05; // 10% of screen height
+      if (window.scrollY > scrollHeight) {
+        setScroll("scrolled");
+      } else {
+        setScroll("not-scrolled");
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const value = {
     isOpen,
@@ -64,7 +82,8 @@ const GlobalToolsProvider = ({ children }) => {
     visible,
     setVisible,
     progressComplete,
-    setProgressComplete
+    setProgressComplete,
+    scroll
   };
 
   return (

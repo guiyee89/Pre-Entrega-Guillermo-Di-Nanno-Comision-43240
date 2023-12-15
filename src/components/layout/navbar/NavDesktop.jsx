@@ -9,6 +9,7 @@ import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import { AuthContext } from "../../context/AuthContext";
 import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
+import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 
 export const NavDesktop = () => {
   const navigate = useNavigate();
@@ -19,9 +20,10 @@ export const NavDesktop = () => {
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
   const totalItems = getTotalItems();
+  const { scroll } = useContext(GlobalToolsContext);
 
   //////////        ////////////        ////////////        ///////////
-  //                       Scroll Effect                      //
+/*   //                       Scroll Effect                      //
   const [scroll, setScroll] = useState("not-scrolled");
   //funcion para darle efecto al navbar al scrollear 12% de la pantalla
   useEffect(() => {
@@ -37,12 +39,15 @@ export const NavDesktop = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, []); */
 
   //////////        ////////////        ////////////        ///////////
   //                 Reset localStorage on nav links               //
   const handleNavLinkClick = () => {
     localStorage.removeItem("selectedFilters");
+    localStorage.removeItem("selectedSizeOrder");
+    localStorage.removeItem("selectedCategoryOrder");
+    localStorage.removeItem("selectedColorOrder");
     localStorage.removeItem("currentPage");
   };
 

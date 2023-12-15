@@ -21,6 +21,7 @@ import { Ring } from "@uiball/loaders";
 
 export const MobileFilter = ({
   items,
+  allItems,
   onFilterChange,
   setCurrentPage,
   setItemLoader,
@@ -44,25 +45,14 @@ export const MobileFilter = ({
   //----------       CATEGORY MAPING      ---------//
   const uniqueCategory = Array.from(
     new Set(items.map((item) => item.category))
-  );
+  ).filter((category) => category !== undefined);
+  
 
   //----------        SIZE MAPING       ----------//
-  /* const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
-  console.log(uniqueSizes) */
-  const sizeMapping = {
-    xs: "xs",
-    s: "s",
-    m: "m",
-    l: "l",
-    xl: "xl",
-    xxl: "xxl",
-    39: "39",
-    40: "40",
-    41: "41",
-    42: "42",
-    43: "43",
-    44: "44",
-  };
+  const uniqueSizes = Array.from(
+    new Set(allItems.map((item) => item.size))
+  ).filter((size) => size !== undefined);
+
 
   //----------       COLOR MAPING      ----------//
   // Define a mapping of color names to CSS color values
@@ -491,10 +481,10 @@ export const MobileFilter = ({
             >
               Clear filters
             </ClearFilterBtn>
-            <AccordionDetails sx={{ padding: "30px 36px 18px 7px;" }}>
+            <AccordionDetails sx={{ padding: "30px 36px 18px 15px;" }}>
               <Grid container spacing={0}>
-                {Object.keys(sizeMapping)
-                  /* uniqueSizes */ .sort((a, b) => {
+                {/* Object.keys(sizeMapping) */
+                  uniqueSizes.sort((a, b) => {
                     const sizeOrder = {
                       xs: 1,
                       s: 2,
@@ -508,7 +498,7 @@ export const MobileFilter = ({
                     return aOrder - bOrder;
                   })
                   .map((size, index) => (
-                    <Grid item xs={6} key={index}>
+                    <Grid item xs={5} key={index}>
                       <CheckboxWrapper>
                         <SizeCheckboxLabel>
                           <SizeCheckboxInput
@@ -580,7 +570,7 @@ export const MobileFilter = ({
             >
               Clear filters
             </ClearFilterBtn>
-            <AccordionDetails sx={{ padding: "20px 35px 20px 24px" }}>
+            <AccordionDetails sx={{ padding: "20px 20px 20px 27px" }}>
               <Grid container spacing={1}>
                 {/* Use the Grid container */}
                 {Object.keys(colorMapping).map((colorKey, index) => {
@@ -591,7 +581,7 @@ export const MobileFilter = ({
                       : checkBoxColors[0];
 
                   return (
-                    <Grid item xs={6} key={index}>
+                    <Grid item xs={5} key={index}>
                       <FormControlLabel
                         sx={{
                           flexDirection: "column",

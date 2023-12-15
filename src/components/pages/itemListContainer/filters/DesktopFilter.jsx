@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import {
   Accordion,
@@ -15,13 +15,16 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 import { useParams } from "react-router-dom";
 import { Ring } from "@uiball/loaders";
+import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 
 export const DesktopFilter = ({
   items,
+  allItems,
   onFilterChange,
   setCurrentPage,
   setItemLoader,
 }) => {
+  const { windowWidth } = useContext(GlobalToolsContext);
   //////////           ////////////           ////////////           ///////////           ///////////
   //                       STATE FOR DIFFERENT FILTERS                        //
   const [detailsFilters, setDetailsFilters] = useState({
@@ -35,26 +38,48 @@ export const DesktopFilter = ({
   //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
 
   //----------       CATEGORY MAPING      ---------//
-  const uniqueCategory = Array.from(
+  const availableCategory = Array.from(
     new Set(items.map((item) => item.category))
-  );
+  ).filter((category) => category !== undefined);
+
+  const [selectedCategoryOrder, setSelectedCategoryOrder] = useState([]);
+
+  const handleCategorySelect = (selectedCategory) => {
+    const isCategorySelected = selectedCategoryOrder.includes(selectedCategory);
+
+    if (!isCategorySelected) {
+      const newOrder = [selectedCategory, ...selectedCategoryOrder];
+      setSelectedCategoryOrder(newOrder);
+    } else {
+      const newOrder = selectedCategoryOrder.filter(
+        (category) => category !== selectedCategory
+      );
+      setSelectedCategoryOrder(newOrder);
+    }
+  };
 
   //----------        SIZE MAPING       ----------//
-  /* const uniqueSizes = Array.from(new Set(items.map((item) => item.size)));
-  console.log(uniqueSizes) */
-  const sizeMapping = {
-    xs: "xs",
-    s: "s",
-    m: "m",
-    l: "l",
-    xl: "xl",
-    xxl: "xxl",
-    39: "39",
-    40: "40",
-    41: "41",
-    42: "42",
-    43: "43",
-    44: "44",
+  const availableSizes = Array.from(
+    new Set(allItems.map((item) => item.size))
+  ).filter((size) => size !== undefined);
+
+  const [selectedSizeOrder, setSelectedSizeOrder] = useState([]);
+
+  const handleSizeSelect = (selectedSize) => {
+    // Check if the size is already in the selectedSizeOrder array
+    const isSizeSelected = selectedSizeOrder.includes(selectedSize);
+
+    if (!isSizeSelected) {
+      // If the size is not selected, add it to the front of the array
+      const newOrder = [selectedSize, ...selectedSizeOrder];
+      setSelectedSizeOrder(newOrder);
+    } else {
+      // If the size is already selected, remove it from the order
+      const newOrder = selectedSizeOrder.filter(
+        (size) => size !== selectedSize
+      );
+      setSelectedSizeOrder(newOrder);
+    }
   };
 
   //----------       COLOR MAPING      ----------//
@@ -79,8 +104,35 @@ export const DesktopFilter = ({
   //   return words[0];
   // };
 
+  const [selectedColorOrder, setSelectedColorOrder] = useState([]);
+
+  const handleColorSelect = (selectedColor) => {
+    // Check if the size is already in the selectedSizeOrder array
+    const isColorSelected = selectedColorOrder.includes(selectedColor);
+
+    if (!isColorSelected) {
+      // If the size is not selected, add it to the front of the array
+      const newOrder = [selectedColor, ...selectedColorOrder];
+      setSelectedColorOrder(newOrder);
+    } else {
+      // If the size is already selected, remove it from the order
+      const newOrder = selectedColorOrder.filter(
+        (color) => color !== selectedColor
+      );
+      setSelectedColorOrder(newOrder);
+    }
+  };
+
+  // Clear selected sizes order and get back to available sizes
+  const clearOrderedFilters = () => {
+    setSelectedSizeOrder([]);
+    setSelectedCategoryOrder([]);
+    setSelectedColorOrder([]);
+  };
+
   //////////           ////////////           ////////////           ///////////           ///////////
   //                                FILTERING LOGIC FOR ALL ITEMS                                  //
+
   const { categoryName } = useParams();
 
   // Fetch items from Firestore Database and filter accordingly on selection
@@ -229,8 +281,20 @@ export const DesktopFilter = ({
   // Load selected filters from localStorage when the component mounts
   useEffect(() => {
     const storedFilters = localStorage.getItem("selectedFilters");
+    const storedSizeOrder = localStorage.getItem("selectedSizeOrder");
+    const storedCategoryOrder = localStorage.getItem("selectedCategoryOrder");
+    const storedColorOrder = localStorage.getItem("selectedColorOrder");
     if (storedFilters) {
       setDetailsFilters(JSON.parse(storedFilters));
+    }
+    if (storedSizeOrder) {
+      setSelectedSizeOrder(JSON.parse(storedSizeOrder));
+    }
+    if (storedCategoryOrder) {
+      setSelectedCategoryOrder(JSON.parse(storedCategoryOrder));
+    }
+    if (storedColorOrder) {
+      setSelectedColorOrder(JSON.parse(storedColorOrder));
     }
   }, []);
 
@@ -239,8 +303,20 @@ export const DesktopFilter = ({
     // Check if detailsFilters object has at least one property set
     if (Object.values(detailsFilters).some((value) => value !== "")) {
       localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
+      localStorage.setItem(
+        "selectedSizeOrder",
+        JSON.stringify(selectedSizeOrder)
+      );
+      localStorage.setItem(
+        "selectedCategoryOrder",
+        JSON.stringify(selectedCategoryOrder)
+      );
+      localStorage.setItem(
+        "selectedColorOrder",
+        JSON.stringify(selectedColorOrder)
+      );
     }
-  }, [detailsFilters]);
+  }, [detailsFilters, selectedSizeOrder, selectedCategoryOrder, selectedColorOrder]);
 
   //////////           ////////////           ////////////           ///////////           ///////////
   return (
@@ -258,7 +334,11 @@ export const DesktopFilter = ({
               orderBy: "",
             }));
             localStorage.removeItem("selectedFilters");
+            localStorage.removeItem("selectedSizeOrder");
+            localStorage.removeItem("selectedCategoryOrder");
+            localStorage.removeItem("selectedColorOrder");
             handleResetFilters();
+            clearOrderedFilters();
           }}
         >
           Reset all filters
@@ -273,7 +353,11 @@ export const DesktopFilter = ({
         </Loader>
 
         {/****************      GENERAL FILTER       ****************/}
-        <Accordion defaultExpanded sx={styles.expandedAccordion}>
+        <Accordion
+          defaultExpanded
+          sx={styles.expandedAccordion(windowWidth)}
+          screen={windowWidth}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -341,7 +425,11 @@ export const DesktopFilter = ({
         </Accordion>
 
         {/****************      CATEGORY FILTER       ****************/}
-        <Accordion defaultExpanded sx={styles.expandedAccordion}>
+        <Accordion
+          defaultExpanded
+          sx={styles.expandedAccordion(windowWidth)}
+          screen={windowWidth}
+        >
           <AccordionSummary
             sx={{
               "&.Mui-expanded": {
@@ -356,7 +444,7 @@ export const DesktopFilter = ({
             <Typography
               sx={{
                 fontWeight: "bold",
-                marginLeft: "22px",
+                marginLeft: "25px",
                 fontSize: "1.1rem",
                 color: "#555454",
               }}
@@ -378,7 +466,7 @@ export const DesktopFilter = ({
             Clear filters
           </ClearFilterBtn>
           <AccordionDetails sx={{ paddingTop: "18px", minWidth: "212px" }}>
-            {uniqueCategory.map((category, index) => (
+            {selectedCategoryOrder.map((category, index) => (
               <FormControlLabel
                 key={index}
                 sx={{
@@ -389,25 +477,25 @@ export const DesktopFilter = ({
                 control={
                   <Checkbox
                     sx={{
-                      color: "#949495;",
-                      width: "2.2rem;",
+                      color: "#949495",
+                      width: "2.2rem",
                       "&.Mui-checked": {
                         color: "black",
                         width: "2.2rem",
                       },
                     }}
                     checked={detailsFilters.category.includes(category)}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       handleDetailsFilterChange(
-                        //Handle details function
                         "category",
                         updateFilterArray(
                           detailsFilters.category,
                           category,
                           e.target.checked
                         )
-                      )
-                    }
+                      );
+                      handleCategorySelect(category);
+                    }}
                   />
                 }
                 label={
@@ -421,11 +509,60 @@ export const DesktopFilter = ({
                 }
               />
             ))}
+            {availableCategory
+              .filter((category) => !selectedCategoryOrder.includes(category))
+              .map((category, index) => (
+                <FormControlLabel
+                  key={index}
+                  sx={{
+                    ...selectStyle,
+                    marginBottom: "3px",
+                    textTransform: "capitalize",
+                  }}
+                  control={
+                    <Checkbox
+                      sx={{
+                        color: "#949495",
+                        width: "2.2rem",
+                        "&.Mui-checked": {
+                          color: "black",
+                          width: "2.2rem",
+                        },
+                      }}
+                      checked={detailsFilters.category.includes(category)}
+                      onChange={(e) => {
+                        handleDetailsFilterChange(
+                          "category",
+                          updateFilterArray(
+                            detailsFilters.category,
+                            category,
+                            e.target.checked
+                          )
+                        );
+                        handleCategorySelect(category);
+                      }}
+                    />
+                  }
+                  label={
+                    <Typography
+                      sx={{
+                        fontSize: "0.88rem",
+                      }}
+                    >
+                      {category}
+                    </Typography>
+                  }
+                />
+              ))}
           </AccordionDetails>
         </Accordion>
 
         {/****************      SIZE FILTER       ****************/}
-        <Accordion defaultExpanded sx={styles.expandedAccordion}>
+        <Accordion
+          defaultExpanded
+          sx={styles.expandedAccordion(windowWidth)}
+          screen={windowWidth}
+        >
           <AccordionSummary
             sx={{
               "&.Mui-expanded": {
@@ -450,46 +587,88 @@ export const DesktopFilter = ({
             </Typography>
           </AccordionSummary>
           <ClearFilterBtn
-            style={{marginLeft:"23px"}}
+            style={{ marginLeft: "23px" }}
             onClick={() => {
               setDetailsFilters((prevFilters) => ({
-                //Reset section filters
+                // Reset section filters
                 ...prevFilters,
                 size: "",
               }));
               localStorage.removeItem("selectedFilters");
+              localStorage.removeItem("selectedSizeOrder");
               handleResetFilters();
+              clearOrderedFilters();
             }}
           >
             Clear filters
           </ClearFilterBtn>
           <AccordionDetails sx={{ padding: "35px 37px 16px 16px" }}>
             <Grid container spacing={0}>
-              {Object.keys(sizeMapping)
-                /* uniqueSizes */ .sort((a, b) => {
-                  const sizeOrder = { xs: 1, s: 2, m: 3, l: 4, xl: 5, xxl: 6 };
-                  const aOrder = sizeOrder[a] || parseInt(a, 12) || 9999;
-                  const bOrder = sizeOrder[b] || parseInt(b, 12) || 9999;
+              {selectedSizeOrder.map((size, index) => (
+                <Grid item xs={5} key={index}>
+                  <CheckboxWrapper>
+                    <SizeCheckboxLabel>
+                      <SizeCheckboxInput
+                        type="checkbox"
+                        checked={detailsFilters.size.includes(size)}
+                        onChange={(e) => {
+                          handleDetailsFilterChange(
+                            "size",
+                            updateFilterArray(
+                              detailsFilters.size,
+                              size,
+                              e.target.checked
+                            )
+                          );
+                          handleSizeSelect(size); // Call handleSizeSelect when a size is selected or deselected
+                        }}
+                      />
+                      <Typography
+                        sx={{
+                          fontWeight:
+                            detailsFilters.size.includes(size) && "bold",
+                          fontSize: "0.88rem",
+                        }}
+                      >
+                        {size}
+                      </Typography>
+                    </SizeCheckboxLabel>
+                  </CheckboxWrapper>
+                </Grid>
+              ))}
+              {availableSizes
+                .sort((a, b) => {
+                  const sizeOrder = {
+                    xs: 1,
+                    s: 2,
+                    m: 3,
+                    l: 4,
+                    xl: 5,
+                    xxl: 6,
+                  };
+                  const aOrder = sizeOrder[a] || parseInt(a, 16) || 9999;
+                  const bOrder = sizeOrder[b] || parseInt(b, 16) || 9999;
                   return aOrder - bOrder;
                 })
+                .filter((size) => !selectedSizeOrder.includes(size)) // Filter out selected sizes
                 .map((size, index) => (
-                  <Grid item xs={6} key={index}>
+                  <Grid item xs={5} key={index}>
                     <CheckboxWrapper>
                       <SizeCheckboxLabel>
                         <SizeCheckboxInput
                           type="checkbox"
                           checked={detailsFilters.size.includes(size)}
-                          onChange={(e) =>
+                          onChange={(e) => {
                             handleDetailsFilterChange(
-                              //Handle details function
                               "size",
                               updateFilterArray(
                                 detailsFilters.size,
                                 size,
                                 e.target.checked
                               )
-                            )
-                          }
+                            );
+                            handleSizeSelect(size); // Call handleSizeSelect when a size is selected or deselected
+                          }}
                         />
                         <Typography
                           sx={{
@@ -509,7 +688,11 @@ export const DesktopFilter = ({
         </Accordion>
 
         {/****************      COLOR FILTER       ****************/}
-        <Accordion defaultExpanded sx={styles.expandedAccordion}>
+        <Accordion
+          defaultExpanded
+          sx={styles.expandedAccordion(windowWidth)}
+          screen={windowWidth}
+        >
           <AccordionSummary
             sx={{
               "&.Mui-expanded": {
@@ -547,57 +730,105 @@ export const DesktopFilter = ({
           </ClearFilterBtn>
           <AccordionDetails sx={{ padding: "20px 26px 20px 37px" }}>
             <Grid container spacing={1}>
-              {/* Use the Grid container */}
-              {Object.keys(colorMapping).map((colorKey, index) => {
-                const checkBoxColors = colorMapping[colorKey].split(" , "); //background color for checkboxes
-                const checkBoxStyle =
-                  checkBoxColors.length > 1
-                    ? `${checkBoxColors[0]}, ${checkBoxColors[1]}`
-                    : checkBoxColors[0];
-
-                return (
-                  <Grid item xs={6} key={index}>
-                    <FormControlLabel
-                      sx={{
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-                        margin: "8px 0 10px 0",
-                        textTransform: "capitalize",
-                      }}
-                      control={
-                        <ColorCheckbox
-                          type="checkbox"
-                          style={{
-                            background: checkBoxStyle,
-                          }}
-                          checked={detailsFilters.color.includes(colorKey)}
-                          onChange={(e) =>
-                            handleDetailsFilterChange(
-                              "color",
-                              updateFilterArray(
-                                detailsFilters.color,
-                                /* getFirstColorWord(colorKey), */ //get first word value of property "color" in the object
-                                colorKey,
-                                e.target.checked
-                              )
+              {/* Render selected colors */}
+              {selectedColorOrder.map((colorKey, index) => (
+                <Grid item xs={5} key={index}>
+                  <FormControlLabel
+                    sx={{
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      margin: "8px 0 10px 0",
+                      textTransform: "capitalize",
+                    }}
+                    control={
+                      <ColorCheckbox
+                        type="checkbox"
+                        style={{
+                          background: colorMapping[colorKey],
+                        }}
+                        checked={detailsFilters.color.includes(colorKey)}
+                        onChange={(e) => {
+                          handleDetailsFilterChange(
+                            "color",
+                            updateFilterArray(
+                              detailsFilters.color,
+                              /* getFirstColorWord(colorKey), */ //get first word value of property "color" in the object
+                              colorKey,
+                              e.target.checked
                             )
-                          }
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: "0.65rem",
-                            paddingTop: "3px",
-                          }}
-                        >
-                          {colorKey}
-                        </Typography>
-                      }
-                    />
-                  </Grid>
-                );
-              })}
+                          );
+                          handleColorSelect(colorKey);
+                        }}
+                      />
+                    }
+                    label={
+                      <Typography
+                        sx={{
+                          fontSize: "0.65rem",
+                          paddingTop: "3px",
+                        }}
+                      >
+                        {colorKey}
+                      </Typography>
+                    }
+                  />
+                </Grid>
+              ))}
+
+              {/* Render available colors */}
+              {Object.keys(colorMapping)
+                .filter((colorKey) => !selectedColorOrder.includes(colorKey))
+                .map((colorKey, index) => {
+                  const checkBoxColors = colorMapping[colorKey].split(" , ");
+                  const checkBoxStyle =
+                    checkBoxColors.length > 1
+                      ? `${checkBoxColors[0]}, ${checkBoxColors[1]}`
+                      : checkBoxColors[0];
+
+                  return (
+                    <Grid item xs={5} key={index}>
+                      <FormControlLabel
+                        sx={{
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          margin: "8px 0 10px 0",
+                          textTransform: "capitalize",
+                        }}
+                        control={
+                          <ColorCheckbox
+                            type="checkbox"
+                            style={{
+                              background: checkBoxStyle,
+                            }}
+                            checked={detailsFilters.color.includes(colorKey)}
+                            onChange={(e) => {
+                              handleDetailsFilterChange(
+                                "color",
+                                updateFilterArray(
+                                  detailsFilters.color,
+                                  /* getFirstColorWord(colorKey), */ //get first word value of property "color" in the object
+                                  colorKey,
+                                  e.target.checked
+                                )
+                              );
+                              handleColorSelect(colorKey);
+                            }}
+                          />
+                        }
+                        label={
+                          <Typography
+                            sx={{
+                              fontSize: "0.65rem",
+                              paddingTop: "3px",
+                            }}
+                          >
+                            {colorKey}
+                          </Typography>
+                        }
+                      />
+                    </Grid>
+                  );
+                })}
             </Grid>
           </AccordionDetails>
         </Accordion>
@@ -641,6 +872,7 @@ const ResetAllBtn = styled.button`
   }
 `;
 const ClearFilterBtn = styled.button`
+  display: none;
   font-size: 0.76rem;
   font-weight: 600;
   border: none;
@@ -691,8 +923,8 @@ const Loader = styled.div`
   z-index: 1;
 `;
 const styles = {
-  expandedAccordion: css`
-    margin: 0px 14px 0 24px !important;
+  expandedAccordion: (windowWidth) => css`
+    margin: ${windowWidth < 1050 ? "0px" : "0px 14px 0 24px"} !important;
     border-top: 1px solid lightgray;
     box-shadow: none;
     padding: 16px 0;
