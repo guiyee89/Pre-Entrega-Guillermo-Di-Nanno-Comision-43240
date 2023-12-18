@@ -51,6 +51,9 @@ export const NavMobile = () => {
   //                 Reset localStorage on nav links               //
   const handleNavLinkClick = () => {
     localStorage.removeItem("selectedFilters");
+    localStorage.removeItem("selectedSizeOrder");
+    localStorage.removeItem("selectedCategoryOrder");
+    localStorage.removeItem("selectedColorOrder");
     localStorage.removeItem("currentPage");
     if (!isMenuOpen) {
       toggleSideMenu();

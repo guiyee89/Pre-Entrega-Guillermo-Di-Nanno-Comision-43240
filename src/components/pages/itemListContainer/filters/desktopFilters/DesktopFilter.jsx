@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components/macro";
 import {
   Accordion,
@@ -11,314 +11,29 @@ import {
 } from "@mui/material";
 import { css } from "@emotion/react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../../../firebaseConfig";
-import { useParams } from "react-router-dom";
 import { Ring } from "@uiball/loaders";
-import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
+import { GlobalToolsContext } from "../../../../context/GlobalToolsContext";
 
 export const DesktopFilter = ({
-  items,
-  allItems,
-  onFilterChange,
-  setCurrentPage,
-  setItemLoader,
+  loadingReset,
+  detailsFilters,
+  setDetailsFilters,
+  handleResetFilters,
+  clearOrderedFilters,
+  handleDetailsFilterChange,
+  selectedCategoryOrder,
+  handleCategorySelect,
+  availableCategory,
+  selectedSizeOrder,
+  handleSizeSelect,
+  availableSizes,
+  selectedColorOrder,
+  handleColorSelect,
+  colorMapping,
+  updateFilterArray,
 }) => {
   const { windowWidth } = useContext(GlobalToolsContext);
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                       STATE FOR DIFFERENT FILTERS                        //
-  const [detailsFilters, setDetailsFilters] = useState({
-    category: "",
-    size: "",
-    color: "",
-    orderBy: "",
-  });
 
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
-
-  //----------       CATEGORY MAPING      ---------//
-  const availableCategory = Array.from(
-    new Set(items.map((item) => item.category))
-  ).filter((category) => category !== undefined);
-
-  const [selectedCategoryOrder, setSelectedCategoryOrder] = useState([]);
-
-  const handleCategorySelect = (selectedCategory) => {
-    const isCategorySelected = selectedCategoryOrder.includes(selectedCategory);
-
-    if (!isCategorySelected) {
-      const newOrder = [selectedCategory, ...selectedCategoryOrder];
-      setSelectedCategoryOrder(newOrder);
-    } else {
-      const newOrder = selectedCategoryOrder.filter(
-        (category) => category !== selectedCategory
-      );
-      setSelectedCategoryOrder(newOrder);
-    }
-  };
-
-  //----------        SIZE MAPING       ----------//
-  const availableSizes = Array.from(
-    new Set(allItems.map((item) => item.size))
-  ).filter((size) => size !== undefined);
-
-  const [selectedSizeOrder, setSelectedSizeOrder] = useState([]);
-
-  const handleSizeSelect = (selectedSize) => {
-    // Check if the size is already in the selectedSizeOrder array
-    const isSizeSelected = selectedSizeOrder.includes(selectedSize);
-
-    if (!isSizeSelected) {
-      // If the size is not selected, add it to the front of the array
-      const newOrder = [selectedSize, ...selectedSizeOrder];
-      setSelectedSizeOrder(newOrder);
-    } else {
-      // If the size is already selected, remove it from the order
-      const newOrder = selectedSizeOrder.filter(
-        (size) => size !== selectedSize
-      );
-      setSelectedSizeOrder(newOrder);
-    }
-  };
-
-  //----------       COLOR MAPING      ----------//
-  // Define a mapping of color names to CSS color values
-  const colorMapping = {
-    black: "#000000",
-    white: "#ffffff",
-    grey: "#8e8e8e",
-    blue: "#2626e4",
-    purple: "#dc10ce",
-    pink: "#ea7baf",
-    red: "#e81a1a",
-    orange: "#f49d2c",
-    yellow: "#e6d21a",
-    green: "#24df13",
-    brown: "#682f21",
-  };
-  //function to find first color
-  // const getFirstColorWord = (color) => {
-  //   const words = color.split(" ");
-  //   console.log(words);
-  //   return words[0];
-  // };
-
-  const [selectedColorOrder, setSelectedColorOrder] = useState([]);
-
-  const handleColorSelect = (selectedColor) => {
-    // Check if the size is already in the selectedSizeOrder array
-    const isColorSelected = selectedColorOrder.includes(selectedColor);
-
-    if (!isColorSelected) {
-      // If the size is not selected, add it to the front of the array
-      const newOrder = [selectedColor, ...selectedColorOrder];
-      setSelectedColorOrder(newOrder);
-    } else {
-      // If the size is already selected, remove it from the order
-      const newOrder = selectedColorOrder.filter(
-        (color) => color !== selectedColor
-      );
-      setSelectedColorOrder(newOrder);
-    }
-  };
-
-  // Clear selected sizes order and get back to available sizes
-  const clearOrderedFilters = () => {
-    setSelectedSizeOrder([]);
-    setSelectedCategoryOrder([]);
-    setSelectedColorOrder([]);
-  };
-
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                                FILTERING LOGIC FOR ALL ITEMS                                  //
-
-  const { categoryName } = useParams();
-
-  // Fetch items from Firestore Database and filter accordingly on selection
-  const fetchFilteredItems = async () => {
-    console.log("fetching DesktopFilter...");
-    try {
-      const filteredCollection = collection(db, "products");
-      let queryFilters = [];
-      if (categoryName) {
-        queryFilters.push(where("category", "==", categoryName));
-      }
-      if (detailsFilters.category.length > 0) {
-        queryFilters.push(where("category", "in", detailsFilters.category));
-      }
-      if (detailsFilters.size.length > 0) {
-        queryFilters.push(where("size", "in", detailsFilters.size));
-      }
-      /* if (detailsFilters.color.length > 0) {
-       queryFilters.push(where("color", "in", detailsFilters.color));
-    }    */
-
-      const filteredQuery = query(filteredCollection, ...queryFilters);
-      const querySnapshot = await getDocs(filteredQuery);
-
-      // Use a Set to track unique userId-color combinations
-      const uniqueItems = new Set();
-      const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
-        const item = doc.data();
-        const key = `${item.userId}-${item.color}`;
-
-        if (!uniqueItems.has(key)) {
-          uniqueItems.add(key);
-          // Check if any color filter matches with any word in the item's color
-          if (
-            detailsFilters.color.length === 0 ||
-            detailsFilters.color.some((colorFilter) =>
-              item.color.includes(colorFilter)
-            )
-          ) {
-            filtered.push({
-              id: doc.id,
-              ...item,
-            });
-          }
-        }
-        return filtered;
-      }, []);
-
-      let orderedItems = [...filteredItems];
-
-      // Apply the ordering logic
-      if (detailsFilters.orderBy === "discount") {
-        orderedItems = orderedItems.filter(
-          (item) => item.discount !== undefined
-        );
-      } else if (detailsFilters.orderBy === "lowPrice") {
-        orderedItems.sort((a, b) => {
-          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-          return priceA - priceB;
-        });
-      } else if (detailsFilters.orderBy === "highPrice") {
-        orderedItems.sort((a, b) => {
-          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-          return priceB - priceA;
-        });
-      }
-
-      console.log(orderedItems);
-
-      onFilterChange(orderedItems, detailsFilters, setItemLoader(false));
-    } catch (error) {
-      console.error("Error fetching filtered items:", error);
-    }
-  };
-
-  //ORDER BY - filtering logic according if filtered items or original items are being rendered
-  useEffect(() => {
-    setTimeout(() => {
-      if (
-        detailsFilters.category.length === 0 &&
-        detailsFilters.size.length === 0 &&
-        detailsFilters.color.length === 0
-      ) {
-        // If no filters are applied, order the original items by the selected ordering option
-        let orderedItems = [...items];
-        if (detailsFilters.orderBy === "discount") {
-          orderedItems = orderedItems.filter(
-            (item) => item.discount !== undefined
-          );
-        } else if (detailsFilters.orderBy === "lowPrice") {
-          orderedItems.sort((a, b) => {
-            const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-            const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-            return priceA - priceB;
-          });
-        } else if (detailsFilters.orderBy === "highPrice") {
-          orderedItems.sort((a, b) => {
-            const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-            const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-            return priceB - priceA;
-          });
-        }
-        onFilterChange(orderedItems, detailsFilters, setItemLoader(false));
-      } else {
-        // If filters are applied, fetch and order filtered items
-        fetchFilteredItems();
-      }
-    }, 300);
-  }, [detailsFilters]);
-
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                    HANDLE FILTERED ITEMS & PASS VALUE TO ItemListContainer                    //
-
-  //Handle each filter change and pass the values
-  const handleDetailsFilterChange = (filterName, value) => {
-    setTimeout(() => {
-      setDetailsFilters((prevFilters) => ({
-        ...prevFilters,
-        [filterName]: value,
-      }));
-      setCurrentPage(1); //Set pagiination to 1 if filters changed
-    }, 750);
-    setItemLoader(true); //Activate Loader for filters
-  };
-
-  const updateFilterArray = (array, value, add) => {
-    // Helper function to update filter array
-    if (add) {
-      return [...array, value];
-    }
-    return array.filter((item) => item !== value);
-  };
-
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //           LOADER            //
-  const loadingReset = false;
-
-  const handleResetFilters = () => {
-    setItemLoader(true); //Activate Loader for filters
-  };
-
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                                MANAGING FILTERS BY localStorage                               //
-  // Load selected filters from localStorage when the component mounts
-  useEffect(() => {
-    const storedFilters = localStorage.getItem("selectedFilters");
-    const storedSizeOrder = localStorage.getItem("selectedSizeOrder");
-    const storedCategoryOrder = localStorage.getItem("selectedCategoryOrder");
-    const storedColorOrder = localStorage.getItem("selectedColorOrder");
-    if (storedFilters) {
-      setDetailsFilters(JSON.parse(storedFilters));
-    }
-    if (storedSizeOrder) {
-      setSelectedSizeOrder(JSON.parse(storedSizeOrder));
-    }
-    if (storedCategoryOrder) {
-      setSelectedCategoryOrder(JSON.parse(storedCategoryOrder));
-    }
-    if (storedColorOrder) {
-      setSelectedColorOrder(JSON.parse(storedColorOrder));
-    }
-  }, []);
-
-  // Update localStorage when the detailsFilters state changes
-  useEffect(() => {
-    // Check if detailsFilters object has at least one property set
-    if (Object.values(detailsFilters).some((value) => value !== "")) {
-      localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
-      localStorage.setItem(
-        "selectedSizeOrder",
-        JSON.stringify(selectedSizeOrder)
-      );
-      localStorage.setItem(
-        "selectedCategoryOrder",
-        JSON.stringify(selectedCategoryOrder)
-      );
-      localStorage.setItem(
-        "selectedColorOrder",
-        JSON.stringify(selectedColorOrder)
-      );
-    }
-  }, [detailsFilters, selectedSizeOrder, selectedCategoryOrder, selectedColorOrder]);
-
-  //////////           ////////////           ////////////           ///////////           ///////////
   return (
     <>
       <FilterHeader>
@@ -366,7 +81,7 @@ export const DesktopFilter = ({
             <Typography
               sx={{
                 fontWeight: "bold",
-                marginLeft: "22px",
+                marginLeft: "8px",
                 fontSize: "1.1rem",
                 color: "#555454",
               }}
@@ -377,7 +92,8 @@ export const DesktopFilter = ({
           <AccordionDetails>
             <FormControlLabel
               sx={{
-                justifyContent: "flex-end",
+                justifyContent: "flex-start",
+                marginLeft:"0px"
               }}
               control={
                 <OrderByWrapper>
@@ -444,7 +160,7 @@ export const DesktopFilter = ({
             <Typography
               sx={{
                 fontWeight: "bold",
-                marginLeft: "25px",
+                marginLeft: "8px",
                 fontSize: "1.1rem",
                 color: "#555454",
               }}
@@ -465,7 +181,7 @@ export const DesktopFilter = ({
           >
             Clear filters
           </ClearFilterBtn>
-          <AccordionDetails sx={{ paddingTop: "18px", minWidth: "212px" }}>
+          <AccordionDetails sx={{ padding: "16px 8px 16px" }}>
             {selectedCategoryOrder.map((category, index) => (
               <FormControlLabel
                 key={index}
@@ -578,7 +294,7 @@ export const DesktopFilter = ({
               sx={{
                 minWidth: "112px",
                 fontWeight: "bold",
-                marginLeft: "22px",
+                marginLeft: "6px",
                 fontSize: "1.1rem",
                 color: "#555454",
               }}
@@ -707,7 +423,7 @@ export const DesktopFilter = ({
             <Typography
               sx={{
                 fontWeight: "bold",
-                marginLeft: "22px",
+                marginLeft: "6px",
                 fontSize: "1.1rem",
                 color: "#555454",
               }}
@@ -728,11 +444,11 @@ export const DesktopFilter = ({
           >
             Clear filters
           </ClearFilterBtn>
-          <AccordionDetails sx={{ padding: "20px 26px 20px 37px" }}>
+          <AccordionDetails sx={{ padding: "20px 26px 20px 24px" }}>
             <Grid container spacing={1}>
               {/* Render selected colors */}
               {selectedColorOrder.map((colorKey, index) => (
-                <Grid item xs={5} key={index}>
+                <Grid item xs={4} key={index}>
                   <FormControlLabel
                     sx={{
                       flexDirection: "column",
@@ -786,7 +502,7 @@ export const DesktopFilter = ({
                       : checkBoxColors[0];
 
                   return (
-                    <Grid item xs={5} key={index}>
+                    <Grid item xs={4} key={index}>
                       <FormControlLabel
                         sx={{
                           flexDirection: "column",
@@ -836,8 +552,6 @@ export const DesktopFilter = ({
     </>
   );
 };
-
-//MATERIAL UI STYLES
 
 const FilterHeader = styled.div`
   display: flex;
@@ -924,7 +638,7 @@ const Loader = styled.div`
 `;
 const styles = {
   expandedAccordion: (windowWidth) => css`
-    margin: ${windowWidth < 1050 ? "0px" : "0px 14px 0 24px"} !important;
+    margin: ${windowWidth < 1050 ? "0px" : "0px 10px 0 10px"} !important;
     border-top: 1px solid lightgray;
     box-shadow: none;
     padding: 16px 0;
@@ -936,18 +650,18 @@ const selectStyle = {
   width: 100,
 };
 const OrderByWrapper = styled.div`
-  width: 88%;
+  width: 82%;
 `;
 const OrderByBtn = styled.button`
   width: 100%;
   text-align: inherit;
   border-radius: 3%;
   margin-bottom: 5px;
-  padding: ${(props) => (props.active ? "5px" : "4px")};
-  padding-left: 10px;
-  text-transform: lowercase;
+  padding: ${(props) => (props.active ? "6px 3px" : "6px 3px")};
+  padding-left: 6px;
+  text-transform: uppercase;
   color: ${(props) => (props.active ? "#000000" : "black")};
-  font-size: 0.85rem;
+  font-size: ${(props) => (props.active ? "0.7rem" : "0.65rem")};
   background-color: ${(props) =>
     props.active ? "rgb(189 189 189)" : "rgb(244 244 244 / 30%);"};
   border: ${(props) =>
