@@ -11,8 +11,9 @@ import useScrollRestoration from "../../hooks/useScrollRestoration";
 import { Ring } from "@uiball/loaders";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
-import { DesktopFilter } from "./filters/DesktopFilter";
-import { MobileFilter } from "./filters/MobileFilter";
+import { DesktopFilterContainer } from "./filters/desktopFilters/DesktopFilterContainer";
+import { MobileFilterContainer } from "./filters/mobileFilters/MobileFilterContainer";
+
 
 //////////////     //////////////    ////////////      ////////////      /////////////
 export const ScrollRestorationWrapper = ({ children }) => {
@@ -152,7 +153,7 @@ export const ItemListContainer = () => {
               <ItemsFiltersWrapper>
                 {windowWidth > 900 && (
                   <DesktopFilterWrapper scrolled={scroll}>
-                    <DesktopFilter
+                    <DesktopFilterContainer
                       items={items}
                       allItems={allItems}
                       onFilterChange={handleFilterChange}
@@ -166,7 +167,7 @@ export const ItemListContainer = () => {
                     isFilterOpen={isFilterOpen}
                     onClick={toggleFilterMenu}
                   >
-                    <MobileFilter
+                    <MobileFilterContainer
                       items={items}
                       allItems={allItems}
                       onFilterChange={handleFilterChange}
@@ -244,7 +245,7 @@ const MobileFilterWrapper = styled.div`
   top: 0;
   right: ${({ isFilterOpen }) => (isFilterOpen ? "-420px" : "0")};
   transition: right 0.3s ease-in-out;
-  z-index: 1;
+  z-index: 3;
   min-width: 225px;
   max-width: 320px;
   height: 100%;

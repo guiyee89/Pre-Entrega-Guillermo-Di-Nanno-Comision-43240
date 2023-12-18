@@ -139,8 +139,8 @@ export const ItemList = ({
       </HeaderContainer>
 
       {itemLoader && ( //Loader for filters
-        <LoaderOverlay scrolled={scroll}>
-          <Ring size={35} lineWeight={7} speed={1} color="black" />
+        <LoaderOverlay window={windowWidth} scrolled={scroll} style={{top: windowWidth < 900 && "0px"}}>
+          <Ring  size={35} lineWeight={7} speed={1} color="black" />
         </LoaderOverlay>
       )}
       <Wrapper key="cart-wrapper">
@@ -256,7 +256,7 @@ const Wrapper = styled.div`
 `;
 const LoaderOverlay = styled.div`
   position: fixed;
-  top: ${(props) => (props.scrolled === "scrolled" ? "64px" : "90.5px")};
+  top: ${(props) => (props.scrolled === "scrolled" ? "64px" : "90.2px")};
   transition: top
     ${(props) => (props.scrolled === "scrolled" ? "0.16s" : "0.16s")}
     ease-in-out;
@@ -265,9 +265,10 @@ const LoaderOverlay = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
   display: flex;
-  justify-content: center;
+  justify-content:${(props) => (props.window < 500 ? "flex-start" : "center")};
   align-items: center;
-  z-index: 9999; /* Higher z-index to cover other elements */
+  padding-left: ${(props) => (props.window < 500 ? "80px" : "0")};
+  z-index: 2; /* Higher z-index to cover other elements */
 `;
 
 const ButtonsWrapper = styled.div`
