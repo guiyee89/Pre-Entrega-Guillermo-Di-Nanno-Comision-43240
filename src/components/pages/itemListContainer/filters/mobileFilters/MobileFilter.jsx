@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import {
   Accordion,
@@ -11,236 +10,31 @@ import {
 } from "@mui/material";
 import { css } from "@emotion/react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../../../firebaseConfig";
-import { useParams } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
-import { useContext } from "react";
-import { GlobalToolsContext } from "../../../context/GlobalToolsContext";
 import { Ring } from "@uiball/loaders";
+import { GlobalToolsContext } from "../../../../context/GlobalToolsContext";
+import { useContext } from "react";
 
 export const MobileFilter = ({
-  items,
-  allItems,
-  onFilterChange,
-  setCurrentPage,
-  setItemLoader,
+  detailsFilters,
+  setDetailsFilters,
+  handleResetFilters,
+  clearOrderedFilters,
+  loadingReset,
+  handleDetailsFilterChange,
+  selectedCategoryOrder,
+  handleCategorySelect,
+  availableCategory,
+  selectedSizeOrder,
+  handleSizeSelect,
+  availableSizes,
+  selectedColorOrder,
+  handleColorSelect,
+  colorMapping,
+  updateFilterArray,
 }) => {
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                                 CONTEXT                                  //
   const { isFilterOpen, toggleFilterMenu } = useContext(GlobalToolsContext);
 
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                       STATE FOR DIFFERENT FILTERS                        //
-  const [detailsFilters, setDetailsFilters] = useState({
-    category: "",
-    size: "",
-    color: "",
-    orderBy: "",
-  });
-
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //      MAPING COLORS, SIZE, CATEGORIES AND QUANTITY FOR EACH FILTER        //
-
-  //----------       CATEGORY MAPING      ---------//
-  const uniqueCategory = Array.from(
-    new Set(items.map((item) => item.category))
-  ).filter((category) => category !== undefined);
-  
-
-  //----------        SIZE MAPING       ----------//
-  const uniqueSizes = Array.from(
-    new Set(allItems.map((item) => item.size))
-  ).filter((size) => size !== undefined);
-
-
-  //----------       COLOR MAPING      ----------//
-  // Define a mapping of color names to CSS color values
-  const colorMapping = {
-    black: "#000000",
-    white: "#ffffff",
-    grey: "#8e8e8e",
-    blue: "#2626e4",
-    purple: "#dc10ce",
-    pink: "#ea7baf",
-    red: "#e81a1a",
-    orange: "#f49d2c",
-    yellow: "#e6d21a",
-    green: "#24df13",
-    brown: "#682f21",
-  };
-  //function to find first color
-  const getFirstColorWord = (color) => {
-    const words = color.split(" ");
-    console.log(words);
-    return words[0];
-  };
-
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                                FILTERING LOGIC FOR ALL ITEMS                                  //
-  const { categoryName } = useParams();
-
-  // Fetch items from Firestore Database and filter accordingly on selection
-  const fetchFilteredItems = async () => {
-    console.log("fetching MobileFilter...");
-    try {
-      const filteredCollection = collection(db, "products");
-      let queryFilters = [];
-      if (categoryName) {
-        queryFilters.push(where("category", "==", categoryName));
-      }
-      if (detailsFilters.category.length > 0) {
-        queryFilters.push(where("category", "in", detailsFilters.category));
-      }
-      if (detailsFilters.size.length > 0) {
-        queryFilters.push(where("size", "in", detailsFilters.size));
-      }
-      /* if (detailsFilters.color.length > 0) {
-       queryFilters.push(where("color", "in", detailsFilters.color));
-    }    */
-
-      const filteredQuery = query(filteredCollection, ...queryFilters);
-      const querySnapshot = await getDocs(filteredQuery);
-
-      // Use a Set to track unique userId-color combinations
-      const uniqueItems = new Set();
-      const filteredItems = querySnapshot.docs.reduce((filtered, doc) => {
-        const item = doc.data();
-        const key = `${item.userId}-${item.color}`;
-
-        if (!uniqueItems.has(key)) {
-          uniqueItems.add(key);
-          // Check if any color filter matches with any word in the item's color
-          if (
-            detailsFilters.color.length === 0 ||
-            detailsFilters.color.some((colorFilter) =>
-              item.color.includes(colorFilter)
-            )
-          ) {
-            filtered.push({
-              id: doc.id,
-              ...item,
-            });
-          }
-        }
-        return filtered;
-      }, []);
-
-      let orderedItems = [...filteredItems];
-
-      // Apply the ordering logic
-      if (detailsFilters.orderBy === "discount") {
-        orderedItems = orderedItems.filter(
-          (item) => item.discount !== undefined
-        );
-      } else if (detailsFilters.orderBy === "lowPrice") {
-        orderedItems.sort((a, b) => {
-          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-          return priceA - priceB;
-        });
-      } else if (detailsFilters.orderBy === "highPrice") {
-        orderedItems.sort((a, b) => {
-          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-          return priceB - priceA;
-        });
-      }
-
-      console.log(orderedItems);
-
-      onFilterChange(orderedItems, detailsFilters, setItemLoader(false));
-    } catch (error) {
-      console.error("Error fetching filtered items:", error);
-    }
-  };
-
-  //ORDER BY - filtering logic according if filtered items or original items are being rendered
-  useEffect(() => {
-    setTimeout(() => {
-      if (
-        detailsFilters.category.length === 0 &&
-        detailsFilters.size.length === 0 &&
-        detailsFilters.color.length === 0
-      ) {
-        // If no filters are applied, order the original items by the selected ordering option
-        let orderedItems = [...items];
-        if (detailsFilters.orderBy === "discount") {
-          orderedItems = orderedItems.filter(
-            (item) => item.discount !== undefined
-          );
-        } else if (detailsFilters.orderBy === "lowPrice") {
-          orderedItems.sort((a, b) => {
-            const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-            const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-            return priceA - priceB;
-          });
-        } else if (detailsFilters.orderBy === "highPrice") {
-          orderedItems.sort((a, b) => {
-            const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-            const priceB = "discountPrice" in b ? b.discountPrice : b.price;
-            return priceB - priceA;
-          });
-        }
-        onFilterChange(orderedItems, detailsFilters, setItemLoader(false));
-      } else {
-        // If filters are applied, fetch and order filtered items
-        fetchFilteredItems();
-      }
-    }, 300);
-  }, [detailsFilters]);
-
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                    HANDLE FILTERED ITEMS & PASS VALUE TO ItemListContainer                    //
-
-  //Handle each filter change and pass the values
-  const handleDetailsFilterChange = (filterName, value) => {
-    setTimeout(() => {
-      setDetailsFilters((prevFilters) => ({
-        ...prevFilters,
-        [filterName]: value,
-      }));
-      setCurrentPage(1); //Set pagiination to 1 if filters changed
-    }, 750);
-    setItemLoader(true); //Activate Loader for filters
-  };
-
-  const updateFilterArray = (array, value, add) => {
-    // Helper function to update filter array
-    if (add) {
-      return [...array, value];
-    }
-    return array.filter((item) => item !== value);
-  };
-
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //           LOADER            //
-
-  const loadingReset = false;
-
-  const handleResetFilters = () => {
-    setItemLoader(true); //Activate Loader for filters
-  };
-
-  //////////           ////////////           ////////////           ///////////           ///////////
-  //                                MANAGING FILTERS BY localStorage                               //
-  // Load selected filters from localStorage when the component mounts
-  useEffect(() => {
-    const storedFilters = localStorage.getItem("selectedFilters");
-    if (storedFilters) {
-      setDetailsFilters(JSON.parse(storedFilters));
-    }
-  }, []);
-
-  // Update localStorage when the detailsFilters state changes
-  useEffect(() => {
-    // Check if detailsFilters object has at least one property set
-    if (Object.values(detailsFilters).some((value) => value !== "")) {
-      localStorage.setItem("selectedFilters", JSON.stringify(detailsFilters));
-    }
-  }, [detailsFilters]);
-
-  //////////           ////////////           ////////////           ///////////           ///////////
   return (
     <>
       <TransparentDiv
@@ -269,7 +63,11 @@ export const MobileFilter = ({
                 orderBy: "",
               }));
               localStorage.removeItem("selectedFilters");
+              localStorage.removeItem("selectedSizeOrder");
+              localStorage.removeItem("selectedCategoryOrder");
+              localStorage.removeItem("selectedColorOrder");
               handleResetFilters();
+              clearOrderedFilters();
             }}
           >
             Reset all filters
@@ -391,12 +189,12 @@ export const MobileFilter = ({
                 localStorage.removeItem("selectedFilters");
                 handleResetFilters();
               }}
-              style={{ marginLeft: "25px" }}
+              style={{ marginLeft: "25px", display: "none" }}
             >
               Clear filters
             </ClearFilterBtn>
-            <AccordionDetails sx={{ padding: "18px 20px 18px 10px;" }}>
-              {uniqueCategory.map((category, index) => (
+            <AccordionDetails sx={{ padding: "18px 20px 18px 10px" }}>
+              {selectedCategoryOrder.map((category, index) => (
                 <FormControlLabel
                   key={index}
                   sx={{
@@ -407,25 +205,25 @@ export const MobileFilter = ({
                   control={
                     <Checkbox
                       sx={{
-                        color: "#949495;",
-                        width: "2.2rem;",
+                        color: "#949495",
+                        width: "2.2rem",
                         "&.Mui-checked": {
                           color: "black",
                           width: "2.2rem",
                         },
                       }}
                       checked={detailsFilters.category.includes(category)}
-                      onChange={(e) =>
+                      onChange={(e) => {
                         handleDetailsFilterChange(
-                          //Handle details function
                           "category",
                           updateFilterArray(
                             detailsFilters.category,
                             category,
                             e.target.checked
                           )
-                        )
-                      }
+                        );
+                        handleCategorySelect(category);
+                      }}
                     />
                   }
                   label={
@@ -439,6 +237,51 @@ export const MobileFilter = ({
                   }
                 />
               ))}
+              {availableCategory
+                .filter((category) => !selectedCategoryOrder.includes(category))
+                .map((category, index) => (
+                  <FormControlLabel
+                    key={index}
+                    sx={{
+                      ...selectStyle,
+                      marginBottom: "3px",
+                      textTransform: "capitalize",
+                    }}
+                    control={
+                      <Checkbox
+                        sx={{
+                          color: "#949495",
+                          width: "2.2rem",
+                          "&.Mui-checked": {
+                            color: "black",
+                            width: "2.2rem",
+                          },
+                        }}
+                        checked={detailsFilters.category.includes(category)}
+                        onChange={(e) => {
+                          handleDetailsFilterChange(
+                            "category",
+                            updateFilterArray(
+                              detailsFilters.category,
+                              category,
+                              e.target.checked
+                            )
+                          );
+                          handleCategorySelect(category);
+                        }}
+                      />
+                    }
+                    label={
+                      <Typography
+                        sx={{
+                          fontSize: "0.88rem",
+                        }}
+                      >
+                        {category}
+                      </Typography>
+                    }
+                  />
+                ))}
             </AccordionDetails>
           </Accordion>
 
@@ -468,7 +311,7 @@ export const MobileFilter = ({
               </Typography>
             </AccordionSummary>
             <ClearFilterBtn
-              style={{ marginLeft: "21px" }}
+              style={{ marginLeft: "21px", display: "none" }}
               onClick={() => {
                 setDetailsFilters((prevFilters) => ({
                   //Reset section filters
@@ -483,8 +326,40 @@ export const MobileFilter = ({
             </ClearFilterBtn>
             <AccordionDetails sx={{ padding: "30px 36px 18px 15px;" }}>
               <Grid container spacing={0}>
-                {/* Object.keys(sizeMapping) */
-                  uniqueSizes.sort((a, b) => {
+                {selectedSizeOrder.map((size, index) => (
+                  <Grid item xs={5} key={index}>
+                    <CheckboxWrapper>
+                      <SizeCheckboxLabel>
+                        <SizeCheckboxInput
+                          type="checkbox"
+                          checked={detailsFilters.size.includes(size)}
+                          onChange={(e) => {
+                            handleDetailsFilterChange(
+                              "size",
+                              updateFilterArray(
+                                detailsFilters.size,
+                                size,
+                                e.target.checked
+                              )
+                            );
+                            handleSizeSelect(size); // Call handleSizeSelect when a size is selected or deselected
+                          }}
+                        />
+                        <Typography
+                          sx={{
+                            fontWeight:
+                              detailsFilters.size.includes(size) && "bold",
+                            fontSize: "0.88rem",
+                          }}
+                        >
+                          {size}
+                        </Typography>
+                      </SizeCheckboxLabel>
+                    </CheckboxWrapper>
+                  </Grid>
+                ))}
+                {availableSizes
+                  .sort((a, b) => {
                     const sizeOrder = {
                       xs: 1,
                       s: 2,
@@ -493,10 +368,11 @@ export const MobileFilter = ({
                       xl: 5,
                       xxl: 6,
                     };
-                    const aOrder = sizeOrder[a] || parseInt(a, 12) || 9999;
-                    const bOrder = sizeOrder[b] || parseInt(b, 12) || 9999;
+                    const aOrder = sizeOrder[a] || parseInt(a, 16) || 9999;
+                    const bOrder = sizeOrder[b] || parseInt(b, 16) || 9999;
                     return aOrder - bOrder;
                   })
+                  .filter((size) => !selectedSizeOrder.includes(size)) // Filter out selected sizes
                   .map((size, index) => (
                     <Grid item xs={5} key={index}>
                       <CheckboxWrapper>
@@ -504,23 +380,23 @@ export const MobileFilter = ({
                           <SizeCheckboxInput
                             type="checkbox"
                             checked={detailsFilters.size.includes(size)}
-                            onChange={(e) =>
+                            onChange={(e) => {
                               handleDetailsFilterChange(
-                                //Handle details function
                                 "size",
                                 updateFilterArray(
                                   detailsFilters.size,
                                   size,
                                   e.target.checked
                                 )
-                              )
-                            }
+                              );
+                              handleSizeSelect(size); // Call handleSizeSelect when a size is selected or deselected
+                            }}
                           />
                           <Typography
                             sx={{
                               fontWeight:
                                 detailsFilters.size.includes(size) && "bold",
-                              fontSize: "0.9rem",
+                              fontSize: "0.88rem",
                             }}
                           >
                             {size}
@@ -558,6 +434,7 @@ export const MobileFilter = ({
               </Typography>
             </AccordionSummary>
             <ClearFilterBtn
+              style={{ display: "none" }}
               onClick={() => {
                 //Reset section filters
                 setDetailsFilters((prevFilters) => ({
@@ -572,57 +449,105 @@ export const MobileFilter = ({
             </ClearFilterBtn>
             <AccordionDetails sx={{ padding: "20px 20px 20px 27px" }}>
               <Grid container spacing={1}>
-                {/* Use the Grid container */}
-                {Object.keys(colorMapping).map((colorKey, index) => {
-                  const checkBoxColors = colorMapping[colorKey].split(" , "); //background color for checkboxes
-                  const checkBoxStyle =
-                    checkBoxColors.length > 1
-                      ? `${checkBoxColors[0]}, ${checkBoxColors[1]}`
-                      : checkBoxColors[0];
-
-                  return (
-                    <Grid item xs={5} key={index}>
-                      <FormControlLabel
-                        sx={{
-                          flexDirection: "column",
-                          alignItems: "flex-start",
-                          margin: "8px 0 10px 0",
-                          textTransform: "capitalize",
-                        }}
-                        control={
-                          <ColorCheckbox
-                            type="checkbox"
-                            style={{
-                              background: checkBoxStyle,
-                            }}
-                            checked={detailsFilters.color.includes(colorKey)}
-                            onChange={(e) =>
-                              handleDetailsFilterChange(
-                                "color",
-                                updateFilterArray(
-                                  detailsFilters.color,
-                                  /* getFirstColorWord(colorKey), */ //get first word value of property "color" in the object
-                                  colorKey,
-                                  e.target.checked
-                                )
+                {/* Render selected colors */}
+                {selectedColorOrder.map((colorKey, index) => (
+                  <Grid item xs={5} key={index}>
+                    <FormControlLabel
+                      sx={{
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        margin: "8px 0 10px 0",
+                        textTransform: "capitalize",
+                      }}
+                      control={
+                        <ColorCheckbox
+                          type="checkbox"
+                          style={{
+                            background: colorMapping[colorKey],
+                          }}
+                          checked={detailsFilters.color.includes(colorKey)}
+                          onChange={(e) => {
+                            handleDetailsFilterChange(
+                              "color",
+                              updateFilterArray(
+                                detailsFilters.color,
+                                /* getFirstColorWord(colorKey), */ //get first word value of property "color" in the object
+                                colorKey,
+                                e.target.checked
                               )
-                            }
-                          />
-                        }
-                        label={
-                          <Typography
-                            sx={{
-                              fontSize: "0.65rem", // Add the desired font size
-                              paddingTop: "3px",
-                            }}
-                          >
-                            {colorKey}
-                          </Typography>
-                        }
-                      />
-                    </Grid>
-                  );
-                })}
+                            );
+                            handleColorSelect(colorKey);
+                          }}
+                        />
+                      }
+                      label={
+                        <Typography
+                          sx={{
+                            fontSize: "0.65rem",
+                            paddingTop: "3px",
+                          }}
+                        >
+                          {colorKey}
+                        </Typography>
+                      }
+                    />
+                  </Grid>
+                ))}
+
+                {/* Render available colors */}
+                {Object.keys(colorMapping)
+                  .filter((colorKey) => !selectedColorOrder.includes(colorKey))
+                  .map((colorKey, index) => {
+                    const checkBoxColors = colorMapping[colorKey].split(" , ");
+                    const checkBoxStyle =
+                      checkBoxColors.length > 1
+                        ? `${checkBoxColors[0]}, ${checkBoxColors[1]}`
+                        : checkBoxColors[0];
+
+                    return (
+                      <Grid item xs={5} key={index}>
+                        <FormControlLabel
+                          sx={{
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                            margin: "8px 0 10px 0",
+                            textTransform: "capitalize",
+                          }}
+                          control={
+                            <ColorCheckbox
+                              type="checkbox"
+                              style={{
+                                background: checkBoxStyle,
+                              }}
+                              checked={detailsFilters.color.includes(colorKey)}
+                              onChange={(e) => {
+                                handleDetailsFilterChange(
+                                  "color",
+                                  updateFilterArray(
+                                    detailsFilters.color,
+                                    /* getFirstColorWord(colorKey), */ //get first word value of property "color" in the object
+                                    colorKey,
+                                    e.target.checked
+                                  )
+                                );
+                                handleColorSelect(colorKey);
+                              }}
+                            />
+                          }
+                          label={
+                            <Typography
+                              sx={{
+                                fontSize: "0.65rem",
+                                paddingTop: "3px",
+                              }}
+                            >
+                              {colorKey}
+                            </Typography>
+                          }
+                        />
+                      </Grid>
+                    );
+                  })}
               </Grid>
             </AccordionDetails>
           </Accordion>
