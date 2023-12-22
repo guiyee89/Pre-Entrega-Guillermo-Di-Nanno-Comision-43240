@@ -1,5 +1,6 @@
 import { CartContainer } from "../pages/cart/CartContainer";
 import { CheckoutContainer } from "../pages/checkout/CheckoutContainer";
+import { ContactUs } from "../pages/contact/ContactUs";
 import { AdminDashboard } from "../pages/dashboard-auth/admin/AdminDashboard";
 import { UserOrders } from "../pages/dashboard-auth/user/UserOrders";
 import { ItemDetailContainer } from "../pages/itemDetail/ItemDetailContainer";
@@ -27,6 +28,11 @@ export const menuRoutes = [
         id: "detail",
         path: "/item-details/:id",
         Element: ItemDetailContainer
+    },
+    {
+        id: "contact",
+        path: "/contact",
+        Element: ContactUs
     },
     {
         id: "cart",
