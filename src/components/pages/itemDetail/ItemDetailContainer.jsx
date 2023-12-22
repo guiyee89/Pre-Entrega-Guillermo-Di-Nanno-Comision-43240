@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useContext } from "react";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
-import { Ring } from "@uiball/loaders";
+/* import { Ring } from "@uiball/loaders"; */
 
 export const ItemDetailContainer = () => {
   const [selectedItem, setSelectedItem] = useState({});
@@ -18,7 +18,7 @@ export const ItemDetailContainer = () => {
 
   const {
     windowWidth,
-    pageLoading,
+    /* pageLoading, */
     setPageLoading,
     setVisible,
     progressComplete,
@@ -28,7 +28,7 @@ export const ItemDetailContainer = () => {
 
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
-    setPageLoading(true);
+    /* setPageLoading(true); */
     const delay = 250;
     const fetchItem = async () => {
       try {
@@ -42,7 +42,6 @@ export const ItemDetailContainer = () => {
             ...response.data(),
             id: response.id,
           });
-
           setTimeout(() => {
             setPageLoading(false);
             setProgressComplete(true);
@@ -54,38 +53,13 @@ export const ItemDetailContainer = () => {
       } catch (err) {
         console.log(err);
       }
+      console.log(selectedItem);
     };
-    console.log(selectedItem);
     const timer = setTimeout(fetchItem, delay); // Fix here: Change fetchData to fetchItem
     return () => {
       clearTimeout(timer); // Clear the timeout if the component unmounts
     };
   }, [id]);
-  // EL ORIGINAL
-  // useEffect(() => {
-  //   setPageLoading(true);
-  //   const itemCollection = collection(db, "products");
-  //   const refDoc = doc(itemCollection, id);
-  //   console.log("fetching from ItemDetailContainer");
-  //   setVisible(true);
-  //   setLoadingColorFilter(true);
-  //   getDoc(refDoc)
-  //     .then((response) => {
-  //       setSelectedItem({
-  //         ...response.data(),
-  //         id: response.id,
-  //       });
-  //       console.log(selectedItem)
-  //       setTimeout(() => {
-  //         setPageLoading(false);
-  //         setProgressComplete(true);
-  //         if (progress === 100) {
-  //           setVisible(false);
-  //         }
-  //       }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [id]);
 
   return (
     <>
@@ -101,29 +75,29 @@ export const ItemDetailContainer = () => {
         pauseOnHover
         theme="dark"
       />
-      {pageLoading ? (
+      {/*  pageLoading ? (
         <LoaderWrapper>
           {windowWidth > 600 ? (
-            <Ring size={40} lineWeight={7} speed={1} color="black" />
+            <Ring size={40} lineWeight={7} speed={1} color="black" /> 
           ) : (
             <Ring size={32} lineWeight={6} speed={1} color="black" />
           )}
         </LoaderWrapper>
-      ) : (
-        progressComplete && (
-          <>
-            {windowWidth > 950 ? (
-              <ItemDetailDesktop
-                selectedItem={selectedItem}
-                setLoadingColorFilter={setLoadingColorFilter} //props to activate loaders on color filter
-                loadingColorFilter={loadingColorFilter}
-              />
-            ) : (
-              <ItemDetailMobile selectedItem={selectedItem} />
-            )}
-          </>
-        )
+      ) : ( */}
+      {progressComplete && (
+        <>
+          {windowWidth > 950 ? (
+            <ItemDetailDesktop
+              selectedItem={selectedItem}
+              setLoadingColorFilter={setLoadingColorFilter} //props to activate loaders on color filter
+              loadingColorFilter={loadingColorFilter}
+            />
+          ) : (
+            <ItemDetailMobile selectedItem={selectedItem} />
+          )}
+        </>
       )}
+      {/* ) */}
     </>
   );
 };

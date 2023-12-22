@@ -161,8 +161,7 @@ export const ItemDetailDesktop = ({
           </InsideWrapper>
         </>
       ) : (
-        //Render a loading state or a message while the data is being loaded
-        <div>Loading...</div>
+        <div></div>
       )}
     </Wrapper>
   );
