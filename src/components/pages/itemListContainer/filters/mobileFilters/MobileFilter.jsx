@@ -70,7 +70,7 @@ export const MobileFilter = ({
               clearOrderedFilters();
             }}
           >
-            Reset all filters
+            Clear Filters
           </ResetAllBtn>
         </FilterHeader>
         <FilterWrapper>

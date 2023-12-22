@@ -61,10 +61,18 @@ export const ProductsForm = ({
 
   ///////*****         HANDLE CHANGE        ******///////
   const handleChange = (e) => {
+    const { name, value } = e.target;
     if (selectedItem) {
-      setSelectedItem({ ...selectedItem, [e.target.name]: e.target.value });
+      // Check if the input is a number and set the size accordingly
+      setSelectedItem((prevSelectedItem) => ({
+        ...prevSelectedItem,
+        [name]: isNaN(value) ? value : parseInt(value, 10),
+      }));
     } else {
-      setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+      setNewProduct((prevProduct) => ({
+        ...prevProduct,
+        [name]: isNaN(value) ? value : parseInt(value, 10),
+      }));
     }
   };
 
@@ -309,9 +317,13 @@ export const ProductsForm = ({
         unit_price: parseFloat(selectedItem.unit_price),
         discountPrice: totalPrice || null,
         stock: parseInt(selectedItem.stock),
-        color: selectedItem.color,
-        size: selectedItem.size,
+        color: selectedItem.color.toLowerCase(),
+        size:
+          typeof selectedItem.size === "number"
+            ? parseFloat(selectedItem.size)
+            : selectedItem.size.toLowerCase(),
         discount: discount || null,
+        category: selectedItem.category.toLowerCase(),
       };
 
       await updateDoc(doc(itemsCollection, selectedItem.id), updatedItem).then(
@@ -347,13 +359,16 @@ export const ProductsForm = ({
             : 0,
           discountPrice: totalPrice,
           stock: newProduct.stock ? parseInt(newProduct.stock) : 0,
-          color: newProduct.color || "",
-          size: newProduct.size || "",
+          color: newProduct.color.toLowerCase() || "",
+          size:
+            typeof newProduct.size === "number"
+              ? parseFloat(newProduct.size)
+              : newProduct.size.toLowerCase() || "",
           discountPrice: totalPrice,
           title: newProduct.title || "",
           subtitle: newProduct.subtitle || "",
           description: newProduct.description || "",
-          category: newProduct.category || "",
+          category: newProduct.category.toLowerCase() || "",
           img: nullArray,
           secondUnit: newProduct.secondUnit || "",
         };
@@ -363,12 +378,15 @@ export const ProductsForm = ({
           userId: newProduct.userId ? parseInt(newProduct.userId) : 0,
           unit_price: totalPrice,
           stock: newProduct.stock ? parseInt(newProduct.stock) : 0,
-          color: newProduct.color || "",
-          size: newProduct.size || "",
+          color: newProduct.color.toLowerCase() || "",
+          size:
+            typeof newProduct.size === "number"
+              ? parseFloat(newProduct.size)
+              : newProduct.size.toLowerCase() || "",
           title: newProduct.title || "",
           subtitle: newProduct.subtitle || "",
           description: newProduct.description || "",
-          category: newProduct.category || "",
+          category: newProduct.category.toLowerCase() || "",
           img: nullArray,
           secondUnit: newProduct.secondUnit || "",
         };
@@ -822,7 +840,6 @@ export const ProductsForm = ({
             >
               {selectedItem ? "Confirmar cambios" : "Crear Producto"}
             </SubmitBtn>
-            {/* )} */}
           </Form>
         </FormWrapper>
       )}

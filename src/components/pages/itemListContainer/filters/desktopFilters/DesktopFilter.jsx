@@ -56,7 +56,7 @@ export const DesktopFilter = ({
             clearOrderedFilters();
           }}
         >
-          Reset all filters
+          Clear Filters
         </ResetAllBtn>
       </FilterHeader>
       <FilterWrapper>
@@ -321,7 +321,7 @@ export const DesktopFilter = ({
           <AccordionDetails sx={{ padding: "35px 37px 16px 16px" }}>
             <Grid container spacing={0}>
               {selectedSizeOrder.map((size, index) => (
-                <Grid item xs={5} key={index}>
+                <Grid item xs={4} key={index}>
                   <CheckboxWrapper>
                     <SizeCheckboxLabel>
                       <SizeCheckboxInput
@@ -368,7 +368,7 @@ export const DesktopFilter = ({
                 })
                 .filter((size) => !selectedSizeOrder.includes(size)) // Filter out selected sizes
                 .map((size, index) => (
-                  <Grid item xs={5} key={index}>
+                  <Grid item xs={4} key={index}>
                     <CheckboxWrapper>
                       <SizeCheckboxLabel>
                         <SizeCheckboxInput

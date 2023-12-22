@@ -109,17 +109,27 @@ export const FilterDetail = ({
 
   //Render custom "size" for clothing or map existing "size" for shoes
   const renderSizes = () => {
-    const customSizes = ["xs", "s", "m", "l", "xl", "xxl"];
-    const uniqueSizesShoes = Array.from(
+    const customStringSizes = ["xs", "s", "m", "l", "xl", "xxl"];
+    const customNumberSizes = [39, 40, 41, 42, 43, 44, 45]
+
+    if (typeof selectedItem.size === "string") {
+      // If selectedItem.size is a string, render customStringSizes
+      return customStringSizes;
+    } else if (typeof selectedItem.size === "number") {
+      // If selectedItem.size is a number, render customNumberSizes
+      return customNumberSizes;
+    }
+    return [];
+    
+    /* const uniqueSizesShoes = Array.from(
       new Set(relatedItems.map((item) => item.size))
     );
-
-    return selectedItem.category === "shoes"
+    return selectedItem.category === "shoes" || selectedItem.category === "bags" 
       ? uniqueSizesShoes
           .map((size) => parseInt(size, 10))
           .sort((a, b) => a - b)
           .map((sizeNumber) => sizeNumber.toString())
-      : customSizes;
+      : customStringSizes; */
   };
 
   //Manipulate "size" enabling/disabling by selecting a "color" checking which sizes are available
