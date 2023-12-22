@@ -149,7 +149,7 @@ export const NavDesktop = () => {
                   </ProductsDropDown>
                   <NavList>
                     <NavLink
-                      to="/all-products"
+                      to="/contact"
                       scrolled={scroll}
                       onClick={handleNavLinkClick}
                     >
