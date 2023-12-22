@@ -24,5 +24,5 @@ export const menuNavigate = [
         id: "hoodies",
         path: "/category/hoodies",
         title: "hoodies"
-    }
+    },
 ]
