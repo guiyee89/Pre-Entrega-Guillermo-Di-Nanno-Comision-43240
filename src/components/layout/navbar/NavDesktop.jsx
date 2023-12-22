@@ -1,7 +1,6 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 import { menuRoutes } from "../../routes/menuRoutes";
@@ -10,6 +9,7 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import { AuthContext } from "../../context/AuthContext";
 import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 export const NavDesktop = () => {
   const navigate = useNavigate();
@@ -20,10 +20,10 @@ export const NavDesktop = () => {
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
   const totalItems = getTotalItems();
-  const { scroll } = useContext(GlobalToolsContext);
+  const { scroll, windowWith } = useContext(GlobalToolsContext);
 
   //////////        ////////////        ////////////        ///////////
-/*   //                       Scroll Effect                      //
+  /*   //                       Scroll Effect                      //
   const [scroll, setScroll] = useState("not-scrolled");
   //funcion para darle efecto al navbar al scrollear 12% de la pantalla
   useEffect(() => {
@@ -88,7 +88,7 @@ export const NavDesktop = () => {
                       home
                     </NavLink>
                   </NavList>
-                  <NavList>
+                  <ProductsDropDown scrolled={scroll}>
                     <NavLink
                       to="/all-products"
                       scrolled={scroll}
@@ -96,41 +96,64 @@ export const NavDesktop = () => {
                     >
                       products
                     </NavLink>
-                  </NavList>
+                    <ArrowDropDownIcon sx={{ marginTop: "-5px" }} />
+                    <DropDown scrolled={scroll}>
+                      <CategoryDropDown>
+                        <CategoryContainer>
+                          <CategoryList>
+                            <CategoryLink
+                              to="/category/shoes"
+                              scrolled={scroll}
+                              onClick={handleNavLinkClick}
+                            >
+                              shoes
+                            </CategoryLink>
+                          </CategoryList>
+                          <CategoryList>
+                            <CategoryLink
+                              to="/category/pants"
+                              scrolled={scroll}
+                              onClick={handleNavLinkClick}
+                            >
+                              pants
+                            </CategoryLink>
+                          </CategoryList>
+                          <CategoryList>
+                            <CategoryLink
+                              to="/category/shirts"
+                              scrolled={scroll}
+                              onClick={handleNavLinkClick}
+                            >
+                              shirts
+                            </CategoryLink>
+                          </CategoryList>
+                          <CategoryList>
+                            <CategoryLink
+                              to="/category/hoodies"
+                              scrolled={scroll}
+                              onClick={handleNavLinkClick}
+                            >
+                              hoodies
+                            </CategoryLink>
+                          </CategoryList>
+                        </CategoryContainer>
+                      </CategoryDropDown>
+                      <ImagesDropDown>
+                        <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1698184947/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-10-24_18h59_21-min_eyd7xl.png" />
+                        <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1698183856/web%20access/samples%20for%20e-commerce/Landing%20Page/wjxscadfdn8jycft7uag.png" />
+                        <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1697638546/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-10-18_11h13_31_fpyc0v.png" />
+                        {/* <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771373/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h29_30_wnx8lf600_nkjhmm.png" />
+                        <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771371/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h30_07_ojrorw600_old1wz.png" /> */}
+                      </ImagesDropDown>
+                    </DropDown>
+                  </ProductsDropDown>
                   <NavList>
                     <NavLink
-                      to="/category/shoes"
+                      to="/all-products"
                       scrolled={scroll}
                       onClick={handleNavLinkClick}
                     >
-                      shoes
-                    </NavLink>
-                  </NavList>
-                  <NavList>
-                    <NavLink
-                      to="/category/pants"
-                      scrolled={scroll}
-                      onClick={handleNavLinkClick}
-                    >
-                      pants
-                    </NavLink>
-                  </NavList>
-                  <NavList>
-                    <NavLink
-                      to="/category/shirts"
-                      scrolled={scroll}
-                      onClick={handleNavLinkClick}
-                    >
-                      shirts
-                    </NavLink>
-                  </NavList>
-                  <NavList>
-                    <NavLink
-                      to="/category/hoodies"
-                      scrolled={scroll}
-                      onClick={handleNavLinkClick}
-                    >
-                      hoodies
+                      contact us
                     </NavLink>
                   </NavList>
                 </NavListWrapper>
@@ -250,7 +273,66 @@ const NavListWrapper = styled.ul`
   }
 `;
 const NavList = styled.li`
-  padding: 0 20px;
+  padding: 0px 50px;
+  height: 20px;
+`;
+const CategoryList = styled.li`
+  width: 30%;
+  height: 20px;
+  text-align: center;
+`;
+const ProductsDropDown = styled.div`
+  margin: 0 0px -25px 12px;
+  padding: 0 20px 25px;
+`;
+const DropDown = styled.div`
+  top: -109px;
+  opacity: 0;
+  position: absolute;
+  background-color: white;
+  right: 0px;
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: ${(props) => (props.scrolled === "scrolled" ? "-26px" : "0px")};
+  ${ProductsDropDown}:hover & {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+    top: 91px;
+    height: 150px;
+  }
+`;
+const CategoryContainer = styled.div`
+  width: 62%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+`;
+const CategoryDropDown = styled.div`
+  width: 50%;
+  display: flex;
+  height: 70%;
+  justify-content: flex-end;
+`;
+const ImagesDropDown = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  border-left: 1px solid lightgray;
+  -webkit-box-align: center;
+  align-items: center;
+  justify-content: space-evenly;
+`;
+const Img = styled.img`
+  height: 67%;
+  width: 15%;
+  border-radius: 50%;
+  object-fit: cover;
+  /* object-fit: contain;
+  height: 67%;
+  width: 100%; */
 `;
 const NavLink = styled(Link)`
   color: black;
@@ -290,6 +372,34 @@ const NavLink = styled(Link)`
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.21s ease-in-out;
+  }
+`;
+const CategoryLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+  font-weight: 500;
+  text-transform: uppercase;
+  position: relative;
+  font-size: ${(props) =>
+    props.scrolled === "scrolled"
+      ? ".63rem"
+      : "clamp(0.60rem, 2vw + 1px, 0.65rem);"};
+  background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: left bottom;
+  transition: background-size 0.1s ease-in-out, font-size 0.1s ease-in-out,
+    color 0.2s ease-in-out;
+  &:hover {
+    color: #68719d;
+    background-size: 100% 100%;
+  }
+  &:active {
+    color: #fafafa;
+    transition: background-color 0.05s ease-in-out;
+  }
+  &:hover::after {
+    transform: scaleX(1);
   }
 `;
 const DashCartContainer = styled.div`
