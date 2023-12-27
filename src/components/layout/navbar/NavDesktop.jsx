@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 import { menuRoutes } from "../../routes/menuRoutes";
@@ -52,6 +52,8 @@ export const NavDesktop = () => {
     localStorage.removeItem("selectedColorOrder");
     localStorage.removeItem("currentPage");
   };
+
+  const { categoryName } = useParams();
 
   //Find "Home" and "ItemDetail" locations
   const location = useLocation();
@@ -155,6 +157,15 @@ export const NavDesktop = () => {
                                 hoodies
                               </CategoryLink>
                             </CategoryList>
+                            <CategoryList>
+                              <CategoryLink
+                                to="/category/bags"
+                                scrolled={scroll}
+                                onClick={handleNavLinkClick}
+                              >
+                                bags
+                              </CategoryLink>
+                            </CategoryList>                       
                           </CategoryContainer>
                         </CategoryDropDown>
                         <ImagesDropDown>
@@ -309,14 +320,14 @@ const DropDown = styled.div`
   background-color: white;
   width: 100%;
   border-bottom: 1px solid lightgray;
-  display: none;
   justify-content: center;
   margin-top: ${(props) => (props.scrolled === "scrolled" ? "-26px" : "0px")};
   ${ProductsDropDown}:hover & {
     display: flex;
     visibility: visible;
+    transition: visible 0.15s ease-in-out, transform 0.1s ease-in-out;
     opacity: 1;
-    transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+    transition: opacity 0.15s ease-in-out, transform 0.1s ease-in-out;
     top: 91px;
     left: 0%;
     height: max-content;
@@ -327,6 +338,7 @@ const DropDownContainer = styled.div`
   justify-content: space-evenly;
   gap: 5rem;
   margin-left: -1.5%;
+  margin-bottom: 1%;
 `;
 const CategoryContainer = styled.div`
   display: flex;
@@ -438,6 +450,18 @@ const CategoryLink = styled(Link)`
   }
   &:hover::after {
     transform: scaleX(1);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0px;
+    width: 100%;
+    height: 1.1px;
+    background-color: black;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.21s ease-in-out;
   }
 `;
 const DashCartContainer = styled.div`
