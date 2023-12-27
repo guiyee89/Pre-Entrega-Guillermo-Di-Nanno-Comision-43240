@@ -180,9 +180,9 @@ export const NavDesktop = () => {
                     sx={{ padding: "10px" }}
                     totalItems={totalItems}
                   />
-                  {!user.rol === rolAdmin ||
-                  !user.rol === rolAdmin2 ||
-                  !user.rol === rolAdmin3 ||
+                  {user.rol === rolAdmin ||
+                  user.rol === rolAdmin2 ||
+                  user.rol === rolAdmin3 ||
                   user.rol === "user" ? null : (
                     <LoginBtn>
                       <h4>Login / Sign up</h4>
@@ -192,9 +192,9 @@ export const NavDesktop = () => {
                       />
                     </LoginBtn>
                   )}
-                  {!user.rol === rolAdmin ||
-                  !user.rol === rolAdmin2 ||
-                  !user.rol === rolAdmin3 ? (
+                  {user.rol === rolAdmin ||
+                  user.rol === rolAdmin2 ||
+                  user.rol === rolAdmin3 ? (
                     <>
                       <DashboardBtn scrolled={scroll}>
                         <h4>Admin</h4>
@@ -205,7 +205,7 @@ export const NavDesktop = () => {
                       </DashboardBtn>
                     </>
                   ) : null}
-                  {!user.rol === "user" && (
+                  {user.rol === "user" && (
                     <>
                       <ProfileBtn>
                         <h4>Profile</h4>
