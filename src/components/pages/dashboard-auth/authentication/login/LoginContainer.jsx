@@ -50,7 +50,7 @@ export const LoginContainer = () => {
             rol: userDoc.data().rol,
           };
           console.log(res.user);
-          console.log(userDoc.data());
+          /* console.log(userDoc.data()); */
           handleLogin(finallyUser);
           navigate("/");
         } else {

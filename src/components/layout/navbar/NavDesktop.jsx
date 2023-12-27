@@ -17,11 +17,12 @@ export const NavDesktop = () => {
   const rolAdmin = import.meta.env.VITE_ROL_ADMIN;
   const rolAdmin2 = import.meta.env.VITE_ROL_ADMIN2;
   const rolAdmin3 = import.meta.env.VITE_ROL_ADMIN3;
+  const rolAdmin4 = import.meta.env.VITE_ROL_ADMIN4;
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
   const totalItems = getTotalItems();
-  const { scroll, windowWith } = useContext(GlobalToolsContext);
+  const { scroll } = useContext(GlobalToolsContext);
 
   //////////        ////////////        ////////////        ///////////
   /*   //                       Scroll Effect                      //
@@ -104,7 +105,11 @@ export const NavDesktop = () => {
                           style={{ marginTop: "18px", width: "max-content" }}
                         >
                           <CategoryLink
-                            style={{ fontWeight: "600", fontSize:".8rem", textDecoration:"underline" }}
+                            style={{
+                              fontWeight: "600",
+                              fontSize: ".8rem",
+                              textDecoration: "underline",
+                            }}
                             to="/all-products"
                             scrolled={scroll}
                             onClick={handleNavLinkClick}
@@ -176,10 +181,7 @@ export const NavDesktop = () => {
                     sx={{ padding: "10px" }}
                     totalItems={totalItems}
                   />
-                  {user.rol === rolAdmin ||
-                  user.rol === rolAdmin2 ||
-                  user.rol === rolAdmin3 ||
-                  user.rol === "user" ? null : (
+                  {!user || !user.rol ? (
                     <LoginBtn>
                       <h4>Login / Sign up</h4>
                       <LoginOutlinedIcon
@@ -187,8 +189,10 @@ export const NavDesktop = () => {
                         onClick={() => navigate("/login")}
                       />
                     </LoginBtn>
-                  )}
-                  {user.rol === rolAdmin || user.rol === rolAdmin2 || user.rol === rolAdmin3 ? (
+                  ) : user.rol === rolAdmin ||
+                    user.rol === rolAdmin2 ||
+                    user.rol === rolAdmin3 ||
+                    user.rol === rolAdmin4 ? (
                     <>
                       <DashboardBtn scrolled={scroll}>
                         <h4>Admin</h4>
@@ -198,8 +202,7 @@ export const NavDesktop = () => {
                         />
                       </DashboardBtn>
                     </>
-                  ) : null}
-                  {user.rol === "user" && (
+                  ) : (
                     <>
                       <ProfileBtn>
                         <h4>Profile</h4>
@@ -294,7 +297,8 @@ const CategoryList = styled.li`
 `;
 const ProductsDropDown = styled.div`
   margin: 0px 0px -25px 10px;
-  padding: ${(props) => (props.scrolled === "scrolled" ? "0px 24px 0px 24px" : "0px 24px 25px 24px")};
+  padding: ${(props) =>
+    props.scrolled === "scrolled" ? "0px 24px 0px 24px" : "0px 24px 25px 24px"};
   height: ${(props) => (props.scrolled === "scrolled" ? "32px" : "50px")};
 `;
 const DropDown = styled.div`
