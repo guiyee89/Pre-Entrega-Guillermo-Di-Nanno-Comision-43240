@@ -93,7 +93,7 @@ export const DesktopFilter = ({
             <FormControlLabel
               sx={{
                 justifyContent: "flex-start",
-                marginLeft:"0px"
+                marginLeft: "0px",
               }}
               control={
                 <OrderByWrapper>
@@ -318,10 +318,17 @@ export const DesktopFilter = ({
           >
             Clear filters
           </ClearFilterBtn>
-          <AccordionDetails sx={{ padding: "35px 37px 16px 16px" }}>
+          <AccordionDetails
+            sx={{
+              padding:
+                windowWidth < 1200
+                  ? "35px 14px 16px 8px"
+                  : "35px 24px 16px 12px",
+            }}
+          >
             <Grid container spacing={0}>
               {selectedSizeOrder.map((size, index) => (
-                <Grid item xs={4} key={index}>
+                <Grid item xs={windowWidth < 1050 ? 6 : 4} key={index}>
                   <CheckboxWrapper>
                     <SizeCheckboxLabel>
                       <SizeCheckboxInput
@@ -368,7 +375,7 @@ export const DesktopFilter = ({
                 })
                 .filter((size) => !selectedSizeOrder.includes(size)) // Filter out selected sizes
                 .map((size, index) => (
-                  <Grid item xs={4} key={index}>
+                  <Grid item xs={windowWidth < 1050 ? 6 : 4} key={index}>
                     <CheckboxWrapper>
                       <SizeCheckboxLabel>
                         <SizeCheckboxInput
@@ -642,6 +649,7 @@ const styles = {
     border-top: 1px solid lightgray;
     box-shadow: none;
     padding: 16px 0;
+    width: 88%;
   `,
 };
 const selectStyle = {
