@@ -217,8 +217,8 @@ export const NavDesktop = () => {
                       </ProfileBtn>
                     </>
                   )} */}
-                  
-                  {/* !user ||  */!user.rol ? (
+
+                  {!user || !user.rol ? (
                     <LoginBtn>
                       <h4>Login / Sign up</h4>
                       <LoginOutlinedIcon
