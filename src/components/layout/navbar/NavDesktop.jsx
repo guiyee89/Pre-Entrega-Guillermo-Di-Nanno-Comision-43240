@@ -192,9 +192,9 @@ export const NavDesktop = () => {
                       />
                     </LoginBtn>
                   )}
-                  {!user.rol === rolAdmin ||
-                  !user.rol === rolAdmin2 ||
-                  !user.rol === rolAdmin3 ? (
+                  {user.rol === rolAdmin ||
+                  user.rol === rolAdmin2 ||
+                  user.rol === rolAdmin3 ? (
                     <>
                       <DashboardBtn scrolled={scroll}>
                         <h4>Admin</h4>
