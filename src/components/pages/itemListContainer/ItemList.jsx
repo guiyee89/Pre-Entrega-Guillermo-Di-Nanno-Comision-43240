@@ -2,7 +2,7 @@ import styled from "styled-components/macro";
 import { BsEyeFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import { Button, Pagination, PaginationItem } from "@mui/material";
+import {  Pagination, PaginationItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 import TuneIcon from "@mui/icons-material/Tune";
