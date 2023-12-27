@@ -3,12 +3,9 @@ import {
   collection,
   getDocs,
   query,
-  where,
-  deleteDoc,
-  doc,
+  where
 } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
-import { Button, TextField } from "@mui/material";
 import styled from "styled-components/macro";
 import { ProductList } from "./manageProducts/ProductList";
 import { useEffect } from "react";
