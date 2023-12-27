@@ -17,6 +17,7 @@ export const NavDesktop = () => {
   const rolAdmin = import.meta.env.VITE_ROL_ADMIN;
   const rolAdmin2 = import.meta.env.VITE_ROL_ADMIN2;
   const rolAdmin3 = import.meta.env.VITE_ROL_ADMIN3;
+  const rolAdmin4 = import.meta.env.VITE_ROL_ADMIN4;
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
@@ -217,7 +218,7 @@ export const NavDesktop = () => {
                     </>
                   )} */}
                   
-                  {!user ||  !user.rol ? (
+                  {!user || !user.rol ? (
                     <LoginBtn>
                       <h4>Login / Sign up</h4>
                       <LoginOutlinedIcon
@@ -227,7 +228,8 @@ export const NavDesktop = () => {
                     </LoginBtn>
                   ) : user.rol === rolAdmin ||
                     user.rol === rolAdmin2 ||
-                    user.rol === rolAdmin3 ? (
+                    user.rol === rolAdmin3 ||
+                    user.rol === rolAdmin4 ? (
                     <>
                       <DashboardBtn scrolled={scroll}>
                         <h4>Admin</h4>
