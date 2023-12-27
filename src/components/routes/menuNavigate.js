@@ -25,4 +25,9 @@ export const menuNavigate = [
         path: "/category/hoodies",
         title: "hoodies"
     },
+    {
+        id: "bags",
+        path: "/category/bags",
+        title: "bags"
+    },
 ]
