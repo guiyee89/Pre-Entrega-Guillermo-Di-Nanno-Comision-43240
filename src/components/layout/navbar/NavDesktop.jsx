@@ -16,6 +16,7 @@ export const NavDesktop = () => {
   const { user } = useContext(AuthContext);
   const rolAdmin = import.meta.env.VITE_ROL_ADMIN;
   const rolAdmin2 = import.meta.env.VITE_ROL_ADMIN2;
+  const rolAdmin3 = import.meta.env.VITE_ROL_ADMIN3;
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
@@ -98,53 +99,64 @@ export const NavDesktop = () => {
                     </NavLink>
                     <ArrowDropDownIcon sx={{ marginTop: "-5px" }} />
                     <DropDown scrolled={scroll}>
-                      <CategoryDropDown>
-                        <CategoryContainer>
-                          <CategoryList>
-                            <CategoryLink
-                              to="/category/shoes"
-                              scrolled={scroll}
-                              onClick={handleNavLinkClick}
-                            >
-                              shoes
-                            </CategoryLink>
-                          </CategoryList>
-                          <CategoryList>
-                            <CategoryLink
-                              to="/category/pants"
-                              scrolled={scroll}
-                              onClick={handleNavLinkClick}
-                            >
-                              pants
-                            </CategoryLink>
-                          </CategoryList>
-                          <CategoryList>
-                            <CategoryLink
-                              to="/category/shirts"
-                              scrolled={scroll}
-                              onClick={handleNavLinkClick}
-                            >
-                              shirts
-                            </CategoryLink>
-                          </CategoryList>
-                          <CategoryList>
-                            <CategoryLink
-                              to="/category/hoodies"
-                              scrolled={scroll}
-                              onClick={handleNavLinkClick}
-                            >
-                              hoodies
-                            </CategoryLink>
-                          </CategoryList>
-                        </CategoryContainer>
-                      </CategoryDropDown>
-                      <ImagesDropDown>
-                        <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1698184947/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-10-24_18h59_21-min_eyd7xl.png" />
-                        <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1698183856/web%20access/samples%20for%20e-commerce/Landing%20Page/wjxscadfdn8jycft7uag.png" />
-                        <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1697638546/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-10-18_11h13_31_fpyc0v.png" />
-                        {/* <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771373/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h29_30_wnx8lf600_nkjhmm.png" />
-                        <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771371/web%20access/samples%20for%20e-commerce/Hero/2023-06-15_18h30_07_ojrorw600_old1wz.png" /> */}
-                      </ImagesDropDown>
+                      <DropDownContainer>
+                        <CategoryList
+                          style={{ marginTop: "18px", width: "max-content" }}
+                        >
+                          <CategoryLink
+                            style={{ fontWeight: "600", fontSize:".8rem", textDecoration:"underline" }}
+                            to="/all-products"
+                            scrolled={scroll}
+                            onClick={handleNavLinkClick}
+                          >
+                            All Categories
+                          </CategoryLink>
+                        </CategoryList>
+                        <CategoryDropDown>
+                          <CategoryContainer>
+                            <CategoryList>
+                              <CategoryLink
+                                to="/category/shoes"
+                                scrolled={scroll}
+                                onClick={handleNavLinkClick}
+                              >
+                                shoes
+                              </CategoryLink>
+                            </CategoryList>
+                            <CategoryList>
+                              <CategoryLink
+                                to="/category/pants"
+                                scrolled={scroll}
+                                onClick={handleNavLinkClick}
+                              >
+                                pants
+                              </CategoryLink>
+                            </CategoryList>
+                            <CategoryList>
+                              <CategoryLink
+                                to="/category/shirts"
+                                scrolled={scroll}
+                                onClick={handleNavLinkClick}
+                              >
+                                shirts
+                              </CategoryLink>
+                            </CategoryList>
+                            <CategoryList>
+                              <CategoryLink
+                                to="/category/hoodies"
+                                scrolled={scroll}
+                                onClick={handleNavLinkClick}
+                              >
+                                hoodies
+                              </CategoryLink>
+                            </CategoryList>
+                          </CategoryContainer>
+                        </CategoryDropDown>
+                        <ImagesDropDown>
+                          <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1698184947/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-10-24_18h59_21-min_eyd7xl.png" />
+                          <BuyNowBtn>Buy Now</BuyNowBtn>
+                        </ImagesDropDown>
+                      </DropDownContainer>
                     </DropDown>
                   </ProductsDropDown>
                   <NavList>
@@ -166,6 +178,7 @@ export const NavDesktop = () => {
                   />
                   {user.rol === rolAdmin ||
                   user.rol === rolAdmin2 ||
+                  user.rol === rolAdmin3 ||
                   user.rol === "user" ? null : (
                     <LoginBtn>
                       <h4>Login / Sign up</h4>
@@ -175,7 +188,7 @@ export const NavDesktop = () => {
                       />
                     </LoginBtn>
                   )}
-                  {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
+                  {user.rol === rolAdmin || user.rol === rolAdmin2 || user.rol === rolAdmin3 ? (
                     <>
                       <DashboardBtn scrolled={scroll}>
                         <h4>Admin</h4>
@@ -277,62 +290,83 @@ const NavList = styled.li`
   height: 20px;
 `;
 const CategoryList = styled.li`
-  width: 30%;
-  height: 20px;
-  text-align: center;
+  margin: 12px 0 0;
 `;
 const ProductsDropDown = styled.div`
-  margin: 0 0px -25px 12px;
-  padding: 0 20px 25px;
+  margin: 0px 0px -25px 10px;
+  padding: ${(props) => (props.scrolled === "scrolled" ? "0px 24px 0px 24px" : "0px 24px 25px 24px")};
+  height: ${(props) => (props.scrolled === "scrolled" ? "32px" : "50px")};
 `;
 const DropDown = styled.div`
   top: -109px;
+  visibility: hidden;
   opacity: 0;
   position: absolute;
   background-color: white;
-  right: 0px;
   width: 100%;
   border-bottom: 1px solid lightgray;
-  display: flex;
-  align-items: center;
+  display: none;
   justify-content: center;
   margin-top: ${(props) => (props.scrolled === "scrolled" ? "-26px" : "0px")};
   ${ProductsDropDown}:hover & {
+    display: flex;
+    visibility: visible;
     opacity: 1;
     transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
     top: 91px;
-    height: 150px;
+    left: 0%;
+    height: max-content;
   }
 `;
-const CategoryContainer = styled.div`
-  width: 62%;
+const DropDownContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
+  justify-content: space-evenly;
+  gap: 5rem;
+  margin-left: -1.5%;
+`;
+const CategoryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 `;
 const CategoryDropDown = styled.div`
-  width: 50%;
   display: flex;
-  height: 70%;
-  justify-content: flex-end;
+  height: 90%;
+  width: 15%;
+  -webkit-box-pack: center;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: flex-start;
+  margin: 8px 0px 12px;
 `;
 const ImagesDropDown = styled.div`
-  width: 50%;
-  height: 100%;
+  width: 150px;
   display: flex;
-  border-left: 1px solid lightgray;
   -webkit-box-align: center;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  margin-right: -13%;
+  margin-left: 5%;
+  position: relative;
 `;
 const Img = styled.img`
-  height: 67%;
-  width: 15%;
-  border-radius: 50%;
+  height: 80%;
+  width: 80%;
   object-fit: cover;
-  /* object-fit: contain;
-  height: 67%;
-  width: 100%; */
+  margin-right: -50%;
+  cursor: pointer;
+`;
+const BuyNowBtn = styled.div`
+  position: absolute;
+  top: 20px;
+  right: -37%;
+  border: transparent;
+  background-color: transparent;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  text-decoration: underline;
 `;
 const NavLink = styled(Link)`
   color: black;
@@ -378,12 +412,12 @@ const CategoryLink = styled(Link)`
   color: black;
   text-decoration: none;
   font-weight: 500;
-  text-transform: uppercase;
+  text-transform: capitalize;
   position: relative;
   font-size: ${(props) =>
     props.scrolled === "scrolled"
-      ? ".63rem"
-      : "clamp(0.60rem, 2vw + 1px, 0.65rem);"};
+      ? ".69rem"
+      : "clamp(0.60rem, 2vw + 1px, 0.7rem);"};
   background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
   background-repeat: no-repeat;
   background-size: 0% 100%;
