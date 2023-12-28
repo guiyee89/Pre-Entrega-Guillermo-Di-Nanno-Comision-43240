@@ -11,7 +11,6 @@ export const DesktopFilterContainer = ({
   setCurrentPage,
   setItemLoader,
 }) => {
-
   //////////           ////////////           ////////////           ///////////           ///////////
   //                       STATE FOR DIFFERENT FILTERS                        //
   const [detailsFilters, setDetailsFilters] = useState({
@@ -172,19 +171,29 @@ export const DesktopFilterContainer = ({
 
       // Apply the ordering logic
       if (detailsFilters.orderBy === "discount") {
-        orderedItems = orderedItems.filter(
-          (item) => item.discount !== undefined
-        );
+        orderedItems = orderedItems.filter((item) => item.discount !== null);
       } else if (detailsFilters.orderBy === "lowPrice") {
         orderedItems.sort((a, b) => {
-          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
+          const priceA =
+            a.discountPrice !== "" && a.discountPrice !== null
+              ? a.discountPrice
+              : a.unit_price;
+          const priceB =
+            b.discountPrice !== "" && b.discountPrice !== null
+              ? b.discountPrice
+              : b.unit_price;
           return priceA - priceB;
         });
       } else if (detailsFilters.orderBy === "highPrice") {
         orderedItems.sort((a, b) => {
-          const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-          const priceB = "discountPrice" in b ? b.discountPrice : b.price;
+          const priceA =
+            a.discountPrice !== "" && a.discountPrice !== null
+              ? a.discountPrice
+              : a.unit_price;
+          const priceB =
+            b.discountPrice !== "" && b.discountPrice !== null
+              ? b.discountPrice
+              : b.unit_price;
           return priceB - priceA;
         });
       }
@@ -208,19 +217,29 @@ export const DesktopFilterContainer = ({
         // If no filters are applied, order the original items by the selected ordering option
         let orderedItems = [...items];
         if (detailsFilters.orderBy === "discount") {
-          orderedItems = orderedItems.filter(
-            (item) => item.discount !== undefined
-          );
+          orderedItems = orderedItems.filter((item) => item.discount !== null);
         } else if (detailsFilters.orderBy === "lowPrice") {
           orderedItems.sort((a, b) => {
-            const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-            const priceB = "discountPrice" in b ? b.discountPrice : b.price;
+            const priceA =
+              a.discountPrice !== "" && a.discountPrice !== null
+                ? a.discountPrice
+                : a.unit_price;
+            const priceB =
+              b.discountPrice !== "" && b.discountPrice !== null
+                ? b.discountPrice
+                : b.unit_price;
             return priceA - priceB;
           });
         } else if (detailsFilters.orderBy === "highPrice") {
           orderedItems.sort((a, b) => {
-            const priceA = "discountPrice" in a ? a.discountPrice : a.price;
-            const priceB = "discountPrice" in b ? b.discountPrice : b.price;
+            const priceA =
+              a.discountPrice !== "" && a.discountPrice !== null
+                ? a.discountPrice
+                : a.unit_price;
+            const priceB =
+              b.discountPrice !== "" && b.discountPrice !== null
+                ? b.discountPrice
+                : b.unit_price;
             return priceB - priceA;
           });
         }
@@ -334,5 +353,3 @@ export const DesktopFilterContainer = ({
     </>
   );
 };
-
-
