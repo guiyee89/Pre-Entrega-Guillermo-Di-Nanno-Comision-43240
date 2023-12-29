@@ -2,7 +2,7 @@ import styled from "styled-components/macro";
 import { BsEyeFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import {  Pagination, PaginationItem } from "@mui/material";
+import { Pagination, PaginationItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import useScrollRestoration from "../../hooks/useScrollRestoration";
 import TuneIcon from "@mui/icons-material/Tune";
@@ -139,8 +139,12 @@ export const ItemList = ({
       </HeaderContainer>
 
       {itemLoader && ( //Loader for filters
-        <LoaderOverlay window={windowWidth} scrolled={scroll} style={{top: windowWidth < 900 && "0px"}}>
-          <Ring  size={35} lineWeight={7} speed={1} color="black" />
+        <LoaderOverlay
+          window={windowWidth}
+          scrolled={scroll}
+          style={{ top: windowWidth < 900 && "0px" }}
+        >
+          <Ring size={35} lineWeight={7} speed={1} color="black" />
         </LoaderOverlay>
       )}
       <Wrapper key="cart-wrapper">
@@ -265,7 +269,7 @@ const LoaderOverlay = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
   display: flex;
-  justify-content:${(props) => (props.window < 500 ? "flex-start" : "center")};
+  justify-content: ${(props) => (props.window < 500 ? "flex-start" : "center")};
   align-items: center;
   padding-left: ${(props) => (props.window < 500 ? "80px" : "0")};
   z-index: 2; /* Higher z-index to cover other elements */
@@ -447,6 +451,11 @@ const Discount = styled.h4`
   font-size: 1.1rem;
   line-height: 2.8;
   cursor: pointer;
+  @media (max-width: 1300px) {
+    width: 41px;
+    height: 41px;
+    font-size: 0.95rem;
+  }
   @media (max-width: 600px) {
     top: 4px;
     left: 3%;
@@ -455,10 +464,13 @@ const Discount = styled.h4`
     font-size: 0.8rem;
     line-height: 3.1;
   }
-  @media (max-width: 1300px) {
-    width: 41px;
-    height: 41px;
+  @media (max-width: 500px) {
+    top: 14px;
+    left: 5%;
+    width: 47px;
+    height: 45px;
     font-size: 0.95rem;
+    line-height: 3;
   }
 `;
 const HeaderContainer = styled.div`

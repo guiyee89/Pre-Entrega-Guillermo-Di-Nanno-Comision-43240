@@ -25,7 +25,7 @@ export const Layout = () => {
     useContext(GlobalToolsContext);
 
   ////////////////////////////////////////////////////
-  const globalLoading = useGlobalLoader();  //Flash loading effect
+  const globalLoading = useGlobalLoader(); //Flash loading effect
 
   ////////////////////////////////////////////////////
   // Prevent scrolling when the SideCart is open
@@ -100,19 +100,22 @@ const Wrapper = styled.div`
 const LoadingScreen = styled.div`
   max-height: 100vh;
 `;
+
 const OutletWrapper = styled.div`
   min-height: 100vh;
-  /* max-width: 1618px; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
   background-color: rgb(253 253 253);
-  padding-top: 35px;
+  padding-bottom: 40px;
+  margin: 0 auto;
+  padding-top: 40px;
+
   @media (max-width: 68rem) {
     padding-top: 0;
   }
 `;
+
 const HeroWrapper = styled.div`
   background-color: white;
   @media (max-width: 68rem) {
