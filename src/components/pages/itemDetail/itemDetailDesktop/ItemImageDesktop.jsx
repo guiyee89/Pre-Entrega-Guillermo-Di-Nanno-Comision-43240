@@ -12,7 +12,7 @@ export const ItemImageDesktop = ({
   const [selectedImage, setSelectedImage] = useState({});
   const [imagesToRender, setImagesToRender] = useState([]);
   const filteredImagesToRender = imagesToRender.filter( (image) => image !== null)//Render images - Avoid null values in array
-  const { progress, setProgress, setVisible } = useContext(GlobalToolsContext);
+  const { progress, setProgress, setVisible, windowHeight } = useContext(GlobalToolsContext);
   const [loadedImages, setLoadedImages] = useState(0);
 
   useEffect(() => {
@@ -93,6 +93,7 @@ export const ItemImageDesktop = ({
       <MainImgWrapper>
         {filteredImagesToRender.map((image, index) => (
           <MainImg
+            windowHeight={windowHeight}
             key={`main-img-${index}`}
             src={image}
             id={selectedItem?.id || (filteredItem?.id && filteredItem.id)}
