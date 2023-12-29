@@ -100,17 +100,23 @@ export const NavDesktop = () => {
                     >
                       products
                     </NavLink>
-                    <ArrowDropDownIcon sx={{ marginTop: "-5px" }} />
+                    <ArrowDropDownIcon sx={{ marginTop: "-2px" }} />
                     <DropDown scrolled={scroll}>
                       <DropDownContainer>
                         <CategoryList
-                          style={{ marginTop: "18px", width: "max-content" }}
+                          style={{
+                            marginTop: "22px",
+                            width: "114px",
+                            position: "relative",
+                          }}
                         >
                           <CategoryLink
                             style={{
                               fontWeight: "600",
                               fontSize: ".8rem",
                               textDecoration: "underline",
+                              position: "absolute",
+                              right: "-42px",
                             }}
                             to="/all-products"
                             scrolled={scroll}
@@ -165,16 +171,25 @@ export const NavDesktop = () => {
                               >
                                 bags
                               </CategoryLink>
-                            </CategoryList>                       
+                            </CategoryList>
                           </CategoryContainer>
                         </CategoryDropDown>
                         <ImagesDropDown>
-                          <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1698184947/web%20access/samples%20for%20e-commerce/Landing%20Page/2023-10-24_18h59_21-min_eyd7xl.png" />
-                          <BuyNowBtn>Buy Now</BuyNowBtn>
+                          <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1693260732/web%20access/samples%20for%20e-commerce/Hero/2023-08-28_19h08_25_o7b0k6.png" />
                         </ImagesDropDown>
+                        <BuyNowBtn>Buy Now</BuyNowBtn>
                       </DropDownContainer>
                     </DropDown>
                   </ProductsDropDown>
+                  <NavList>
+                    <NavLink
+                      to="/contact"
+                      scrolled={scroll}
+                      onClick={handleNavLinkClick}
+                    >
+                      about us
+                    </NavLink>
+                  </NavList>
                   <NavList>
                     <NavLink
                       to="/contact"
@@ -300,7 +315,7 @@ const NavListWrapper = styled.ul`
   }
 `;
 const NavList = styled.li`
-  padding: 0px 50px;
+  padding: 0px 20px;
   height: 20px;
 `;
 const CategoryList = styled.li`
@@ -337,8 +352,8 @@ const DropDownContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   gap: 5rem;
-  margin-left: -1.5%;
   margin-bottom: 1%;
+  margin-top: 0.6%;
 `;
 const CategoryContainer = styled.div`
   display: flex;
@@ -349,22 +364,21 @@ const CategoryContainer = styled.div`
 const CategoryDropDown = styled.div`
   display: flex;
   height: 90%;
-  width: 15%;
-  -webkit-box-pack: center;
-  justify-content: flex-start;
+  width: 14%;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
   -webkit-box-align: center;
   align-items: flex-start;
-  margin: 8px 0px 12px;
+  margin: 8px -21px 12px 15px;
 `;
 const ImagesDropDown = styled.div`
-  width: 150px;
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-  justify-content: flex-start;
-  margin-right: -13%;
-  margin-left: 5%;
+  justify-content: center;
   position: relative;
+  width: 215px;
+  border-left: 1px solid lightgrey;
 `;
 const Img = styled.img`
   height: 80%;
@@ -374,15 +388,14 @@ const Img = styled.img`
   cursor: pointer;
 `;
 const BuyNowBtn = styled.div`
-  position: absolute;
-  top: 20px;
-  right: -37%;
+  width: 80px;
   border: transparent;
   background-color: transparent;
   cursor: pointer;
   text-transform: uppercase;
   font-size: 0.65rem;
   text-decoration: underline;
+  margin: 18px 0px 0px;
 `;
 const NavLink = styled(Link)`
   color: black;
@@ -433,7 +446,7 @@ const CategoryLink = styled(Link)`
   font-size: ${(props) =>
     props.scrolled === "scrolled"
       ? ".69rem"
-      : "clamp(0.60rem, 2vw + 1px, 0.7rem);"};
+      : "clamp(0.6rem, 1vw + 2px, 0.8rem)"};
   background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
   background-repeat: no-repeat;
   background-size: 0% 100%;
