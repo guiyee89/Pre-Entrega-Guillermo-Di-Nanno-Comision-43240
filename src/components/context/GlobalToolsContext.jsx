@@ -90,6 +90,7 @@ const GlobalToolsProvider = ({ children }) => {
     toggleFilterMenu,
     toggleDropDown,
     isDrowpDownOpen,
+    setIsDropDownOpen,
     windowWidth,
     windowHeight,
     pageLoading,
