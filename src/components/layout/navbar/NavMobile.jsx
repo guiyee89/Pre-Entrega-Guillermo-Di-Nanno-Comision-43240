@@ -117,7 +117,10 @@ export const NavMobile = () => {
                   home
                 </NavLink>
               </NavList>
-              <ProductsDropDown scrolled={scroll}>
+              <ProductsDropDown
+                scrolled={scroll}
+                isDrowpDownOpen={!isDrowpDownOpen}
+              >
                 <OnClickDropDown
                   scrolled={scroll}
                   onClick={() => toggleDropDown(!isDrowpDownOpen)}
@@ -377,9 +380,9 @@ const ProductsDropDown = styled.div`
 `;
 const DropDown = styled.div`
   display: ${(props) => (props.isDrowpDownOpen ? "block" : "none")};
-  top: 100%;
-  left: 0;
-  z-index: 1;
+  height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 const DropDownContainer = styled.div`
   display: flex;
@@ -533,7 +536,7 @@ const ProfileBtn = styled.button`
 const LoginBtn = styled.button`
   background-color: transparent;
   position: absolute;
-  bottom: 25%;
+  bottom: 4%;
   border: none;
   font-size: 0.6rem;
   cursor: pointer;
