@@ -23,12 +23,24 @@ const GlobalToolsProvider = ({ children }) => {
     setIsFilterOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  //Manage Mobile - Desktop components by width
+  ///////////         SCREEN WIDTH AND HEIGHT           ///////////
+  //State for managing different screen Width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+   //State for managing different screen Height
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight)
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
     };
     window.addEventListener("resize", handleResize);
     return () => {
@@ -73,6 +85,7 @@ const GlobalToolsProvider = ({ children }) => {
     isFilterOpen,
     toggleFilterMenu,
     windowWidth,
+    windowHeight,
     pageLoading,
     setPageLoading,
     progress,
