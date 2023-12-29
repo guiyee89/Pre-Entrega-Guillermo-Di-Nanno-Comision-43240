@@ -194,15 +194,6 @@ export const NavMobile = () => {
                         bags
                       </CategoryLink>
                     </CategoryList>
-                    <CategoryList>
-                      <CategoryLink
-                        to="/category/bags"
-                        scrolled={scroll}
-                        onClick={handleNavLinkClick}
-                      >
-                        bags
-                      </CategoryLink>
-                    </CategoryList>
                   </CategoryContainer>
                 </DropDown>
               </ProductsDropDown>
