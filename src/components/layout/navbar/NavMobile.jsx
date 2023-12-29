@@ -19,6 +19,8 @@ export const NavMobile = () => {
   const { user } = useContext(AuthContext);
   const rolAdmin = import.meta.env.VITE_ROL_ADMIN;
   const rolAdmin2 = import.meta.env.VITE_ROL_ADMIN2;
+  const rolAdmin3 = import.meta.env.VITE_ROL_ADMIN3;
+  const rolAdmin4 = import.meta.env.VITE_ROL_ADMIN4;
   //////////        ////////////        ////////////        ///////////
   //                       CartContext                      //
   const { getTotalItems } = useContext(CartContext);
@@ -31,6 +33,7 @@ export const NavMobile = () => {
     isFilterOpen,
     toggleDropDown,
     isDrowpDownOpen,
+    setIsDropDownOpen,
   } = useContext(GlobalToolsContext);
 
   //////////        ////////////        ////////////        ///////////
@@ -63,6 +66,7 @@ export const NavMobile = () => {
     localStorage.removeItem("currentPage");
     if (!isMenuOpen) {
       toggleSideMenu();
+      setIsDropDownOpen(true);
     }
   };
 
@@ -102,7 +106,10 @@ export const NavMobile = () => {
                 </LogoLink>
               </LogoSideMenu>
               <CloseIcon
-                onClick={toggleSideMenu}
+                onClick={() => {
+                  toggleSideMenu();
+                  setIsDropDownOpen(true);
+                }}
                 sx={{
                   fontSize: "28px",
                   marginTop: "15px",
@@ -117,83 +124,86 @@ export const NavMobile = () => {
                   home
                 </NavLink>
               </NavList>
-              <ProductsDropDown
-                scrolled={scroll}
-                isDrowpDownOpen={!isDrowpDownOpen}
-              >
+              <ProductsDropDown scrolled={scroll}>
                 <OnClickDropDown
                   scrolled={scroll}
+                  isDrowpDownOpen={isDrowpDownOpen}
                   onClick={() => toggleDropDown(!isDrowpDownOpen)}
                 >
                   products
                   <ArrowDropDownIcon sx={{ marginTop: "-2px" }} />
                 </OnClickDropDown>
                 <DropDown isDrowpDownOpen={!isDrowpDownOpen} scrolled={scroll}>
-                  <DropDownContainer>
-                    <CategoryDropDown>
-                      <CategoryContainer>
-                        <CategoryList>
-                          <CategoryLink
-                            style={{
-                              fontWeight: "600",
-                              fontSize: ".7rem",
-                              textDecoration: "underline",
-                            }}
-                            to="/all-products"
-                            scrolled={scroll}
-                            onClick={handleNavLinkClick}
-                          >
-                            All Categories
-                          </CategoryLink>
-                        </CategoryList>
-                        <CategoryList>
-                          <CategoryLink
-                            to="/category/shoes"
-                            scrolled={scroll}
-                            onClick={handleNavLinkClick}
-                          >
-                            shoes
-                          </CategoryLink>
-                        </CategoryList>
-                        <CategoryList>
-                          <CategoryLink
-                            to="/category/pants"
-                            scrolled={scroll}
-                            onClick={handleNavLinkClick}
-                          >
-                            pants
-                          </CategoryLink>
-                        </CategoryList>
-                        <CategoryList>
-                          <CategoryLink
-                            to="/category/shirts"
-                            scrolled={scroll}
-                            onClick={handleNavLinkClick}
-                          >
-                            shirts
-                          </CategoryLink>
-                        </CategoryList>
-                        <CategoryList>
-                          <CategoryLink
-                            to="/category/hoodies"
-                            scrolled={scroll}
-                            onClick={handleNavLinkClick}
-                          >
-                            hoodies
-                          </CategoryLink>
-                        </CategoryList>
-                        <CategoryList>
-                          <CategoryLink
-                            to="/category/bags"
-                            scrolled={scroll}
-                            onClick={handleNavLinkClick}
-                          >
-                            bags
-                          </CategoryLink>
-                        </CategoryList>
-                      </CategoryContainer>
-                    </CategoryDropDown>
-                  </DropDownContainer>
+                  <CategoryContainer>
+                    <CategoryList>
+                      <CategoryLink
+                        style={{
+                          fontWeight: "600",
+                          fontSize: ".7rem",
+                          textDecoration: "underline",
+                        }}
+                        to="/all-products"
+                        scrolled={scroll}
+                        onClick={handleNavLinkClick}
+                      >
+                        All Categories
+                      </CategoryLink>
+                    </CategoryList>
+                    <CategoryList>
+                      <CategoryLink
+                        to="/category/shoes"
+                        scrolled={scroll}
+                        onClick={handleNavLinkClick}
+                      >
+                        shoes
+                      </CategoryLink>
+                    </CategoryList>
+                    <CategoryList>
+                      <CategoryLink
+                        to="/category/pants"
+                        scrolled={scroll}
+                        onClick={handleNavLinkClick}
+                      >
+                        pants
+                      </CategoryLink>
+                    </CategoryList>
+                    <CategoryList>
+                      <CategoryLink
+                        to="/category/shirts"
+                        scrolled={scroll}
+                        onClick={handleNavLinkClick}
+                      >
+                        shirts
+                      </CategoryLink>
+                    </CategoryList>
+                    <CategoryList>
+                      <CategoryLink
+                        to="/category/hoodies"
+                        scrolled={scroll}
+                        onClick={handleNavLinkClick}
+                      >
+                        hoodies
+                      </CategoryLink>
+                    </CategoryList>
+                    <CategoryList>
+                      <CategoryLink
+                        to="/category/bags"
+                        scrolled={scroll}
+                        onClick={handleNavLinkClick}
+                      >
+                        bags
+                      </CategoryLink>
+                    </CategoryList>
+                    <CategoryList>
+                      <CategoryLink
+                        to="/category/bags"
+                        scrolled={scroll}
+                        onClick={handleNavLinkClick}
+                      >
+                        bags
+                      </CategoryLink>
+                    </CategoryList>
+                  </CategoryContainer>
                 </DropDown>
               </ProductsDropDown>
               <NavList>
@@ -215,9 +225,7 @@ export const NavMobile = () => {
                 </NavLink>
               </NavList>
             </NavListWrapper>
-            {user.rol === rolAdmin ||
-            user.rol === rolAdmin2 ||
-            user.rol === "user" ? null : (
+            {!user || !user.rol ? (
               <LoginBtn>
                 <h4>Login / Sign up</h4>
                 <LoginOutlinedIcon
@@ -225,19 +233,20 @@ export const NavMobile = () => {
                   onClick={() => navigate("/login")}
                 />
               </LoginBtn>
-            )}
-            {user.rol === rolAdmin || user.rol === rolAdmin2 ? (
+            ) : user.rol === rolAdmin ||
+              user.rol === rolAdmin2 ||
+              user.rol === rolAdmin3 ||
+              user.rol === rolAdmin4 ? (
               <>
-                <DashboardBtn>
+                <DashboardBtn scrolled={scroll}>
                   <h4>Admin</h4>
                   <DashboardCustomizeIcon
-                    sx={{ fontSize: "27px", marginBottom: "-12px" }}
+                    sx={{ fontSize: "27px" }}
                     onClick={() => navigate("/dashboard")}
                   />
                 </DashboardBtn>
               </>
-            ) : null}
-            {user.rol === "user" && (
+            ) : (
               <>
                 <ProfileBtn>
                   <h4>Profile</h4>
@@ -379,27 +388,22 @@ const ProductsDropDown = styled.div`
   padding: 0px 20px 0px;
 `;
 const DropDown = styled.div`
-  display: ${(props) => (props.isDrowpDownOpen ? "block" : "none")};
-  height: 240px;
-  overflow-y: auto;
+  margin: ${(props) => (props.isDrowpDownOpen ? "18px 0px 8px 8px;" : "0")};
+  opacity: ${(props) => (props.isDrowpDownOpen ? 1 : 0)};
+  height: ${(props) => (props.isDrowpDownOpen ? "240px" : "0")};
+  overflow-y: ${(props) => props.isDrowpDownOpen && "auto"};
   overflow-x: hidden;
+  transition: opacity 0.3s ease-in-out, height 0.05s ease-in-out;
 `;
-const DropDownContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  margin-top: 2.5%;
-`;
+
 const CategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 0.85rem;
 `;
-const CategoryDropDown = styled.div`
-  margin: 8px -21px 12px 15px;
-`;
+
 const NavList = styled.li`
   padding: 0 20px;
 `;
@@ -417,20 +421,23 @@ const OnClickDropDown = styled.div`
     props.scrolled === "scrolled" ? ".75rem" : "0.82rem"};
   background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
   background-repeat: no-repeat;
-  background-size: 0% 100%;
+  background-size: ${(props) => (props.isDrowpDownOpen ? "0%" : "0% 100%")};
   background-position: left bottom;
   transition: background-size 0.2s ease-in-out, font-size 0.2s ease-in-out,
     color 0.2s ease-in-out;
   &:hover {
-    color: #68719d;
-    background-size: 100% 100%;
-  }
-  &:active {
-    color: #fafafa;
+    color: ${(props) => (props.isDrowpDownOpen ? "0" : "#68719d")};
+    background-size: ${(props) => (props.isDrowpDownOpen ? "0" : "100%")};
     transition: background-color 0.05s ease-in-out;
   }
-  &:hover::after {
-    transform: scaleX(1);
+  &:active {
+    color: ${(props) => (props.isDrowpDownOpen ? "0" : "#fafafa")};
+    background-size: ${(props) => (props.isDrowpDownOpen ? "0" : "100%")};
+    transition: background-color 0.001s ease-in;
+  }
+
+  &::after {
+    transform: scaleX(${(props) => (props.isDrowpDownOpen ? "1" : "0")});
   }
   &::after {
     content: "";
@@ -440,11 +447,12 @@ const OnClickDropDown = styled.div`
     width: 100%;
     height: 2px;
     background-color: black;
-    transform: scaleX(0);
+    transform: scaleX(${(props) => (props.isDrowpDownOpen ? "0" : "1")});
     transform-origin: left center;
-    transition: transform 0.21s ease-in-out;
+    transition: transform 0.15s ease-in-out;
   }
 `;
+
 const NavLink = styled(Link)`
   color: black;
   text-decoration: none;
@@ -526,12 +534,20 @@ const DashboardBtn = styled.button`
   border: none;
   cursor: pointer;
   font-size: 0.6rem;
+  position: absolute;
+  bottom: 4%;
+  margin: 200px auto 0;
+  width: 100%;
 `;
 const ProfileBtn = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
   font-size: 0.6rem;
+  position: absolute;
+  bottom: 4%;
+  margin: 200px auto 0;
+  width: 100%;
 `;
 const LoginBtn = styled.button`
   background-color: transparent;

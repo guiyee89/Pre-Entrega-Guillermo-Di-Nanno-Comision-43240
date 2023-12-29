@@ -53,8 +53,6 @@ export const NavDesktop = () => {
     localStorage.removeItem("currentPage");
   };
 
-  const { categoryName } = useParams();
-
   //Find "Home" and "ItemDetail" locations
   const location = useLocation();
   const currentRoute = menuRoutes.find(
