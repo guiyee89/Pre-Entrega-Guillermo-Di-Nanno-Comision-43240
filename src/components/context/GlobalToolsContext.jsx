@@ -5,22 +5,26 @@ export const GlobalToolsContext = createContext();
 
 
 const GlobalToolsProvider = ({ children }) => {
+   ///////////         TOGGLE ON CLICK           ///////////
   //Manage side cart
   const [isOpen, setIsOpen] = useState(true);
   const toggleSideCart = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
-
   //Manage side menu for Mobile
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const toggleSideMenu = () => {
     setIsMenuOpen((prevIsOpen) => !prevIsOpen);
   };
-
   //Manage side filters for Mobile
   const [isFilterOpen, setIsFilterOpen] = useState(true);
   const toggleFilterMenu = () => {
     setIsFilterOpen((prevIsOpen) => !prevIsOpen);
+  };
+  //Manage products dropdown on Mobile Navbar
+  const [isDrowpDownOpen, setIsDropDownOpen] = useState(true)
+  const toggleDropDown = () => {
+    setIsDropDownOpen((prevIsOpen) => !prevIsOpen);
   };
 
   ///////////         SCREEN WIDTH AND HEIGHT           ///////////
@@ -84,6 +88,8 @@ const GlobalToolsProvider = ({ children }) => {
     toggleSideMenu,
     isFilterOpen,
     toggleFilterMenu,
+    toggleDropDown,
+    isDrowpDownOpen,
     windowWidth,
     windowHeight,
     pageLoading,
