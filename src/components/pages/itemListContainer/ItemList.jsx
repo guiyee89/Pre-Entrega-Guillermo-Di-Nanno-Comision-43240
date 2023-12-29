@@ -530,7 +530,7 @@ const ClipLoaderBottom = styled(ClipLoader)`
 const PaginationWrapperTop = styled.div`
   display: flex;
   width: 45%;
-  margin: 0 0 15px 5px;
+  margin: 10px 0 15px 5px;
   justify-content: center;
   @media (max-width: 900px) {
     width: 100%;
@@ -569,6 +569,6 @@ const ItemsQuantity = styled.p`
   margin: 6px 10px 0 -20px;
   word-spacing: 5px;
   @media (max-width: 900px) {
-    margin: 2px 0px 5px 17px;
+    margin: 5px 0px 5px 0px;
   }
 `;
