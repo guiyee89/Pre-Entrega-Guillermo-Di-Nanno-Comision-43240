@@ -10,6 +10,7 @@ import { AuthContext } from "../../context/AuthContext";
 import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useState } from "react";
 
 export const NavDesktop = () => {
   const navigate = useNavigate();
@@ -63,6 +64,9 @@ export const NavDesktop = () => {
   const isCheckout = currentRoute?.id === "Checkout";
   const isDashboard = currentRoute?.id === "dashboard";
 
+  //Hovering Category Links for Images
+  const [hoveredCategory, setHoveredCategory] = useState("all-products");
+
   return (
     <>
       <HeaderWrapper>
@@ -95,6 +99,8 @@ export const NavDesktop = () => {
                       to="/all-products"
                       scrolled={scroll}
                       onClick={handleNavLinkClick}
+                      onMouseEnter={() => setHoveredCategory("all-products")}
+                      onMouseLeave={() => setHoveredCategory("all-products")}
                     >
                       products
                     </NavLink>
@@ -119,6 +125,12 @@ export const NavDesktop = () => {
                             to="/all-products"
                             scrolled={scroll}
                             onClick={handleNavLinkClick}
+                            onMouseEnter={() =>
+                              setHoveredCategory("all-products")
+                            }
+                            onMouseLeave={() =>
+                              setHoveredCategory("all-products")
+                            }
                           >
                             All Categories
                           </CategoryLink>
@@ -130,6 +142,8 @@ export const NavDesktop = () => {
                                 to="/category/shoes"
                                 scrolled={scroll}
                                 onClick={handleNavLinkClick}
+                                onMouseEnter={() => setHoveredCategory("shoes")}
+                                onMouseLeave={() => setHoveredCategory("shoes")}
                               >
                                 shoes
                               </CategoryLink>
@@ -139,6 +153,8 @@ export const NavDesktop = () => {
                                 to="/category/pants"
                                 scrolled={scroll}
                                 onClick={handleNavLinkClick}
+                                onMouseEnter={() => setHoveredCategory("pants")}
+                                onMouseLeave={() => setHoveredCategory("pants")}
                               >
                                 pants
                               </CategoryLink>
@@ -148,6 +164,12 @@ export const NavDesktop = () => {
                                 to="/category/shirts"
                                 scrolled={scroll}
                                 onClick={handleNavLinkClick}
+                                onMouseEnter={() =>
+                                  setHoveredCategory("shirts")
+                                }
+                                onMouseLeave={() =>
+                                  setHoveredCategory("shirts")
+                                }
                               >
                                 shirts
                               </CategoryLink>
@@ -157,6 +179,12 @@ export const NavDesktop = () => {
                                 to="/category/hoodies"
                                 scrolled={scroll}
                                 onClick={handleNavLinkClick}
+                                onMouseEnter={() =>
+                                  setHoveredCategory("hoodies")
+                                }
+                                onMouseLeave={() =>
+                                  setHoveredCategory("hoodies")
+                                }
                               >
                                 hoodies
                               </CategoryLink>
@@ -166,6 +194,8 @@ export const NavDesktop = () => {
                                 to="/category/bags"
                                 scrolled={scroll}
                                 onClick={handleNavLinkClick}
+                                onMouseEnter={() => setHoveredCategory("bags")}
+                                onMouseLeave={() => setHoveredCategory("bags")}
                               >
                                 bags
                               </CategoryLink>
@@ -173,7 +203,24 @@ export const NavDesktop = () => {
                           </CategoryContainer>
                         </CategoryDropDown>
                         <ImagesDropDown>
-                          <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1693260732/web%20access/samples%20for%20e-commerce/Hero/2023-08-28_19h08_25_o7b0k6.png" />
+                          {hoveredCategory === "all-products" && (
+                            <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1703952195/web%20access/samples%20for%20e-commerce/Nav%20Images/lncaoen82w7hf8epzswd.png" />
+                          )}
+                          {hoveredCategory === "shoes" && (
+                            <Img src="https://res.cloudinary.com/derdim3m6/image/upload/e_improve:outdoor/web%20access/samples%20for%20e-commerce/Nav%20Images/lmhmmbxtfibmfspboui6.jpg" />
+                          )}
+                          {hoveredCategory === "pants" && (
+                            <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1703949455/web%20access/samples%20for%20e-commerce/Nav%20Images/n2rb42unjp3zv1ima2f7.png" />
+                          )}
+                          {hoveredCategory === "shirts" && (
+                            <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1703949489/web%20access/samples%20for%20e-commerce/Nav%20Images/vsbqrreuudovv7rilmho.png" />
+                          )}
+                          {hoveredCategory === "hoodies" && (
+                            <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1703949430/web%20access/samples%20for%20e-commerce/Nav%20Images/wvzsmcp1t6i7mog3v2gp.png" />
+                          )}
+                          {hoveredCategory === "bags" && (
+                            <Img src="https://res.cloudinary.com/derdim3m6/image/upload/v1703949418/web%20access/samples%20for%20e-commerce/Nav%20Images/pgurqzuws8ur1fvoxwmj.png" />
+                          )}
                         </ImagesDropDown>
                         <BuyNowBtn>Buy Now</BuyNowBtn>
                       </DropDownContainer>
@@ -375,13 +422,14 @@ const ImagesDropDown = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 215px;
+  width: 190px;
+  height: 210px;
   border-left: 1px solid lightgrey;
 `;
 const Img = styled.img`
-  height: 80%;
-  width: 80%;
-  object-fit: cover;
+  height: 90%;
+  width: 100%;
+  object-fit: contain;
   margin-right: -50%;
   cursor: pointer;
 `;

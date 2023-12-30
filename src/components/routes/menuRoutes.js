@@ -1,3 +1,4 @@
+import { AboutUs } from "../pages/about/AboutUs";
 import { CartContainer } from "../pages/cart/CartContainer";
 import { CheckoutContainer } from "../pages/checkout/CheckoutContainer";
 import { ContactUs } from "../pages/contact/ContactUs";
@@ -33,6 +34,11 @@ export const menuRoutes = [
         id: "contact",
         path: "/contact",
         Element: ContactUs
+    },
+    {
+        id: "about",
+        path: "/about",
+        Element: AboutUs
     },
     {
         id: "cart",
