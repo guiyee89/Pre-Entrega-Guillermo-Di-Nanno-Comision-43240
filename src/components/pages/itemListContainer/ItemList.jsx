@@ -505,7 +505,7 @@ const FilterContainer = styled.div`
 
 const FilterBtn = styled.div`
   font-weight: 600;
-  margin: 10px -28px 10px -5px;
+  margin: 10px -28px 10px -1%;
   word-spacing: 7px;
   width: 49.1%;
   border-right: 1px solid #aeacac;
@@ -514,8 +514,14 @@ const FilterBtn = styled.div`
   @media (min-width: 901px) {
     display: none;
   }
+  @media (max-width: 800px) {
+    margin: 10px -4px 10px -0.8%;
+  }
+  @media (max-width:650px){
+    margin: 10px -2.4% 10px -0.4%;
+  }
   @media (max-width: 550px) {
-    margin: 10px -4px 10px -1px;
+    margin: 10px -4px 10px 0%;
   }
 `;
 

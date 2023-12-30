@@ -332,7 +332,7 @@ const LogoLink = styled(Link)`
 const Logo = styled.img`
   width: 51%;
   margin-left: ${(props) =>
-    props.scrolled === "scrolled" ? "19.7px;" : "23.3px"};
+    props.scrolled === "scrolled" ? "24%;" : "26%;"};
   transition: margin-left 0.2s ease-in-out;
   @media (max-width: 550px) {
     margin-left: ${(props) =>
