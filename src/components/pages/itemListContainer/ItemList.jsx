@@ -245,17 +245,17 @@ const Wrapper = styled.div`
   @media (max-width: 1150px) {
     gap: 0.7rem;
   }
-
   @media (max-width: 990px) {
     grid-template-columns: repeat(2, 1fr);
   }
   @media (max-width: 900px) {
-    margin: 0;
+    margin: 0 0 0 -4.1px;
   }
   @media (max-width: 500px) {
     grid-template-columns: repeat(1, 1fr);
     gap: 0.4rem;
     row-gap: 1.2rem;
+    margin: 0;
   }
 `;
 const LoaderOverlay = styled.div`
@@ -342,7 +342,7 @@ const InfoWrapper = styled.div`
   padding: 1px 0px 13px 33px;
   background-color: rgb(239 237 237);
   @media (max-width: 600px) {
-    padding: 0px 0px 0px 5px;
+    padding: 0px 0px 0px 18px;
   }
 `;
 const ItemWrapper = styled(Link)`
@@ -505,7 +505,7 @@ const FilterContainer = styled.div`
 
 const FilterBtn = styled.div`
   font-weight: 600;
-  margin: 10px -13px 10px 7px;
+  margin: 10px -28px 10px -5px;
   word-spacing: 7px;
   width: 49.1%;
   border-right: 1px solid #aeacac;
@@ -514,8 +514,8 @@ const FilterBtn = styled.div`
   @media (min-width: 901px) {
     display: none;
   }
-  @media (min-width: 550px) {
-    margin: 10px -13px 10px -1px;
+  @media (max-width: 550px) {
+    margin: 10px -4px 10px -1px;
   }
 `;
 
@@ -530,7 +530,7 @@ const ClipLoaderBottom = styled(ClipLoader)`
 const PaginationWrapperTop = styled.div`
   display: flex;
   width: 45%;
-  margin: 10px 0 15px 5px;
+  margin: 10px 0 15px -8px;
   justify-content: center;
   @media (max-width: 900px) {
     width: 100%;
@@ -569,6 +569,6 @@ const ItemsQuantity = styled.p`
   margin: 6px 10px 0 -20px;
   word-spacing: 5px;
   @media (max-width: 900px) {
-    margin: 5px 0px 5px 0px;
+    margin: 8px 0px 8px -18px;
   }
 `;
