@@ -26,25 +26,6 @@ export const NavDesktop = () => {
   const { scroll } = useContext(GlobalToolsContext);
 
   //////////        ////////////        ////////////        ///////////
-  /*   //                       Scroll Effect                      //
-  const [scroll, setScroll] = useState("not-scrolled");
-  //funcion para darle efecto al navbar al scrollear 12% de la pantalla
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollHeight = window.innerHeight * 0.05; // 10% of screen height
-      if (window.scrollY > scrollHeight) {
-        setScroll("scrolled");
-      } else {
-        setScroll("not-scrolled");
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []); */
-
-  //////////        ////////////        ////////////        ///////////
   //                 Reset localStorage on nav links               //
   const handleNavLinkClick = () => {
     localStorage.removeItem("selectedFilters");

@@ -52,6 +52,7 @@ const GlobalToolsProvider = ({ children }) => {
     };
   }, []);
 
+
   ///////////         LOADERS           ///////////
   //Manage state for Loading spinner on page change (used in LoadingTopBar)
   const [pageLoading, setPageLoading] = useState(false);

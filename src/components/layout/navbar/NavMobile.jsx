@@ -28,6 +28,7 @@ export const NavMobile = () => {
   //////////        ////////////        ////////////        ///////////
   //                       SideMenuContext                      //
   const {
+    scroll,
     isMenuOpen,
     toggleSideMenu,
     isFilterOpen,
@@ -35,26 +36,6 @@ export const NavMobile = () => {
     isDrowpDownOpen,
     setIsDropDownOpen,
   } = useContext(GlobalToolsContext);
-
-  //////////        ////////////        ////////////        ///////////
-  //                       Scroll Effect                      //
-  const [scroll, setScroll] = useState("not-scrolled");
-  //funcion para darle efecto al navbar al scrollear 12% de la pantalla
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollHeight = window.innerHeight * 0.05; // 10% of screen height
-      if (window.scrollY > scrollHeight) {
-        setScroll("scrolled");
-      } else {
-        setScroll("not-scrolled");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   //////////        ////////////        ////////////        ///////////
   //                 Reset localStorage on nav links               //
@@ -88,11 +69,7 @@ export const NavMobile = () => {
           isDashboard={isDashboard}
         >
           {!isCart && !isCheckout && !isDashboard && (
-            <MenuIconBtn
-              scrolled={scroll}
-              sx={{ fontSize: "26px" }}
-              onClick={toggleSideMenu}
-            />
+            <MenuIconBtn scrolled={scroll} onClick={toggleSideMenu} />
           )}
           <TransparentDiv
             isMenuOpen={isMenuOpen}
@@ -105,16 +82,10 @@ export const NavMobile = () => {
                   <LogoMenu src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></LogoMenu>
                 </LogoLink>
               </LogoSideMenu>
-              <CloseIcon
+              <CloseIconBtn
                 onClick={() => {
                   toggleSideMenu();
                   setIsDropDownOpen(true);
-                }}
-                sx={{
-                  fontSize: "28px",
-                  marginTop: "15px",
-                  marginLeft: "36px",
-                  cursor: "pointer",
                 }}
               />
             </SideMenuHeader>
@@ -296,9 +267,16 @@ const SideMenuWrapper = styled.div`
 `;
 const MenuIconBtn = styled(MenuIcon)`
   cursor: pointer;
-  margin-left: 24px;
-  margin-right: -5px;
-  margin-top: ${(props) => (props.scrolled === "scrolled" ? "20px" : "24px")};
+  font-size: 1.6875rem !important;
+  margin-left: 29px;
+  margin-right: -6px;
+  margin-top: ${(props) => (props.scrolled === "scrolled" ? "6px" : "27px")};
+`;
+const CloseIconBtn = styled(CloseIcon)`
+  font-size: 28px;
+  margin-top: 4px;
+  margin-left: 36px;
+  cursor: "pointer";
 `;
 const SideMenuHeader = styled.div`
   display: flex;
