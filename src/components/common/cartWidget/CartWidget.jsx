@@ -1,16 +1,15 @@
 import { Badge } from "@mui/material";
-// import { BsFillCartFill } from "react-icons/bs";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import styled from "styled-components/macro";
 import { GlobalToolsContext } from "../../context/GlobalToolsContext";
 import { useContext } from "react";
 
-export const CartWidget = ({ scrolled, totalItems }) => {
-  const { toggleSideCart } = useContext(GlobalToolsContext);
+export const CartWidget = ({ totalItems }) => {
+  const { toggleSideCart, scroll } = useContext(GlobalToolsContext);
 
   return (
     <>
-      <CartWidgetWrapper onClick={toggleSideCart}>
+      <CartWidgetWrapper onClick={toggleSideCart} scrolled={scroll}>
         <Contador
           badgeContent={totalItems}
           aria-label={totalItems}
@@ -21,9 +20,8 @@ export const CartWidget = ({ scrolled, totalItems }) => {
             horizontal: "left",
           }}
         >
-          <CartWrapper scrolled={scrolled}>
+          <CartWrapper scrolled={scroll}>
             <ShoppingBagOutlinedIcon fontSize="medium" />
-            {/* <BsFillCartFill color="black" size={"28px"} /> */}
           </CartWrapper>
         </Contador>
       </CartWidgetWrapper>
@@ -32,7 +30,7 @@ export const CartWidget = ({ scrolled, totalItems }) => {
 };
 const CartWidgetWrapper = styled.div`
   cursor: pointer;
-  margin-bottom: -12px;
+  margin-bottom: ${(props) => (props.scrolled === "scrolled" ? "-4px" : "-10px")};
 `;
 const Contador = styled(Badge)`
   padding-left: 8px;

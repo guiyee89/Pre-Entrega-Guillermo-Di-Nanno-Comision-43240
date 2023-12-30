@@ -678,7 +678,8 @@ const styles = {
     border-top: 1px solid lightgray;
     box-shadow: none;
     padding: 16px 0;
-
+    width: 88%;
+    
     &.Mui-expanded {
       margin: 5px 11px 0px 8px;
     }
