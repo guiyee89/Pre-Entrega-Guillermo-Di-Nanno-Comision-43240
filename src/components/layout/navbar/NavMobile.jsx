@@ -110,8 +110,7 @@ export const NavMobile = () => {
                       <CategoryLink
                         style={{
                           fontWeight: "600",
-                          fontSize: ".7rem",
-                          textDecoration: "underline",
+                          fontSize: ".8rem",
                         }}
                         to="/all-products"
                         scrolled={scroll}
@@ -187,6 +186,7 @@ export const NavMobile = () => {
                 </NavLink>
               </NavList>
             </NavListWrapper>
+
             {!user || !user.rol ? (
               <LoginBtn>
                 <h4>Login / Sign up</h4>
@@ -223,6 +223,7 @@ export const NavMobile = () => {
           <LogoDiv scrolled={scroll} onClick={handleNavLinkClick}>
             <LogoLink to="/">
               <Logo
+                isDashboard={isDashboard}
                 scrolled={scroll}
                 src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"
               ></Logo>
@@ -329,16 +330,22 @@ const LogoDiv = styled.div`
 const LogoLink = styled(Link)`
   text-decoration: none;
 `;
+
 const Logo = styled.img`
   width: 51%;
   margin-left: ${(props) =>
-    props.scrolled === "scrolled" ? "24%;" : "26%;"};
+    props.scrolled === "scrolled" ? "24%" : "26%"};
   transition: margin-left 0.2s ease-in-out;
+  @media (max-width: 900px) {
+    margin-left: ${(props) =>
+      props.isDashboard ? "15%" : props.scrolled === "scrolled" ? "24%" : "26%"};
+  }
   @media (max-width: 550px) {
     margin-left: ${(props) =>
-      props.scrolled === "scrolled" ? "18.8px;" : "25.3px"};
+      props.scrolled === "scrolled" ? "18.8px" : "25.3px"};
   }
 `;
+
 const LogoSideMenu = styled.div`
   width: 100%;
 `;
@@ -467,7 +474,9 @@ const CategoryLink = styled(Link)`
   text-transform: capitalize;
   position: relative;
   font-size: ${(props) =>
-    props.scrolled === "scrolled" ? ".7rem" : "clamp(0.7rem, 1vw + 2px, 1rem)"};
+    props.scrolled === "scrolled"
+      ? ".7rem"
+      : "clamp(0.7rem, 1vw + 7.5px, 1rem)"};
   background-image: linear-gradient(to right, transparent 0%, #ecf0f8 100%);
   background-repeat: no-repeat;
   background-size: 0% 100%;
