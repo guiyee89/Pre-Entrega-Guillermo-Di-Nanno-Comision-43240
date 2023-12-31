@@ -86,11 +86,14 @@ export const ProductList = ({
               name="id"
               value={searchProduct}
               onChange={(e) => setSearchProduct(e.target.value)}
-              sx={{ marginTop: "12px", marginLeft: "8px", width: "130px", 
-              "&.MuiInputBase-input":{
-                padding: "10.5px 14px"
-              }
-             }}
+              sx={{
+                marginTop: "12px",
+                marginLeft: "8px",
+                width: "130px",
+                "&.MuiInputBase-input": {
+                  padding: "10.5px 14px",
+                },
+              }}
               InputLabelProps={{
                 style: { fontSize: "12px", zIndex: "0" },
               }}
@@ -142,24 +145,25 @@ export const ProductList = ({
               </DiscountFormContainer>
               <TableContainer>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                
-                    <TableHead
-                      sx={{ position: "sticky", top: "0", zIndex: "100" }}
-                    >
-                      <TableRow sx={{ position: "sticky", top: "0" }}>
-                        <TableCell align="center">ID</TableCell>
-                        <TableCell align="center">Imagen</TableCell>
-                        <TableCell align="center">Titulo</TableCell>
-                        <TableCell align="center">Precio</TableCell>
-                        <TableCell align="center">Descuento</TableCell>
-                        <TableCell align="center">Stock</TableCell>
-                        <TableCell align="center">Size</TableCell>
-                        <TableCell align="center">Color</TableCell>
-                        <TableCell align="center">Categoria</TableCell>
-                        <TableCell align="center">Editar / Copiar / Borrar</TableCell>
-                      </TableRow>
-                    </TableHead>
-                 
+                  <TableHead
+                    sx={{ position: "sticky", top: "0", zIndex: "100" }}
+                  >
+                    <TableRow sx={{ position: "sticky", top: "0" }}>
+                      <TableCell align="center">ID</TableCell>
+                      <TableCell align="center">Imagen</TableCell>
+                      <TableCell align="center">Titulo</TableCell>
+                      <TableCell align="center">Precio</TableCell>
+                      <TableCell align="center">Descuento</TableCell>
+                      <TableCell align="center">Stock</TableCell>
+                      <TableCell align="center">Size</TableCell>
+                      <TableCell align="center">Color</TableCell>
+                      <TableCell align="center">Categoria</TableCell>
+                      <TableCell align="center">
+                        Editar / Copiar / Borrar
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+
                   <TableBody>
                     {Array.isArray(products) &&
                       products.map((product) => (
@@ -196,7 +200,7 @@ export const ProductList = ({
                           >
                             {product.discount ? (
                               <>
-                                {product.discount}% <br /> ( $
+                                {product.discount}% {/* <br /> */} ( $
                                 {product.discountPrice} )
                               </>
                             ) : (
@@ -280,7 +284,7 @@ export const ProductList = ({
 };
 const ProductListWrapper = styled.div`
   width: 80%;
-  margin-top: 200px;
+  margin-top: 80px;
   @media (max-width: 950px) {
     width: 100%;
   }
@@ -288,13 +292,15 @@ const ProductListWrapper = styled.div`
 const ProductsButtonsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  gap:  ${(props) =>
+    props.windowWidth < 600 ? "1rem" : "8.1rem"};
+  justify-content: ${(props) =>
+    props.windowWidth < 750 ? "space-between" : "center"};;
   margin: ${(props) =>
-    props.windowWidth < 750 ? "0px 16px 0 0" : "0px 70px 0 70px;"};
+    props.windowWidth < 750 ? "0 16px 0 0" : "0 0 0 -67px"};
 `;
 
 const TextFieldInput = styled(TextField)`
-
   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
     padding: 11.5px 4px;
     text-align: center;

@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
 import { CartWidget } from "../../common/cartWidget/CartWidget";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
 import { menuRoutes } from "../../routes/menuRoutes";
@@ -405,6 +405,7 @@ const ImagesDropDown = styled.div`
   position: relative;
   width: 190px;
   height: 210px;
+  margin: 0 9px 0 -13px;
   border-left: 1px solid lightgrey;
 `;
 const Img = styled.img`
