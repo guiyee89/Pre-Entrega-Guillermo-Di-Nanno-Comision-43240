@@ -156,8 +156,8 @@ const Form = styled.form`
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
-  justify-content: flex-start;
-  margin: ${(props) => (props.windowWidth < 750 ? "0" : "0px 0px 0px 70px;")};
+  justify-content: ${(props) => (props.windowWidth < 750 ? "flex-start" : "center")};
+  margin: ${(props) => (props.windowWidth < 750 ? "0" : "0px 0px 0px -238px;")};
 `;
 const Div = styled.div`
   width: 100%;
