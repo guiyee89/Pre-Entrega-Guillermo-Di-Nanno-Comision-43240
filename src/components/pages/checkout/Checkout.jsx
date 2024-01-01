@@ -205,7 +205,7 @@ export const Checkout = ({
             </SubmitBtn>
             {preferenceId && (
               <Wallet
-                initialization={{ preferenceId, redirectMode: "modal" }}
+                initialization={{ preferenceId, redirectMode:"blank" }}
               />
             )}
           </ConfirmMercadoPago>
