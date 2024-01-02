@@ -1,5 +1,4 @@
 import {
-  IconButton,
   TableBody,
   TableCell,
   TableContainer,
@@ -12,8 +11,6 @@ import styled from "styled-components/macro";
 import { CartContext } from "../../context/CartContext";
 import { Wallet } from "@mercadopago/sdk-react";
 import { Table } from "react-bootstrap";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 export const Checkout = ({
   handleSubmit,
