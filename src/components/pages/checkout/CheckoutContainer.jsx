@@ -23,8 +23,9 @@ import { Link, useLocation } from "react-router-dom";
 export const CheckoutContainer = () => {
 
 
-  const { cart, getTotalPrice, clearCart } = useContext(CartContext);
+  const { cart, getTotalPrice, getItemPrice } = useContext(CartContext);
   const { user } = useContext(AuthContext);
+  let unit_price = getItemPrice()
   let total = getTotalPrice();
 
 
@@ -43,8 +44,10 @@ export const CheckoutContainer = () => {
       let order = {
         buyer: data, //la data de initialValues en onSubmit
         items: cart, //el cart de CartContext
-        total: total + shipmentCost, //el total del CartContext y costo de envio
         email: user.email,
+        unit_price: unit_price,
+        total: total + shipmentCost, //el total del CartContext y costo de envio
+        shipment_cost: shipmentCost
       };
       localStorage.setItem("order", JSON.stringify(order));
       handleBuy();

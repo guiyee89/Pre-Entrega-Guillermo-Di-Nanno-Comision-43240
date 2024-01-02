@@ -7,6 +7,7 @@ import { db } from "../../../../../firebaseConfig";
 export const AdminOrders = () => {
   const [myOrders, setMyOrders] = useState([]);
   const { user } = useContext(AuthContext);
+  console.log(myOrders);
 
   useEffect(() => {
     const ordersCollection = collection(db, "orders");
@@ -32,24 +33,35 @@ export const AdminOrders = () => {
           .sort((a, b) => b.date.seconds - a.date.seconds) // Sort by date in descending order
           .map((order) => (
             <OrderContainer key={order.id}>
-              {order?.items?.map((product) => (
-                <ProductData key={product.id}>
-                  <OrderImg src={product.img[0]} />
-                  <h2>{product.title}</h2>
-                  <h3>Quantity: {product.quantity}</h3>
-                </ProductData>
-              ))}
+              <h2>
+                Date: {new Date(order.date.seconds * 1000).toLocaleDateString()}
+              </h2>
+              <ProductContainer>
+                {order?.items?.map((product) => (
+                  <>
+                    <ProductData key={product.id}>
+                      <OrderImg src={product.img[0]} />
+                      <ProductInfo>
+                        <h2>{product.title}</h2>
+                        <p>Qty: {product.quantity}</p>
+                        <p>Color: {product.color}</p>
+                        <p>Size: {product.size}</p>
+                      </ProductInfo>
+                    </ProductData>
+                  </>
+                ))}
+              </ProductContainer>
               <BuyerInfoContainer>
-                <h2>Buyer Info:</h2>
-                <p>Email: {order.email}</p>
+                <h2>Client Details:</h2>
                 <p>Name: {order?.buyer?.name}</p>
+                <p>Email: {order?.buyer?.email}</p>
+                <p>City: {order?.buyer?.ciudad}</p>
+                <p>Post Code: {order?.buyer?.cp}</p>
                 <p>Address: {order?.buyer?.direccion}</p>
                 <p>Phone: {order?.buyer?.phone}</p>
                 {/* Add more properties as needed */}
               </BuyerInfoContainer>
-              <h2>
-                Date: {new Date(order.date.seconds * 1000).toLocaleDateString()}
-              </h2>
+
               <h4>El total de la orden es ${order.total}</h4>
             </OrderContainer>
           ))}
@@ -70,15 +82,26 @@ const OrderContainer = styled.div`
   display: flex;
   margin: 20px 0;
 `;
+const ProductContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
 const ProductData = styled.div`
-  width: 200px;
   display: flex;
   flex-direction: column;
 `;
+const ProductInfo = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+`;
 const OrderImg = styled.img`
-  width: 50%;
+  width: 10%;
 `;
 const BuyerInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: max-content;
 `;
