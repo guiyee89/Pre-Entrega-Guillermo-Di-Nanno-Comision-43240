@@ -45,7 +45,10 @@ export const AdminOrders = () => {
           .sort((a, b) => b.date.seconds - a.date.seconds) // Sort by date in descending order
           .map((order) => (
             <OrderContainer key={order.id}>
-              <TableContainer  component={Paper}>
+              <TableContainer
+                component={Paper}
+                sx={{ borderLeft: "1px solid grey" }}
+              >
                 <Table
                   aria-label="simple table"
                   sx={{
@@ -55,7 +58,12 @@ export const AdminOrders = () => {
                 >
                   <TableHead>
                     <TableRow>
-                      <TableCellTitle sx={{ padding: "0!important" }}>
+                      <TableCellTitle
+                        sx={{
+                          padding: "0!important",
+                          width: "175px!important",
+                        }}
+                      >
                         <OrderDate>{formatDate(order.date.seconds)}</OrderDate>
                       </TableCellTitle>
                       <TableCellTitle>Title</TableCellTitle>
@@ -89,51 +97,53 @@ export const AdminOrders = () => {
                     ))}
                   </TableBody>
                 </Table>
-              </TableContainer >
-              <AllOrderInfo>
-                <BuyerInfoContainer>
-                  <BuyerInfo>
-                    <BuyerTitle>Client Details:</BuyerTitle>
-                    <Data>
-                      Name: <Span>{order?.buyer?.name}</Span>
-                    </Data>
-                    <Data>
-                      Email:{" "}
-                      <Span style={{ textTransform: "lowercase" }}>
-                        {order?.buyer?.email}
-                      </Span>
-                    </Data>
-                    <Data>
-                      Phone: <Span>{order?.buyer?.phone}</Span>
-                    </Data>
-                  </BuyerInfo>
-                  <ShippingInfo>
-                    <Data>
-                      City: <Span>{order?.buyer?.ciudad}</Span>
-                    </Data>
-                    <Data>
-                      Post Code: <Span>{order?.buyer?.cp}</Span>
-                    </Data>
-                    <Data>
-                      Address: <Span>{order?.buyer?.direccion}</Span>
-                    </Data>
-                  </ShippingInfo>
-                </BuyerInfoContainer>
-                <OrderCost>
-                  <DataCost style={{ fontSize: ".9rem" }}>
-                    Shipment Cost:{" "}
-                    <SpanCost
-                      style={{ fontSize: ".9rem", paddingLeft: "21px" }}
-                    >
-                      {" "}
-                      $ {order.shipment_cost}
-                    </SpanCost>
-                  </DataCost>
-                  <DataCostTotal>
-                    Total Amount: <SpanCost>$ {order.total}</SpanCost>
-                  </DataCostTotal>
-                </OrderCost>
-              </AllOrderInfo>
+              </TableContainer>
+              <AllOrderDetails>
+                <BuyerDetailsContainer>
+                  <BuyerTitle>Client Details:</BuyerTitle>
+                  <BuyerDetails>
+                    <BuyerData>
+                      <Data>
+                        Name: <Span>{order?.buyer?.name}</Span>
+                      </Data>
+                      <Data>
+                        Email:{" "}
+                        <Span style={{ textTransform: "lowercase" }}>
+                          {order?.buyer?.email}
+                        </Span>
+                      </Data>
+                      <Data>
+                        Phone: <Span>{order?.buyer?.phone}</Span>
+                      </Data>
+                    </BuyerData>
+                    <ShippingData>
+                      <Data>
+                        City: <Span>{order?.buyer?.ciudad}</Span>
+                      </Data>
+                      <Data>
+                        Post Code: <Span>{order?.buyer?.cp}</Span>
+                      </Data>
+                      <Data>
+                        Address: <Span>{order?.buyer?.direccion}</Span>
+                      </Data>
+                    </ShippingData>
+                  </BuyerDetails>
+                  <OrderCost>
+                    <DataCost style={{ fontSize: ".9rem" }}>
+                      Shipment Cost:{" "}
+                      <SpanCost
+                        style={{ fontSize: ".9rem", paddingLeft: "21px" }}
+                      >
+                        {" "}
+                        $ {order.shipment_cost}
+                      </SpanCost>
+                    </DataCost>
+                    <DataCostTotal>
+                      Total Amount: <SpanCost>$ {order.total}</SpanCost>
+                    </DataCostTotal>
+                  </OrderCost>
+                </BuyerDetailsContainer>
+              </AllOrderDetails>
             </OrderContainer>
           ))}
       </OrdersWrapper>
@@ -141,12 +151,15 @@ export const AdminOrders = () => {
   );
 };
 const OrdersWrapper = styled.div`
-  margin-top: 25px;
-  height: 1300px;
+  margin-top: 90px;
   box-shadow: 0px -3px 1px rgba(0, 0, 0, 0.15);
-  overflow-y: auto;
+  overflow-x: auto;
+  width: 100%;
+  @media (max-width: 1000px) {
+  
+  }
   /* Customize scrollbar */
-  &::-webkit-scrollbar {
+  /* &::-webkit-scrollbar {
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
@@ -155,20 +168,17 @@ const OrdersWrapper = styled.div`
   }
   &::-webkit-scrollbar-track {
     background-color: #f1f1f1;
-  }
-  @media (max-width:750px){
-    width: 100%;
-  }
+  } */
 `;
 
 const OrderContainer = styled.div`
   display: flex;
-  padding: 10px 8px 70px;
-  margin-bottom: 70px;
-  flex-direction: column;
-  border-bottom: 1px solid black;
-  width: 750px;
-  @media (max-width:750px){
+  padding: 10px 8px 25px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid #dfcdcd;
+  width: 1224px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px -3px 17px 4px;
+  @media (max-width: 750px) {
     padding: 10px 0px 70px;
   }
 `;
@@ -184,46 +194,57 @@ const TableCellTitle = styled(TableCell)`
   text-align: center !important;
 `;
 const TableCellData = styled(TableCell)`
-  padding: 16px 0px !important;
+  padding: 11.5px 0px !important;
   text-align: center !important;
 `;
 const OrderImg = styled.img`
   width: 100%;
-  max-width: 80px;
+  max-width: 72px;
   min-width: 40px;
   height: auto;
-  margin: 0px 0 0 55px;
+  margin: 0px 0 0 35px;
   @media (max-width: 600px) {
     margin: 0px 0px 0px 25px;
   }
 `;
-const AllOrderInfo = styled.div`
+const AllOrderDetails = styled.div`
   display: flex;
+  -webkit-box-pack: justify;
   justify-content: space-between;
-  padding: 30px 31px 0px 29px;
-  border-left: 1px solid darkgrey;
+  min-width: 545px;
+  margin: 0px 0px -0.7px -1.2px;
+  border-bottom: 1px solid darkgrey;
   border-right: 1px solid darkgrey;
+  border-left: 1px solid darkgrey;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 0px;
 `;
-const BuyerInfoContainer = styled.div`
+const BuyerDetailsContainer = styled.div`
   display: flex;
-  width: max-content;
+  flex-direction: column;
+  width: 100%;
+`;
+const BuyerDetails = styled.div`
+  display: flex;
+  padding: 26px 0 0 20px;
+  gap: 6rem;
 `;
 const BuyerTitle = styled.h2`
-  width: 140px;
+  width: 100%;
   font-weight: 900;
-  text-transform: capitalize;
+  padding: 18px 0 12px 20px;
+  border-bottom: 1px solid lightgray;
+  text-transform: uppercase;
   font-size: 1.1rem;
   text-decoration: underline;
 `;
-const BuyerInfo = styled.div`
+const BuyerData = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
 `;
-const ShippingInfo = styled.div`
+const ShippingData = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 38px 10px 3px 30px;
   gap: 0.7rem;
 `;
 const Data = styled.p`
@@ -248,7 +269,7 @@ const DataCostTotal = styled.p`
     position: absolute;
     bottom: 4%;
     left: -1px;
-    width: 70%;
+    width: 26%;
     height: 1px;
     background-color: black;
   }
@@ -268,8 +289,10 @@ const OrderCost = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 230px;
-  padding: 15px 0 4px 20px;
-  border-left: 1px solid darkgrey;
-  gap: 2rem;
+  padding: 15px 0px 20px 20px;
+  margin-top: 20px;
+  border-top: 1px solid darkgrey;
+  gap: 1rem;
+  -webkit-box-pack: center;
   justify-content: center;
 `;
