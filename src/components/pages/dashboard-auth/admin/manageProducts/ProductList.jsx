@@ -284,7 +284,7 @@ export const ProductList = ({
 };
 const ProductListWrapper = styled.div`
   width: 80%;
-  margin-top: 80px;
+  margin: 80px 0 100px 0;
   @media (max-width: 950px) {
     width: 100%;
   }
