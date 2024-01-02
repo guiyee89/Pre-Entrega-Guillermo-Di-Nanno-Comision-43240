@@ -23,12 +23,18 @@ import { Link, useLocation } from "react-router-dom";
 export const CheckoutContainer = () => {
 
 
-  const { cart, getTotalPrice, getItemPrice } = useContext(CartContext);
+  const { cart, getTotalPrice } = useContext(CartContext);
   const { user } = useContext(AuthContext);
-  let unit_price = getItemPrice()
   let total = getTotalPrice();
 
+  const cartItemPrice = cart.map((product) => {
+    const itemPrice = product.discountPrice || product.unit_price;
+    return {
+      unit_price: itemPrice,
+    };
+  });
 
+  console.log(cartItemPrice)
 
   const { handleSubmit, handleChange, errors } = useFormik({
     initialValues: {
@@ -45,7 +51,7 @@ export const CheckoutContainer = () => {
         buyer: data, //la data de initialValues en onSubmit
         items: cart, //el cart de CartContext
         email: user.email,
-        unit_price: unit_price,
+        itemPrice: cartItemPrice,
         total: total + shipmentCost, //el total del CartContext y costo de envio
         shipment_cost: shipmentCost
       };

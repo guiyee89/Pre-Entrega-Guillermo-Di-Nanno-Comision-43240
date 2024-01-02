@@ -81,6 +81,7 @@ const WelcomeTitle = styled.h2`
 const OrderContainer = styled.div`
   display: flex;
   margin: 20px 0;
+  flex-direction: column;
 `;
 const ProductContainer = styled.div`
   display: flex;
@@ -90,7 +91,6 @@ const ProductContainer = styled.div`
 `;
 const ProductData = styled.div`
   display: flex;
-  flex-direction: column;
 `;
 const ProductInfo = styled.div`
   display: flex;
