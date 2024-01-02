@@ -18,23 +18,12 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 
-
-
 export const CheckoutContainer = () => {
 
-
-  const { cart, getTotalPrice } = useContext(CartContext);
+  const { cart, getTotalPrice, clearCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
+  const [shipmentCost, setShipmentCost] = useState(0)
   let total = getTotalPrice();
-
-  const cartItemPrice = cart.map((product) => {
-    const itemPrice = product.discountPrice || product.unit_price;
-    return {
-      unit_price: itemPrice,
-    };
-  });
-
-  console.log(cartItemPrice)
 
   const { handleSubmit, handleChange, errors } = useFormik({
     initialValues: {
@@ -46,12 +35,18 @@ export const CheckoutContainer = () => {
       cp: "",
     },
     onSubmit: (data) => {
-      //Aca creamos la logica del submit
+      //Submit order data
+      /* let itemPrice  */
       let order = {
         buyer: data, //la data de initialValues en onSubmit
         items: cart, //el cart de CartContext
         email: user.email,
-        itemPrice: cartItemPrice,
+        // itemPrice: itemPrice = cart.map((product) => {
+        //   const itemPrice = product.discountPrice || product.unit_price;
+        //   return {
+        //     unit_price: itemPrice,
+        //   };
+        // }),
         total: total + shipmentCost, //el total del CartContext y costo de envio
         shipment_cost: shipmentCost
       };
@@ -103,8 +98,6 @@ export const CheckoutContainer = () => {
     }
   }, [paramValue]);
 
-
-  const [shipmentCost, setShipmentCost] = useState(0)
 
   useEffect(() => {
     let shipmentCollection = collection(db,"shipment")
