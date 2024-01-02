@@ -18,23 +18,11 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 
-
-
 export const CheckoutContainer = () => {
-
-
-  const { cart, getTotalPrice } = useContext(CartContext);
+  const { cart, getTotalPrice, clearCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
+  const [shipmentCost, setShipmentCost] = useState(0);
   let total = getTotalPrice();
-
-  const cartItemPrice = cart.map((product) => {
-    const itemPrice = product.discountPrice || product.unit_price;
-    return {
-      unit_price: itemPrice,
-    };
-  });
-
-  console.log(cartItemPrice)
 
   const { handleSubmit, handleChange, errors } = useFormik({
     initialValues: {
@@ -46,18 +34,22 @@ export const CheckoutContainer = () => {
       cp: "",
     },
     onSubmit: (data) => {
-      //Aca creamos la logica del submit
+      //Submit order data
       let order = {
-        buyer: data, //la data de initialValues en onSubmit
-        items: cart, //el cart de CartContext
+        buyer: data,
+        items: cart,
         email: user.email,
-        itemPrice: cartItemPrice,
-        total: total + shipmentCost, //el total del CartContext y costo de envio
-        shipment_cost: shipmentCost
+        item_price: cart.map((product) => ({
+          unit_price: product.discountPrice || product.unit_price,
+        })),
+        total: total + shipmentCost,
+        shipment_cost: shipmentCost,
       };
       localStorage.setItem("order", JSON.stringify(order));
       handleBuy();
+      console.log(order);
     },
+    
     validateOnChange: false, //que no se valide mientras escribo, sino al hacer submit
     validationSchema: Yup.object({
       //validar los datos
@@ -73,9 +65,6 @@ export const CheckoutContainer = () => {
         .max(15, "Debe contener 10 numeros"),
     }),
   });
-
-
-  
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -103,17 +92,13 @@ export const CheckoutContainer = () => {
     }
   }, [paramValue]);
 
-
-  const [shipmentCost, setShipmentCost] = useState(0)
-
   useEffect(() => {
-    let shipmentCollection = collection(db,"shipment")
-    let shipmentDoc = doc(shipmentCollection,"sENFwZKmQYRTTmkuqqGX")
-    getDoc(shipmentDoc).then(res => {
-      setShipmentCost(res.data().cost)
-    })
-  },[])
-
+    let shipmentCollection = collection(db, "shipment");
+    let shipmentDoc = doc(shipmentCollection, "sENFwZKmQYRTTmkuqqGX");
+    getDoc(shipmentDoc).then((res) => {
+      setShipmentCost(res.data().cost);
+    });
+  }, []);
 
   initMercadoPago(import.meta.env.VITE_PUBLIC_KEY, {
     locale: "es-AR",
@@ -138,7 +123,7 @@ export const CheckoutContainer = () => {
           items: cartArray,
           shipment_cost: shipmentCost,
         }
-      )
+      );
 
       const { id } = response.data;
       return id; // Return the ID on success
@@ -154,8 +139,6 @@ export const CheckoutContainer = () => {
       setPreferenceId(id);
     }
   };
-
-
 
   return (
     <>

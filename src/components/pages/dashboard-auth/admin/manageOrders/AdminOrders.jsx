@@ -7,7 +7,8 @@ import { db } from "../../../../../firebaseConfig";
 export const AdminOrders = () => {
   const [myOrders, setMyOrders] = useState([]);
   const { user } = useContext(AuthContext);
-  console.log(myOrders);
+  console.log(
+    myOrders.sort((a, b) => b.date.seconds - a.date.seconds));
 
   useEffect(() => {
     const ordersCollection = collection(db, "orders");
