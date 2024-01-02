@@ -28,7 +28,7 @@ export const ItemDetailContainer = () => {
 
   // ENCONTRAMOS PRODUCTO POR "ID" Y BUSCAMOS MAS ITEMS QUE COINCIDAN EN "USERID" PARA RENDERIZAR
   useEffect(() => {
-    /* setPageLoading(true); */
+    setPageLoading(true);
     const delay = 250;
     const fetchItem = async () => {
       try {
@@ -48,7 +48,7 @@ export const ItemDetailContainer = () => {
             if (progress === 100) {
               setVisible(false);
             }
-          }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
+          }, 150); // Set loading to false, progress to 100, and progressComplete to true after a delay
         });
       } catch (err) {
         console.log(err);
