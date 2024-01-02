@@ -109,21 +109,8 @@ const CartContextProvider = ({ children }) => {
 
   //Limpiar todo el carrito
   const clearCart = () => {
-    // Swal.fire({
-    //   title: "Are you sure you want to delete all?",
-    //   icon: "warning",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#3085d6",
-    //   cancelButtonColor: "#d33",
-    //   confirmButtonText: "Yes, delete it!",
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     Swal.fire("Deleted!", "Your file has been deleted.", "success");
     setCart([]);
-    //Para que no deje residuos en el localStorage. Es decir, un "[] vacio"
     localStorage.removeItem("cart");
-    //   }
-    // });
   };
 
   //Eliminar producto entero por id
