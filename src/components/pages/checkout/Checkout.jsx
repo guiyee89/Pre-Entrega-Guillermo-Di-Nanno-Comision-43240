@@ -19,7 +19,6 @@ export const Checkout = ({
   handleSubmit,
   handleChange,
   errors,
-  handleBuy,
   preferenceId,
 }) => {
   const { cart, getTotalPrice, getItemPrice, getTotalDiscount, getSubTotal } =
