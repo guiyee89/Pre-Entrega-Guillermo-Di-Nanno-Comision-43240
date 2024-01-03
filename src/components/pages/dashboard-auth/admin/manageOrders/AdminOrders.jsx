@@ -156,7 +156,6 @@ const OrdersWrapper = styled.div`
   overflow-x: auto;
   width: 100%;
   @media (max-width: 1000px) {
-  
   }
   /* Customize scrollbar */
   /* &::-webkit-scrollbar {
