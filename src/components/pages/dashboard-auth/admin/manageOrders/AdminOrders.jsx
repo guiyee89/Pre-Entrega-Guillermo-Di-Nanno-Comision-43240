@@ -151,7 +151,7 @@ export const AdminOrders = () => {
   );
 };
 const OrdersWrapper = styled.div`
-  margin-top: 90px;
+  margin-top: 50px;
   box-shadow: 0px -3px 1px rgba(0, 0, 0, 0.15);
   overflow-x: auto;
   width: 100%;

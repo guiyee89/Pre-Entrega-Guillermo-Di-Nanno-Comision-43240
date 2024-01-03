@@ -19,11 +19,6 @@ export const AdminDashboard = () => {
   return (
     <>
       <DashboardNavigation>
-        <LogoDiv scrolled={scroll}>
-          <LogoLink to="/">
-            <Logo src="https://res.cloudinary.com/derdim3m6/image/upload/v1689771276/web%20access/samples%20for%20e-commerce/Logos/2023-07-14_09h48_23-removebg-preview_yq3phy.png"></Logo>
-          </LogoLink>
-        </LogoDiv>
         <DashboardListContainer>
           <DashboardList
             style={{ borderLeft: "1px solid darkgrey" }}
@@ -62,37 +57,12 @@ export const AdminDashboard = () => {
   );
 };
 const DashboardNavigation = styled.nav`
+  margin-top: 70px;
   width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.55) 0px 0px 3px;
-  border-bottom: 1px solid rgba(133, 132, 132, 0.25);
-  height: 105px;
-  margin-top: -42px;
-  position: fixed;
-`;
-const LogoDiv = styled.div`
-  width: ${(props) => (props.scrolled === "scrolled" ? "90px" : "110px")};
-  transition: width
-    ${(props) => (props.scrolled === "scrolled" ? "0.20s" : "0.16s")}
-    ease-in-out;
-  @media screen and (max-width: 50rem) {
-    position: absolute;
-    left: 42%;
-  }
-`;
-const LogoLink = styled(Link)`
-  text-decoration: none;
-`;
-const Logo = styled.img`
-  width: 62%;
-  margin-left: 78px;
-  margin-top: 24px;
-  @media screen and (max-width: 50rem) {
-    width: 50%;
-  }
 `;
 const DashboardListContainer = styled.ul`
   display: flex;
-  margin: -46px 0 0 -2.1%;
+  margin: 0 0 0 -2.1%;
   justify-content: center;
 `;
 const DashboardList = styled.li`
