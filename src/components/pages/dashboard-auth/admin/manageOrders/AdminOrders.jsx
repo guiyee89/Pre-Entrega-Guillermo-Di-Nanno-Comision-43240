@@ -4,6 +4,8 @@ import styled from "styled-components/macro";
 import { AuthContext } from "../../../../context/AuthContext";
 import { db } from "../../../../../firebaseConfig";
 import {
+  Box,
+  Modal,
   Paper,
   Table,
   TableBody,
@@ -12,11 +14,15 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import TopicOutlinedIcon from "@mui/icons-material/TopicOutlined";
+import { ProductsDetails } from "./ProductsDetails";
+import { BuyerDetails } from "./BuyerDetails";
 
 export const AdminOrders = () => {
-  const [myOrders, setMyOrders] = useState([]);
   const { user } = useContext(AuthContext);
-  console.log(myOrders.sort((a, b) => b.date.seconds - a.date.seconds));
+  const [myOrders, setMyOrders] = useState([]);
+  /* console.log(myOrders.sort((a, b) => b.date.seconds - a.date.seconds)); */
 
   useEffect(() => {
     const ordersCollection = collection(db, "orders");
@@ -37,115 +43,124 @@ export const AdminOrders = () => {
     return new Date(seconds * 1000).toLocaleDateString("en-US", options);
   };
 
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpenProducts = (orderId) => {
+    const selectedOrder = myOrders.find((order) => order.id === orderId);
+  
+    if (selectedOrder) {
+      setSelectedItem(selectedOrder);
+      setOpen(true);
+  
+      // Now you have access to selectedOrder.items
+      console.log(selectedOrder.items);
+    }
+  };
+
   return (
     <>
       <OrdersWrapper>
-        {myOrders
-          .filter((order) => order.items && order.items.length > 0) // Filter out orders with empty items
-          .sort((a, b) => b.date.seconds - a.date.seconds) // Sort by date in descending order
-          .map((order) => (
-            <OrderContainer key={order.id}>
-              <TableContainer
-                component={Paper}
-                sx={{ borderLeft: "1px solid grey" }}
-              >
-                <Table
-                  aria-label="simple table"
-                  sx={{
-                    borderLeft: "1px solid darkgrey",
-                    borderRight: " 1px solid darkgrey",
-                  }}
-                >
-                  <TableHead>
-                    <TableRow>
-                      <TableCellTitle
-                        sx={{
-                          padding: "0!important",
-                          width: "175px!important",
+        <TableContainer component={Paper} sx={{ borderLeft: "1px solid grey" }}>
+          <Table
+            aria-label="simple table"
+            sx={{
+              borderLeft: "1px solid darkgrey",
+              borderRight: " 1px solid darkgrey",
+            }}
+          >
+            <TableHead>
+              <TableRow>
+                <TableCellTitle sx={{ width: "160px" }}>
+                  Order ID
+                </TableCellTitle>
+                <TableCellTitle sx={{ width: "115px" }}>Date</TableCellTitle>
+                <TableCellTitle sx={{ width: "80px" }}>Products</TableCellTitle>
+                <TableCellTitle sx={{ width: "80px" }}>Total</TableCellTitle>
+                <TableCellTitle sx={{ width: "160px" }}>
+                  Buyer Details
+                </TableCellTitle>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {myOrders
+                .filter((order) => order.items && order.items.length > 0) // Filter out orders with empty items
+                /*  .sort((a, b) => b.date.seconds - a.date.seconds) */ // Sort by date in descending order
+                .map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCellData>{order.id}</TableCellData>
+                    <TableCellData sx={{ minWidth: "70px" }}>
+                      {formatDate(order.date.seconds)}
+                    </TableCellData>
+                    <TableCellData>
+                      <span
+                        style={{
+                          textDecoration: "underline",
+                          cursor: "pointer",
                         }}
                       >
-                        <OrderDate>{formatDate(order.date.seconds)}</OrderDate>
-                      </TableCellTitle>
-                      <TableCellTitle>Title</TableCellTitle>
-                      <TableCellTitle>Color</TableCellTitle>
-                      <TableCellTitle>Size</TableCellTitle>
-                      <TableCellTitle>Quantity</TableCellTitle>
-                      <TableCellTitle>Price</TableCellTitle>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {order?.items?.map((product, index) => (
-                      <TableRow key={product.id}>
-                        <TableCellData>
-                          <OrderImg
-                            src={product.img[0]}
-                            alt={`Item ${product.id}`}
-                          />
-                        </TableCellData>
-                        <TableCellData sx={{ minWidth: "70px" }}>
-                          {product.title}
-                        </TableCellData>
-                        <TableCellData sx={{ minWidth: "70px" }}>
-                          {product.color}
-                        </TableCellData>
-                        <TableCellData>{product.size}</TableCellData>
-                        <TableCellData>{product.quantity}</TableCellData>
-                        <TableCellData>
-                          ${order?.item_price?.[index]?.unit_price}
-                        </TableCellData>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <AllOrderDetails>
-                <BuyerDetailsContainer>
-                  <BuyerTitle>Client Details:</BuyerTitle>
-                  <BuyerDetails>
-                    <BuyerData>
-                      <Data>
-                        Name: <Span>{order?.buyer?.name}</Span>
-                      </Data>
-                      <Data>
-                        Email:{" "}
-                        <Span style={{ textTransform: "lowercase" }}>
-                          {order?.buyer?.email}
-                        </Span>
-                      </Data>
-                      <Data>
-                        Phone: <Span>{order?.buyer?.phone}</Span>
-                      </Data>
-                    </BuyerData>
-                    <ShippingData>
-                      <Data>
-                        City: <Span>{order?.buyer?.ciudad}</Span>
-                      </Data>
-                      <Data>
-                        Post Code: <Span>{order?.buyer?.cp}</Span>
-                      </Data>
-                      <Data>
-                        Address: <Span>{order?.buyer?.direccion}</Span>
-                      </Data>
-                    </ShippingData>
-                  </BuyerDetails>
-                  <OrderCost>
-                    <DataCost style={{ fontSize: ".9rem" }}>
-                      Shipment Cost:{" "}
-                      <SpanCost
-                        style={{ fontSize: ".9rem", paddingLeft: "21px" }}
+                        Open
+                        <ArrowDropDownIcon
+                          sx={{ marginTop: "-2px" }}
+                          onClick={() => handleOpen(order.id)}
+                        />
+                      </span>
+                    </TableCellData>
+                    <TableCellData sx={{ minWidth: "70px" }}>
+                      $ {order.total}
+                    </TableCellData>
+                    <TableCellData
+                      sx={{
+                        textTransform: "capitalize",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        paddingLeft: "40px!important",
+                      }}
+                    >
+                      {order?.buyer?.name}{" "}
+                      <span
+                        style={{
+                          width: "35%",
+                          paddingRight: "15px",
+                          cursor: "pointer",
+                        }}
                       >
-                        {" "}
-                        $ {order.shipment_cost}
-                      </SpanCost>
-                    </DataCost>
-                    <DataCostTotal>
-                      Total Amount: <SpanCost>$ {order.total}</SpanCost>
-                    </DataCostTotal>
-                  </OrderCost>
-                </BuyerDetailsContainer>
-              </AllOrderDetails>
-            </OrderContainer>
-          ))}
+                        <TopicOutlinedIcon
+                          onClick={() => handleOpen(order.id)}
+                        />
+                      </span>
+                    </TableCellData>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Modal
+          sx={{ maxWidth: "1000px", margin: "0 auto" }}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <ProductsDetails
+              handleClose={handleClose}
+              selectedItem={selectedItem}
+              setSelectedItem={setSelectedItem}
+              myOrders={myOrders}
+            />
+            <BuyerDetails
+              handleClose={handleClose}
+              selectedItem={selectedItem}
+              setMyOrders={setMyOrders}
+              myOrders={myOrders}
+            />
+          </Box>
+        </Modal>
       </OrdersWrapper>
     </>
   );
@@ -154,7 +169,7 @@ const OrdersWrapper = styled.div`
   margin-top: 50px;
   box-shadow: 0px -3px 1px rgba(0, 0, 0, 0.15);
   overflow-x: auto;
-  width: 100%;
+  width: 85%;
   @media (max-width: 1000px) {
   }
   /* Customize scrollbar */
@@ -191,10 +206,17 @@ const OrderDate = styled.h2`
 const TableCellTitle = styled(TableCell)`
   padding: 16px 8px !important;
   text-align: center !important;
+  border-bottom: 5px solid lightgrey !important;
+  border-left: 1px solid lightgrey;
+  border-right: 1px solid lightgrey;
+  font-size: 0.975rem;
+  font-weight: 600 !important;
 `;
 const TableCellData = styled(TableCell)`
-  padding: 11.5px 0px !important;
+  padding: 19px 0px !important;
   text-align: center !important;
+  border-left: 1px solid lightgrey;
+  border-right: 1px solid lightgrey;
 `;
 const OrderImg = styled.img`
   width: 100%;
@@ -222,11 +244,7 @@ const BuyerDetailsContainer = styled.div`
   flex-direction: column;
   width: 100%;
 `;
-const BuyerDetails = styled.div`
-  display: flex;
-  padding: 26px 0 0 20px;
-  gap: 6rem;
-`;
+
 const BuyerTitle = styled.h2`
   width: 100%;
   font-weight: 900;
@@ -295,3 +313,13 @@ const OrderCost = styled.div`
   -webkit-box-pack: center;
   justify-content: center;
 `;
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "100%",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+};
