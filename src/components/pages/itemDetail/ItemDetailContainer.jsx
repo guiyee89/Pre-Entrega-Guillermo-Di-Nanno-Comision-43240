@@ -101,7 +101,7 @@ export const ItemDetailContainer = () => {
     </>
   );
 };
-
+/* 
 const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -112,3 +112,4 @@ const LoaderWrapper = styled.div`
     margin-left: 0px;
   }
 `;
+ */
