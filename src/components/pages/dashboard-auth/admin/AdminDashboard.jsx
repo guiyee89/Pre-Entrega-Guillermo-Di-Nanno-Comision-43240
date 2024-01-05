@@ -57,8 +57,11 @@ export const AdminDashboard = () => {
   );
 };
 const DashboardNavigation = styled.nav`
-  margin-top: 70px;
+  margin-top: 53px;
   width: 100%;
+  @media (max-width:1088px){
+    margin-top: 69px;
+  }
 `;
 const DashboardListContainer = styled.ul`
   display: flex;
