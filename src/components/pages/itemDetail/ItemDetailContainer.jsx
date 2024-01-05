@@ -48,7 +48,7 @@ export const ItemDetailContainer = () => {
             if (progress === 100) {
               setVisible(false);
             }
-          }, 150); // Set loading to false, progress to 100, and progressComplete to true after a delay
+          }, 250); // Set loading to false, progress to 100, and progressComplete to true after a delay
         });
       } catch (err) {
         console.log(err);
@@ -101,7 +101,7 @@ export const ItemDetailContainer = () => {
     </>
   );
 };
-
+/* 
 const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -112,3 +112,4 @@ const LoaderWrapper = styled.div`
     margin-left: 0px;
   }
 `;
+ */

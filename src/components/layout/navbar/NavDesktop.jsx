@@ -65,7 +65,7 @@ export const NavDesktop = () => {
 
             {!isCart && !isCheckout && !isDashboard && (
               <>
-                <NavListWrapper>
+                <NavListWrapper scrolled={scroll}>
                   <NavList>
                     <NavLink
                       to="/"
@@ -335,7 +335,7 @@ const Logo = styled.img`
 const NavListWrapper = styled.ul`
   display: flex;
   list-style: none;
-  margin-bottom: -21px;
+  margin-bottom: ${(props) => (props.scrolled === "scrolled" ? "-10px" : "-21px")};
   @media screen and (max-width: 50rem) {
     display: none;
   }
@@ -349,9 +349,8 @@ const CategoryList = styled.li`
 `;
 const ProductsDropDown = styled.div`
   margin: 0px 0px -25px 10px;
-  padding: ${(props) =>
-    props.scrolled === "scrolled" ? "0px 24px 0px 24px" : "0px 24px 25px 24px"};
-  height: ${(props) => (props.scrolled === "scrolled" ? "32px" : "50px")};
+  padding: 0px 24px;
+  height: ${(props) => (props.scrolled === "scrolled" ? "38px" : "50px")};
 `;
 const DropDown = styled.div`
   top: -109px;
